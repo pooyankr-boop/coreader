@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>کتابخانهٔ متون کهن فارسی</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Vazirmatn',sans-serif;background:#f7f4ee;color:#2a2620;direction:rtl}
+  header{padding:40px 24px 20px;text-align:center}
+  header h1{margin:0 0 6px;font-size:26px}
+  header p{color:#8c8577;margin:0}
+  .grid{max-width:900px;margin:0 auto;padding:20px 24px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
+  .card{background:#fff;border:1px solid #e2ddd0;border-radius:14px;padding:18px;text-decoration:none;color:inherit;
+    transition:box-shadow .2s,transform .2s}
+  .card:hover{box-shadow:0 8px 20px rgba(0,0,0,.08);transform:translateY(-2px)}
+  .card h2{font-size:16px;margin:0 0 6px}
+  .card .author{font-size:13px;color:#8a5a3b;margin-bottom:10px}
+  .card .stats{font-size:12px;color:#8c8577}
+  .empty{text-align:center;color:#8c8577;padding:60px 20px}
+</style>
+</head>
+<body>
+<header>
+  <h1>کتابخانهٔ متون کهن فارسی</h1>
+  <p>خوانش، جست‌وجو، حاشیه‌نویسی و خط‌بَری از روی صدا</p>
+</header>
+<div class="grid" id="grid"></div>
+<script>
+fetch('books-index.json').then(function(r){return r.json()}).then(function(list){
+  var grid = document.getElementById('grid');
+  if (!list.length){ grid.innerHTML = '<div class="empty">هنوز کتابی افزوده نشده است.</div>'; return; }
+  grid.innerHTML = list.map(function(b){
+    return '<a class="card" href="books/'+b.slug+'/index.html">'+
+      '<h2>'+b.title+'</h2>'+
+      '<div class="author">'+(b.author||'ناشناس')+'</div>'+
+      '<div class="stats">'+b.pages+' صفحه'+(b.hasPdf?' · دارای PDF':'')+'</div></a>';
+  }).join('');
+}).catch(function(){
+  document.getElementById('grid').innerHTML = '<div class="empty">خطا در بارگذاری فهرست کتاب‌ها.</div>';
+});
+</script>
+</body>
+</html>

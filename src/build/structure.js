@@ -1,0 +1,91 @@
+// src/build/structure.js
+// Turns raw source text into a structured book: pages + detected chapters.
+//
+// Two input modes:
+//  - a single continuous .txt file  -> split into virtual pages by word count
+//  - a directory of page_NNN.txt files (one file per real printed page,
+//    e.g. from OCR or a pre-paginated source) -> pages map 1:1 to files,
+//    which keeps correspondence with a source PDF's page numbers intact.
+
+const fs = require('fs');
+const path = require('path');
+
+const WORDS_PER_VIRTUAL_PAGE = 200;
+
+// Headings that mark a new chapter/section in classical Persian prose.
+// A line is treated as a heading if it's short and starts with one of
+// these (optionally followed by an ordinal word or Persian/Arabic digits).
+const HEADING_WORDS = [
+  'باب', 'فصل', 'مقاله', 'خطبه', 'گفتار', 'بخش', 'قسمت',
+  'دیباچه', 'ديباچه', 'مقدمه', 'خاتمه', 'ذکر', 'ذكر', 'حکایت', 'حكايت'
+];
+const HEADING_RE = new RegExp(
+  '^(' + HEADING_WORDS.join('|') + ')\\b.{0,80}$'
+);
+
+function isHeadingLine(line) {
+  const t = line.trim();
+  if (!t || t.length > 90) return false;
+  return HEADING_RE.test(t);
+}
+
+// OCR page-text files very often carry the printed page number as their
+// own first line (an artifact of the scan, not book content) — strip a
+// leading line that is only a number (optionally with a BOM before it).
+function stripLeadingPageNumber(text) {
+  return text.replace(/^\uFEFF?\s*\d+\s*\n+/, '');
+}
+
+function splitIntoVirtualPages(text) {
+  const words = text.split(/\s+/).filter(Boolean);
+  const pages = [];
+  for (let i = 0; i < words.length; i += WORDS_PER_VIRTUAL_PAGE) {
+    pages.push(words.slice(i, i + WORDS_PER_VIRTUAL_PAGE).join(' '));
+  }
+  return pages;
+}
+
+function detectChapters(pages) {
+  // pages: array of raw page text (1-indexed conceptually, array is 0-indexed)
+  const chapters = [];
+  pages.forEach((pageText, idx) => {
+    const pageNum = idx + 1;
+    pageText.split('\n').forEach((line) => {
+      if (isHeadingLine(line)) {
+        chapters.push({ title: line.trim(), startPage: pageNum });
+      }
+    });
+  });
+  // De-duplicate consecutive identical headings that fell on adjacent pages
+  return chapters.filter((c, i) => i === 0 || c.title !== chapters[i - 1].title);
+}
+
+// Load from a directory of page_*.txt files (sorted numerically), OR a
+// single .txt file (paginated virtually by word count).
+function loadSource(inputPath) {
+  const stat = fs.statSync(inputPath);
+  let rawPages;
+  if (stat.isDirectory()) {
+    const files = fs.readdirSync(inputPath)
+      .filter((f) => /^page[_-]?\d+\.txt$/i.test(f))
+      .sort((a, b) => {
+        const na = parseInt(a.match(/\d+/)[0], 10);
+        const nb = parseInt(b.match(/\d+/)[0], 10);
+        return na - nb;
+      });
+    if (!files.length) {
+      throw new Error('No page_NNN.txt files found in directory: ' + inputPath);
+    }
+    rawPages = files.map((f) => stripLeadingPageNumber(fs.readFileSync(path.join(inputPath, f), 'utf8')));
+  } else {
+    const text = fs.readFileSync(inputPath, 'utf8');
+    rawPages = splitIntoVirtualPages(text);
+  }
+  const chapters = detectChapters(rawPages);
+  return {
+    pages: rawPages.map((raw, i) => ({ page: i + 1, raw })),
+    chapters: chapters.length ? chapters : [{ title: '(بدون فصل‌بندی تشخیص‌داده‌شده)', startPage: 1 }],
+  };
+}
+
+module.exports = { loadSource, isHeadingLine, splitIntoVirtualPages, detectChapters };
