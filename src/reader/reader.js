@@ -43,12 +43,22 @@ function buildToc(){
   var tocEl = document.getElementById('toc');
   tocEl.innerHTML = '';
   BOOK.chapters.forEach(function(ch){
-    var a = document.createElement('a');
-    a.textContent = ch.title;
-    a.href = '#pg_' + ch.startPage;
-    a.onclick = function(e){ e.preventDefault(); goPg(ch.startPage); };
-    a.dataset.startPage = ch.startPage;
-    tocEl.appendChild(a);
+    var item = document.createElement('div');
+    item.className = 'toc-item';
+    item.dataset.startPage = ch.startPage;
+    var title = document.createElement('a');
+    title.className = 'toc-title';
+    title.textContent = ch.title;
+    title.href = '#pg_' + ch.startPage;
+    title.onclick = function(e){ e.preventDefault(); goPg(ch.startPage); };
+    var pg = document.createElement('a');
+    pg.className = 'toc-pg';
+    pg.textContent = 'صفحهٔ ' + toFA(ch.startPage);
+    pg.href = '#pg_' + ch.startPage;
+    pg.onclick = function(e){ e.preventDefault(); goPg(ch.startPage); };
+    item.appendChild(title);
+    item.appendChild(pg);
+    tocEl.appendChild(item);
   });
 }
 
@@ -86,10 +96,11 @@ function updNav(){
   document.getElementById('pgLabel').textContent = 'صفحه ' + toFA(curPage) + ' از ' + toFA(BOOK ? BOOK.pages.length : 0);
 }
 function hlToc(){
-  document.querySelectorAll('.toc a').forEach(function(a){
-    var sp = +a.dataset.startPage;
-    var next = a.nextElementSibling ? +a.nextElementSibling.dataset.startPage : Infinity;
-    a.classList.toggle('cur', curPage >= sp && curPage < next);
+  var items = document.querySelectorAll('.toc-item');
+  items.forEach(function(item, i){
+    var sp = +item.dataset.startPage;
+    var next = items[i + 1] ? +items[i + 1].dataset.startPage : Infinity;
+    item.classList.toggle('cur', curPage >= sp && curPage < next);
   });
 }
 function toggleSidebar(){ document.getElementById('sb').classList.toggle('off'); }
@@ -131,16 +142,22 @@ function showTooltip(el){
   var tt = document.getElementById('tt');
   if (!el || !annoOn){ tt.classList.remove('on'); return; }
   var cat = el.dataset.cat || 'word';
-  var html = '<span class="tt-cat tc-' + cat + '">' + (CAT_LABELS[cat] || cat) + '</span>';
+  // Lead with the annotated word itself (what the reader actually pointed
+  // at), category as a small badge, then the explanation — previously the
+  // category badge was the most prominent element, which is backwards.
+  var html = '<div class="tt-word">' + el.textContent + '</div>';
+  html += '<span class="tt-cat tc-' + cat + '">' + (CAT_LABELS[cat] || cat) + '</span>';
   if (el.dataset.title) html += '<div class="tt-t">' + el.dataset.title + '</div>';
   html += '<div class="tt-b">' + (el.dataset.text || el.getAttribute('title') || '') + '</div>';
   if (el.dataset.extra) html += '<div class="tt-e">' + el.dataset.extra + '</div>';
   tt.innerHTML = html;
   tt.classList.add('on');
   var r = el.getBoundingClientRect(), vpW = window.innerWidth, vpH = window.innerHeight;
-  var tw = Math.min(480, vpW - 20), th = 160;
-  var x = r.left, y = r.top - th - 10;
-  if (y < 10) y = r.bottom + 10;
+  var tw = Math.min(560, vpW - 20);
+  tt.style.width = tw + 'px';
+  var th = tt.offsetHeight || 200;
+  var x = r.left, y = r.top - th - 12;
+  if (y < 10) y = r.bottom + 12;
   if (x + tw > vpW - 10) x = vpW - tw - 10;
   if (x < 10) x = 10;
   if (y + th > vpH - 10) y = vpH - th - 10;
@@ -153,7 +170,7 @@ function hideTooltip(){
 function showTooltipAuto(el){
   showTooltip(el);
   clearTimeout(tooltipTimer);
-  tooltipTimer = setTimeout(hideTooltip, 5000);
+  tooltipTimer = setTimeout(hideTooltip, 15000);
 }
 document.addEventListener('mouseover', function(e){
   var a = e.target.closest && e.target.closest('.anno');
@@ -240,7 +257,9 @@ function pdfRender(n){
   pdfDoc.getPage(n).then(function(p){
     var v = p.getViewport({ scale: pdfSc });
     var c = document.getElementById('pdfC'); c.width = v.width; c.height = v.height;
-    p.render({ canvasContext: c.getContext('2d'), viewport: v });
+    p.render({ canvasContext: c.getContext('2d'), viewport: v }).promise.then(function(){
+      updatePdfHighlightPosition();
+    });
   });
 }
 function pdfGoto(n){ if (n >= 1 && n <= (pdfDoc ? pdfDoc.numPages : 1)) pdfRender(n); }
@@ -254,9 +273,34 @@ function showMode(m){
   if (m === 'pdf'){
     buildPdfSourceSelect();
     if (!pdfDoc) loadPdf(); else { pdfRender(pdfPendingPage || curPdf); pdfPendingPage = null; }
+    syncPdfHighlight();
   }
 }
 function closePdf(){ showMode('text'); }
+
+// خط‌بَر ↔ PDF sync: turns the PDF to the page being read, and draws an
+// approximate horizontal highlight band at how far through the page's
+// words the reader currently is. This is a proportional estimate, not a
+// word-exact box — OCR here only produced plain text, not per-word
+// coordinates, so an exact box isn't available; the band still gives a
+// real, useful "you are roughly here" cue while following along.
+function updatePdfHighlightPosition(){
+  var hl = document.getElementById('pdfHl');
+  if (!recording || !micWords.length || curPdf !== curPage){ hl.style.display = 'none'; return; }
+  var canvas = document.getElementById('pdfC');
+  if (!canvas || !canvas.height) { hl.style.display = 'none'; return; }
+  var frac = micIdx / micWords.length;
+  var bandH = Math.max(28, canvas.height * 0.045);
+  var top = Math.min(canvas.height - bandH, Math.max(0, frac * canvas.height - bandH / 2));
+  hl.style.display = 'block';
+  hl.style.top = top + 'px';
+  hl.style.height = bandH + 'px';
+}
+function syncPdfHighlight(){
+  if (!document.body.classList.contains('pdf-open') || !recording) return;
+  if (pdfDoc && curPdf !== curPage){ pdfGoto(curPage); return; } // pdfRender's own callback updates the band once the new page is drawn
+  updatePdfHighlightPosition();
+}
 
 // ===== Right-click context menu: add/edit/delete annotation, edit text,
 // diacritics toolbar =====
@@ -555,13 +599,14 @@ function tryAdvance(buf, live, wide){
   locked = true;
   highlightAt(micIdx - 1);
   smoothScrollTo(micIdx - 1);
+  syncPdfHighlight();
   var curWordText = micWords[micIdx - 1] ? micWords[micIdx - 1].el.textContent : null;
   var annoEl = findAnnoNear(micIdx - 1);
   if (annoEl){ if (annoEl !== lastAnnoEl && annoOn){ showTooltipAuto(annoEl); lastAnnoEl = annoEl; } }
   else { lastAnnoEl = null; }
   var out = { moved: true, res: res, micIdxBefore: micIdxBefore, micIdxAfter: micIdx, minConf: minConf, ratio: ratio, curWord: curWordText };
   if (micIdx >= micWords.length && micWords.length > 0){
-    if (curPage < BOOK.pages.length){ goPg(curPage + 1); buildMicIndex(curPage); }
+    if (curPage < BOOK.pages.length){ goPg(curPage + 1); buildMicIndex(curPage); syncPdfHighlight(); }
     else { document.getElementById('micStatus').textContent = 'پایان کتاب!'; stopMic(); }
   }
   return out;
@@ -675,10 +720,35 @@ function toggleRecording(){
   }
   var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!SR){ document.getElementById('micStatus').textContent = 'مرورگر پشتیبانی نمی‌کند (از Chrome استفاده کنید)'; return; }
-  recognition = new SR(); recognition.lang = 'fa-IR'; recognition.continuous = true; recognition.interimResults = true; recognition.maxAlternatives = 1;
   buildMicIndex(curPage);
   if (!micWords.length){ document.getElementById('micStatus').textContent = 'خطا در آماده‌سازی صفحه'; return; }
+  recording = true; spokenBuf = []; locked = false; lastAnnoEl = null;
+  lastResultTime = Date.now(); restartAttempts = 0;
+  startSessionLogging();
+  document.getElementById('micBtn').classList.add('recording');
+  document.getElementById('micStatus').textContent = 'در حال گوش دادن...';
+  startRecognitionEngine();
+  startWatchdog();
+}
+
+// Chrome's continuous recognition is known to silently die sometimes
+// (no onend fires, no onerror fires — it just stops delivering results)
+// or to throw "already started" from onend's restart race. Previously
+// that error was swallowed and the mic bar was left showing "recording"
+// with a fully dead engine underneath, indistinguishable from it working
+// — the most likely explanation for reports that خط‌بَر "doesn't work".
+// Fix: build the recognition object in one place so both the initial
+// start and every restart go through identical, defended logic, and add
+// a watchdog that notices when results stop arriving and forces a real
+// restart instead of trusting the browser's own recovery.
+var lastResultTime = 0, restartAttempts = 0, watchdogTimer = null;
+function startRecognitionEngine(){
+  var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (recognition){ try { recognition.onend = null; recognition.abort(); } catch (x) {} }
+  recognition = new SR();
+  recognition.lang = 'fa-IR'; recognition.continuous = true; recognition.interimResults = true; recognition.maxAlternatives = 1;
   recognition.onresult = function(e){
+    lastResultTime = Date.now(); restartAttempts = 0;
     var final = '', interim = '';
     for (var i = e.resultIndex; i < e.results.length; i++){
       if (e.results[i].isFinal) final += e.results[i][0].transcript + ' ';
@@ -688,18 +758,43 @@ function toggleRecording(){
     if (interim.trim()) processInterim(interim.trim());
   };
   recognition.onerror = function(e){
-    if (e.error === 'not-allowed') document.getElementById('micStatus').textContent = 'اجازه میکروفون داده نشد';
-    else if (e.error !== 'no-speech' && e.error !== 'aborted') document.getElementById('micStatus').textContent = 'خطا: ' + e.error;
+    if (e.error === 'not-allowed'){ document.getElementById('micStatus').textContent = 'اجازه میکروفون داده نشد'; stopMic(); return; }
+    if (e.error !== 'no-speech' && e.error !== 'aborted') document.getElementById('micStatus').textContent = 'خطا: ' + e.error + ' — تلاش دوباره...';
   };
-  recognition.onend = function(){ if (recording) try { recognition.start(); } catch (x) {} };
-  try { recognition.start(); } catch (x) { document.getElementById('micStatus').textContent = 'خطا: ' + x.message; return; }
-  recording = true; spokenBuf = []; locked = false; lastAnnoEl = null;
-  startSessionLogging();
-  document.getElementById('micBtn').classList.add('recording');
-  document.getElementById('micStatus').textContent = 'در حال گوش دادن...';
+  recognition.onend = function(){
+    if (!recording) return;
+    // A short delay avoids the common "recognition has already started"
+    // race when the browser fires onend and we restart in the same tick.
+    setTimeout(function(){
+      if (!recording) return;
+      restartAttempts++;
+      if (restartAttempts > 5){
+        document.getElementById('micStatus').textContent = 'موتور تشخیص گفتار قطع شد — دوباره روی 🎤 بزنید';
+        stopMic();
+        return;
+      }
+      startRecognitionEngine();
+    }, 250);
+  };
+  try { recognition.start(); lastResultTime = Date.now(); }
+  catch (x) { /* likely "already started" from a fast repeat call — the watchdog will catch a truly dead engine */ }
+}
+function startWatchdog(){
+  clearInterval(watchdogTimer);
+  watchdogTimer = setInterval(function(){
+    if (!recording){ clearInterval(watchdogTimer); return; }
+    // 10s with zero results while actively recording almost always means
+    // the engine died silently — force a real restart rather than wait.
+    if (Date.now() - lastResultTime > 10000){
+      document.getElementById('micStatus').textContent = 'اتصال قطع شد، در حال اتصال دوباره...';
+      startRecognitionEngine();
+      lastResultTime = Date.now();
+    }
+  }, 4000);
 }
 function stopMic(){
   recording = false;
+  clearInterval(watchdogTimer);
   stopSessionLogging();
   if (recognition){ try { recognition.abort(); } catch (x) {} recognition = null; }
   document.getElementById('micBtn').classList.remove('recording');
@@ -707,6 +802,7 @@ function stopMic(){
   micWords.forEach(function(w){ w.el.className = w.isAnno ? 'anno anno-' + (w.el.dataset.cat || 'word') : 'wl'; });
   micWords = []; micIdx = 0; spokenBuf = []; locked = false; lastAnnoEl = null; missStreak = 0;
   hideTooltip();
+  var pdfHl = document.getElementById('pdfHl'); if (pdfHl) pdfHl.style.display = 'none';
 }
 
 // Manual resync: while خط‌بَر is recording, click any word to jump the
@@ -724,6 +820,7 @@ document.addEventListener('click', function(e){
   spokenBuf = []; locked = true; missStreak = 0;
   highlightAt(idx);
   smoothScrollTo(idx);
+  syncPdfHighlight();
   document.getElementById('micStatus').textContent = 'موقعیت به‌صورت دستی تنظیم شد ✓';
 });
 

@@ -56,7 +56,10 @@
     <button onclick="pdfZoom(0.2)">＋</button>
   </div>
   <div class="pdf-body">
-    <canvas id="pdfC"></canvas>
+    <div class="pdf-page-wrap" id="pdfPageWrap">
+      <canvas id="pdfC"></canvas>
+      <div class="pdf-highlight" id="pdfHl"></div>
+    </div>
     <div id="pdfErr"></div>
   </div>
 </div>
