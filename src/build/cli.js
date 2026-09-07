@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 // src/build/cli.js — coreader build CLI
 //
-//   node src/build/cli.js book --input <path> --slug <slug> --title <t> --author <a> [--pdf <path>]
+//   node src/build/cli.js book --input <path> --slug <slug> --title <t> --author <a> [--pdf <path>]...
 //   node src/build/cli.js site
 //
 // "book" ingests one source (a .txt file, or a directory of page_NNN.txt
 // files) into books/<slug>/book.json + candidates.json (rare-word review
 // list). "site" assembles books/*/book.json into the deployable site/.
+// --pdf may be repeated to attach multiple PDF editions/scans — all of
+// them become viewable (switchable) in the reader's side panel.
 
 const fs = require('fs');
 const path = require('path');
@@ -24,15 +26,23 @@ function parseArgs(argv){
     if (argv[i].startsWith('--')){
       const key = argv[i].slice(2);
       const val = (argv[i + 1] && !argv[i + 1].startsWith('--')) ? argv[++i] : true;
-      out[key] = val;
+      if (out[key] !== undefined){
+        out[key] = Array.isArray(out[key]) ? out[key].concat(val) : [out[key], val];
+      } else {
+        out[key] = val;
+      }
     }
   }
   return out;
 }
 
+function labelFromFilename(p){
+  return path.basename(p, path.extname(p)).replace(/[-_]+/g, ' ').trim();
+}
+
 function buildBook(args){
   if (!args.input || !args.slug || !args.title){
-    console.error('Usage: coreader book --input <path> --slug <slug> --title <title> [--author <a>] [--pdf <path>]');
+    console.error('Usage: coreader book --input <path> --slug <slug> --title <title> [--author <a>] [--pdf <path>]...');
     process.exit(1);
   }
   const bookDir = path.join(BOOKS_DIR, args.slug);
@@ -50,6 +60,25 @@ function buildBook(args){
   const candidates = buildCandidates(pages);
   const searchIndex = buildSearchIndex(pages);
 
+  // Multiple PDF sources: copy each into books/<slug>/pdf_<n>.pdf and
+  // record {id, label, filename} so the reader can offer a switcher.
+  let pdfSources = [];
+  const existingPdfsPath = path.join(bookDir, 'pdf-sources.json');
+  if (args.pdf){
+    const pdfList = Array.isArray(args.pdf) ? args.pdf : [args.pdf];
+    pdfSources = pdfList.map((p, i) => {
+      const filename = `pdf_${i + 1}.pdf`;
+      fs.copyFileSync(p, path.join(bookDir, filename));
+      return { id: 'pdf_' + (i + 1), label: labelFromFilename(p), filename };
+    });
+    fs.writeFileSync(existingPdfsPath, JSON.stringify(pdfSources, null, 2));
+    console.log(`  -> copied ${pdfSources.length} PDF source(s)`);
+  } else if (fs.existsSync(existingPdfsPath)){
+    pdfSources = JSON.parse(fs.readFileSync(existingPdfsPath, 'utf8'));
+  } else if (fs.existsSync(path.join(bookDir, 'source.pdf'))){
+    pdfSources = [{ id: 'pdf_1', label: args.title, filename: 'source.pdf' }];
+  }
+
   const book = {
     slug: args.slug,
     title: args.title,
@@ -57,7 +86,8 @@ function buildBook(args){
     chapters,
     pages: htmlPages,
     searchIndex,
-    hasPdf: !!args.pdf || fs.existsSync(path.join(bookDir, 'source.pdf')),
+    pdfSources,
+    hasPdf: pdfSources.length > 0,
     candidateCount: candidates.length,
   };
 
@@ -73,11 +103,6 @@ function buildBook(args){
     console.log(`  -> candidates.json already exists, left untouched (${candidates.length} candidates would be found fresh)`);
   }
 
-  if (args.pdf){
-    fs.copyFileSync(args.pdf, path.join(bookDir, 'source.pdf'));
-    console.log('  -> copied PDF into', path.join(bookDir, 'source.pdf'));
-  }
-
   console.log('Book written:', path.join(bookDir, 'book.json'));
 }
 
@@ -86,6 +111,6 @@ const args = parseArgs(process.argv.slice(3));
 if (cmd === 'book') buildBook(args);
 else if (cmd === 'site') renderSite();
 else {
-  console.log('Usage:\n  coreader book --input <path> --slug <slug> --title <t> [--author <a>] [--pdf <path>]\n  coreader site');
+  console.log('Usage:\n  coreader book --input <path> --slug <slug> --title <t> [--author <a>] [--pdf <path>]...\n  coreader site');
   process.exit(1);
 }

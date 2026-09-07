@@ -15,12 +15,21 @@ const WORDS_PER_VIRTUAL_PAGE = 200;
 // Headings that mark a new chapter/section in classical Persian prose.
 // A line is treated as a heading if it's short and starts with one of
 // these (optionally followed by an ordinal word or Persian/Arabic digits).
+//
+// NOTE: this deliberately does NOT use \b after the heading word. JS's \b
+// is defined only in terms of ASCII \w ([A-Za-z0-9_]) — Persian/Arabic
+// letters aren't \w, so \b never matches at a boundary between two
+// Persian letters (or between a Persian letter and a space). That silently
+// broke chapter detection entirely (every book fell through to the "no
+// chapters" placeholder). The fix: require whatever follows the heading
+// word to NOT be another Persian/Arabic letter, via a lookahead — that's
+// the actual condition "start of a distinct word" means here.
 const HEADING_WORDS = [
   'باب', 'فصل', 'مقاله', 'خطبه', 'گفتار', 'بخش', 'قسمت',
   'دیباچه', 'ديباچه', 'مقدمه', 'خاتمه', 'ذکر', 'ذكر', 'حکایت', 'حكايت'
 ];
 const HEADING_RE = new RegExp(
-  '^(' + HEADING_WORDS.join('|') + ')\\b.{0,80}$'
+  '^(' + HEADING_WORDS.join('|') + ')(?![\\u0621-\\u06FE]).{0,80}$'
 );
 
 function isHeadingLine(line) {

@@ -7,6 +7,8 @@ const ROOT = path.join(__dirname, '..', '..');
 const BOOKS_DIR = path.join(ROOT, 'books');
 const SITE_DIR = path.join(ROOT, 'site');
 const READER_SRC = path.join(__dirname, '..', 'reader');
+const CATALOG_SRC = path.join(__dirname, '..', 'catalog');
+const DATA_SRC = path.join(__dirname, 'data');
 
 function copyFile(src, dest){
   fs.mkdirSync(path.dirname(dest), { recursive: true });
@@ -20,6 +22,19 @@ function renderSite(){
   copyFile(path.join(READER_SRC, 'reader.css'), path.join(SITE_DIR, 'assets', 'reader.css'));
   copyFile(path.join(READER_SRC, 'reader.js'), path.join(SITE_DIR, 'assets', 'reader.js'));
   const readerHtml = fs.readFileSync(path.join(READER_SRC, 'reader.html'), 'utf8');
+  // The reader shell template is also shipped as-is, so the client-side
+  // "add a book" tool can fetch it and produce a real per-book index.html
+  // without duplicating its markup in JS.
+  copyFile(path.join(READER_SRC, 'reader.html'), path.join(SITE_DIR, 'assets', 'reader-template.html'));
+
+  // Annotation data (glossary + rarity reference lists) so the in-browser
+  // "add a book" tool can run the SAME glossing/candidate logic that the
+  // Node build uses (see src/catalog/add-book.js — kept in manual sync
+  // with src/build/annotate.js and structure.js).
+  ['glossary.json', 'common-fa-words.json', 'common-classical-words.json'].forEach((f) => {
+    copyFile(path.join(DATA_SRC, f), path.join(SITE_DIR, 'assets', f));
+  });
+  copyFile(path.join(CATALOG_SRC, 'add-book.js'), path.join(SITE_DIR, 'assets', 'add-book.js'));
 
   const slugs = fs.existsSync(BOOKS_DIR)
     ? fs.readdirSync(BOOKS_DIR).filter((s) => fs.statSync(path.join(BOOKS_DIR, s)).isDirectory())
@@ -35,9 +50,18 @@ function renderSite(){
     fs.mkdirSync(outDir, { recursive: true });
     fs.copyFileSync(bookJsonPath, path.join(outDir, 'book.json'));
 
-    const pdfSrc = path.join(BOOKS_DIR, slug, 'source.pdf');
-    const hasPdf = fs.existsSync(pdfSrc);
-    if (hasPdf) fs.copyFileSync(pdfSrc, path.join(outDir, 'source.pdf'));
+    // Multiple PDF sources (book.pdfSources), or the legacy single
+    // source.pdf from before multi-PDF support existed.
+    const pdfSources = book.pdfSources && book.pdfSources.length
+      ? book.pdfSources
+      : (fs.existsSync(path.join(BOOKS_DIR, slug, 'source.pdf'))
+          ? [{ id: 'pdf_1', label: book.title, filename: 'source.pdf' }]
+          : []);
+    pdfSources.forEach((p) => {
+      const src = path.join(BOOKS_DIR, slug, p.filename);
+      if (fs.existsSync(src)) fs.copyFileSync(src, path.join(outDir, p.filename));
+    });
+    const hasPdf = pdfSources.length > 0;
 
     const shell = readerHtml
       .replace('<title>کتاب</title>', `<title>${book.title}</title>`)

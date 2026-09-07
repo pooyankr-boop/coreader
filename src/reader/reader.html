@@ -46,6 +46,7 @@
 <div class="pdf-wrap" id="pdfWrap">
   <div class="pdf-bar">
     <button onclick="closePdf()">✕ بستن</button>
+    <select id="pdfSrcSel" onchange="switchPdfSource(this.value)" style="display:none;max-width:140px"></select>
     <button onclick="pdfNav(-1)">›</button>
     <input id="pdfIn" onchange="pdfGoto(+this.value)">
     <span>/ <span id="pdfMax">?</span></span>

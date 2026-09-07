@@ -202,16 +202,37 @@ function searchBook(q){
   }).join('');
 }
 
-// ===== PDF panel =====
+// ===== PDF panel — supports multiple PDF sources (editions/scans) per
+// book, switchable via a dropdown, so more than one witness of a text can
+// be viewed (and, per the reader's design, compared) on the same page =====
 var pdfDoc = null, curPdf = 1, pdfSc = 1.3, pdfPendingPage = null;
+var curPdfSrc = 0, pdfDocCache = {};
 function showPdfErr(msg){ document.getElementById('pdfErr').textContent = msg; document.getElementById('pdfErr').style.display = 'block'; document.getElementById('pdfC').style.display = 'none'; }
 function hidePdfErr(){ document.getElementById('pdfErr').style.display = 'none'; document.getElementById('pdfC').style.display = 'block'; }
+function pdfSources(){ return (BOOK && BOOK.pdfSources && BOOK.pdfSources.length) ? BOOK.pdfSources : (BOOK && BOOK.hasPdf ? [{ id: 'pdf_1', label: BOOK.title, filename: 'source.pdf' }] : []); }
+function buildPdfSourceSelect(){
+  var srcs = pdfSources();
+  var sel = document.getElementById('pdfSrcSel');
+  if (srcs.length <= 1){ sel.style.display = 'none'; return; }
+  sel.style.display = '';
+  sel.innerHTML = srcs.map(function(s, i){ return '<option value="' + i + '">' + s.label + '</option>'; }).join('');
+  sel.value = curPdfSrc;
+}
+function switchPdfSource(idx){
+  curPdfSrc = +idx;
+  document.getElementById('pdfSrcSel').value = curPdfSrc;
+  if (pdfDocCache[curPdfSrc]){ pdfDoc = pdfDocCache[curPdfSrc]; document.getElementById('pdfMax').textContent = pdfDoc.numPages; pdfRender(1); }
+  else loadPdf();
+}
 function loadPdf(){
+  var srcs = pdfSources();
+  var src = srcs[curPdfSrc];
+  if (!src){ showPdfErr('این کتاب نسخهٔ PDF ندارد.'); return; }
   hidePdfErr(); document.getElementById('pdfMax').textContent = '...';
-  fetch('source.pdf').then(function(r){ if (!r.ok) throw 0; return r.arrayBuffer(); })
+  fetch(src.filename).then(function(r){ if (!r.ok) throw 0; return r.arrayBuffer(); })
     .then(function(buf){ return pdfjsLib.getDocument({ data: new Uint8Array(buf) }).promise; })
-    .then(function(doc){ pdfDoc = doc; document.getElementById('pdfMax').textContent = doc.numPages; pdfRender(pdfPendingPage || 1); pdfPendingPage = null; })
-    .catch(function(){ showPdfErr('فایل source.pdf در کنار book.json یافت نشد.'); });
+    .then(function(doc){ pdfDoc = doc; pdfDocCache[curPdfSrc] = doc; document.getElementById('pdfMax').textContent = doc.numPages; pdfRender(pdfPendingPage || 1); pdfPendingPage = null; })
+    .catch(function(){ showPdfErr('فایل «' + src.filename + '» در کنار book.json یافت نشد.'); });
 }
 function pdfRender(n){
   if (!pdfDoc || n < 1 || n > pdfDoc.numPages) return;
@@ -230,7 +251,10 @@ function showMode(m){
   document.getElementById('pdfWrap').classList.toggle('on', m === 'pdf');
   document.getElementById('bPdf').classList.toggle('on', m === 'pdf');
   document.body.classList.toggle('pdf-open', m === 'pdf');
-  if (m === 'pdf'){ if (!pdfDoc) loadPdf(); else { pdfRender(pdfPendingPage || curPdf); pdfPendingPage = null; } }
+  if (m === 'pdf'){
+    buildPdfSourceSelect();
+    if (!pdfDoc) loadPdf(); else { pdfRender(pdfPendingPage || curPdf); pdfPendingPage = null; }
+  }
 }
 function closePdf(){ showMode('text'); }
 
@@ -463,7 +487,20 @@ function buildMicIndex(pg){
       node.parentNode.replaceChild(frag, node);
     } else if (node.nodeType === 1 && node.classList){
       if (node.classList.contains('anno')){
-        micWords.push({ el: node, n: normW(node.textContent), isAnno: true });
+        // Multi-word annotation phrases (e.g. "رضی الله عنه") used to
+        // become ONE fused token — normW strips the spaces, so a 3-word
+        // spoken phrase had to align against one long merged string,
+        // which wordSim scores poorly even for an exact reading. Split
+        // per word (same as plain text) so each word aligns on its own;
+        // all of them still point at the same `el`, so highlighting and
+        // the tooltip trigger still act on the whole phrase as one unit.
+        var annoWords = node.textContent.split(/\s+/).filter(Boolean);
+        annoWords.forEach(function(aw){
+          aw.split('\u200c').forEach(function(part){
+            if (!part) return;
+            micWords.push({ el: node, n: normW(part), isAnno: true });
+          });
+        });
       } else {
         Array.from(node.childNodes).forEach(processNode);
       }
@@ -501,13 +538,17 @@ function alignBuffer(spoken, startFrom, ahead, behind){
   return { pageIndex: winStart + bj - 1, matchedSpoken: bi, score: best };
 }
 
-function tryAdvance(buf, live){
+function tryAdvance(buf, live, wide){
   var micIdxBefore = micIdx;
   if (!micWords.length || !buf.length) return { moved: false, res: null, micIdxBefore: micIdxBefore, micIdxAfter: micIdx, curWord: null };
-  var ahead = live ? 15 : 60, behind = live ? 2 : 10;
+  // Adaptive recovery: after several consecutive final chunks fail to
+  // advance (reader skipped a paragraph, long noise, a page-turn overlap,
+  // etc.), widen the search window a lot for one attempt instead of
+  // staying stuck in the normal, narrower window forever.
+  var ahead = live ? 15 : (wide ? 220 : 60), behind = live ? 2 : (wide ? 25 : 10);
   var res = alignBuffer(buf, micIdx, ahead, behind);
   var minConf = live ? 1 : Math.max(2, Math.ceil(buf.length * 0.3));
-  var ratio = live ? 0.3 : 0.7;
+  var ratio = live ? 0.3 : (wide ? 0.85 : 0.7); // wide recovery needs stronger evidence, since it can jump far
   var pass = res && res.matchedSpoken >= minConf && res.score >= res.matchedSpoken * ratio && res.pageIndex >= micIdx - behind;
   if (!pass) return { moved: false, res: res, micIdxBefore: micIdxBefore, micIdxAfter: micIdx, minConf: minConf, ratio: ratio, curWord: null };
   micIdx = Math.min(res.pageIndex + 1, micWords.length);
@@ -527,9 +568,17 @@ function tryAdvance(buf, live){
 }
 
 function highlightAt(idx){
+  // Multiple micWords entries can share the same .el (a multi-word
+  // annotation phrase is now split per-word for alignment — see
+  // buildMicIndex). Group by element so a phrase doesn't flicker between
+  // highlighted/unhighlighted as the loop passes its other word-entries.
+  var hlEl = (idx >= 0 && idx < micWords.length) ? micWords[idx].el : null;
+  var seen = new Set();
   for (var i = 0; i < micWords.length; i++){
     var w = micWords[i];
-    if (i === idx) w.el.className = w.isAnno ? 'anno anno-highlight' : 'wl wl-yellow';
+    if (seen.has(w.el)) continue;
+    seen.add(w.el);
+    if (w.el === hlEl) w.el.className = w.isAnno ? 'anno anno-highlight' : 'wl wl-yellow';
     else w.el.className = w.isAnno ? 'anno anno-' + (w.el.dataset.cat || 'word') : 'wl';
   }
 }
@@ -592,16 +641,20 @@ function stopSessionLogging(){
   var b = document.getElementById('dlLog'); b.href = jurl; b.download = 'session_log.json'; b.style.display = '';
 }
 
+var missStreak = 0;
 function processFinal(text){
   var words = text.split(/\s+/).filter(function(w){ return w.length > 0; }).map(normW).filter(Boolean);
   if (!words.length) return;
   spokenBuf = spokenBuf.concat(words).slice(-16);
-  var r = tryAdvance(spokenBuf, false);
-  logEvt({ type: 'final', raw: text, norm: words, bufLen: spokenBuf.length, res: r.res, moved: r.moved,
+  var wide = missStreak >= 3;
+  var r = tryAdvance(spokenBuf, false, wide);
+  missStreak = r.moved ? 0 : missStreak + 1;
+  logEvt({ type: 'final', raw: text, norm: words, bufLen: spokenBuf.length, res: r.res, moved: r.moved, wide: wide,
     micIdxBefore: r.micIdxBefore, micIdxAfter: r.micIdxAfter, curWord: r.curWord, minConf: r.minConf, ratio: r.ratio });
   var pct = Math.round(micIdx / (micWords.length || 1) * 100);
   var latest = text.split(/\s+/).slice(-4).join(' ');
-  document.getElementById('micStatus').textContent = toFA(pct) + '٪ ← ' + latest + (r.moved ? '' : ' …');
+  var hint = r.moved ? '' : (wide ? ' … (جست‌وجوی گسترده)' : ' …');
+  document.getElementById('micStatus').textContent = toFA(pct) + '٪ ← ' + latest + hint;
 }
 function processInterim(text){
   var words = text.split(/\s+/).filter(function(w){ return w.length > 0; }).map(normW).filter(Boolean);
@@ -652,14 +705,33 @@ function stopMic(){
   document.getElementById('micBtn').classList.remove('recording');
   document.getElementById('micStatus').textContent = 'آماده خط‌بَر...';
   micWords.forEach(function(w){ w.el.className = w.isAnno ? 'anno anno-' + (w.el.dataset.cat || 'word') : 'wl'; });
-  micWords = []; micIdx = 0; spokenBuf = []; locked = false; lastAnnoEl = null;
+  micWords = []; micIdx = 0; spokenBuf = []; locked = false; lastAnnoEl = null; missStreak = 0;
   hideTooltip();
 }
+
+// Manual resync: while خط‌بَر is recording, click any word to jump the
+// tracker there directly — the practical fix for when tracking drifts and
+// waiting for the algorithm to self-correct would take too long.
+document.addEventListener('click', function(e){
+  if (!recording) return;
+  var el = e.target.closest && e.target.closest('.wl,.anno');
+  if (!el) return;
+  var idx = -1;
+  for (var i = 0; i < micWords.length; i++){ if (micWords[i].el === el){ idx = i; break; } }
+  if (idx < 0) return;
+  e.preventDefault();
+  micIdx = idx + 1;
+  spokenBuf = []; locked = true; missStreak = 0;
+  highlightAt(idx);
+  smoothScrollTo(idx);
+  document.getElementById('micStatus').textContent = 'موقعیت به‌صورت دستی تنظیم شد ✓';
+});
 
 // Expose the handful of functions referenced from inline HTML onclick attrs
 window.goPg = goPg; window.toggleSidebar = toggleSidebar; window.toggleAnno = toggleAnno;
 window.searchBook = searchBook; window.openPdfAt = openPdfAt; window.showMode = showMode;
 window.closePdf = closePdf; window.pdfNav = pdfNav; window.pdfZoom = pdfZoom; window.pdfGoto = pdfGoto;
+window.switchPdfSource = switchPdfSource;
 window.toggleMic = toggleMic; window.toggleRecording = toggleRecording;
 window.getCurPage = function(){ return curPage; };
 window.openSettings = openSettings; window.closeSettings = closeSettings;

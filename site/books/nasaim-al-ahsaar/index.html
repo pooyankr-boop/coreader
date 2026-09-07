@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>نسائم الأسحار من لطائم الأخبار</title>
+<link rel="stylesheet" href="../../assets/reader.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700&family=Lalezar&family=Noto+Naskh+Arabic:wght@400;700&family=Scheherazade+New:wght@400;700&family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+<script>window.BOOK_URL='book.json';</script></head>
+<body>
+<div class="pbar" id="pbar"></div>
+<div class="app">
+  <div class="sb" id="sb">
+    <h1 id="bookTitle">در حال بارگذاری...</h1>
+    <div class="meta" id="bookMeta"></div>
+    <input type="search" placeholder="جست‌وجو در متن..." oninput="searchBook(this.value)">
+    <div class="search-results" id="searchResults"></div>
+    <div class="toc" id="toc"></div>
+  </div>
+  <button class="sb-tog" onclick="toggleSidebar()">☰ فهرست</button>
+
+  <div class="main">
+    <div class="toolbar">
+      <span id="pgLabel">صفحه</span>
+      <button onclick="toggleAnno()" id="bAnno" class="on">حاشیه</button>
+      <button onclick="openPdfAt(getCurPage())" id="bPdf" style="display:none">PDF</button>
+      <button onclick="closePdf()" id="bTxt" class="on">متن</button>
+      <button onclick="toggleMic()" id="bMic">خط‌بَر</button>
+      <button onclick="openSettings()" id="bSettings">⚙️ تنظیمات</button>
+    </div>
+    <div class="tc" id="tc"></div>
+  </div>
+</div>
+
+<div class="tt" id="tt"></div>
+
+<div class="mic-bar" id="micBar">
+  <button class="mic-btn" id="micBtn" onclick="toggleRecording()">🎤</button>
+  <span class="mic-status" id="micStatus">آماده خط‌بَر...</span>
+  <a class="mic-stop" id="dlLog" style="display:none;text-decoration:none">📥 گزارش</a>
+  <a class="mic-stop" id="dlAudio" style="display:none;text-decoration:none">📥 صدا</a>
+  <button class="mic-stop" onclick="toggleMic()">پایان</button>
+</div>
+
+<div class="pdf-wrap" id="pdfWrap">
+  <div class="pdf-bar">
+    <button onclick="closePdf()">✕ بستن</button>
+    <select id="pdfSrcSel" onchange="switchPdfSource(this.value)" style="display:none;max-width:140px"></select>
+    <button onclick="pdfNav(-1)">›</button>
+    <input id="pdfIn" onchange="pdfGoto(+this.value)">
+    <span>/ <span id="pdfMax">?</span></span>
+    <button onclick="pdfNav(1)">‹</button>
+    <button onclick="pdfZoom(-0.2)">－</button>
+    <span id="pdfZL">130%</span>
+    <button onclick="pdfZoom(0.2)">＋</button>
+  </div>
+  <div class="pdf-body">
+    <canvas id="pdfC"></canvas>
+    <div id="pdfErr"></div>
+  </div>
+</div>
+
+<!-- Right-click context menu: add/edit/delete annotation, edit text,
+     diacritics, dictionary/encyclopedia lookup -->
+<div class="ctx-menu" id="ctxMenu">
+  <div class="ctx-item" onclick="ctxAddAnno()">📝 افزودن حاشیه</div>
+  <div class="ctx-item" onclick="ctxEditAnno()">✏️ ویرایش حاشیه</div>
+  <div class="ctx-item ctx-sep"></div>
+  <div class="ctx-item" onclick="ctxEditText()">📄 ویرایش متن</div>
+  <div class="ctx-item" onclick="ctxToggleTashkil()">🔤 اعراب‌گذاری</div>
+  <div class="ctx-item ctx-sep"></div>
+  <div class="ctx-item" onclick="ctxSearchEnc()">🔍 جستجو در فرهنگ لغت</div>
+  <div class="ctx-item ctx-sep"></div>
+  <div class="ctx-item danger" onclick="ctxDeleteAnno()">🗑️ حذف حاشیه</div>
+</div>
+
+<div class="tashkil-bar" id="tashkilBar">
+  <span style="font-size:12px;color:var(--text);opacity:.7;margin-inline-end:8px">اعراب:</span>
+  <button class="tk-btn" onclick="insertTashkil('َ')" title="فتحه">َ</button>
+  <button class="tk-btn" onclick="insertTashkil('ُ')" title="ضمه">ُ</button>
+  <button class="tk-btn" onclick="insertTashkil('ِ')" title="کسره">ِ</button>
+  <button class="tk-btn" onclick="insertTashkil('ّ')" title="تشدید">ّ</button>
+  <button class="tk-btn" onclick="insertTashkil('ْ')" title="سکون">ْ</button>
+  <button class="tk-btn" onclick="insertTashkil('ً')" title="تنوین فتح">ً</button>
+  <button class="tk-btn" onclick="insertTashkil('ٌ')" title="تنوین ضم">ٌ</button>
+  <button class="tk-btn" onclick="insertTashkil('ٍ')" title="تنوین کسر">ٍ</button>
+  <button class="tk-btn" onclick="insertTashkil('ٰ')" title="الف مقصوره">ٰ</button>
+  <button class="tk-btn" onclick="toggleTashkilBar()" title="بستن">✕</button>
+</div>
+
+<!-- Dictionary/encyclopedia lookup — deliberately link-only: it opens the
+     real reference site's search page in a new tab rather than trying to
+     scrape and re-display third-party HTML in-app (that approach was
+     fragile and showed wrong/garbled content; see reader.js) -->
+<div class="enc-left" id="encLeft">
+  <div class="enc-left-head">
+    <h2>🔍 جستجو: <span id="encLeftWord"></span></h2>
+    <button class="enc-left-close" onclick="closeEncPanel()">✕</button>
+  </div>
+  <div class="enc-left-search">
+    <input type="text" id="encLeftInput" placeholder="جستجوی واژه..." onkeydown="if(event.key==='Enter')doEncSearch(this.value)">
+  </div>
+  <div class="enc-left-results" id="encLeftResults"></div>
+</div>
+
+<div class="settings-overlay" id="setOverlay" onclick="closeSettings()"></div>
+<div class="settings-panel" id="setPanel">
+  <div class="sp-head">
+    <h2>تنظیمات کتابخوان</h2>
+    <button class="sp-close" onclick="closeSettings()">✕</button>
+  </div>
+  <div class="sp-section">
+    <h3>فونت</h3>
+    <div class="sp-row">
+      <label>فونت متن</label>
+      <select id="setFont" onchange="applySetting('font',this.value)">
+        <option value="'Vazirmatn','Noto Naskh Arabic',serif">وزیرمتن</option>
+        <option value="'Noto Naskh Arabic',serif">نوتو نسخ عربی</option>
+        <option value="'Amiri',serif">امیری</option>
+        <option value="'Scheherazade New',serif">شهرزاد نو</option>
+        <option value="'Aref Ruqaa',serif">عارف رقعه</option>
+        <option value="'Cairo',sans-serif">قاهره</option>
+      </select>
+    </div>
+    <div class="sp-row">
+      <label>اندازه فونت</label>
+      <input type="range" id="setFs" min="14" max="32" value="19" oninput="applySetting('fs',this.value)">
+      <span id="setFsV">۱۹</span>
+    </div>
+    <div class="sp-row">
+      <label>فاصله خطوط</label>
+      <input type="range" id="setLh" min="16" max="40" value="22" step="2" oninput="applySetting('lh',this.value)">
+      <span id="setLhV">۲٫۲</span>
+    </div>
+  </div>
+  <div class="sp-section">
+    <h3>پوسته رنگی</h3>
+    <div class="theme-grid">
+      <button class="theme-btn on" data-theme="" style="background:#faf8f5" onclick="setTheme('')"></button>
+      <button class="theme-btn" data-theme="sepia" style="background:#f4ecd8" onclick="setTheme('sepia')"></button>
+      <button class="theme-btn" data-theme="cream" style="background:#fdf6e3" onclick="setTheme('cream')"></button>
+      <button class="theme-btn" data-theme="green" style="background:#e8f5e9" onclick="setTheme('green')"></button>
+      <button class="theme-btn" data-theme="dark" style="background:#1a1a2e" onclick="setTheme('dark')"></button>
+      <button class="theme-btn" data-theme="night" style="background:#0d1117" onclick="setTheme('night')"></button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>window.pdfjsLib && (pdfjsLib.GlobalWorkerOptions.workerSrc='');</script>
+<script src="../../assets/reader.js"></script>
+</body>
+</html>

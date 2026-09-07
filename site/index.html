@@ -8,9 +8,12 @@
 <style>
   *{box-sizing:border-box}
   body{margin:0;font-family:'Vazirmatn',sans-serif;background:#f7f4ee;color:#2a2620;direction:rtl}
-  header{padding:40px 24px 20px;text-align:center}
+  header{padding:40px 24px 20px;text-align:center;position:relative}
   header h1{margin:0 0 6px;font-size:26px}
   header p{color:#8c8577;margin:0}
+  .add-btn{position:absolute;top:24px;left:24px;background:#8a5a3b;color:#fff;border:none;border-radius:10px;
+    padding:10px 18px;font-family:inherit;font-size:14px;cursor:pointer}
+  .add-btn:hover{background:#6d4630}
   .grid{max-width:900px;margin:0 auto;padding:20px 24px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
   .card{background:#fff;border:1px solid #e2ddd0;border-radius:14px;padding:18px;text-decoration:none;color:inherit;
     transition:box-shadow .2s,transform .2s}
@@ -19,14 +22,85 @@
   .card .author{font-size:13px;color:#8a5a3b;margin-bottom:10px}
   .card .stats{font-size:12px;color:#8c8577}
   .empty{text-align:center;color:#8c8577;padding:60px 20px}
+
+  /* Add-book modal */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;z-index:500;
+    align-items:flex-start;justify-content:center;overflow-y:auto;padding:40px 16px}
+  .modal-overlay.on{display:flex}
+  .modal{background:#fff;border-radius:16px;max-width:560px;width:100%;padding:24px 28px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+  .modal h2{margin:0 0 4px;font-size:19px}
+  .modal .sub{color:#8c8577;font-size:13px;margin-bottom:18px;line-height:1.7}
+  .field{margin-bottom:14px}
+  .field label{display:block;font-size:13px;margin-bottom:5px;color:#5a5248}
+  .field input[type=text]{width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px}
+  .tabs{display:flex;gap:6px;margin-bottom:14px;border-bottom:1px solid #eee}
+  .tab{padding:8px 14px;cursor:pointer;font-size:13px;color:#8c8577;border-bottom:2px solid transparent}
+  .tab.on{color:#8a5a3b;border-color:#8a5a3b;font-weight:600}
+  .tabpane{display:none}
+  .tabpane.on{display:block}
+  .dropzone{border:2px dashed #d4c4b0;border-radius:10px;padding:24px;text-align:center;color:#8c8577;font-size:13px;cursor:pointer}
+  .dropzone:hover{background:#faf8f5}
+  .filelist{margin-top:8px;font-size:12px;color:#5a5248}
+  .filelist div{padding:3px 0}
+  .modal-actions{display:flex;gap:10px;margin-top:18px}
+  .modal-actions button{flex:1;padding:11px;border-radius:9px;border:1px solid #ddd;background:#fff;font-family:inherit;
+    font-size:14px;cursor:pointer}
+  .modal-actions button.primary{background:#8a5a3b;color:#fff;border-color:#8a5a3b}
+  .modal-actions button:disabled{opacity:.5;cursor:default}
+  .log{margin-top:14px;background:#faf8f5;border-radius:8px;padding:10px 12px;font-size:12px;color:#5a5248;
+    max-height:180px;overflow-y:auto;display:none;white-space:pre-wrap;line-height:1.9}
+  .log.on{display:block}
+  .note{font-size:11.5px;color:#a89a86;margin-top:10px;line-height:1.8}
 </style>
 </head>
 <body>
 <header>
+  <button class="add-btn" onclick="openAddModal()">+ افزودن کتاب جدید</button>
   <h1>کتابخانهٔ متون کهن فارسی</h1>
   <p>خوانش، جست‌وجو، حاشیه‌نویسی و خط‌بَری از روی صدا</p>
 </header>
 <div class="grid" id="grid"></div>
+
+<div class="modal-overlay" id="addOverlay">
+  <div class="modal">
+    <h2>افزودن کتاب جدید</h2>
+    <div class="sub">متن را مستقیم آپلود کنید، یا یک یا چند نسخهٔ PDF (با یا بدون متن) بدهید —
+      لایهٔ متنی هر PDF استخراج می‌شود و صفحاتی که متن ندارند با OCR داخل مرورگر خوانده می‌شوند
+      (برای کتاب‌های بزرگِ فقط‌تصویری، ابزار خط‌فرمانِ src/ocr سریع‌تر و دقیق‌تر است).</div>
+
+    <div class="field"><label>عنوان کتاب</label><input type="text" id="fTitle" placeholder="مثلاً: نسائم الأسحار من لطائم الأخبار"></div>
+    <div class="field"><label>نویسنده</label><input type="text" id="fAuthor" placeholder="مثلاً: ناصرالدین منشی کرمانی"></div>
+    <div class="field"><label>شناسه (لاتین، اختیاری)</label><input type="text" id="fSlug" placeholder="خودکار از عنوان ساخته می‌شود"></div>
+
+    <div class="tabs">
+      <div class="tab on" data-tab="txt" onclick="switchTab('txt')">فایل متنی</div>
+      <div class="tab" data-tab="pdf" onclick="switchTab('pdf')">یک یا چند PDF</div>
+    </div>
+    <div class="tabpane on" id="tab-txt">
+      <div class="dropzone" onclick="document.getElementById('fTxt').click()">فایل .txt را انتخاب کنید</div>
+      <input type="file" id="fTxt" accept=".txt" style="display:none" onchange="onTxtChosen(this.files)">
+      <div class="filelist" id="txtFileList"></div>
+    </div>
+    <div class="tabpane" id="tab-pdf">
+      <div class="dropzone" onclick="document.getElementById('fPdf').click()">یک یا چند فایل PDF را انتخاب کنید</div>
+      <input type="file" id="fPdf" accept=".pdf" multiple style="display:none" onchange="onPdfChosen(this.files)">
+      <div class="filelist" id="pdfFileList"></div>
+    </div>
+
+    <div class="log" id="addLog"></div>
+    <div class="note">در پایان، پوشهٔ ریشهٔ پروژهٔ coreader را از شما خواهد پرسید (فقط در Chrome/Edge)
+      تا کتاب مستقیماً داخل books/ و site/ نوشته شود.</div>
+    <div class="modal-actions">
+      <button onclick="closeAddModal()">انصراف</button>
+      <button class="primary" id="bProcess" onclick="processAndSave()">پردازش و ذخیره</button>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>window.pdfjsLib && (pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js');</script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script src="assets/add-book.js"></script>
 <script>
 fetch('books-index.json').then(function(r){return r.json()}).then(function(list){
   var grid = document.getElementById('grid');
@@ -40,6 +114,81 @@ fetch('books-index.json').then(function(r){return r.json()}).then(function(list)
 }).catch(function(){
   document.getElementById('grid').innerHTML = '<div class="empty">خطا در بارگذاری فهرست کتاب‌ها.</div>';
 });
+
+var txtFile = null, pdfFiles = [];
+function openAddModal(){ document.getElementById('addOverlay').classList.add('on'); }
+function closeAddModal(){ document.getElementById('addOverlay').classList.remove('on'); }
+function switchTab(name){
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.toggle('on', t.dataset.tab === name); });
+  document.querySelectorAll('.tabpane').forEach(function(p){ p.classList.toggle('on', p.id === 'tab-' + name); });
+}
+function onTxtChosen(files){
+  txtFile = files[0] || null;
+  document.getElementById('txtFileList').textContent = txtFile ? txtFile.name : '';
+}
+function onPdfChosen(files){
+  pdfFiles = Array.from(files);
+  document.getElementById('pdfFileList').innerHTML = pdfFiles.map(function(f){ return '<div>📄 ' + f.name + '</div>'; }).join('');
+}
+function log(msg){
+  var el = document.getElementById('addLog');
+  el.classList.add('on');
+  el.textContent += msg + '\n';
+  el.scrollTop = el.scrollHeight;
+}
+
+async function processAndSave(){
+  var title = document.getElementById('fTitle').value.trim();
+  var author = document.getElementById('fAuthor').value.trim();
+  if (!title){ alert('عنوان کتاب را وارد کنید'); return; }
+  if (!txtFile && !pdfFiles.length){ alert('یک فایل متنی یا PDF انتخاب کنید'); return; }
+  var slug = document.getElementById('fSlug').value.trim() || window.coreaderAddBook.slugify(title);
+
+  var btn = document.getElementById('bProcess');
+  btn.disabled = true;
+  document.getElementById('addLog').textContent = '';
+  try {
+    log('بارگذاری واژه‌نامه و داده‌های مرجع...');
+    await window.coreaderAddBook.loadRefData();
+
+    var pagesText, pdfMeta = [];
+    if (txtFile){
+      log('خواندن فایل متنی...');
+      var fullText = await txtFile.text();
+      // simple virtual pagination — mirrors structure.js splitIntoVirtualPages
+      var words = fullText.split(/\s+/).filter(Boolean);
+      pagesText = [];
+      for (var i = 0; i < words.length; i += 200) pagesText.push(words.slice(i, i + 200).join(' '));
+    } else {
+      var allSourcesPages = [];
+      for (var f = 0; f < pdfFiles.length; f++){
+        log('استخراج متن از «' + pdfFiles[f].name + '» (' + (f + 1) + '/' + pdfFiles.length + ')...');
+        var pages = await window.coreaderAddBook.extractPdfPages(pdfFiles[f], function(i, total, kind){
+          if (kind === 'ocr-start') log('  صفحهٔ ' + i + '/' + total + ': در حال OCR (ممکن است کمی طول بکشد)...');
+          else if (i % 10 === 0 || i === total) log('  صفحهٔ ' + i + '/' + total + ' (' + kind + ')');
+        });
+        allSourcesPages.push(pages);
+        pdfMeta.push(null); // filled after save with real filenames
+      }
+      log('ادغام نسخه‌ها...');
+      pagesText = window.coreaderAddBook.mergeSources(allSourcesPages);
+    }
+
+    log('تشخیص فصل‌ها و حاشیه‌نویسی...');
+    var result = window.coreaderAddBook.buildBookFromPages(pagesText, {
+      slug: slug, title: title, author: author,
+      pdfSources: pdfFiles.map(function(f, i){ return { id: 'pdf_' + (i + 1), label: f.name.replace(/\.pdf$/i, ''), filename: 'pdf_' + (i + 1) + '.pdf' }; }),
+    });
+    log(result.book.pages.length + ' صفحه، ' + result.book.chapters.length + ' فصل، ' + result.candidates.length + ' واژهٔ نامزد برای بازبینی');
+
+    await window.coreaderAddBook.saveToProject(result, pdfFiles, log);
+    log('تمام شد ✓ — صفحه را رفرش کنید تا کارت کتاب جدید را ببینید.');
+  } catch (e) {
+    log('خطا: ' + e.message);
+  } finally {
+    btn.disabled = false;
+  }
+}
 </script>
 </body>
 </html>
