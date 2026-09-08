@@ -54,6 +54,26 @@ function splitIntoVirtualPages(text) {
   return pages;
 }
 
+// Some digitized texts already carry their own explicit page-break marker
+// convention, e.g. "=== صفحه 12 ===" or "--- page 12 ---". Pretending
+// those don't exist and chopping by a flat word count ignores real page
+// boundaries the source already has AND leaves marker lines sitting mid-
+// page in the output (confirmed: a client-uploaded book showed
+// "=== صفحه 1 === 1 بسم..." as literal reading text). If a consistent
+// marker pattern is found, split on it and use it as the real pagination
+// instead of guessing.
+const PAGE_MARKER_RE = /^[=\-*_]{2,}\s*(?:صفحه|page)\s*\d+\s*[=\-*_]{2,}$/im;
+function splitByExplicitMarkers(text) {
+  if (!PAGE_MARKER_RE.test(text)) return null;
+  const parts = text.split(new RegExp(PAGE_MARKER_RE.source, 'gim'))
+    .map((p) => p.trim())
+    .filter(Boolean);
+  return parts.length > 1 ? parts : null;
+}
+function splitIntoPages(text) {
+  return splitByExplicitMarkers(text) || splitIntoVirtualPages(text);
+}
+
 function detectChapters(pages) {
   // pages: array of raw page text (1-indexed conceptually, array is 0-indexed)
   const chapters = [];
@@ -88,7 +108,7 @@ function loadSource(inputPath) {
     rawPages = files.map((f) => stripLeadingPageNumber(fs.readFileSync(path.join(inputPath, f), 'utf8')));
   } else {
     const text = fs.readFileSync(inputPath, 'utf8');
-    rawPages = splitIntoVirtualPages(text);
+    rawPages = splitIntoPages(text).map(stripLeadingPageNumber);
   }
   const chapters = detectChapters(rawPages);
   return {
@@ -97,4 +117,4 @@ function loadSource(inputPath) {
   };
 }
 
-module.exports = { loadSource, isHeadingLine, splitIntoVirtualPages, detectChapters };
+module.exports = { loadSource, isHeadingLine, splitIntoVirtualPages, splitIntoPages, detectChapters };

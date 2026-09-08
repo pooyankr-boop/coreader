@@ -155,10 +155,7 @@ async function processAndSave(){
     if (txtFile){
       log('خواندن فایل متنی...');
       var fullText = await txtFile.text();
-      // simple virtual pagination — mirrors structure.js splitIntoVirtualPages
-      var words = fullText.split(/\s+/).filter(Boolean);
-      pagesText = [];
-      for (var i = 0; i < words.length; i += 200) pagesText.push(words.slice(i, i + 200).join(' '));
+      pagesText = window.coreaderAddBook.splitIntoPages(fullText);
     } else {
       var allSourcesPages = [];
       for (var f = 0; f < pdfFiles.length; f++){

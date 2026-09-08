@@ -56,6 +56,18 @@ function splitIntoVirtualPages(text){
   for (var i = 0; i < words.length; i += WORDS_PER_VIRTUAL_PAGE) pages.push(words.slice(i, i + WORDS_PER_VIRTUAL_PAGE).join(' '));
   return pages;
 }
+// See structure.js for why: some source texts already carry their own
+// explicit page markers ("=== صفحه 12 ===") — using those as real page
+// boundaries is both more accurate and avoids leaving marker lines sitting
+// mid-page in the output (confirmed bug: a client-uploaded book rendered
+// "=== صفحه 1 === 1 بسم..." as literal page-1 reading text).
+var PAGE_MARKER_RE = /^[=\-*_]{2,}\s*(?:صفحه|page)\s*\d+\s*[=\-*_]{2,}$/im;
+function splitByExplicitMarkers(text){
+  if (!PAGE_MARKER_RE.test(text)) return null;
+  var parts = text.split(new RegExp(PAGE_MARKER_RE.source, 'gim')).map(function(p){ return p.trim(); }).filter(Boolean);
+  return parts.length > 1 ? parts : null;
+}
+function splitIntoPages(text){ return splitByExplicitMarkers(text) || splitIntoVirtualPages(text); }
 function stripLeadingPageNumber(text){ return text.replace(/^\uFEFF?\s*\d+\s*\n+/, ''); }
 function detectChapters(pages){
   var chapters = [];
@@ -232,6 +244,26 @@ async function saveToProject(result, pdfFiles, log){
   log('در انتظار انتخاب پوشهٔ ریشهٔ پروژه (coreader)...');
   var root = await window.showDirectoryPicker();
 
+  // Validate BEFORE writing anything. Picking the wrong folder (a new/
+  // empty one, or a subfolder) used to silently create fresh books/ and
+  // site/ directories right there with no warning — and if a later step
+  // then failed, the partial folders were left behind with no cleanup.
+  // reader-template.html only exists after `node src/build/cli.js site`
+  // has run at least once in the real project root, so its presence is a
+  // reliable, single check for "this is actually the right folder" —
+  // checked with no {create:true} anywhere, so a wrong pick creates
+  // nothing.
+  var siteDir, assetsDir, templateText;
+  try {
+    siteDir = await root.getDirectoryHandle('site');
+    assetsDir = await siteDir.getDirectoryHandle('assets');
+    templateText = await (await (await assetsDir.getFileHandle('reader-template.html')).getFile()).text();
+  } catch (e) {
+    throw new Error('این پوشه، ریشهٔ پروژهٔ coreader نیست (site/assets/reader-template.html در آن پیدا نشد). ' +
+      'پوشه‌ای را انتخاب کنید که مستقیماً شامل books/ و site/ باشد — و حداقل یک‌بار `node src/build/cli.js site` در آن اجرا شده باشد.');
+  }
+  log('پوشهٔ پروژه تأیید شد ✓');
+
   var booksDir = await root.getDirectoryHandle('books', { create: true });
   var bookDir = await booksDir.getDirectoryHandle(result.book.slug, { create: true });
   await writeTextFile(bookDir, 'book.json', JSON.stringify(result.book));
@@ -246,21 +278,13 @@ async function saveToProject(result, pdfFiles, log){
   if (pdfMeta.length) await writeTextFile(bookDir, 'pdf-sources.json', JSON.stringify(pdfMeta, null, 2));
   log('books/' + result.book.slug + '/ نوشته شد');
 
-  // Also update site/ directly, so the book is browsable immediately
-  // without needing to run `node src/build/cli.js site`.
-  var siteDir = await root.getDirectoryHandle('site', { create: true });
+  // site/ update — siteDir/assetsDir/templateText were already fetched
+  // above during validation, so no need to re-fetch them here.
   var siteBooksDir = await siteDir.getDirectoryHandle('books', { create: true });
   var siteBookDir = await siteBooksDir.getDirectoryHandle(result.book.slug, { create: true });
   await writeTextFile(siteBookDir, 'book.json', JSON.stringify(result.book));
   for (var j = 0; j < pdfFiles.length; j++){
     await writeBinaryFile(siteBookDir, 'pdf_' + (j + 1) + '.pdf', pdfFiles[j]);
-  }
-  var assetsDir = await siteDir.getDirectoryHandle('assets', { create: true });
-  var templateText;
-  try {
-    templateText = await (await (await assetsDir.getFileHandle('reader-template.html')).getFile()).text();
-  } catch (e) {
-    throw new Error('site/assets/reader-template.html یافت نشد — یک‌بار `node src/build/cli.js site` را اجرا کنید تا ساخته شود.');
   }
   var shell = templateText
     .replace('<title>کتاب</title>', '<title>' + result.book.title + '</title>')
@@ -289,5 +313,6 @@ window.coreaderAddBook = {
   buildBookFromPages: buildBookFromPages,
   saveToProject: saveToProject,
   slugify: slugify,
+  splitIntoPages: splitIntoPages,
 };
 })();

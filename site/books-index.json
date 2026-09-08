@@ -14,5 +14,29 @@
     "pages": 105,
     "hasPdf": true,
     "candidateCount": 250
+  },
+  {
+    "slug": "تاریخ-شاهی-قراختائیان",
+    "title": "تاریخ شاهی قراختائیان",
+    "author": "ناشناس",
+    "pages": 524,
+    "hasPdf": true,
+    "candidateCount": 250
+  },
+  {
+    "slug": "همه-کشی-۱",
+    "title": "همه‌کشی ۱",
+    "author": "جیسون محقق",
+    "pages": 330,
+    "hasPdf": false,
+    "candidateCount": 250
+  },
+  {
+    "slug": "همه-کشی-۲",
+    "title": "همه‌کشی ۲",
+    "author": "جیسون محقق",
+    "pages": 383,
+    "hasPdf": false,
+    "candidateCount": 250
   }
 ]
