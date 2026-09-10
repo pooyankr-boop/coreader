@@ -1,12 +1,5 @@
 [
   {
-    "term": "۲۰۲۳",
-    "count": 2,
-    "firstPage": 1,
-    "cat": "word",
-    "gloss": null
-  },
-  {
     "term": "فالموث",
     "count": 2,
     "firstPage": 1,
@@ -43,6 +36,13 @@
   },
   {
     "term": "بریتانیا",
+    "count": 2,
+    "firstPage": 1,
+    "cat": "word",
+    "gloss": null
+  },
+  {
+    "term": "متعصب",
     "count": 2,
     "firstPage": 1,
     "cat": "word",
@@ -91,14 +91,14 @@
     "gloss": null
   },
   {
-    "term": "مدیریت",
+    "term": "چارچوب",
     "count": 2,
     "firstPage": 2,
     "cat": "word",
     "gloss": null
   },
   {
-    "term": "شیفته",
+    "term": "مدیریت",
     "count": 2,
     "firstPage": 2,
     "cat": "word",
@@ -217,6 +217,13 @@
     "gloss": null
   },
   {
+    "term": "کسری",
+    "count": 2,
+    "firstPage": 4,
+    "cat": "word",
+    "gloss": null
+  },
+  {
     "term": "اسکرولِ",
     "count": 2,
     "firstPage": 4,
@@ -239,6 +246,13 @@
   },
   {
     "term": "حقایقِ",
+    "count": 2,
+    "firstPage": 4,
+    "cat": "word",
+    "gloss": null
+  },
+  {
+    "term": "اطلاعاتِ",
     "count": 2,
     "firstPage": 4,
     "cat": "word",
@@ -322,6 +336,13 @@
     "gloss": null
   },
   {
+    "term": "معانی",
+    "count": 2,
+    "firstPage": 6,
+    "cat": "word",
+    "gloss": null
+  },
+  {
     "term": "اتصال",
     "count": 2,
     "firstPage": 6,
@@ -364,6 +385,13 @@
     "gloss": null
   },
   {
+    "term": "مکار",
+    "count": 2,
+    "firstPage": 6,
+    "cat": "word",
+    "gloss": null
+  },
+  {
     "term": "حیله‌گر",
     "count": 2,
     "firstPage": 6,
@@ -372,13 +400,6 @@
   },
   {
     "term": "نامحسوس",
-    "count": 2,
-    "firstPage": 6,
-    "cat": "word",
-    "gloss": null
-  },
-  {
-    "term": "لغزش",
     "count": 2,
     "firstPage": 6,
     "cat": "word",
@@ -406,7 +427,21 @@
     "gloss": null
   },
   {
+    "term": "فوریت",
+    "count": 2,
+    "firstPage": 7,
+    "cat": "word",
+    "gloss": null
+  },
+  {
     "term": "بحران‌های",
+    "count": 2,
+    "firstPage": 7,
+    "cat": "word",
+    "gloss": null
+  },
+  {
+    "term": "چندگانه‌ی",
     "count": 2,
     "firstPage": 7,
     "cat": "word",
@@ -427,14 +462,14 @@
     "gloss": null
   },
   {
-    "term": "می‌تپد",
+    "term": "آزادسازی",
     "count": 2,
-    "firstPage": 7,
+    "firstPage": 8,
     "cat": "word",
     "gloss": null
   },
   {
-    "term": "آزادسازی",
+    "term": "سستی",
     "count": 2,
     "firstPage": 8,
     "cat": "word",
@@ -456,6 +491,13 @@
   },
   {
     "term": "تسویه",
+    "count": 2,
+    "firstPage": 8,
+    "cat": "word",
+    "gloss": null
+  },
+  {
+    "term": "ضربه‌ی",
     "count": 2,
     "firstPage": 8,
     "cat": "word",
@@ -560,21 +602,14 @@
     "gloss": null
   },
   {
-    "term": "امروزی",
-    "count": 2,
-    "firstPage": 10,
-    "cat": "word",
-    "gloss": null
-  },
-  {
-    "term": "جاسوسی",
-    "count": 2,
-    "firstPage": 10,
-    "cat": "word",
-    "gloss": null
-  },
-  {
     "term": "بی‌حال",
+    "count": 2,
+    "firstPage": 10,
+    "cat": "word",
+    "gloss": null
+  },
+  {
+    "term": "مستقیماً",
     "count": 2,
     "firstPage": 10,
     "cat": "word",
@@ -658,20 +693,6 @@
     "gloss": null
   },
   {
-    "term": "بی‌ثباتی",
-    "count": 2,
-    "firstPage": 11,
-    "cat": "word",
-    "gloss": null
-  },
-  {
-    "term": "گردآورنده",
-    "count": 2,
-    "firstPage": 11,
-    "cat": "word",
-    "gloss": null
-  },
-  {
     "term": "بیهودگی",
     "count": 2,
     "firstPage": 11,
@@ -686,13 +707,6 @@
     "gloss": null
   },
   {
-    "term": "کیمیاگری",
-    "count": 2,
-    "firstPage": 12,
-    "cat": "word",
-    "gloss": null
-  },
-  {
     "term": "لاتین",
     "count": 2,
     "firstPage": 12,
@@ -701,6 +715,13 @@
   },
   {
     "term": "دایرةالمعارف",
+    "count": 2,
+    "firstPage": 12,
+    "cat": "word",
+    "gloss": null
+  },
+  {
+    "term": "گریزپا",
     "count": 2,
     "firstPage": 12,
     "cat": "word",
@@ -861,14 +882,14 @@
     "gloss": null
   },
   {
-    "term": "دامنه",
+    "term": "اقناع",
     "count": 2,
     "firstPage": 15,
     "cat": "word",
     "gloss": null
   },
   {
-    "term": "تابش",
+    "term": "دامنه",
     "count": 2,
     "firstPage": 15,
     "cat": "word",
@@ -945,13 +966,6 @@
     "gloss": null
   },
   {
-    "term": "پیچ‌درپیچ",
-    "count": 2,
-    "firstPage": 17,
-    "cat": "word",
-    "gloss": null
-  },
-  {
     "term": "نوازندگان",
     "count": 2,
     "firstPage": 17,
@@ -967,13 +981,6 @@
   },
   {
     "term": "مشرف",
-    "count": 2,
-    "firstPage": 17,
-    "cat": "word",
-    "gloss": null
-  },
-  {
-    "term": "اثرات",
     "count": 2,
     "firstPage": 17,
     "cat": "word",
@@ -1065,13 +1072,6 @@
   },
   {
     "term": "شتاب‌زده",
-    "count": 2,
-    "firstPage": 19,
-    "cat": "word",
-    "gloss": null
-  },
-  {
-    "term": "موهبت",
     "count": 2,
     "firstPage": 19,
     "cat": "word",
@@ -1183,14 +1183,14 @@
     "gloss": null
   },
   {
-    "term": "هم‌راستا",
+    "term": "رشته‌ای",
     "count": 2,
-    "firstPage": 21,
+    "firstPage": 22,
     "cat": "word",
     "gloss": null
   },
   {
-    "term": "رشته‌ای",
+    "term": "آسیب‌شناختی",
     "count": 2,
     "firstPage": 22,
     "cat": "word",
@@ -1204,13 +1204,6 @@
     "gloss": null
   },
   {
-    "term": "لایه",
-    "count": 2,
-    "firstPage": 22,
-    "cat": "word",
-    "gloss": null
-  },
-  {
     "term": "ناموجود",
     "count": 2,
     "firstPage": 23,
@@ -1218,14 +1211,14 @@
     "gloss": null
   },
   {
-    "term": "می‌پنداشتند",
+    "term": "تصمیمات",
     "count": 2,
     "firstPage": 23,
     "cat": "word",
     "gloss": null
   },
   {
-    "term": "باستانیان",
+    "term": "می‌پنداشتند",
     "count": 2,
     "firstPage": 23,
     "cat": "word",
@@ -1254,13 +1247,6 @@
   },
   {
     "term": "به‌درستی",
-    "count": 2,
-    "firstPage": 24,
-    "cat": "word",
-    "gloss": null
-  },
-  {
-    "term": "می‌نماید",
     "count": 2,
     "firstPage": 24,
     "cat": "word",
@@ -1309,6 +1295,13 @@
     "gloss": null
   },
   {
+    "term": "آفریدن",
+    "count": 2,
+    "firstPage": 24,
+    "cat": "word",
+    "gloss": null
+  },
+  {
     "term": "جهان‌هایی",
     "count": 2,
     "firstPage": 24,
@@ -1345,6 +1338,13 @@
   },
   {
     "term": "زکریای",
+    "count": 2,
+    "firstPage": 25,
+    "cat": "word",
+    "gloss": null
+  },
+  {
+    "term": "رازی",
     "count": 2,
     "firstPage": 25,
     "cat": "word",
@@ -1463,13 +1463,6 @@
     "gloss": null
   },
   {
-    "term": "بومی",
-    "count": 2,
-    "firstPage": 26,
-    "cat": "word",
-    "gloss": null
-  },
-  {
     "term": "خوابشان",
     "count": 2,
     "firstPage": 26,
@@ -1582,13 +1575,6 @@
     "gloss": null
   },
   {
-    "term": "سرکش",
-    "count": 2,
-    "firstPage": 28,
-    "cat": "word",
-    "gloss": null
-  },
-  {
     "term": "تنبلی",
     "count": 2,
     "firstPage": 28,
@@ -1624,7 +1610,7 @@
     "gloss": null
   },
   {
-    "term": "نقاشان",
+    "term": "گره‌های",
     "count": 2,
     "firstPage": 28,
     "cat": "word",
@@ -1667,6 +1653,13 @@
   },
   {
     "term": "گذاشته‌اند",
+    "count": 2,
+    "firstPage": 29,
+    "cat": "word",
+    "gloss": null
+  },
+  {
+    "term": "نمودارهای",
     "count": 2,
     "firstPage": 29,
     "cat": "word",
@@ -1746,6 +1739,13 @@
     "term": "عود",
     "count": 2,
     "firstPage": 29,
+    "cat": "word",
+    "gloss": null
+  },
+  {
+    "term": "تاکتیکی",
+    "count": 2,
+    "firstPage": 30,
     "cat": "word",
     "gloss": null
   }

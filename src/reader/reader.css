@@ -98,6 +98,17 @@ body.pdf-open .main{margin-left:min(44vw,620px)}
 .mic-stop{background:none;border:1px solid var(--border);border-radius:6px;padding:4px 12px;font-size:12px;cursor:pointer;
   font-family:var(--ff);display:inline-block;color:var(--text);text-decoration:none}
 
+/* TTS bar (خوانش صوتی) — same footprint as mic-bar, different position so
+   both can't visually collide (they're mutually exclusive anyway) */
+.tts-bar{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);display:none;align-items:center;gap:10px;
+  background:var(--card);border:1px solid var(--border);border-radius:14px;padding:10px 16px;box-shadow:0 8px 24px rgba(0,0,0,.15);
+  z-index:100;flex-wrap:wrap;max-width:92vw}
+.tts-bar.on{display:flex}
+.tts-btn{font-size:18px;background:none;border:1px solid var(--border);border-radius:50%;width:42px;height:42px;cursor:pointer}
+.tts-bar select{font-family:var(--ff);font-size:12px;border:1px solid var(--border);border-radius:6px;padding:4px 6px;
+  background:var(--card);color:var(--text);max-width:150px}
+.tts-bar input[type=range]{width:80px}
+
 /* PDF side panel */
 .pdf-wrap{display:none;position:fixed;top:0;left:0;bottom:0;width:44vw;min-width:340px;max-width:620px;
   background:#404040;z-index:200;flex-direction:column;box-shadow:6px 0 24px rgba(0,0,0,.4)}

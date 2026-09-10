@@ -34,6 +34,8 @@ fetch(window.BOOK_URL || 'book.json').then(function(r){return r.json()}).then(fu
   goPg(1);
   loadSettings();
   loadUserEdits();
+  loadTtsSettings();
+  populateTtsVoices();
   if (book.hasPdf) document.getElementById('bPdf').style.display = '';
 }).catch(function(err){
   document.getElementById('tc').innerHTML = '<p style="color:red">خطا در بارگذاری کتاب: ' + err.message + '</p>';
@@ -473,6 +475,236 @@ function ctxSearchEnc(){
 }
 
 // ===================================================================
+// ===== خوانش صوتی (TTS) — reads the page aloud with synced highlight
+// Two engines, both free and requiring zero signup/key:
+//  - "browser" (default, zero-config): the Web Speech API's
+//    speechSynthesis, using native word-boundary events for exact
+//    highlighting. Quality depends entirely on whatever Persian voice (if
+//    any) the visitor's OS/browser ships — this varies a lot, and many
+//    systems have none at all.
+//  - "google" (better quality, still free): the public endpoint behind
+//    Google Translate's own "listen" button. Unofficial/undocumented —
+//    no key, no quota dashboard, no guarantee — so any failure falls
+//    back to the browser engine automatically. Its one real constraint
+//    is a short per-request text limit, so the page text is split into
+//    word-boundary chunks played back to back; word-level sync for this
+//    path is a proportional estimate from each chunk's audio playback
+//    position (no word-boundary timing is available from a plain audio
+//    response), same honest approach as the PDF highlight band.
+// ===================================================================
+var ttsOn = false, ttsPlaying = false, ttsVoices = [], ttsOffsets = [];
+var ttsEngine = 'browser';
+var ttsAudio = null;
+
+function toggleTts(){
+  if (recording){ document.getElementById('micStatus').textContent = 'ابتدا خط‌بَر را متوقف کنید'; return; }
+  ttsOn = !ttsOn;
+  document.getElementById('ttsBar').classList.toggle('on', ttsOn);
+  document.getElementById('bTts').classList.toggle('on', ttsOn);
+  if (!ttsOn) stopTts();
+}
+
+function loadTtsSettings(){
+  var s = null;
+  try { s = JSON.parse(localStorage.getItem('coreader-tts-settings')); } catch (e) {}
+  if (s) ttsEngine = s.engine || 'browser';
+  document.getElementById('setTtsEngine').value = ttsEngine;
+  document.getElementById('googleTtsNote').style.display = ttsEngine === 'google' ? '' : 'none';
+}
+function saveTtsSettings(){
+  localStorage.setItem('coreader-tts-settings', JSON.stringify({ engine: ttsEngine }));
+}
+function setTtsEngine(v){
+  ttsEngine = v;
+  document.getElementById('googleTtsNote').style.display = v === 'google' ? '' : 'none';
+  saveTtsSettings();
+}
+
+function populateTtsVoices(){
+  if (!window.speechSynthesis) return;
+  var sel = document.getElementById('ttsVoiceSel');
+  var voices = window.speechSynthesis.getVoices();
+  var fa = voices.filter(function(v){ return v.lang && v.lang.toLowerCase().indexOf('fa') === 0; });
+  var list = fa.length ? fa : voices;
+  ttsVoices = list;
+  sel.innerHTML = list.map(function(v, i){ return '<option value="' + i + '">' + v.name + ' (' + v.lang + ')</option>'; }).join('');
+  if (!fa.length && voices.length && ttsEngine === 'browser'){
+    document.getElementById('ttsStatus').textContent = 'صدای فارسی در این مرورگر نصب نیست — گزینهٔ Google را در تنظیمات امتحان کنید';
+  }
+}
+if (window.speechSynthesis) window.speechSynthesis.onvoiceschanged = populateTtsVoices;
+
+function updateTtsPlayBtn(){ document.getElementById('ttsPlayBtn').textContent = ttsPlaying ? '⏸️' : '▶️'; }
+
+function setTtsRate(v){
+  document.getElementById('ttsRateLabel').textContent = (+v).toFixed(1) + '×';
+  if (ttsAudio) ttsAudio.playbackRate = +v;
+}
+
+function toggleTtsPlay(){
+  if (ttsEngine === 'google') toggleTtsPlayGoogle();
+  else toggleTtsPlayBrowser();
+}
+
+// ---- browser engine ----
+function buildTtsTextFromMicWords(){
+  var parts = [], offsets = [], pos = 0;
+  micWords.forEach(function(w){
+    var t = w.el.textContent;
+    offsets.push({ start: pos, end: pos + t.length });
+    parts.push(t);
+    pos += t.length + 1;
+  });
+  return { text: parts.join(' '), offsets: offsets };
+}
+function findMicWordIndexForOffset(charIndex){
+  for (var i = 0; i < ttsOffsets.length; i++){
+    if (charIndex >= ttsOffsets[i].start && charIndex < ttsOffsets[i].end + 1) return i;
+  }
+  return -1;
+}
+function ttsHighlightAndMaybeAnno(idx){
+  highlightAt(idx);
+  smoothScrollTo(idx);
+  var annoEl = findAnnoNear(idx);
+  if (annoEl && annoEl !== lastAnnoEl && annoOn){ showTooltipAuto(annoEl); lastAnnoEl = annoEl; }
+}
+function startTtsBrowserForPage(){
+  if (!window.speechSynthesis){ document.getElementById('ttsStatus').textContent = 'مرورگر شما از خوانش صوتی پشتیبانی نمی‌کند'; return; }
+  buildMicIndex(curPage);
+  if (!micWords.length) return;
+  var built = buildTtsTextFromMicWords();
+  ttsOffsets = built.offsets;
+  var utter = new SpeechSynthesisUtterance(built.text);
+  var voice = ttsVoices[+document.getElementById('ttsVoiceSel').value] || null;
+  if (voice) utter.voice = voice;
+  utter.lang = voice ? voice.lang : 'fa-IR';
+  utter.rate = +document.getElementById('ttsRate').value || 1;
+  utter.onboundary = function(e){
+    if (e.name && e.name !== 'word') return;
+    var idx = findMicWordIndexForOffset(e.charIndex);
+    if (idx >= 0) ttsHighlightAndMaybeAnno(idx);
+  };
+  utter.onend = function(){
+    if (!ttsOn) return;
+    if (curPage < BOOK.pages.length){ goPg(curPage + 1); startTtsBrowserForPage(); }
+    else { ttsPlaying = false; updateTtsPlayBtn(); document.getElementById('ttsStatus').textContent = 'پایان کتاب'; }
+  };
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utter);
+  ttsPlaying = true; updateTtsPlayBtn();
+  document.getElementById('ttsStatus').textContent = 'در حال خواندن...';
+}
+function toggleTtsPlayBrowser(){
+  if (!window.speechSynthesis){ document.getElementById('ttsStatus').textContent = 'مرورگر شما از خوانش صوتی پشتیبانی نمی‌کند'; return; }
+  if (ttsPlaying){
+    window.speechSynthesis.pause();
+    ttsPlaying = false; updateTtsPlayBtn();
+    document.getElementById('ttsStatus').textContent = 'مکث شد';
+  } else if (window.speechSynthesis.paused){
+    window.speechSynthesis.resume();
+    ttsPlaying = true; updateTtsPlayBtn();
+    document.getElementById('ttsStatus').textContent = 'در حال خواندن...';
+  } else {
+    startTtsBrowserForPage();
+  }
+}
+
+// ---- Google Translate TTS engine (free, no signup/key needed) ----
+// Uses the public (unofficial, undocumented) endpoint behind Google
+// Translate's own "listen" button. No official API, no key, no quota
+// dashboard — which also means no guarantee: it can be slow, rate-limited,
+// or change without notice. Treated accordingly: any failure falls back
+// to the always-available browser engine rather than leaving playback
+// just stuck. Its one real constraint is a short per-request text limit,
+// so the page is split into word-boundary chunks and played back to back.
+var GOOGLE_TTS_MAX_CHARS = 190;
+function buildGoogleChunks(){
+  var chunks = [];
+  var curText = '', curStart = 0, curLen = 0;
+  micWords.forEach(function(w, i){
+    var t = w.el.textContent;
+    var addLen = t.length + 1;
+    if (curLen && curLen + addLen > GOOGLE_TTS_MAX_CHARS){
+      chunks.push({ text: curText, start: curStart, end: i });
+      curText = ''; curStart = i; curLen = 0;
+    }
+    curText += (curText ? ' ' : '') + t;
+    curLen += addLen;
+  });
+  if (curText) chunks.push({ text: curText, start: curStart, end: micWords.length });
+  return chunks;
+}
+function googleTtsUrl(text){
+  return 'https://translate.google.com/translate_tts?ie=UTF-8&q=' + encodeURIComponent(text) + '&tl=fa&client=tw-ob';
+}
+var googleChunks = [], googleChunkIdx = 0, googleFellBack = false;
+function startTtsGoogleForPage(){
+  buildMicIndex(curPage);
+  if (!micWords.length) return;
+  googleChunks = buildGoogleChunks();
+  googleChunkIdx = 0;
+  document.getElementById('ttsStatus').textContent = 'در حال خواندن... (Google)';
+  playGoogleChunk();
+}
+function playGoogleChunk(){
+  if (googleChunkIdx >= googleChunks.length){
+    if (!ttsOn) return;
+    if (curPage < BOOK.pages.length){ goPg(curPage + 1); startTtsGoogleForPage(); }
+    else { ttsPlaying = false; updateTtsPlayBtn(); document.getElementById('ttsStatus').textContent = 'پایان کتاب'; }
+    return;
+  }
+  var chunk = googleChunks[googleChunkIdx];
+  if (ttsAudio){ try { ttsAudio.pause(); } catch (e) {} }
+  ttsAudio = new Audio(googleTtsUrl(chunk.text));
+  ttsAudio.playbackRate = +document.getElementById('ttsRate').value || 1;
+  ttsAudio.ontimeupdate = function(){
+    if (!ttsAudio.duration) return;
+    var span = chunk.end - chunk.start;
+    var idx = Math.min(chunk.end - 1, chunk.start + Math.floor((ttsAudio.currentTime / ttsAudio.duration) * span));
+    ttsHighlightAndMaybeAnno(idx);
+  };
+  ttsAudio.onended = function(){ googleChunkIdx++; playGoogleChunk(); };
+  ttsAudio.onerror = function(){
+    if (googleFellBack) return; // avoid a fallback loop if the browser engine also has no Persian voice
+    googleFellBack = true;
+    document.getElementById('ttsStatus').textContent = 'سرویس رایگان گوگل در دسترس نیست — بازگشت به صدای مرورگر';
+    ttsEngine = 'browser';
+    document.getElementById('setTtsEngine').value = 'browser';
+    document.getElementById('googleTtsNote').style.display = 'none';
+    saveTtsSettings();
+    startTtsBrowserForPage();
+  };
+  var p = ttsAudio.play();
+  if (p && p.catch) p.catch(function(){ ttsAudio.onerror(); });
+  ttsPlaying = true; updateTtsPlayBtn();
+}
+function toggleTtsPlayGoogle(){
+  if (ttsPlaying && ttsAudio){
+    ttsAudio.pause(); ttsPlaying = false; updateTtsPlayBtn();
+    document.getElementById('ttsStatus').textContent = 'مکث شد';
+  } else if (ttsAudio && ttsAudio.paused && !ttsAudio.ended){
+    ttsAudio.play(); ttsPlaying = true; updateTtsPlayBtn();
+    document.getElementById('ttsStatus').textContent = 'در حال خواندن...';
+  } else {
+    googleFellBack = false;
+    startTtsGoogleForPage();
+  }
+}
+
+function stopTts(){
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  if (ttsAudio){ try { ttsAudio.pause(); } catch (e) {} ttsAudio = null; }
+  ttsPlaying = false;
+  updateTtsPlayBtn();
+  if (!recording && micWords.length){
+    micWords.forEach(function(w){ w.el.className = w.isAnno ? 'anno anno-' + (w.el.dataset.cat || 'word') : 'wl'; });
+  }
+  document.getElementById('ttsStatus').textContent = 'آماده خوانش...';
+  hideTooltip();
+}
+
+// ===================================================================
 // ===== خط‌بَر (line tracker) — validated engine =====
 // ===================================================================
 var micOn = false, recording = false, recognition = null;
@@ -715,6 +947,7 @@ function processInterim(text){
 
 function toggleRecording(){
   if (recording){ stopMic(); return; }
+  if (ttsPlaying || ttsOn){ document.getElementById('micStatus').textContent = 'ابتدا خوانش صوتی را متوقف کنید'; return; }
   if (location.protocol !== 'https:' && location.hostname !== 'localhost' && location.hostname !== '127.0.0.1'){
     document.getElementById('micStatus').textContent = 'نیاز به HTTPS یا localhost'; return;
   }
@@ -837,4 +1070,6 @@ window.ctxAddAnno = ctxAddAnno; window.ctxEditAnno = ctxEditAnno; window.ctxDele
 window.ctxEditText = ctxEditText; window.ctxToggleTashkil = ctxToggleTashkil;
 window.toggleTashkilBar = toggleTashkilBar; window.insertTashkil = insertTashkil;
 window.doEncSearch = doEncSearch; window.closeEncPanel = closeEncPanel; window.ctxSearchEnc = ctxSearchEnc;
+window.toggleTts = toggleTts; window.toggleTtsPlay = toggleTtsPlay; window.setTtsRate = setTtsRate;
+window.setTtsEngine = setTtsEngine; window.toggleTtsPlayGoogle = toggleTtsPlayGoogle;
 })();

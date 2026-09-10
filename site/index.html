@@ -51,6 +51,12 @@
     max-height:180px;overflow-y:auto;display:none;white-space:pre-wrap;line-height:1.9}
   .log.on{display:block}
   .note{font-size:11.5px;color:#a89a86;margin-top:10px;line-height:1.8}
+  .noor-steps{font-size:13px;line-height:2;margin-bottom:12px;padding-inline-start:20px}
+  .code-box{position:relative;background:#2a2620;border-radius:8px;padding:12px;margin-bottom:12px}
+  .code-box textarea{width:100%;height:90px;background:transparent;color:#e8e0d0;border:none;font-family:monospace;
+    font-size:11px;resize:vertical;direction:ltr;text-align:left}
+  .code-box button{position:absolute;top:8px;left:8px;background:#8a5a3b;color:#fff;border:none;border-radius:6px;
+    padding:4px 10px;font-size:11px;cursor:pointer;font-family:inherit}
 </style>
 </head>
 <body>
@@ -75,6 +81,7 @@
     <div class="tabs">
       <div class="tab on" data-tab="txt" onclick="switchTab('txt')">فایل متنی</div>
       <div class="tab" data-tab="pdf" onclick="switchTab('pdf')">یک یا چند PDF</div>
+      <div class="tab" data-tab="noor" onclick="switchTab('noor')">کتابخانهٔ نور</div>
     </div>
     <div class="tabpane on" id="tab-txt">
       <div class="dropzone" onclick="document.getElementById('fTxt').click()">فایل .txt را انتخاب کنید</div>
@@ -85,6 +92,23 @@
       <div class="dropzone" onclick="document.getElementById('fPdf').click()">یک یا چند فایل PDF را انتخاب کنید</div>
       <input type="file" id="fPdf" accept=".pdf" multiple style="display:none" onchange="onPdfChosen(this.files)">
       <div class="filelist" id="pdfFileList"></div>
+    </div>
+    <div class="tabpane" id="tab-noor">
+      <ol class="noor-steps">
+        <li>در کتابخانهٔ نور (noorlib.ir) وارد حساب خود شوید و کتاب مورد نظر را باز کنید — روی <b>صفحهٔ ۱</b> بمانید.</li>
+        <li>کنسول مرورگر را باز کنید (کلید F12، یا Ctrl+Shift+J).</li>
+        <li>اسکریپت زیر را کپی، در کنسول جای‌گذاری، و اجرا کنید (Enter).</li>
+        <li>دو سؤال کوتاه می‌پرسد: تعداد کل صفحات کتاب، و نام کتاب (برای نام فایل).</li>
+        <li>صبر کنید تا تمام صفحات به‌ترتیب اسکرول و استخراج شوند (بسته به حجم کتاب، چند دقیقه طول می‌کشد؛ پیشرفت در کنسول نمایش داده می‌شود).</li>
+        <li>در پایان یک فایل <code>.txt</code> در پوشهٔ دانلودهای شما ذخیره می‌شود — همان فایل را در پایین همین صفحه انتخاب کنید.</li>
+      </ol>
+      <div class="code-box">
+        <button onclick="copyNoorScript()" id="bCopyNoor">📋 کپی اسکریپت</button>
+        <textarea id="noorScript" readonly></textarea>
+      </div>
+      <div class="dropzone" onclick="document.getElementById('fNoor').click()">فایل دانلودشده از نور را انتخاب کنید</div>
+      <input type="file" id="fNoor" accept=".txt" style="display:none" onchange="onNoorChosen(this.files)">
+      <div class="filelist" id="noorFileList"></div>
     </div>
 
     <div class="log" id="addLog"></div>
@@ -130,11 +154,101 @@ function onPdfChosen(files){
   pdfFiles = Array.from(files);
   document.getElementById('pdfFileList').innerHTML = pdfFiles.map(function(f){ return '<div>📄 ' + f.name + '</div>'; }).join('');
 }
+// The file downloaded by the Noor-library console script is a plain .txt
+// with the same "=== صفحه N ===" page-marker convention add-book.js
+// already knows how to split on — so it's handled as a regular text
+// upload, just via a different tab for clearer instructions.
+function onNoorChosen(files){
+  txtFile = files[0] || null;
+  document.getElementById('noorFileList').textContent = txtFile ? txtFile.name : '';
+}
 function log(msg){
   var el = document.getElementById('addLog');
   el.classList.add('on');
   el.textContent += msg + '\n';
   el.scrollTop = el.scrollHeight;
+}
+
+// Console script for noorlib.ir: scrolls through every page of the
+// currently-open book (must be logged in, starting from page 1) reading
+// each page's paragraphs out of the site's own Nuxt/Vuex store, and
+// downloads the assembled text with explicit page markers. Total page
+// count and the book name are asked interactively (via prompt()) so the
+// same script works for any book without hand-editing — the original
+// version this was adapted from had both hardcoded for one specific book.
+var NOOR_SCRIPT = '(async function() {\n' +
+'  const store = window.$nuxt && window.$nuxt.$store;\n' +
+'  if (!store) { alert("Vuex store پیدا نشد — مطمئن شوید در صفحهٔ کتاب سایت نور هستید."); return; }\n' +
+'\n' +
+'  function guessTotalPages() {\n' +
+'    var b = (store.state.bookView) || {};\n' +
+'    var candidates = [b.book && b.book.pageCount, b.book && b.book.totalPages, b.totalPages, b.pageCount, b.pagesCount, b.book && b.book.numberOfPages];\n' +
+'    for (var i = 0; i < candidates.length; i++) { var v = candidates[i]; if (typeof v === "number" && v > 0 && v < 5000) return v; }\n' +
+'    return null;\n' +
+'  }\n' +
+'  var guessed = guessTotalPages();\n' +
+'  var totalStr = prompt("تعداد کل صفحات کتاب چند است؟", guessed ? String(guessed) : "");\n' +
+'  var TOTAL = parseInt(totalStr, 10);\n' +
+'  if (!TOTAL || TOTAL <= 0) { alert("تعداد صفحهٔ معتبر وارد نشد."); return; }\n' +
+'  var bookName = (prompt("نام کتاب (برای نام فایل خروجی):", "کتاب") || "کتاب").replace(/[\\\\/:*?"<>|]/g, "_");\n' +
+'\n' +
+'  const scrollContainer = document.querySelector(".book-viewer-scroll") || document.querySelector(".html-viewer") || document.querySelector(\'[class*="viewer"]\') || document.querySelector(\'[class*="scroll"]\');\n' +
+'  if (!scrollContainer) {\n' +
+'    const all = document.querySelectorAll("*"); let best = null;\n' +
+'    for (const el of all) { if (el.scrollHeight > el.clientHeight + 100 && el.clientHeight > 200) { if (!best || el.scrollHeight > best.scrollHeight) best = el; } }\n' +
+'    if (best) { console.log("🔍 Container:", best.tagName, best.className); window._scrollEl = best; }\n' +
+'    else { console.log("❌ container پیدا نشد"); return; }\n' +
+'  } else { window._scrollEl = scrollContainer; console.log("✅ Container:", scrollContainer.tagName, scrollContainer.className); }\n' +
+'\n' +
+'  const missing = [];\n' +
+'  for (let p = 1; p <= TOTAL; p++) { const found = store.state.bookView.pages.find(pg => pg.pageNumber === p); if (!found || !found.paragraphList || found.paragraphList.length === 0) missing.push(p); }\n' +
+'  console.log(`🔍 ${missing.length} صفحه باقی‌مانده: ${missing.join(", ")}`);\n' +
+'\n' +
+'  const el = window._scrollEl; let extracted = 0;\n' +
+'  for (const page of missing) {\n' +
+'    const pageEl = document.querySelector(`[data-page="${page}"]`) || document.querySelector(`.page-${page}`) || document.querySelector(`#page-${page}`);\n' +
+'    if (pageEl) { pageEl.scrollIntoView({ behavior: "instant", block: "center" }); }\n' +
+'    else { const avgPageHeight = el.scrollHeight / TOTAL; el.scrollTop = avgPageHeight * (page - 1); }\n' +
+'    let loaded = false;\n' +
+'    for (let i = 0; i < 15; i++) { await new Promise(r => setTimeout(r, 1000)); const pd = store.state.bookView.pages.find(p => p.pageNumber === page); if (pd && pd.paragraphList && pd.paragraphList.length > 0) { loaded = true; break; } }\n' +
+'    if (loaded) { extracted++; console.log(`✅ صفحه ${page} - باقی‌مانده: ${missing.length - extracted}`); }\n' +
+'    else { console.log(`❌ صفحه ${page} - لود نشد`); }\n' +
+'    await new Promise(r => setTimeout(r, 500));\n' +
+'  }\n' +
+'\n' +
+'  let allText = [];\n' +
+'  for (let p = 1; p <= TOTAL; p++) {\n' +
+'    const pd = store.state.bookView.pages.find(pg => pg.pageNumber === p);\n' +
+'    if (pd && pd.paragraphList && pd.paragraphList.length > 0) {\n' +
+'      let t = "";\n' +
+'      for (const para of pd.paragraphList) { if (para.text) { const div = document.createElement("div"); div.innerHTML = para.text; t += div.textContent.trim() + "\\n"; } }\n' +
+'      if (t.trim()) allText.push(`\\n=== صفحه ${p} ===\\n${t.trim()}`);\n' +
+'    }\n' +
+'  }\n' +
+'\n' +
+'  if (allText.length > 0) {\n' +
+'    const blob = new Blob([allText.join("\\n\\n")], { type: "text/plain;charset=utf-8" });\n' +
+'    const url = URL.createObjectURL(blob);\n' +
+'    const a = document.createElement("a"); a.href = url; a.download = bookName + "_متن_کامل.txt";\n' +
+'    document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url);\n' +
+'    console.log(`\\n📋 دانلود: ${allText.length} صفحه`);\n' +
+'  }\n' +
+'\n' +
+'  const stillMissing = [];\n' +
+'  for (let p = 1; p <= TOTAL; p++) { const pd = store.state.bookView.pages.find(pg => pg.pageNumber === p); if (!pd || !pd.paragraphList || pd.paragraphList.length === 0) stillMissing.push(p); }\n' +
+'  if (stillMissing.length) console.log(`❌ هنوز باقی‌مانده: ${stillMissing.join(", ")}`);\n' +
+'})();';
+document.getElementById('noorScript').value = NOOR_SCRIPT;
+function copyNoorScript(){
+  navigator.clipboard.writeText(NOOR_SCRIPT).then(function(){
+    var btn = document.getElementById('bCopyNoor');
+    var orig = btn.textContent;
+    btn.textContent = '✓ کپی شد';
+    setTimeout(function(){ btn.textContent = orig; }, 1500);
+  }).catch(function(){
+    document.getElementById('noorScript').select();
+    document.execCommand('copy');
+  });
 }
 
 async function processAndSave(){

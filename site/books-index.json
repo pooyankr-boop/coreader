@@ -24,18 +24,26 @@
     "candidateCount": 250
   },
   {
-    "slug": "همه-کشی-۱",
-    "title": "همه‌کشی ۱",
-    "author": "جیسون محقق",
+    "slug": "حی-بن-یقضان",
+    "title": "حی بن یقضان",
+    "author": "ابن سینا",
+    "pages": 272,
+    "hasPdf": true,
+    "candidateCount": 250
+  },
+  {
+    "slug": "همه-کُشی",
+    "title": "همه‌کُشی",
+    "author": "جیسون بابک محقق",
     "pages": 330,
     "hasPdf": false,
     "candidateCount": 250
   },
   {
-    "slug": "همه-کشی-۲",
-    "title": "همه‌کشی ۲",
-    "author": "جیسون محقق",
-    "pages": 383,
+    "slug": "همه-کُشی-۲",
+    "title": "همه‌کُشی ۲",
+    "author": "جیسون بابک محقق",
+    "pages": 414,
     "hasPdf": false,
     "candidateCount": 250
   }
