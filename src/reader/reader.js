@@ -33,6 +33,18 @@ fetch(window.BOOK_URL || 'book.json').then(function(r){return r.json()}).then(fu
   updNav();
   goPg(1);
   loadSettings();
+  loadHighlightSettings();
+  loadFontWeightSettings();
+  loadMagSettings();
+  // Load text width from localStorage
+  (function(){
+    var tw = localStorage.getItem('coreader-tw');
+    if (tw){
+      document.querySelector('.tc').style.maxWidth = tw + 'px';
+      document.getElementById('setTw').value = tw;
+      document.getElementById('setTwV').textContent = toFA(tw);
+    }
+  })();
   loadUserEdits();
   loadTtsSettings();
   populateTtsVoices();
@@ -93,9 +105,22 @@ function goPg(n){
   var el = document.getElementById('pg_' + n);
   if (el && el.scrollIntoView) el.scrollIntoView();
   updNav(); hlToc();
+  clearMarginAnnos(); // clear margin annotations on page change
+  // Clear highlight overlays
+  var sl = document.getElementById('hlSlide');
+  if (sl) sl.classList.remove('active');
+  hideNeighbors();
+  // Close edit toolbar on page change
+  var et = document.getElementById('editToolbar');
+  if (et) et.classList.remove('on');
+  editingText = false;
 }
 function updNav(){
-  document.getElementById('pgLabel').textContent = 'صفحه ' + toFA(curPage) + ' از ' + toFA(BOOK ? BOOK.pages.length : 0);
+  var inp = document.getElementById('pgInput');
+  var tot = document.getElementById('pgTotal');
+  var total = BOOK ? BOOK.pages.length : 0;
+  if (inp) inp.value = curPage;
+  if (tot) tot.textContent = 'از ' + toFA(total);
 }
 function hlToc(){
   var items = document.querySelectorAll('.toc-item');
@@ -115,7 +140,54 @@ function applySetting(k, v){
   var r = document.documentElement;
   if (k === 'font'){ r.style.setProperty('--ff', v); }
   else if (k === 'fs'){ r.style.setProperty('--fs', v + 'px'); document.getElementById('setFsV').textContent = toFA(v); }
+  else if (k === 'tw'){
+    document.querySelector('.tc').style.maxWidth = v + 'px';
+    document.getElementById('setTwV').textContent = toFA(v);
+    localStorage.setItem('coreader-tw', v);
+    return;
+  }
   else if (k === 'lh'){ r.style.setProperty('--lh', v / 10); document.getElementById('setLhV').textContent = (v / 10).toFixed(1); }
+  else if (k === 'hlColor'){
+    r.style.setProperty('--hl-color', v);
+    document.getElementById('setHlColor').value = v;
+    document.querySelectorAll('.hl-preset').forEach(function(b){ b.classList.toggle('on', b.dataset.color === v); });
+    saveHighlightSettings(); return;
+  }
+  else if (k === 'hlOpacity'){
+    r.style.setProperty('--hl-opacity', v);
+    document.getElementById('setHlOpacityV').textContent = (+v).toFixed(2);
+    saveHighlightSettings(); return;
+  }
+  else if (k === 'hlGlow'){
+    r.style.setProperty('--hl-glow', v);
+    document.getElementById('setHlGlowV').textContent = toFA(v);
+    saveHighlightSettings(); return;
+  }
+  else if (k === 'hlSpeed'){
+    r.style.setProperty('--hl-speed', v);
+    document.getElementById('setHlSpeedV').textContent = (+v).toFixed(1);
+    saveHighlightSettings(); return;
+  }
+  else if (k === 'fw'){
+    r.style.setProperty('--fw', v);
+    saveFontWeightSettings(); return;
+  }
+  else if (k === 'magSize'){
+    MAG_W = Math.min(1600, Math.max(400, +v)); MAG_H = Math.round(MAG_W * 461 / 1600);
+    var lens = document.getElementById('magLens');
+    if (lens){ lens.style.width = MAG_W + 'px'; lens.style.height = MAG_H + 'px'; }
+    document.getElementById('setMagSizeV').textContent = toFA(MAG_W);
+    saveMagSettings(); return;
+  }
+  else if (k === 'magZoom'){
+    MAG_SCALE = +v;
+    document.getElementById('setMagZoomV').textContent = (+v).toFixed(1) + '×';
+    saveMagSettings(); return;
+  }
+  else if (k === 'magAutoFollow'){
+    magAutoFollow = document.getElementById('setMagAutoFollow').checked;
+    saveMagSettings(); return;
+  }
   localStorage.setItem('coreader-settings', JSON.stringify({
     font: document.getElementById('setFont').value,
     fs: document.getElementById('setFs').value,
@@ -129,6 +201,51 @@ function loadSettings(){
   if (s.fs){ document.documentElement.style.setProperty('--fs', s.fs + 'px'); document.getElementById('setFs').value = s.fs; document.getElementById('setFsV').textContent = toFA(s.fs); }
   if (s.lh){ document.documentElement.style.setProperty('--lh', s.lh / 10); document.getElementById('setLh').value = s.lh; document.getElementById('setLhV').textContent = (s.lh / 10).toFixed(1); }
 }
+function saveHighlightSettings(){
+  localStorage.setItem('coreader-highlight-settings', JSON.stringify({
+    color: document.getElementById('setHlColor').value,
+    opacity: document.getElementById('setHlOpacity').value,
+    glow: document.getElementById('setHlGlow').value,
+    speed: document.getElementById('setHlSpeed').value,
+  }));
+}
+function loadHighlightSettings(){
+  var s; try { s = JSON.parse(localStorage.getItem('coreader-highlight-settings')); } catch (e) {}
+  if (!s) return;
+  var r = document.documentElement;
+  if (s.color){ r.style.setProperty('--hl-color', s.color); document.getElementById('setHlColor').value = s.color; document.querySelectorAll('.hl-preset').forEach(function(b){ b.classList.toggle('on', b.dataset.color === s.color); }); }
+  if (s.opacity){ r.style.setProperty('--hl-opacity', s.opacity); document.getElementById('setHlOpacity').value = s.opacity; document.getElementById('setHlOpacityV').textContent = (+s.opacity).toFixed(2); }
+  if (s.glow){ r.style.setProperty('--hl-glow', s.glow); document.getElementById('setHlGlow').value = s.glow; document.getElementById('setHlGlowV').textContent = toFA(s.glow); }
+  if (s.speed){ r.style.setProperty('--hl-speed', s.speed); document.getElementById('setHlSpeed').value = s.speed; document.getElementById('setHlSpeedV').textContent = (+s.speed).toFixed(1); }
+}
+function saveFontWeightSettings(){
+  localStorage.setItem('coreader-fontweight-settings', JSON.stringify({
+    fw: document.getElementById('setFw').value,
+  }));
+}
+function loadFontWeightSettings(){
+  var s; try { s = JSON.parse(localStorage.getItem('coreader-fontweight-settings')); } catch (e) {}
+  if (!s || !s.fw) return;
+  document.documentElement.style.setProperty('--fw', s.fw);
+  document.getElementById('setFw').value = s.fw;
+}
+function saveMagSettings(){
+  localStorage.setItem('coreader-mag-settings', JSON.stringify({
+    size: MAG_W, zoom: MAG_SCALE, autoFollow: magAutoFollow
+  }));
+}
+function loadMagSettings(){
+  var s; try { s = JSON.parse(localStorage.getItem('coreader-mag-settings')); } catch (e) {}
+  if (!s) return;
+  if (s.size){ MAG_W = Math.min(1600, Math.max(400, +s.size)); MAG_H = Math.round(MAG_W * 461 / 1600); }
+  if (s.zoom) MAG_SCALE = Math.min(5, Math.max(1, +s.zoom));
+  if (s.autoFollow !== undefined) magAutoFollow = s.autoFollow;
+  document.getElementById('setMagSize').value = MAG_W;
+  document.getElementById('setMagSizeV').textContent = toFA(MAG_W);
+  document.getElementById('setMagZoom').value = MAG_SCALE;
+  document.getElementById('setMagZoomV').textContent = (+MAG_SCALE).toFixed(1) + '×';
+  document.getElementById('setMagAutoFollow').checked = magAutoFollow;
+}
 function setTheme(t){
   document.body.className = t || '';
   document.querySelectorAll('.theme-btn').forEach(function(b){ b.classList.toggle('on', b.dataset.theme === t); });
@@ -136,52 +253,141 @@ function setTheme(t){
 }
 (function(){ var t = localStorage.getItem('coreader-theme'); if (t) setTheme(t); })();
 
-// ===== Tooltip — rich, hover-triggered, category-badged =====
+// ===== Annotation display: tooltips (normal) / persistent margin cards (recording/TTS) =====
 var CAT_LABELS = { arabic: 'عربی', poem: 'شعر و نظم', quran: 'آیه و حدیث', hist: 'تاریخ',
   word: 'لغت کهن', person: 'شخصیت', event: 'واقعه' };
-var tooltipTimer = null;
+var activeMarginCards = []; // { el, marginEl, side }
+var CARD_STACK_OFFSET = 76; // px shift up per stack level
+
+function isPersistMode(){ return recording || ttsOn; }
+
+function clearMarginAnnos(){
+  activeMarginCards.forEach(function(c){
+    if (c.marginEl && c.marginEl.parentNode) c.marginEl.parentNode.removeChild(c.marginEl);
+    c.el._marginEl = null;
+  });
+  activeMarginCards = [];
+  document.querySelectorAll('.anno-tooltip').forEach(function(t){
+    if (t.parentNode) t.parentNode.removeChild(t);
+  });
+}
+
+function showMarginAnno(el){
+  if (!el || !annoOn) return;
+  if (isPersistMode()){
+    // Clean up any leftover tooltip
+    if (el._tooltipEl){ if (el._tooltipEl.parentNode) el._tooltipEl.parentNode.removeChild(el._tooltipEl); el._tooltipEl = null; }
+    showPersistentMarginAnno(el);
+  } else {
+    showTooltip(el);
+  }
+}
+
+// --- Normal mode: floating tooltip on hover ---
 function showTooltip(el){
-  var tt = document.getElementById('tt');
-  if (!el || !annoOn){ tt.classList.remove('on'); return; }
+  if (el._tooltipEl && el._tooltipEl.parentNode) return;
   var cat = el.dataset.cat || 'word';
-  // Lead with the annotated word itself (what the reader actually pointed
-  // at), category as a small badge, then the explanation — previously the
-  // category badge was the most prominent element, which is backwards.
-  var html = '<div class="tt-word">' + el.textContent + '</div>';
-  html += '<span class="tt-cat tc-' + cat + '">' + (CAT_LABELS[cat] || cat) + '</span>';
-  if (el.dataset.title) html += '<div class="tt-t">' + el.dataset.title + '</div>';
-  html += '<div class="tt-b">' + (el.dataset.text || el.getAttribute('title') || '') + '</div>';
-  if (el.dataset.extra) html += '<div class="tt-e">' + el.dataset.extra + '</div>';
+  var tt = document.createElement('div');
+  tt.className = 'anno-tooltip';
+  var html = '<div class="at-word">' + el.textContent + '</div>';
+  html += '<span class="am-cat tc-' + cat + '">' + (CAT_LABELS[cat] || cat) + '</span>';
+  if (el.dataset.title) html += '<div class="at-title">' + el.dataset.title + '</div>';
+  html += '<div class="at-text">' + (el.dataset.text || el.getAttribute('title') || '') + '</div>';
+  if (el.dataset.extra) html += '<div class="at-extra">' + el.dataset.extra + '</div>';
   tt.innerHTML = html;
-  tt.classList.add('on');
-  var r = el.getBoundingClientRect(), vpW = window.innerWidth, vpH = window.innerHeight;
-  var tw = Math.min(560, vpW - 20);
-  tt.style.width = tw + 'px';
-  var th = tt.offsetHeight || 200;
-  var x = r.left, y = r.top - th - 12;
-  if (y < 10) y = r.bottom + 12;
-  if (x + tw > vpW - 10) x = vpW - tw - 10;
-  if (x < 10) x = 10;
-  if (y + th > vpH - 10) y = vpH - th - 10;
-  tt.style.left = x + 'px'; tt.style.top = y + 'px';
+  document.body.appendChild(tt);
+  el._tooltipEl = tt;
+  var elRect = el.getBoundingClientRect();
+  var ttW = 280;
+  var left = elRect.left + elRect.width / 2 - ttW / 2;
+  left = Math.max(8, Math.min(left, window.innerWidth - ttW - 8));
+  tt.style.left = left + 'px';
+  tt.style.top = (elRect.top - 8) + 'px';
+  requestAnimationFrame(function(){
+    if (!tt.parentNode) return;
+    var ttRect = tt.getBoundingClientRect();
+    if (ttRect.top < 4) tt.style.top = (elRect.bottom + 8) + 'px';
+  });
 }
-function hideTooltip(){
-  document.getElementById('tt').classList.remove('on');
-  if (tooltipTimer){ clearTimeout(tooltipTimer); tooltipTimer = null; }
+
+// --- Recording/TTS mode: persistent margin cards with stacking ---
+function showPersistentMarginAnno(el){
+  if (el._marginEl && el._marginEl.parentNode) return;
+  var cat = el.dataset.cat || 'word';
+  var pgEl = el.closest('.ps');
+  if (!pgEl) return;
+  var margin = document.createElement('div');
+  margin.className = 'anno-margin anno-margin-entering';
+  var html = '<div class="am-word">' + el.textContent + '</div>';
+  html += '<span class="am-cat tc-' + cat + '">' + (CAT_LABELS[cat] || cat) + '</span>';
+  if (el.dataset.title) html += '<div class="am-title">' + el.dataset.title + '</div>';
+  html += '<div class="am-text">' + (el.dataset.text || el.getAttribute('title') || '') + '</div>';
+  if (el.dataset.extra) html += '<div class="am-extra">' + el.dataset.extra + '</div>';
+  margin.innerHTML = html;
+  margin.style.cursor = 'pointer';
+  var side;
+  margin.addEventListener('click', function(){
+    if (margin.parentNode) margin.parentNode.removeChild(margin);
+    el._marginEl = null;
+    var idx = -1;
+    for (var i = 0; i < activeMarginCards.length; i++){
+      if (activeMarginCards[i].marginEl === margin){ idx = i; break; }
+    }
+    if (idx >= 0) activeMarginCards.splice(idx, 1);
+    repositionStack(side);
+  });
+  pgEl.style.position = 'relative';
+  pgEl.appendChild(margin);
+  el._marginEl = margin;
+  var annos = pgEl.querySelectorAll('.anno');
+  var myIdx = Array.prototype.indexOf.call(annos, el);
+  side = myIdx % 2 === 0 ? 'r' : 'l';
+  margin.classList.add('anno-margin-' + side);
+  var pgRect = pgEl.getBoundingClientRect();
+  var elRect = el.getBoundingClientRect();
+  var top = elRect.top - pgRect.top + pgEl.scrollTop - 10;
+  top = Math.max(0, Math.min(top, pgRect.height - 120));
+  margin.style.top = top + 'px';
+  activeMarginCards.push({ el: el, marginEl: margin, side: side });
+  setTimeout(function(){ margin.classList.remove('anno-margin-entering'); }, 300);
+  repositionStack(side);
 }
-function showTooltipAuto(el){
-  showTooltip(el);
-  clearTimeout(tooltipTimer);
-  tooltipTimer = setTimeout(hideTooltip, 15000);
+
+function repositionStack(side){
+  var cards = activeMarginCards.filter(function(c){ return c.side === side && c.marginEl.parentNode; });
+  var count = cards.length;
+  for (var i = 0; i < count; i++){
+    var card = cards[i];
+    if (count > 1 && i < count - 1){
+      var stackDepth = count - 1 - i;
+      card.marginEl.classList.add('anno-margin-stacked');
+      card.marginEl.style.transform = 'translateY(-' + (stackDepth * CARD_STACK_OFFSET) + 'px) scale(' + Math.max(0.75, 1 - stackDepth * 0.06) + ')';
+    } else {
+      card.marginEl.classList.remove('anno-margin-stacked');
+      card.marginEl.style.transform = '';
+    }
+  }
 }
+
 document.addEventListener('mouseover', function(e){
   var a = e.target.closest && e.target.closest('.anno');
-  if (a && annoOn) showTooltip(a); else if (!e.target.closest || !e.target.closest('.tt')) hideTooltip();
+  if (a && annoOn) showMarginAnno(a);
+});
+document.addEventListener('mouseout', function(e){
+  var a = e.target.closest && e.target.closest('.anno');
+  if (!a || !annoOn || isPersistMode()) return;
+  var related = e.relatedTarget;
+  if (related && related.closest && related.closest('.anno') === a) return;
+  if (a._tooltipEl){
+    if (a._tooltipEl.parentNode) a._tooltipEl.parentNode.removeChild(a._tooltipEl);
+    a._tooltipEl = null;
+  }
 });
 function toggleAnno(){
   annoOn = !annoOn;
   document.getElementById('bAnno').classList.toggle('on', annoOn);
   document.body.classList.toggle('annos-off', !annoOn);
+  if (!annoOn) clearMarginAnnos();
 }
 
 // ===== Progress bar =====
@@ -373,21 +579,27 @@ function ctxDeleteAnno(){
 }
 var editingText = false;
 function ctxEditText(){
-  document.getElementById('ctxMenu').setAttribute('data-open', 'false');
+  _closeCtx();
   var pgEl = document.getElementById('pg_' + curPage);
   var txtEl = pgEl && pgEl.querySelector('.ps-txt');
   if (!txtEl) return;
+  var toolbar = document.getElementById('editToolbar');
   if (editingText){
     editingText = false;
     txtEl.contentEditable = 'false';
     txtEl.style.outline = 'none'; txtEl.style.background = 'none';
+    toolbar.classList.remove('on');
     saveUserEdits();
   } else {
     editingText = true;
     txtEl.contentEditable = 'true';
     txtEl.style.outline = '2px dashed var(--accent)'; txtEl.style.background = 'var(--hover)';
     txtEl.focus();
+    toolbar.classList.add('on');
   }
+}
+function applyEditStyle(cmd, val){
+  document.execCommand(cmd, false, val || null);
 }
 function ctxToggleTashkil(){
   document.getElementById('ctxMenu').setAttribute('data-open', 'false');
@@ -474,7 +686,101 @@ function ctxSearchEnc(){
   doEncSearch(word);
 }
 
-// ===================================================================
+// ===== Context menu: note, highlight, favorite, copy-with-source =====
+function _closeCtx(){ document.getElementById('ctxMenu').setAttribute('data-open', 'false'); }
+
+function ctxAddNote(){
+  _closeCtx();
+  if (!ctxSel){ alert('ابتدا متن را انتخاب کنید'); return; }
+  var note = prompt('یادداشت شما:');
+  if (!note) return;
+  var notes = JSON.parse(localStorage.getItem('coreader-notes') || '[]');
+  notes.push({ text: ctxSel, note: note, page: curPage, book: BOOK.title, time: Date.now() });
+  localStorage.setItem('coreader-notes', JSON.stringify(notes));
+  alert('یادداشت ذخیره شد ✓');
+}
+
+function ctxHighlight(){
+  _closeCtx();
+  if (!ctxSel){ alert('ابتدا متن را انتخاب کنید'); return; }
+  if (!ctxRange) return;
+  var color = prompt('رنگ هایلایت (مثل #ffe08a یا #a5d6a7):', '#ffe08a') || '#ffe08a';
+  var span = document.createElement('span');
+  span.className = 'user-highlight';
+  span.style.cssText = 'background:' + color + ';border-radius:3px;padding:1px 2px;';
+  try { ctxRange.surroundContents(span); } catch(e){}
+  // Save to localStorage with color
+  var hl = JSON.parse(localStorage.getItem('coreader-highlights') || '[]');
+  hl.push({ text: ctxSel, page: curPage, book: BOOK.title, color: color, time: Date.now() });
+  localStorage.setItem('coreader-highlights', JSON.stringify(hl));
+}
+
+function ctxAddFavorite(){
+  _closeCtx();
+  if (!ctxSel){ alert('ابتدا متن را انتخاب کنید'); return; }
+  var color = prompt('رنگ هایلایت (مثل #ffe08a یا #a5d6a7):', '#ffe08a') || '#ffe08a';
+  var favs = JSON.parse(localStorage.getItem('coreader-favs') || '[]');
+  if (favs.some(function(f){ return f.text === ctxSel && f.book === BOOK.title; })){
+    alert('این متن قبلاً اضافه شده است'); return;
+  }
+  favs.push({ text: ctxSel, page: curPage, book: BOOK.title, author: BOOK.author || '', color: color, time: Date.now() });
+  localStorage.setItem('coreader-favs', JSON.stringify(favs));
+  alert('به علاقه‌مندی‌ها اضافه شد ⭐');
+}
+
+function ctxCopyWithSource(){
+  _closeCtx();
+  if (!ctxSel){ alert('ابتدا متن را انتخاب کنید'); return; }
+  var source = '— «' + BOOK.title + '»، صفحهٔ ' + toFA(curPage);
+  var full = ctxSel + '\n' + source;
+  navigator.clipboard.writeText(full).then(function(){
+    // Brief visual feedback
+    var toast = document.createElement('div');
+    toast.textContent = 'کپی شد ✓';
+    toast.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:8px 20px;border-radius:8px;z-index:99999;font-size:14px;animation:fade-slide-up .4s ease';
+    document.body.appendChild(toast);
+    setTimeout(function(){ toast.remove(); }, 1500);
+  });
+}
+
+// ===== Favorites / Notes panel =====
+function showFavPanel(){
+  document.getElementById('favPanel').classList.add('on');
+  showFavTab('favs');
+}
+function showFavTab(tab){
+  document.querySelectorAll('.fav-tab').forEach(function(b, i){
+    b.classList.toggle('on', (tab === 'favs' && i === 0) || (tab === 'notes' && i === 1) || (tab === 'highlights' && i === 2));
+  });
+  var list = document.getElementById('favList');
+  var data = JSON.parse(localStorage.getItem('coreader-' + tab) || '[]');
+  if (!data.length){
+    list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted-foreground,#999)">خالی</div>';
+    return;
+  }
+  list.innerHTML = data.map(function(item, i){
+    var meta = (item.book || '') + (item.page ? ' — صفحهٔ ' + toFA(item.page) : '');
+    var note = item.note ? '<div style="margin-top:4px;font-size:12px;opacity:.8">📝 ' + item.note + '</div>' : '';
+    var colorSwatch = item.color ? '<span style="display:inline-block;width:12px;height:12px;background:' + item.color + ';border-radius:3px;margin-inline-start:4px;vertical-align:middle"></span>' : '';
+    var textPreview = (item.text || '').substring(0, 200) + ((item.text || '').length > 200 ? '…' : '');
+    return '<div class="fav-item" onclick="goToFav(' + (item.page || 1) + ')">' +
+      '<button class="fav-del" onclick="event.stopPropagation();delFav(\'' + tab + '\',' + i + ')">✕</button>' +
+      '<div>' + colorSwatch + textPreview + '</div>' +
+      note +
+      '<div class="fav-meta">' + meta + '</div></div>';
+  }).join('');
+}
+function goToFav(page){
+  document.getElementById('favPanel').classList.remove('on');
+  goPg(page);
+}
+function delFav(tab, idx){
+  var data = JSON.parse(localStorage.getItem('coreader-' + tab) || '[]');
+  data.splice(idx, 1);
+  localStorage.setItem('coreader-' + tab, JSON.stringify(data));
+  showFavTab(tab);
+}
+
 // ===== خوانش صوتی (TTS) — reads the page aloud with synced highlight
 // Two engines, both free and requiring zero signup/key:
 //  - "browser" (default, zero-config): the Web Speech API's
@@ -495,6 +801,7 @@ function ctxSearchEnc(){
 var ttsOn = false, ttsPlaying = false, ttsVoices = [], ttsOffsets = [];
 var ttsEngine = 'browser';
 var ttsAudio = null;
+var ttsStartIdx = 0; // index to start TTS from (for click-to-start)
 
 function toggleTts(){
   if (recording){ document.getElementById('micStatus').textContent = 'ابتدا خط‌بَر را متوقف کنید'; return; }
@@ -547,19 +854,20 @@ function toggleTtsPlay(){
 }
 
 // ---- browser engine ----
-function buildTtsTextFromMicWords(){
+function buildTtsTextFromMicWords(startIdx){
   var parts = [], offsets = [], pos = 0;
-  micWords.forEach(function(w){
-    var t = w.el.textContent;
-    offsets.push({ start: pos, end: pos + t.length });
+  var s = startIdx || 0;
+  for (var i = s; i < micWords.length; i++){
+    var t = micWords[i].el.textContent;
+    offsets.push({ start: pos, end: pos + t.length, wordIdx: i });
     parts.push(t);
     pos += t.length + 1;
-  });
-  return { text: parts.join(' '), offsets: offsets };
+  }
+  return { text: parts.join(' '), offsets: offsets, startIdx: s };
 }
 function findMicWordIndexForOffset(charIndex){
   for (var i = 0; i < ttsOffsets.length; i++){
-    if (charIndex >= ttsOffsets[i].start && charIndex < ttsOffsets[i].end + 1) return i;
+    if (charIndex >= ttsOffsets[i].start && charIndex < ttsOffsets[i].end + 1) return ttsOffsets[i].wordIdx || i;
   }
   return -1;
 }
@@ -567,13 +875,13 @@ function ttsHighlightAndMaybeAnno(idx){
   highlightAt(idx);
   smoothScrollTo(idx);
   var annoEl = findAnnoNear(idx);
-  if (annoEl && annoEl !== lastAnnoEl && annoOn){ showTooltipAuto(annoEl); lastAnnoEl = annoEl; }
+  if (annoEl && annoEl !== lastAnnoEl && annoOn){ showMarginAnno(annoEl); lastAnnoEl = annoEl; }
 }
 function startTtsBrowserForPage(){
   if (!window.speechSynthesis){ document.getElementById('ttsStatus').textContent = 'مرورگر شما از خوانش صوتی پشتیبانی نمی‌کند'; return; }
   buildMicIndex(curPage);
   if (!micWords.length) return;
-  var built = buildTtsTextFromMicWords();
+  var built = buildTtsTextFromMicWords(ttsStartIdx);
   ttsOffsets = built.offsets;
   var utter = new SpeechSynthesisUtterance(built.text);
   var voice = ttsVoices[+document.getElementById('ttsVoiceSel').value] || null;
@@ -587,8 +895,8 @@ function startTtsBrowserForPage(){
   };
   utter.onend = function(){
     if (!ttsOn) return;
-    if (curPage < BOOK.pages.length){ goPg(curPage + 1); startTtsBrowserForPage(); }
-    else { ttsPlaying = false; updateTtsPlayBtn(); document.getElementById('ttsStatus').textContent = 'پایان کتاب'; }
+    if (curPage < BOOK.pages.length){ ttsStartIdx = 0; goPg(curPage + 1); startTtsBrowserForPage(); }
+    else { ttsPlaying = false; updateTtsPlayBtn(); document.getElementById('ttsStatus').textContent = 'پایان کتاب'; clearHighlights(); }
   };
   window.speechSynthesis.cancel();
   window.speechSynthesis.speak(utter);
@@ -621,9 +929,9 @@ function toggleTtsPlayBrowser(){
 var GOOGLE_TTS_MAX_CHARS = 190;
 function buildGoogleChunks(){
   var chunks = [];
-  var curText = '', curStart = 0, curLen = 0;
-  micWords.forEach(function(w, i){
-    var t = w.el.textContent;
+  var curText = '', curStart = ttsStartIdx, curLen = 0;
+  for (var i = ttsStartIdx; i < micWords.length; i++){
+    var t = micWords[i].el.textContent;
     var addLen = t.length + 1;
     if (curLen && curLen + addLen > GOOGLE_TTS_MAX_CHARS){
       chunks.push({ text: curText, start: curStart, end: i });
@@ -631,12 +939,13 @@ function buildGoogleChunks(){
     }
     curText += (curText ? ' ' : '') + t;
     curLen += addLen;
-  });
+  }
   if (curText) chunks.push({ text: curText, start: curStart, end: micWords.length });
   return chunks;
 }
 function googleTtsUrl(text){
-  return 'https://translate.google.com/translate_tts?ie=UTF-8&q=' + encodeURIComponent(text) + '&tl=fa&client=tw-ob';
+  // Try multiple Google TTS endpoints for reliability
+  return 'https://translate.google.com/translate_tts?ie=UTF-8&q=' + encodeURIComponent(text) + '&tl=fa&client=gtx';
 }
 var googleChunks = [], googleChunkIdx = 0, googleFellBack = false;
 function startTtsGoogleForPage(){
@@ -650,8 +959,8 @@ function startTtsGoogleForPage(){
 function playGoogleChunk(){
   if (googleChunkIdx >= googleChunks.length){
     if (!ttsOn) return;
-    if (curPage < BOOK.pages.length){ goPg(curPage + 1); startTtsGoogleForPage(); }
-    else { ttsPlaying = false; updateTtsPlayBtn(); document.getElementById('ttsStatus').textContent = 'پایان کتاب'; }
+    if (curPage < BOOK.pages.length){ ttsStartIdx = 0; goPg(curPage + 1); startTtsGoogleForPage(); }
+    else { ttsPlaying = false; updateTtsPlayBtn(); document.getElementById('ttsStatus').textContent = 'پایان کتاب'; clearHighlights(); }
     return;
   }
   var chunk = googleChunks[googleChunkIdx];
@@ -666,9 +975,17 @@ function playGoogleChunk(){
   };
   ttsAudio.onended = function(){ googleChunkIdx++; playGoogleChunk(); };
   ttsAudio.onerror = function(){
-    if (googleFellBack) return; // avoid a fallback loop if the browser engine also has no Persian voice
+    if (googleFellBack) return; // avoid a fallback loop
     googleFellBack = true;
-    document.getElementById('ttsStatus').textContent = 'سرویس رایگان گوگل در دسترس نیست — بازگشت به صدای مرورگر';
+    // Try alternative Google TTS endpoint before falling back
+    if (!ttsAudio._triedAlt){
+      ttsAudio._triedAlt = true;
+      ttsAudio.src = 'https://translate.google.com/translate_tts?ie=UTF-8&q=' + encodeURIComponent(chunk.text) + '&tl=fa&client=dict-chrome-ex';
+      var p = ttsAudio.play();
+      if (p && p.catch) p.catch(function(){ ttsAudio.onerror(); });
+      return;
+    }
+    document.getElementById('ttsStatus').textContent = 'سرویس Google در دسترس نیست — بازگشت به صدای مرورگر';
     ttsEngine = 'browser';
     document.getElementById('setTtsEngine').value = 'browser';
     document.getElementById('googleTtsNote').style.display = 'none';
@@ -692,16 +1009,29 @@ function toggleTtsPlayGoogle(){
   }
 }
 
+function clearHighlights(){
+  if (micWords.length){
+    micWords.forEach(function(w){ w.el.className = w.isAnno ? 'anno anno-' + (w.el.dataset.cat || 'word') : 'wl'; });
+  }
+  var sl = document.getElementById('hlSlide');
+  if (sl) sl.classList.remove('active');
+  hideNeighbors();
+}
+
 function stopTts(){
   if (window.speechSynthesis) window.speechSynthesis.cancel();
   if (ttsAudio){ try { ttsAudio.pause(); } catch (e) {} ttsAudio = null; }
-  ttsPlaying = false;
+  ttsPlaying = false; ttsStartIdx = 0; _magGroup = -1;
   updateTtsPlayBtn();
-  if (!recording && micWords.length){
+  if (micWords.length){
     micWords.forEach(function(w){ w.el.className = w.isAnno ? 'anno anno-' + (w.el.dataset.cat || 'word') : 'wl'; });
   }
+  // Clear highlight overlays
+  var sl = document.getElementById('hlSlide');
+  if (sl) sl.classList.remove('active');
+  hideNeighbors();
   document.getElementById('ttsStatus').textContent = 'آماده خوانش...';
-  hideTooltip();
+  clearMarginAnnos();
 }
 
 // ===================================================================
@@ -834,7 +1164,7 @@ function tryAdvance(buf, live, wide){
   syncPdfHighlight();
   var curWordText = micWords[micIdx - 1] ? micWords[micIdx - 1].el.textContent : null;
   var annoEl = findAnnoNear(micIdx - 1);
-  if (annoEl){ if (annoEl !== lastAnnoEl && annoOn){ showTooltipAuto(annoEl); lastAnnoEl = annoEl; } }
+  if (annoEl){ if (annoEl !== lastAnnoEl && annoOn){ showMarginAnno(annoEl); lastAnnoEl = annoEl; } }
   else { lastAnnoEl = null; }
   var out = { moved: true, res: res, micIdxBefore: micIdxBefore, micIdxAfter: micIdx, minConf: minConf, ratio: ratio, curWord: curWordText };
   if (micIdx >= micWords.length && micWords.length > 0){
@@ -844,20 +1174,158 @@ function tryAdvance(buf, live, wide){
   return out;
 }
 
+var micLevel = 0;
+function updateMicLevel(){
+  // If we have a real mic stream, read volume from an AnalyserNode
+  if (micStream){
+    try {
+      if (!updateMicLevel._actx){
+        var ac = new (window.AudioContext || window.webkitAudioContext)();
+        var src = ac.createMediaStreamSource(micStream);
+        var an = ac.createAnalyser(); an.fftSize = 256;
+        src.connect(an);
+        updateMicLevel._actx = ac; updateMicLevel._an = an;
+      }
+      var an = updateMicLevel._an;
+      var buf = new Uint8Array(an.fftSize);
+      an.getByteTimeDomainData(buf);
+      var sum = 0;
+      for (var i = 0; i < buf.length; i++){ var v = (buf[i] - 128) / 128; sum += v * v; }
+      micLevel = Math.min(1, Math.sqrt(sum / buf.length) * 3);
+    } catch(e){ micLevel = 0; }
+  } else {
+    // Simulated: inverse of missStreak — active speaking = high level
+    micLevel = missStreak <= 1 ? 0.7 : missStreak <= 3 ? 0.4 : 0.15;
+  }
+  document.documentElement.style.setProperty('--mic-level', micLevel);
+}
 function highlightAt(idx){
   // Multiple micWords entries can share the same .el (a multi-word
   // annotation phrase is now split per-word for alignment — see
   // buildMicIndex). Group by element so a phrase doesn't flicker between
   // highlighted/unhighlighted as the loop passes its other word-entries.
   var hlEl = (idx >= 0 && idx < micWords.length) ? micWords[idx].el : null;
+  var prevEl = (idx > 0 && idx < micWords.length) ? micWords[idx - 1].el : null;
+  var nextEl = (idx >= 0 && idx + 1 < micWords.length) ? micWords[idx + 1].el : null;
   var seen = new Set();
   for (var i = 0; i < micWords.length; i++){
     var w = micWords[i];
     if (seen.has(w.el)) continue;
     seen.add(w.el);
     if (w.el === hlEl) w.el.className = w.isAnno ? 'anno anno-highlight' : 'wl wl-yellow';
+    else if (!w.isAnno && prevEl && w.el === prevEl) w.el.className = 'wl wl-yellow-prev';
+    else if (!w.isAnno && nextEl && w.el === nextEl) w.el.className = 'wl wl-yellow-next';
     else w.el.className = w.isAnno ? 'anno anno-' + (w.el.dataset.cat || 'word') : 'wl';
   }
+
+  // Smooth sliding highlight overlay
+  var slide = document.getElementById('hlSlide');
+  if (slide && hlEl){
+    var r = hlEl.getBoundingClientRect();
+    var pad = 4;
+    slide.style.top = (r.top - pad) + 'px';
+    slide.style.left = (r.left - pad) + 'px';
+    slide.style.width = (r.width + pad * 2) + 'px';
+    slide.style.height = (r.height + pad * 2) + 'px';
+    slide.classList.add('active');
+    // Neighbor overlays
+    slideNeighborhood(hlEl, prevEl, nextEl);
+  } else if (slide) {
+    slide.classList.remove('active');
+    hideNeighbors();
+  }
+
+  // Auto-follow: magnifier locked at bottom-center, content jumps every 3 lines
+  if (magAutoFollow && magOn && hlEl && (recording || ttsPlaying)){
+    var r2 = hlEl.getBoundingClientRect();
+    var mag = document.getElementById('magnifier');
+    if (!mag) return;
+    var pgEl = document.getElementById('pg_' + curPage);
+    var txtEl = pgEl && pgEl.querySelector('.ps-txt');
+    if (!txtEl) return;
+    var fs = parseFloat(getComputedStyle(txtEl).fontSize) || 22;
+    var lh = fs * 2.2;
+    var tc = document.querySelector('.tc');
+    if (!tc) return;
+    var tcRect = tc.getBoundingClientRect();
+    var wordRelY = r2.top - tcRect.top + r2.height / 2;
+    var lineIdx = Math.floor(wordRelY / lh);
+    var groupIdx = Math.floor(lineIdx / 3);
+    // Lock magnifier position every frame
+    mag.style.left = Math.max(10, (window.innerWidth - MAG_W) / 2) + 'px';
+    mag.style.top = (window.innerHeight - MAG_H - 10) + 'px';
+    // Only reposition content when 3-line group changes
+    if (groupIdx !== _magGroup){
+      _magGroup = groupIdx;
+      var midLineY = (groupIdx * 3 + 1) * lh + lh / 2;
+      // Center horizontally: clone width matches .tc width, center is always at half width
+      var offsetX = MAG_W / 2 - (tc.offsetWidth * MAG_SCALE) / 2;
+      var offsetY = -(midLineY * MAG_SCALE) + MAG_H / 2;
+      var content = document.getElementById('magContent');
+      if (content){
+        updateMagClone();
+        content.style.transform = 'scale(' + MAG_SCALE + ')';
+        content.style.left = offsetX + 'px';
+        content.style.top = offsetY + 'px';
+      }
+      // Smart scroll: center the reading line in visible area above magnifier
+      var magTop = window.innerHeight - MAG_H - 10;
+      var visibleCenter = magTop / 2;
+      var absLineY = tc.offsetTop + midLineY;
+      var targetScroll = absLineY - visibleCenter;
+      window.scrollTo({ top: Math.max(0, targetScroll), behavior: 'smooth' });
+    }
+  }
+}
+
+// Render magnified content at a specific page coordinate (without moving the lens)
+function _renderMagAt(pageX, pageY){
+  var content = document.getElementById('magContent');
+  if (!content) return;
+  var tc = document.querySelector('.tc');
+  if (!tc) return;
+  updateMagClone();
+  var tcRect = tc.getBoundingClientRect();
+  var srcX = pageX - tcRect.left;
+  var srcY = pageY - tcRect.top;
+  var offsetX = -(srcX * MAG_SCALE) + MAG_W / 2;
+  var offsetY = -(srcY * MAG_SCALE) + MAG_H / 2;
+  content.style.transform = 'scale(' + MAG_SCALE + ')';
+  content.style.left = offsetX + 'px';
+  content.style.top = offsetY + 'px';
+}
+
+// Neighbor highlight overlays (prev/next words — fainter)
+var _nbrPrev = null, _nbrNext = null;
+function getOrCreateNeighbor(id){
+  var el = document.getElementById(id);
+  if (!el){
+    el = document.createElement('div');
+    el.id = id;
+    el.className = 'hl-slide-neighbor';
+    document.body.appendChild(el);
+  }
+  return el;
+}
+function positionNeighbor(el, targetEl){
+  if (!targetEl){ el.classList.remove('active'); return; }
+  var r = targetEl.getBoundingClientRect();
+  var pad = 2;
+  el.style.top = (r.top - pad) + 'px';
+  el.style.left = (r.left - pad) + 'px';
+  el.style.width = (r.width + pad * 2) + 'px';
+  el.style.height = (r.height + pad * 2) + 'px';
+  el.classList.add('active');
+}
+function slideNeighborhood(hlEl, prevEl, nextEl){
+  if (!_nbrPrev) _nbrPrev = getOrCreateNeighbor('hlNbrPrev');
+  if (!_nbrNext) _nbrNext = getOrCreateNeighbor('hlNbrNext');
+  positionNeighbor(_nbrPrev, prevEl);
+  positionNeighbor(_nbrNext, nextEl);
+}
+function hideNeighbors(){
+  if (_nbrPrev) _nbrPrev.classList.remove('active');
+  if (_nbrNext) _nbrNext.classList.remove('active');
 }
 function findAnnoNear(idx){
   if (idx < 0 || idx >= micWords.length) return null;
@@ -898,7 +1366,11 @@ function startSessionLogging(){
       mediaRecorder = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream);
       mediaRecorder.ondataavailable = function(e){ if (e.data && e.data.size > 0) audioChunks.push(e.data); };
       mediaRecorder.start(1000);
-    }).catch(function(err){ logEvt({ type: 'audio-error', err: String(err) }); });
+    }).catch(function(err){
+      logEvt({ type: 'audio-error', err: String(err) });
+      // Show error to user so they know mic recording failed
+      document.getElementById('micStatus').textContent = 'خطای میکروفون: ' + (err.message || err) + ' — خط‌بر بدون ضبط صدا ادامه می‌یابد';
+    });
   }
 }
 function stopSessionLogging(){
@@ -932,6 +1404,7 @@ function processFinal(text){
   var latest = text.split(/\s+/).slice(-4).join(' ');
   var hint = r.moved ? '' : (wide ? ' … (جست‌وجوی گسترده)' : ' …');
   document.getElementById('micStatus').textContent = toFA(pct) + '٪ ← ' + latest + hint;
+  updateMicLevel();
 }
 function processInterim(text){
   var words = text.split(/\s+/).filter(function(w){ return w.length > 0; }).map(normW).filter(Boolean);
@@ -943,6 +1416,7 @@ function processInterim(text){
   var pct = Math.round(micIdx / (micWords.length || 1) * 100);
   var latest = text.split(/\s+/).slice(-4).join(' ');
   document.getElementById('micStatus').textContent = (r.moved ? toFA(pct) + '٪ ← ' : '...') + latest;
+  updateMicLevel();
 }
 
 function toggleRecording(){
@@ -1026,36 +1500,217 @@ function startWatchdog(){
   }, 4000);
 }
 function stopMic(){
-  recording = false;
+  recording = false; _magGroup = -1;
   clearInterval(watchdogTimer);
   stopSessionLogging();
   if (recognition){ try { recognition.abort(); } catch (x) {} recognition = null; }
   document.getElementById('micBtn').classList.remove('recording');
   document.getElementById('micStatus').textContent = 'آماده خط‌بَر...';
   micWords.forEach(function(w){ w.el.className = w.isAnno ? 'anno anno-' + (w.el.dataset.cat || 'word') : 'wl'; });
+  // Clear highlight overlays
+  var sl = document.getElementById('hlSlide');
+  if (sl) sl.classList.remove('active');
+  hideNeighbors();
   micWords = []; micIdx = 0; spokenBuf = []; locked = false; lastAnnoEl = null; missStreak = 0;
-  hideTooltip();
+  clearMarginAnnos();
   var pdfHl = document.getElementById('pdfHl'); if (pdfHl) pdfHl.style.display = 'none';
 }
 
-// Manual resync: while خط‌بَر is recording, click any word to jump the
-// tracker there directly — the practical fix for when tracking drifts and
-// waiting for the algorithm to self-correct would take too long.
+// Manual resync: click any word to jump tracker there — works for both
+// خط‌بَر (recording) and خوانش (TTS) modes.
 document.addEventListener('click', function(e){
-  if (!recording) return;
+  if (!recording && !ttsPlaying) return;
   var el = e.target.closest && e.target.closest('.wl,.anno');
   if (!el) return;
   var idx = -1;
   for (var i = 0; i < micWords.length; i++){ if (micWords[i].el === el){ idx = i; break; } }
   if (idx < 0) return;
   e.preventDefault();
-  micIdx = idx + 1;
-  spokenBuf = []; locked = true; missStreak = 0;
-  highlightAt(idx);
-  smoothScrollTo(idx);
-  syncPdfHighlight();
-  document.getElementById('micStatus').textContent = 'موقعیت به‌صورت دستی تنظیم شد ✓';
+
+  if (recording){
+    micIdx = idx + 1;
+    spokenBuf = []; locked = true; missStreak = 0;
+    highlightAt(idx);
+    smoothScrollTo(idx);
+    syncPdfHighlight();
+    document.getElementById('micStatus').textContent = 'موقعیت به‌صورت دستی تنظیم شد ✓';
+  } else if (ttsPlaying){
+    // TTS click-to-start: restart reading from clicked word
+    if (window.speechSynthesis) window.speechSynthesis.cancel();
+    if (ttsAudio){ try { ttsAudio.pause(); } catch(e){} ttsAudio = null; }
+    ttsPlaying = false;
+    ttsStartIdx = idx;
+    smoothScrollTo(idx);
+    updateTtsPlayBtn();
+    // Clear highlight overlays
+    var sl = document.getElementById('hlSlide');
+    if (sl) sl.classList.remove('active');
+    hideNeighbors();
+    // Restart TTS from clicked word
+    if (ttsEngine === 'google'){
+      googleFellBack = false;
+      startTtsGoogleForPage();
+    } else {
+      startTtsBrowserForPage();
+    }
+  }
 });
+
+// ===== Toolbar toggle =====
+var toolbarVisible = true;
+function toggleToolbar(){
+  toolbarVisible = !toolbarVisible;
+  var tb = document.getElementById('toolbar');
+  var btn = document.getElementById('toolbarToggle');
+  tb.classList.toggle('hide', !toolbarVisible);
+  btn.classList.toggle('active', toolbarVisible);
+  btn.textContent = toolbarVisible ? '✕' : '☰';
+}
+
+// ===== Magnifier (ذره‌بین) — DOM-clone + CSS transform approach =====
+var magOn = false, magDragging = false, magOffX = 0, magOffY = 0;
+var MAG_W = 1600, MAG_H = 461, MAG_SCALE = 2;
+var magAutoFollow = false; // follow current word during TTS/خط‌بَر
+var _magGroup = -1; // last 3-line group the magnifier was positioned for
+var magClone = null, magCloneSrc = '';
+
+function toggleMagnifier(){
+  magOn = !magOn;
+  document.getElementById('magnifier').classList.toggle('on', magOn);
+  document.getElementById('bMag').classList.toggle('on', magOn);
+  if (magOn) startMagnifier(); else stopMagnifier();
+}
+
+function startMagnifier(){
+  var mag = document.getElementById('magnifier');
+  var lens = document.getElementById('magLens');
+  _magGroup = -1; // reset group tracking
+
+  // Apply dynamic size from settings
+  lens.style.width = MAG_W + 'px';
+  lens.style.height = MAG_H + 'px';
+
+  // Style the lens for CSS-based magnification
+  lens.style.overflow = 'hidden';
+  lens.style.position = 'relative';
+  lens.innerHTML = '';
+
+  // Create magnified content container
+  var content = document.createElement('div');
+  content.id = 'magContent';
+  content.style.cssText = 'position:absolute;top:0;left:0;transform-origin:0 0;pointer-events:none;width:'+document.querySelector('.tc').offsetWidth+'px;';
+  lens.appendChild(content);
+
+  // Position lens at bottom of screen initially
+  mag.style.left = Math.max(10, (window.innerWidth - MAG_W) / 2) + 'px';
+  mag.style.top = (window.innerHeight - MAG_H - 10) + 'px';
+
+  // Drag handle
+  var handle = document.getElementById('magHandle');
+  handle.addEventListener('mousedown', function(e){
+    if (magAutoFollow && (recording || ttsPlaying)) return; // locked during auto-follow
+    magDragging = true;
+    var r = mag.getBoundingClientRect();
+    magOffX = e.clientX - r.left;
+    magOffY = e.clientY - r.top;
+    e.preventDefault();
+  });
+
+  // Track mouse
+  document.addEventListener('mousemove', magMoveHandler);
+  document.addEventListener('mouseup', function(){ magDragging = false; });
+
+  // Initial clone
+  updateMagClone();
+}
+
+function updateMagClone(){
+  var content = document.getElementById('magContent');
+  if (!content) return;
+  var tc = document.querySelector('.tc');
+  if (!tc) return;
+
+  // Clone the full text column content (includes annotations, images, everything)
+  var html = tc.innerHTML;
+  if (html !== magCloneSrc){
+    magCloneSrc = html;
+    content.innerHTML = html;
+    // Apply same computed styles as the original
+    var cs = getComputedStyle(tc);
+    content.style.fontFamily = cs.fontFamily;
+    content.style.fontSize = cs.fontSize;
+    content.style.lineHeight = cs.lineHeight;
+    content.style.fontWeight = cs.fontWeight;
+    content.style.direction = cs.direction;
+    content.style.textAlign = cs.textAlign;
+    content.style.color = cs.color;
+    content.style.width = tc.offsetWidth + 'px';
+  }
+}
+
+var magMoveRAF = 0;
+function magMoveHandler(e){
+  if (!magOn) return;
+  if (magAutoFollow && (recording || ttsPlaying)) return; // locked during auto-follow
+  if (magDragging){
+    var mag = document.getElementById('magnifier');
+    mag.style.left = (e.clientX - magOffX) + 'px';
+    mag.style.top = (e.clientY - magOffY) + 'px';
+    return;
+  }
+
+  // Throttle to animation frame
+  if (magMoveRAF) return;
+  magMoveRAF = requestAnimationFrame(function(){
+    magMoveRAF = 0;
+    moveMagLens(e.clientX, e.clientY);
+  });
+}
+
+function moveMagLens(cx, cy){
+  var mag = document.getElementById('magnifier');
+  var content = document.getElementById('magContent');
+  if (!content) return;
+
+  // Position lens below cursor
+  mag.style.left = Math.max(0, Math.min(window.innerWidth - MAG_W, cx - MAG_W / 2)) + 'px';
+  mag.style.top = (cy + 30) + 'px';
+
+  // Refresh clone if content changed
+  updateMagClone();
+
+  // Get cursor position relative to text column
+  var tc = document.querySelector('.tc');
+  if (!tc) return;
+  var tcRect = tc.getBoundingClientRect();
+
+  // Source region (what's under cursor in original)
+  var srcX = cx - tcRect.left;
+  var srcY = cy - tcRect.top;
+
+  // Translate to show the source region centered in the lens, zoomed MAG_SCALE×
+  var offsetX = -(srcX * MAG_SCALE) + MAG_W / 2;
+  var offsetY = -(srcY * MAG_SCALE) + MAG_H / 2;
+
+  content.style.transform = 'scale(' + MAG_SCALE + ')';
+  content.style.left = offsetX + 'px';
+  content.style.top = offsetY + 'px';
+}
+
+// Smooth version for auto-follow — same logic, CSS transition handles animation
+function moveMagLensSmooth(cx, cy){
+  moveMagLens(cx, cy);
+}
+
+function stopMagnifier(){
+  if (window._magMoveHandler){
+    document.removeEventListener('mousemove', window._magMoveHandler);
+    window._magMoveHandler = null;
+  }
+  if (magMoveRAF){ cancelAnimationFrame(magMoveRAF); magMoveRAF = 0; }
+  magDragging = false;
+  magCloneSrc = '';
+}
 
 // Expose the handful of functions referenced from inline HTML onclick attrs
 window.goPg = goPg; window.toggleSidebar = toggleSidebar; window.toggleAnno = toggleAnno;
@@ -1067,9 +1722,13 @@ window.getCurPage = function(){ return curPage; };
 window.openSettings = openSettings; window.closeSettings = closeSettings;
 window.applySetting = applySetting; window.setTheme = setTheme;
 window.ctxAddAnno = ctxAddAnno; window.ctxEditAnno = ctxEditAnno; window.ctxDeleteAnno = ctxDeleteAnno;
-window.ctxEditText = ctxEditText; window.ctxToggleTashkil = ctxToggleTashkil;
+window.ctxEditText = ctxEditText; window.ctxToggleTashkil = ctxToggleTashkil; window.applyEditStyle = applyEditStyle;
 window.toggleTashkilBar = toggleTashkilBar; window.insertTashkil = insertTashkil;
 window.doEncSearch = doEncSearch; window.closeEncPanel = closeEncPanel; window.ctxSearchEnc = ctxSearchEnc;
+window.ctxAddNote = ctxAddNote; window.ctxHighlight = ctxHighlight; window.ctxAddFavorite = ctxAddFavorite; window.ctxCopyWithSource = ctxCopyWithSource;
+window.showFavPanel = showFavPanel; window.showFavTab = showFavTab; window.delFav = delFav; window.goToFav = goToFav;
 window.toggleTts = toggleTts; window.toggleTtsPlay = toggleTtsPlay; window.setTtsRate = setTtsRate;
 window.setTtsEngine = setTtsEngine; window.toggleTtsPlayGoogle = toggleTtsPlayGoogle;
+window.toggleMagnifier = toggleMagnifier;
+window.toggleToolbar = toggleToolbar;
 })();

@@ -5,36 +5,98 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>حی بن یقضان</title>
 <link rel="stylesheet" href="../../assets/reader.css">
+<style>
+/* Loading spinner */
+.loading-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg,#faf8f5);z-index:900;transition:opacity .3s}
+.loading-overlay.hidden{opacity:0;pointer-events:none}
+.loading-spinner{width:48px;height:48px;border:4px solid var(--border,rgba(0,0,0,.1));border-top-color:var(--accent,#8b5e3c);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+/* Sidebar ornament */
+.sidebar-ornament{display:flex;justify-content:center;padding:8px 0 12px;opacity:.35}
+/* Page divider */
+.page-divider{display:flex;justify-content:center;padding:16px 0}
+.hl-presets{display:flex;gap:6px;flex-wrap:wrap}
+.hl-preset{width:28px;height:28px;border-radius:50%;border:2px solid transparent;cursor:pointer;transition:all .2s}
+.hl-preset.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--bg)}
+.hl-preset:hover{transform:scale(1.15)}
+</style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700&family=Lalezar&family=Noto+Naskh+Arabic:wght@400;700&family=Scheherazade+New:wght@400;700&family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700&family=El+Messiri:wght@400;500;600;700&family=Lalezar&family=Lateef&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Reem+Kufi:wght@400;500;600;700&family=Sakkal+Majalla&family=Scheherazade+New:wght@400;700&family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
 <script>window.BOOK_URL='book.json';</script></head>
 <body>
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="loading-spinner"></div>
+</div>
 <div class="pbar" id="pbar"></div>
 <div class="app">
   <div class="sb" id="sb">
     <h1 id="bookTitle">در حال بارگذاری...</h1>
+    <div class="sidebar-ornament">
+      <svg width="120" height="40" viewBox="0 0 120 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Persian 8-point star motif -->
+        <g stroke="currentColor" stroke-width="1.2" opacity=".9">
+          <polygon points="60,4 64,14 74,14 66,20 69,30 60,24 51,30 54,20 46,14 56,14"/>
+          <circle cx="60" cy="20" r="3" fill="currentColor" opacity=".5"/>
+          <!-- left wing -->
+          <line x1="46" y1="14" x2="30" y2="14"/>
+          <line x1="42" y1="10" x2="28" y2="10"/>
+          <line x1="42" y1="18" x2="28" y2="18"/>
+          <path d="M30,14 L24,10 L24,18 Z" fill="none"/>
+          <!-- right wing -->
+          <line x1="74" y1="14" x2="90" y2="14"/>
+          <line x1="78" y1="10" x2="92" y2="10"/>
+          <line x1="78" y1="18" x2="92" y2="18"/>
+          <path d="M90,14 L96,10 L96,18 Z" fill="none"/>
+        </g>
+      </svg>
+    </div>
     <div class="meta" id="bookMeta"></div>
     <input type="search" placeholder="جست‌وجو در متن..." oninput="searchBook(this.value)">
     <div class="search-results" id="searchResults"></div>
     <div class="toc" id="toc"></div>
   </div>
-  <button class="sb-tog" onclick="toggleSidebar()">☰ فهرست</button>
-
   <div class="main">
-    <div class="toolbar">
-      <span id="pgLabel">صفحه</span>
+    <div class="toolbar" id="toolbar">
+      <button class="sb-tog" onclick="toggleSidebar()">☰ فهرست</button>
+      <div class="pg-jump">
+        <input type="number" id="pgInput" min="1" value="1" onkeydown="if(event.key==='Enter'){goPg(+this.value)}">
+        <span id="pgTotal">از ۰</span>
+      </div>
       <button onclick="toggleAnno()" id="bAnno" class="on">حاشیه</button>
       <button onclick="openPdfAt(getCurPage())" id="bPdf" style="display:none">PDF</button>
-      <button onclick="closePdf()" id="bTxt" class="on">متن</button>
       <button onclick="toggleMic()" id="bMic">خط‌بَر</button>
       <button onclick="toggleTts()" id="bTts">🔊 خوانش</button>
       <button onclick="openSettings()" id="bSettings">⚙️ تنظیمات</button>
+      <button onclick="toggleMagnifier()" id="bMag">🔍 ذره‌بین</button>
+      <button onclick="showFavPanel()">⭐ علاقه‌مندی</button>
     </div>
+    <button class="toolbar-toggle" id="toolbarToggle" onclick="toggleToolbar()">☰</button>
     <div class="tc" id="tc"></div>
+    <div class="page-divider">
+      <svg width="180" height="20" viewBox="0 0 180 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g stroke="currentColor" stroke-width="1" opacity=".4">
+          <line x1="0" y1="10" x2="60" y2="10"/>
+          <polygon points="75,2 80,10 75,18 70,10" fill="currentColor" opacity=".3"/>
+          <circle cx="90" cy="10" r="4" fill="none" stroke-width="1.2"/>
+          <circle cx="90" cy="10" r="1.5" fill="currentColor" opacity=".4"/>
+          <polygon points="105,2 110,10 105,18 100,10" fill="currentColor" opacity=".3"/>
+          <line x1="120" y1="10" x2="180" y2="10"/>
+        </g>
+      </svg>
+    </div>
   </div>
 </div>
 
 <div class="tt" id="tt"></div>
+
+<!-- Magnifier -->
+<div class="magnifier" id="magnifier">
+  <div class="mag-handle" id="magHandle">🔍</div>
+  <div class="mag-lens" id="magLens"></div>
+</div>
+
+<!-- Smooth sliding highlight overlay -->
+<div class="hl-slide" id="hlSlide"></div>
 
 <div class="mic-bar" id="micBar">
   <button class="mic-btn" id="micBtn" onclick="toggleRecording()">🎤</button>
@@ -74,11 +136,63 @@
   </div>
 </div>
 
+<!-- Favorites / Notes panel -->
+<div class="fav-panel" id="favPanel">
+  <div class="fav-head">
+    <h2>⭐ علاقه‌مندی‌ها و یادداشت‌ها</h2>
+    <button onclick="document.getElementById('favPanel').classList.remove('on')">✕</button>
+  </div>
+  <div class="fav-tabs">
+    <button class="fav-tab on" onclick="showFavTab('favs')">⭐ علاقه‌مندی‌ها</button>
+    <button class="fav-tab" onclick="showFavTab('notes')">🗒️ یادداشت‌ها</button>
+    <button class="fav-tab" onclick="showFavTab('highlights')">🖍️ هایلایت‌ها</button>
+  </div>
+  <div class="fav-list" id="favList"></div>
+</div>
+
+<!-- Floating edit toolbar (shown in edit mode) -->
+<div class="edit-toolbar" id="editToolbar">
+  <select id="editFont" onchange="applyEditStyle('fontName', this.value)">
+    <option value="'Scheherazade New',serif">شهرزاد نو</option>
+    <option value="'Noto Naskh Arabic',serif">Noto Naskh Arabic</option>
+    <option value="Tahoma,sans-serif">Tahoma</option>
+    <option value="Arial,sans-serif">Arial</option>
+    <option value="'Times New Roman',serif">Times New Roman</option>
+    <option value="Verdana,sans-serif">Verdana</option>
+  </select>
+  <select id="editSize" onchange="applyEditStyle('fontSize', this.value)">
+    <option value="2">۱۰</option>
+    <option value="3" selected>۱۴</option>
+    <option value="4">۱۸</option>
+    <option value="5">۲۴</option>
+    <option value="6">۳۲</option>
+    <option value="7">۴۰</option>
+  </select>
+  <button onclick="applyEditStyle('bold')" title="بولد">B</button>
+  <button onclick="applyEditStyle('italic')" title="ایتالیک"><i>I</i></button>
+  <button onclick="applyEditStyle('underline')" title="زیرخط"><u>U</u></button>
+  <span class="edit-sep"></span>
+  <input type="color" id="editColor" value="#000000" onchange="applyEditStyle('foreColor', this.value)" title="رنگ متن">
+  <input type="color" id="editBgColor" value="#ffe08a" onchange="applyEditStyle('hiliteColor', this.value)" title="رنگ هایلایت">
+  <span class="edit-sep"></span>
+  <button onclick="applyEditStyle('justifyRight')" title="راست‌چین">◀</button>
+  <button onclick="applyEditStyle('justifyCenter')" title="وسط‌چین">◆</button>
+  <button onclick="applyEditStyle('justifyFull')" title="تمام‌پهنا">▬</button>
+  <button onclick="applyEditStyle('justifyLeft')" title="چپ‌چین">▶</button>
+  <span class="edit-sep"></span>
+  <button onclick="ctxEditText()" class="edit-close" title="پایان ویرایش">✕</button>
+</div>
+
 <!-- Right-click context menu: add/edit/delete annotation, edit text,
      diacritics, dictionary/encyclopedia lookup -->
 <div class="ctx-menu" id="ctxMenu">
   <div class="ctx-item" onclick="ctxAddAnno()">📝 افزودن حاشیه</div>
   <div class="ctx-item" onclick="ctxEditAnno()">✏️ ویرایش حاشیه</div>
+  <div class="ctx-item ctx-sep"></div>
+  <div class="ctx-item" onclick="ctxAddNote()">🗒️ یادداشت</div>
+  <div class="ctx-item" onclick="ctxHighlight()">🖍️ هایلایت متن</div>
+  <div class="ctx-item" onclick="ctxAddFavorite()">⭐ افزودن به علاقه‌مندی</div>
+  <div class="ctx-item" onclick="ctxCopyWithSource()">📋 کپی با ذکر منبع</div>
   <div class="ctx-item ctx-sep"></div>
   <div class="ctx-item" onclick="ctxEditText()">📄 ویرایش متن</div>
   <div class="ctx-item" onclick="ctxToggleTashkil()">🔤 اعراب‌گذاری</div>
@@ -131,15 +245,34 @@
         <option value="'Vazirmatn','Noto Naskh Arabic',serif">وزیرمتن</option>
         <option value="'Noto Naskh Arabic',serif">نوتو نسخ عربی</option>
         <option value="'Amiri',serif">امیری</option>
-        <option value="'Scheherazade New',serif">شهرزاد نو</option>
+        <option value="'Scheherazade New',serif" selected>شهرزاد نو</option>
         <option value="'Aref Ruqaa',serif">عارف رقعه</option>
+        <option value="'Noto Nastaliq Urdu',serif">نوتو نستعلیق اردو</option>
+        <option value="'Lateef',serif">لطیف (خراسانی)</option>
+        <option value="'Sakkal Majalla',serif">سکل مجلا (ثلوث)</option>
+        <option value="'Reem Kufi',sans-serif">ریم کوفی</option>
+        <option value="'El Messiri',sans-serif">المصری (خط نوین)</option>
         <option value="'Cairo',sans-serif">قاهره</option>
       </select>
     </div>
     <div class="sp-row">
       <label>اندازه فونت</label>
-      <input type="range" id="setFs" min="14" max="32" value="19" oninput="applySetting('fs',this.value)">
-      <span id="setFsV">۱۹</span>
+      <input type="range" id="setFs" min="14" max="32" value="22" oninput="applySetting('fs',this.value)">
+      <span id="setFsV">۲۲</span>
+    </div>
+    <div class="sp-row">
+      <label>عرض متن</label>
+      <input type="range" id="setTw" min="500" max="1200" step="10" value="760" oninput="applySetting('tw',this.value)">
+      <span id="setTwV">۷۶۰</span>
+    </div>
+    <div class="sp-row">
+      <label>ضخامت فونت</label>
+      <select id="setFw" onchange="applySetting('fw',this.value)">
+        <option value="300">سبک (Light)</option>
+        <option value="400" selected>عادی (Regular)</option>
+        <option value="500">متوسط (Medium)</option>
+        <option value="700">بولد (Bold)</option>
+      </select>
     </div>
     <div class="sp-row">
       <label>فاصله خطوط</label>
@@ -163,17 +296,81 @@
     <div class="sp-row">
       <label>موتور صدا</label>
       <select id="setTtsEngine" onchange="setTtsEngine(this.value)">
-        <option value="browser">صدای مرورگر (رایگان)</option>
-        <option value="google">Google Translate — کیفیت بهتر (رایگان، بدون کلید)</option>
+        <option value="browser" selected>صدای مرورگر (رایگان)</option>
+        <option value="google">Google Translate — پیشنهادی (رایگان، بدون کلید)</option>
       </select>
     </div>
-    <div class="note" id="googleTtsNote" style="display:none">این گزینه از سرویس عمومی و رایگان ترجمهٔ گوگل استفاده می‌کند — نیازی به ثبت‌نام یا کلید ندارد.
-      چون یک سرویس رسمی/مستند نیست، ممکن است گاهی کند یا موقتاً محدود باشد؛ در آن صورت به‌طور خودکار به صدای مرورگر برمی‌گردد.</div>
+    <div class="note" id="googleTtsNote">این گزینه از سرویس عمومی و رایگان ترجمهٔ گوگل استفاده می‌کند — نیازی به ثبت‌نام یا کلید ندارد.
+      چون یک سرویس رسمی/مستند نیست، ممکن است گاهی کند یا موقتاً محدود باشد؛ در آن صورت به‌طور خودکار به صدای مرورگر برمی‌گردد.
+      <b>توجه:</b> صدای مرورگر در کروم فارسی ندارد — گزینهٔ Google تنها راه خوانش فارسی در کروم است.</div>
+  </div>
+  <div class="sp-section">
+    <h3>ظاهر هایلایت</h3>
+    <div class="sp-row">
+      <label>رنگ هایلایت</label>
+      <div class="hl-presets">
+        <button class="hl-preset on" data-color="#ffe08a" onclick="applySetting('hlColor','#ffe08a')" style="background:#ffe08a"></button>
+        <button class="hl-preset" data-color="#ffd54f" onclick="applySetting('hlColor','#ffd54f')" style="background:#ffd54f"></button>
+        <button class="hl-preset" data-color="#ffab40" onclick="applySetting('hlColor','#ffab40')" style="background:#ffab40"></button>
+        <button class="hl-preset" data-color="#a5d6a7" onclick="applySetting('hlColor','#a5d6a7')" style="background:#a5d6a7"></button>
+        <button class="hl-preset" data-color="#90caf9" onclick="applySetting('hlColor','#90caf9')" style="background:#90caf9"></button>
+        <button class="hl-preset" data-color="#f48fb1" onclick="applySetting('hlColor','#f48fb1')" style="background:#f48fb1"></button>
+        <button class="hl-preset" data-color="#ce93d8" onclick="applySetting('hlColor','#ce93d8')" style="background:#ce93d8"></button>
+        <input type="color" id="setHlColor" value="#ffe08a" onchange="applySetting('hlColor',this.value)">
+      </div>
+    </div>
+    <div class="sp-row">
+      <label>شفافیت</label>
+      <input type="range" id="setHlOpacity" min="0.3" max="1.0" step="0.05" value="0.75" oninput="applySetting('hlOpacity',this.value)">
+      <span id="setHlOpacityV">۰٫۷۵</span>
+    </div>
+    <div class="sp-row">
+      <label>شدت درخشش</label>
+      <input type="range" id="setHlGlow" min="0" max="30" step="1" value="12" oninput="applySetting('hlGlow',this.value)">
+      <span id="setHlGlowV">۱۲</span>
+    </div>
+    <div class="sp-row">
+      <label>سرعت پالس</label>
+      <input type="range" id="setHlSpeed" min="0.5" max="4" step="0.1" value="1" oninput="applySetting('hlSpeed',this.value)">
+      <span id="setHlSpeedV">۱٫۰</span>
+    </div>
+  </div>
+  <div class="sp-section">
+    <h3>ذره‌بین</h3>
+    <div class="sp-row">
+      <label>اندازه</label>
+      <input type="range" id="setMagSize" min="400" max="2400" step="50" value="1600" oninput="applySetting('magSize',this.value)">
+      <span id="setMagSizeV">۱۶۰۰</span>
+    </div>
+    <div class="sp-row">
+      <label>بزرگ‌نمایی</label>
+      <input type="range" id="setMagZoom" min="1" max="5" step="0.1" value="2" oninput="applySetting('magZoom',this.value)">
+      <span id="setMagZoomV">۲×</span>
+    </div>
+    <div class="sp-row">
+      <label>حرکت خودکار با خوانش</label>
+      <input type="checkbox" id="setMagAutoFollow" onchange="applySetting('magAutoFollow',this.checked)">
+    </div>
   </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>window.pdfjsLib && (pdfjsLib.GlobalWorkerOptions.workerSrc='');</script>
 <script src="../../assets/reader.js"></script>
+<script>
+// Hide loading spinner once book content is available
+(function(){
+  var obs=new MutationObserver(function(muts){
+    var el=document.getElementById('tc');
+    if(el&&el.textContent.trim().length>0){
+      document.getElementById('loadingOverlay').classList.add('hidden');
+      obs.disconnect();
+    }
+  });
+  obs.observe(document.getElementById('tc')||document.body,{childList:true,subtree:true,characterData:true});
+  // Fallback: hide after 5s regardless
+  setTimeout(function(){var o=document.getElementById('loadingOverlay');if(o)o.classList.add('hidden');},5000);
+})();
+</script>
 </body>
 </html>

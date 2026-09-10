@@ -90,20 +90,32 @@ function normalize(w){
     .replace(/ك/g, 'ک').replace(/[ةه]/g, 'ه').replace(/[^\u0621-\u06FE0-9a-zA-Z]/g, '');
   return s.replace(/[ثصس]/g, 'س').replace(/[ذضظز]/g, 'ز').replace(/[طت]/g, 'ت').replace(/[قغ]/g, 'ق').replace(/[حه]/g, 'ه');
 }
-function annotatePageHtml(rawText, bookGlosses){
+function annotatePageHtml(rawText, bookGlosses, opts){
   var combined = Object.assign({}, GLOSSARY, bookGlosses || {});
+  // Apply type filter
+  if (opts && opts.types){
+    var allowed = new Set(opts.types);
+    Object.keys(combined).forEach(function(k){
+      if (!allowed.has(combined[k].cat || 'word')) delete combined[k];
+    });
+  }
   var terms = Object.keys(combined).sort(function(a, b){ return b.length - a.length; });
   var escaped = escapeHtml(rawText);
   if (!terms.length) return escaped;
   var re = new RegExp('(' + terms.map(escapeRegex).join('|') + ')', 'g');
+  var count = 0;
+  var maxPer = (opts && opts.maxPerPage) || 999;
   return escaped.replace(re, function(m){
+    count++;
+    if (count > maxPer) return m; // no annotation, just plain text
     var entry = combined[m];
     var cat = CATS.indexOf(entry.cat) >= 0 ? entry.cat : 'word';
     return '<span class="anno anno-' + cat + '" data-cat="' + cat + '" data-text="' + escapeAttr(entry.gloss) + '">' + m + '</span>';
   });
 }
 var MIN_COUNT = 2, MAX_COUNT = 15, MAX_CANDIDATES = 250;
-function buildCandidates(pages){
+function buildCandidates(pages, depth){
+  var minCount = depth === 1 ? 8 : depth === 3 ? MIN_COUNT : 4;
   var counts = {};
   var glossaryNorm = {}; Object.keys(GLOSSARY).forEach(function(k){ glossaryNorm[normalize(k)] = 1; });
   pages.forEach(function(p){
@@ -119,7 +131,7 @@ function buildCandidates(pages){
   var candidates = [];
   Object.keys(counts).forEach(function(n){
     var info = counts[n];
-    if (info.count >= MIN_COUNT && info.count <= MAX_COUNT) candidates.push({ term: info.word, count: info.count, firstPage: info.page, cat: 'word', gloss: null });
+    if (info.count >= minCount && info.count <= MAX_COUNT) candidates.push({ term: info.word, count: info.count, firstPage: info.page, cat: 'word', gloss: null });
   });
   candidates.sort(function(a, b){ return a.count - b.count; });
   return candidates.slice(0, MAX_CANDIDATES);
@@ -210,8 +222,9 @@ function slugify(title){
 function buildBookFromPages(rawPageTexts, meta){
   var pages = rawPageTexts.map(function(raw, i){ return { page: i + 1, raw: stripLeadingPageNumber(raw) }; });
   var chapters = detectChapters(pages.map(function(p){ return p.raw; }));
-  var htmlPages = pages.map(function(p){ return { page: p.page, html: annotatePageHtml(p.raw, {}) }; });
-  var candidates = buildCandidates(pages);
+  var annoOpts = meta.annoOpts || null;
+  var htmlPages = pages.map(function(p){ return { page: p.page, html: annotatePageHtml(p.raw, {}, annoOpts) }; });
+  var candidates = buildCandidates(pages, annoOpts ? (annoOpts.depth || 2) : 2);
   var searchIndex = buildSearchIndex(pages);
   var book = {
     slug: meta.slug, title: meta.title, author: meta.author || 'ناشناس',

@@ -4,68 +4,224 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>کتابخانهٔ متون کهن فارسی</title>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
-  *{box-sizing:border-box}
-  body{margin:0;font-family:'Vazirmatn',sans-serif;background:#f7f4ee;color:#2a2620;direction:rtl}
-  header{padding:40px 24px 20px;text-align:center;position:relative}
-  header h1{margin:0 0 6px;font-size:26px}
-  header p{color:#8c8577;margin:0}
-  .add-btn{position:absolute;top:24px;left:24px;background:#8a5a3b;color:#fff;border:none;border-radius:10px;
-    padding:10px 18px;font-family:inherit;font-size:14px;cursor:pointer}
-  .add-btn:hover{background:#6d4630}
-  .grid{max-width:900px;margin:0 auto;padding:20px 24px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px}
-  .card{background:#fff;border:1px solid #e2ddd0;border-radius:14px;padding:18px;text-decoration:none;color:inherit;
-    transition:box-shadow .2s,transform .2s}
-  .card:hover{box-shadow:0 8px 20px rgba(0,0,0,.08);transform:translateY(-2px)}
-  .card h2{font-size:16px;margin:0 0 6px}
-  .card .author{font-size:13px;color:#8a5a3b;margin-bottom:10px}
-  .card .stats{font-size:12px;color:#8c8577}
-  .empty{text-align:center;color:#8c8577;padding:60px 20px}
+  *,*::before,*::after{box-sizing:border-box}
+  :root{
+    --accent:#8a5a3b;--accent-light:#b8845f;--accent-dark:#6d4630;
+    --bg:#f7f4ee;--card-bg:#fff;--text:#2a2620;--muted:#8c8577;
+    --warm-shadow:rgba(138,90,59,.12);--gold:#d4a853;--cream:#faf8f5;
+  }
+  @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes float{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-12px) rotate(3deg)}}
+  @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+  @keyframes pulse{0%,100%{opacity:.15}50%{opacity:.35}}
+  @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+  @keyframes morphPath{0%,100%{d:path("M200,10 Q300,0 400,10 Q500,20 500,50 Q500,80 400,90 Q300,100 200,90 Q100,80 100,50 Q100,20 200,10Z")}50%{d:path("M200,5 Q320,0 400,15 Q490,30 490,55 Q490,80 400,95 Q300,105 200,95 Q110,80 110,50 Q110,25 200,5Z")}}
+  @keyframes ornamentDraw{from{stroke-dashoffset:2000}to{stroke-dashoffset:0}}
+  @keyframes ornamentFade{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+  @keyframes gradientShift{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 
-  /* Add-book modal */
-  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:none;z-index:500;
+  body{margin:0;font-family:'Vazirmatn',sans-serif;background:var(--bg);color:var(--text);direction:rtl;overflow-x:hidden}
+
+  /* Floating decorative elements */
+  .floating-decor{position:fixed;pointer-events:none;z-index:0;opacity:.06}
+  .floating-decor.top-right{top:-60px;right:-60px;width:300px;height:300px;animation:float 8s ease-in-out infinite}
+  .floating-decor.bottom-left{bottom:-80px;left:-80px;width:350px;height:350px;animation:float 10s ease-in-out infinite 2s}
+  .floating-decor.mid-right{top:40%;right:-40px;width:200px;height:200px;animation:float 7s ease-in-out infinite 4s}
+
+  /* Header */
+  header{padding:0 24px 24px;text-align:center;position:relative;z-index:1;overflow:visible}
+  .header-ornament{display:block;width:100%;max-width:600px;height:100px;margin:0 auto 12px;overflow:visible}
+  .header-ornament .orn-line{stroke:var(--accent);stroke-width:1.5;fill:none;stroke-dasharray:2000;stroke-dashoffset:2000;animation:ornamentDraw 2s ease-out forwards}
+  .header-ornament .orn-diamond{fill:var(--accent);opacity:0;animation:ornamentFade .8s ease-out forwards}
+  .header-ornament .orn-dot{fill:var(--gold);opacity:0;animation:ornamentFade .6s ease-out forwards}
+  .header-ornament .orn-diamond:nth-child(2){animation-delay:.3s}
+  .header-ornament .orn-diamond:nth-child(3){animation-delay:.5s}
+  .header-ornament .orn-dot:nth-child(4){animation-delay:.7s}
+  .header-ornament .orn-dot:nth-child(5){animation-delay:.9s}
+
+  .header-inner{position:relative;display:inline-block}
+  header h1{margin:0 0 6px;font-size:28px;font-weight:900;
+    background:linear-gradient(135deg,var(--text) 0%,var(--accent) 50%,var(--accent-dark) 100%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+  header p{color:var(--muted);margin:0 0 16px;font-size:15px;letter-spacing:.3px}
+  .header-line{width:120px;height:2px;margin:0 auto 20px;border-radius:2px;
+    background:linear-gradient(90deg,transparent,var(--accent),var(--gold),var(--accent),transparent)}
+
+  .add-btn{background:linear-gradient(135deg,var(--accent),var(--accent-light));color:#fff;border:none;border-radius:12px;
+    padding:11px 22px;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;position:relative;overflow:hidden;
+    transition:all .3s cubic-bezier(.4,0,.2,1);box-shadow:0 4px 15px var(--warm-shadow)}
+  .add-btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transition:left .5s}
+  .add-btn:hover{transform:translateY(-2px);box-shadow:0 6px 25px rgba(138,90,59,.3)}
+  .add-btn:hover::before{left:100%}
+  .add-btn:active{transform:translateY(0)}
+
+  /* Grid */
+  .grid{max-width:960px;margin:0 auto;padding:20px 24px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;position:relative;z-index:1}
+
+  /* Cards with 3D hover */
+  .card{background:var(--card-bg);border:1px solid #e8e2d6;border-radius:16px;padding:22px;text-decoration:none;color:inherit;
+    transition:all .4s cubic-bezier(.4,0,.2,1);position:relative;overflow:hidden;perspective:800px;animation:fadeUp .6s ease-out both}
+  .card::before{content:'';position:absolute;top:0;right:0;width:100%;height:4px;
+    background:linear-gradient(90deg,var(--accent),var(--gold),var(--accent-light));opacity:0;transition:opacity .3s}
+  .card::after{content:'';position:absolute;inset:0;border-radius:16px;
+    background:linear-gradient(135deg,var(--warm-shadow),transparent);opacity:0;transition:opacity .3s}
+  .card:hover{transform:translateY(-6px) rotateX(2deg) rotateY(-1deg);box-shadow:0 12px 40px rgba(138,90,59,.18),0 4px 12px rgba(0,0,0,.06);border-color:var(--accent-light)}
+  .card:hover::before{opacity:1}
+  .card:hover::after{opacity:1}
+  .card h2{font-size:17px;font-weight:700;margin:0 0 8px;position:relative;z-index:1}
+  .card .author{font-size:13px;color:var(--accent);font-weight:500;margin-bottom:12px;position:relative;z-index:1}
+  .card .stats{font-size:12px;color:var(--muted);position:relative;z-index:1;display:flex;align-items:center;gap:6px}
+  .card .stats::before{content:'';display:inline-block;width:6px;height:6px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--gold))}
+  .card:nth-child(1){animation-delay:.1s}.card:nth-child(2){animation-delay:.15s}
+  .card:nth-child(3){animation-delay:.2s}.card:nth-child(4){animation-delay:.25s}
+  .card:nth-child(5){animation-delay:.3s}.card:nth-child(6){animation-delay:.35s}
+
+  .empty{text-align:center;color:var(--muted);padding:60px 20px;animation:fadeUp .6s ease-out}
+
+  /* Loading skeleton */
+  .skeleton-grid{max-width:960px;margin:0 auto;padding:20px 24px 60px;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px}
+  .skeleton-card{background:#fff;border-radius:16px;padding:22px;border:1px solid #e8e2d6;overflow:hidden}
+  .skeleton-line{height:14px;border-radius:7px;margin-bottom:10px;
+    background:linear-gradient(90deg,#f0ebe3 25%,#e8e2d6 50%,#f0ebe3 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
+  .skeleton-line.w60{width:60%}.skeleton-line.w40{width:40%;height:12px}
+  .skeleton-line.w80{width:80%;height:10px}
+
+  /* Modal */
+  .modal-overlay{position:fixed;inset:0;background:rgba(42,38,32,.5);backdrop-filter:blur(6px);display:none;z-index:500;
     align-items:flex-start;justify-content:center;overflow-y:auto;padding:40px 16px}
   .modal-overlay.on{display:flex}
-  .modal{background:#fff;border-radius:16px;max-width:560px;width:100%;padding:24px 28px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
-  .modal h2{margin:0 0 4px;font-size:19px}
-  .modal .sub{color:#8c8577;font-size:13px;margin-bottom:18px;line-height:1.7}
-  .field{margin-bottom:14px}
-  .field label{display:block;font-size:13px;margin-bottom:5px;color:#5a5248}
-  .field input[type=text]{width:100%;padding:9px 12px;border:1px solid #ddd;border-radius:8px;font-family:inherit;font-size:14px}
-  .tabs{display:flex;gap:6px;margin-bottom:14px;border-bottom:1px solid #eee}
-  .tab{padding:8px 14px;cursor:pointer;font-size:13px;color:#8c8577;border-bottom:2px solid transparent}
-  .tab.on{color:#8a5a3b;border-color:#8a5a3b;font-weight:600}
-  .tabpane{display:none}
-  .tabpane.on{display:block}
-  .dropzone{border:2px dashed #d4c4b0;border-radius:10px;padding:24px;text-align:center;color:#8c8577;font-size:13px;cursor:pointer}
-  .dropzone:hover{background:#faf8f5}
-  .filelist{margin-top:8px;font-size:12px;color:#5a5248}
-  .filelist div{padding:3px 0}
-  .modal-actions{display:flex;gap:10px;margin-top:18px}
-  .modal-actions button{flex:1;padding:11px;border-radius:9px;border:1px solid #ddd;background:#fff;font-family:inherit;
-    font-size:14px;cursor:pointer}
-  .modal-actions button.primary{background:#8a5a3b;color:#fff;border-color:#8a5a3b}
-  .modal-actions button:disabled{opacity:.5;cursor:default}
-  .log{margin-top:14px;background:#faf8f5;border-radius:8px;padding:10px 12px;font-size:12px;color:#5a5248;
-    max-height:180px;overflow-y:auto;display:none;white-space:pre-wrap;line-height:1.9}
+  .modal{background:#fff;border-radius:20px;max-width:560px;width:100%;padding:28px 30px;
+    box-shadow:0 24px 80px rgba(0,0,0,.25);animation:fadeUp .3s ease-out;border:1px solid rgba(138,90,59,.1);position:relative;overflow:hidden}
+  .modal::before{content:'';position:absolute;top:0;right:0;left:0;height:3px;
+    background:linear-gradient(90deg,var(--accent),var(--gold),var(--accent-light),var(--accent))}
+  .modal h2{margin:0 0 4px;font-size:20px;font-weight:700}
+  .modal .sub{color:var(--muted);font-size:13px;margin-bottom:20px;line-height:1.8}
+  .field{margin-bottom:16px}
+  .field label{display:block;font-size:13px;margin-bottom:6px;color:var(--accent-dark);font-weight:500}
+  .field input[type=text]{width:100%;padding:10px 14px;border:1.5px solid #e2ddd0;border-radius:10px;font-family:inherit;
+    font-size:14px;transition:border-color .2s,box-shadow .2s;background:var(--cream)}
+  .field input[type=text]:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(138,90,59,.12)}
+  .tabs{display:flex;gap:4px;margin-bottom:16px;border-bottom:1px solid #eee}
+  .tab{padding:9px 16px;cursor:pointer;font-size:13px;color:var(--muted);border-bottom:2px solid transparent;
+    transition:all .2s;border-radius:8px 8px 0 0}
+  .tab:hover{color:var(--accent);background:rgba(138,90,59,.04)}
+  .tab.on{color:var(--accent);border-color:var(--accent);font-weight:600;background:rgba(138,90,59,.05)}
+  .tabpane{display:none}.tabpane.on{display:block}
+  .dropzone{border:2px dashed #d4c4b0;border-radius:12px;padding:28px;text-align:center;color:var(--muted);font-size:13px;
+    cursor:pointer;transition:all .3s;background:var(--cream)}
+  .dropzone:hover{background:rgba(138,90,59,.04);border-color:var(--accent-light);transform:scale(1.01)}
+  .filelist{margin-top:10px;font-size:12px;color:#5a5248}
+  .filelist div{padding:4px 0}
+  .modal-actions{display:flex;gap:12px;margin-top:20px}
+  .modal-actions button{flex:1;padding:12px;border-radius:10px;border:1.5px solid #e2ddd0;background:var(--cream);
+    font-family:inherit;font-size:14px;cursor:pointer;transition:all .2s}
+  .modal-actions button:hover{border-color:var(--accent-light);background:#fff}
+  .modal-actions button.primary{background:linear-gradient(135deg,var(--accent),var(--accent-light));color:#fff;border-color:transparent;
+    box-shadow:0 4px 15px var(--warm-shadow)}
+  .modal-actions button.primary:hover{box-shadow:0 6px 25px rgba(138,90,59,.3);transform:translateY(-1px)}
+  .modal-actions button:disabled{opacity:.5;cursor:default;transform:none}
+  .log{margin-top:16px;background:var(--cream);border-radius:10px;padding:12px 14px;font-size:12px;color:#5a5248;
+    max-height:180px;overflow-y:auto;display:none;white-space:pre-wrap;line-height:1.9;border:1px solid #e8e2d6}
   .log.on{display:block}
-  .note{font-size:11.5px;color:#a89a86;margin-top:10px;line-height:1.8}
-  .noor-steps{font-size:13px;line-height:2;margin-bottom:12px;padding-inline-start:20px}
-  .code-box{position:relative;background:#2a2620;border-radius:8px;padding:12px;margin-bottom:12px}
+  .note{font-size:11.5px;color:#a89a86;margin-top:12px;line-height:1.8}
+  .noor-steps{font-size:13px;line-height:2.1;margin-bottom:14px;padding-inline-start:22px}
+  .noor-steps li{margin-bottom:4px}
+  .code-box{position:relative;background:var(--text);border-radius:10px;padding:14px;margin-bottom:14px;overflow:hidden}
+  .code-box::before{content:'';position:absolute;top:0;right:0;left:0;height:2px;
+    background:linear-gradient(90deg,var(--accent),var(--gold),var(--accent))}
   .code-box textarea{width:100%;height:90px;background:transparent;color:#e8e0d0;border:none;font-family:monospace;
     font-size:11px;resize:vertical;direction:ltr;text-align:left}
-  .code-box button{position:absolute;top:8px;left:8px;background:#8a5a3b;color:#fff;border:none;border-radius:6px;
-    padding:4px 10px;font-size:11px;cursor:pointer;font-family:inherit}
+  .code-box button{position:absolute;top:10px;left:10px;background:var(--accent);color:#fff;border:none;border-radius:8px;
+    padding:5px 12px;font-size:11px;cursor:pointer;font-family:inherit;transition:all .2s}
+  .code-box button:hover{background:var(--accent-light);transform:scale(1.05)}
+
+  /* Responsive */
+  @media(max-width:640px){
+    header h1{font-size:22px}
+    .grid{grid-template-columns:1fr;gap:14px}
+    .card{padding:18px}
+    .modal{padding:22px 20px;border-radius:16px}
+    .floating-decor{display:none}
+  }
 </style>
 </head>
 <body>
+
+<!-- Floating decorative SVG elements -->
+<div class="floating-decor top-right">
+  <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M100,10 L130,40 L190,40 L145,70 L160,130 L100,100 L40,130 L55,70 L10,40 L70,40 Z" stroke="#8a5a3b" stroke-width="1" fill="none" opacity=".5"/>
+    <circle cx="100" cy="70" r="20" stroke="#d4a853" stroke-width=".8" fill="none" opacity=".4"/>
+    <circle cx="100" cy="70" r="40" stroke="#8a5a3b" stroke-width=".5" fill="none" opacity=".3"/>
+  </svg>
+</div>
+<div class="floating-decor bottom-left">
+  <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M100,20 Q150,20 180,60 Q200,100 180,140 Q150,180 100,180 Q50,180 20,140 Q0,100 20,60 Q50,20 100,20Z" stroke="#d4a853" stroke-width="1" fill="none" opacity=".4"/>
+    <path d="M100,40 Q140,40 160,70 Q180,100 160,130 Q140,160 100,160 Q60,160 40,130 Q20,100 40,70 Q60,40 100,40Z" stroke="#8a5a3b" stroke-width=".8" fill="none" opacity=".3"/>
+  </svg>
+</div>
+<div class="floating-decor mid-right">
+  <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="40" y="40" width="120" height="120" rx="4" stroke="#8a5a3b" stroke-width=".8" fill="none" opacity=".3" transform="rotate(45 100 100)"/>
+    <rect x="60" y="60" width="80" height="80" rx="4" stroke="#d4a853" stroke-width=".6" fill="none" opacity=".25" transform="rotate(22.5 100 100)"/>
+  </svg>
+</div>
+
 <header>
-  <button class="add-btn" onclick="openAddModal()">+ افزودن کتاب جدید</button>
-  <h1>کتابخانهٔ متون کهن فارسی</h1>
-  <p>خوانش، جست‌وجو، حاشیه‌نویسی و خط‌بَری از روی صدا</p>
+  <div class="header-inner">
+    <!-- Animated SVG Ornament: Persian geometric pattern -->
+    <svg class="header-ornament" viewBox="0 0 600 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Central diamond -->
+      <g class="orn-diamond">
+        <path d="M300,15 L320,50 L300,85 L280,50 Z" fill="#8a5a3b" opacity=".15"/>
+        <path d="M300,22 L315,50 L300,78 L285,50 Z" stroke="#8a5a3b" stroke-width="1.2" fill="none"/>
+      </g>
+      <!-- Left branch lines -->
+      <path class="orn-line" d="M278,50 L200,50" style="animation-delay:.2s"/>
+      <path class="orn-line" d="M278,50 L230,25" style="animation-delay:.4s"/>
+      <path class="orn-line" d="M278,50 L230,75" style="animation-delay:.5s"/>
+      <!-- Right branch lines -->
+      <path class="orn-line" d="M322,50 L400,50" style="animation-delay:.2s"/>
+      <path class="orn-line" d="M322,50 L370,25" style="animation-delay:.4s"/>
+      <path class="orn-line" d="M322,50 L370,75" style="animation-delay:.5s"/>
+      <!-- Outer horizontal lines -->
+      <path class="orn-line" d="M200,50 L60,50" style="animation-delay:.6s"/>
+      <path class="orn-line" d="M400,50 L540,50" style="animation-delay:.6s"/>
+      <!-- Small diamonds on sides -->
+      <g class="orn-diamond"><path d="M200,42 L208,50 L200,58 L192,50 Z" fill="#d4a853" opacity=".3"/></g>
+      <g class="orn-diamond"><path d="M400,42 L408,50 L400,58 L392,50 Z" fill="#d4a853" opacity=".3"/></g>
+      <!-- Dots -->
+      <circle class="orn-dot" cx="140" cy="50" r="3" fill="#8a5a3b" opacity=".4"/>
+      <circle class="orn-dot" cx="460" cy="50" r="3" fill="#8a5a3b" opacity=".4"/>
+      <circle class="orn-dot" cx="60" cy="50" r="2.5" fill="#d4a853" opacity=".35"/>
+      <circle class="orn-dot" cx="540" cy="50" r="2.5" fill="#d4a853" opacity=".35"/>
+      <!-- Small geometric accents -->
+      <g class="orn-diamond"><path d="M250,38 L255,50 L250,62 L245,50 Z" stroke="#8a5a3b" stroke-width=".8" fill="none" opacity=".4"/></g>
+      <g class="orn-diamond"><path d="M350,38 L355,50 L350,62 L345,50 Z" stroke="#8a5a3b" stroke-width=".8" fill="none" opacity=".4"/></g>
+      <!-- End caps -->
+      <circle class="orn-dot" cx="55" cy="50" r="4" fill="none" stroke="#8a5a3b" stroke-width=".6" opacity=".3"/>
+      <circle class="orn-dot" cx="545" cy="50" r="4" fill="none" stroke="#8a5a3b" stroke-width=".6" opacity=".3"/>
+    </svg>
+
+    <button class="add-btn" onclick="openAddModal()">+ افزودن کتاب جدید</button>
+    <h1>کتابخانهٔ متون کهن فارسی</h1>
+    <div class="header-line"></div>
+    <p>خوانش، جست‌وجو، حاشیه‌نویسی و خط‌بَری از روی صدا</p>
+  </div>
 </header>
-<div class="grid" id="grid"></div>
+
+<!-- Skeleton loading grid (shown while books-index.json loads) -->
+<div class="skeleton-grid" id="skeletonGrid">
+  <div class="skeleton-card"><div class="skeleton-line w80"></div><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div></div>
+  <div class="skeleton-card"><div class="skeleton-line w80"></div><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div></div>
+  <div class="skeleton-card"><div class="skeleton-line w80"></div><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div></div>
+</div>
+
+<div class="grid" id="grid" style="display:none"></div>
 
 <div class="modal-overlay" id="addOverlay">
   <div class="modal">
@@ -82,6 +238,7 @@
       <div class="tab on" data-tab="txt" onclick="switchTab('txt')">فایل متنی</div>
       <div class="tab" data-tab="pdf" onclick="switchTab('pdf')">یک یا چند PDF</div>
       <div class="tab" data-tab="noor" onclick="switchTab('noor')">کتابخانهٔ نور</div>
+      <div class="tab" data-tab="anno" onclick="switchTab('anno')">ایجاد حاشیه</div>
     </div>
     <div class="tabpane on" id="tab-txt">
       <div class="dropzone" onclick="document.getElementById('fTxt').click()">فایل .txt را انتخاب کنید</div>
@@ -110,6 +267,46 @@
       <input type="file" id="fNoor" accept=".txt" style="display:none" onchange="onNoorChosen(this.files)">
       <div class="filelist" id="noorFileList"></div>
     </div>
+    <div class="tabpane" id="tab-anno">
+      <div class="sub">حاشیه‌ها را بر اساس فرهنگ لغت و تکرار کلمات به‌صورت خودکار تولید کنید. ابتدا فایل متنی یا PDF را در تب‌های بالا آپلود کنید، سپس تنظیمات زیر را اعمال کنید.</div>
+      <div class="field">
+        <label>عمق حاشیه‌نویسی</label>
+        <select id="annoDepth">
+          <option value="1">کم — فقط کلمات کلیدی مهم</option>
+          <option value="2" selected>متوسط — کلمات کلیدی + اصطلاحات</option>
+          <option value="3">زیاد — همهٔ واژگان غیررایج</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>نوع حاشیه‌ها</label>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:4px">
+          <label style="display:flex;align-items:center;gap:4px;font-size:13px">
+            <input type="checkbox" class="anno-type-cb" value="word" checked> لغت کهن
+          </label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:13px">
+            <input type="checkbox" class="anno-type-cb" value="arabic" checked> عربی
+          </label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:13px">
+            <input type="checkbox" class="anno-type-cb" value="poem" checked> شعر و نظم
+          </label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:13px">
+            <input type="checkbox" class="anno-type-cb" value="quran" checked> آیه و حدیث
+          </label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:13px">
+            <input type="checkbox" class="anno-type-cb" value="hist"> تاریخ
+          </label>
+          <label style="display:flex;align-items:center;gap:4px;font-size:13px">
+            <input type="checkbox" class="anno-type-cb" value="person"> شخصیت
+          </label>
+        </div>
+      </div>
+      <div class="field">
+        <label>تعداد حداکثر حاشیه در هر صفحه</label>
+        <input type="range" id="annoMaxPerPage" min="3" max="30" value="12" style="width:100%" oninput="document.getElementById('annoMaxPerPageV').textContent=this.value">
+        <span id="annoMaxPerPageV" style="font-size:12px;opacity:.7">۱۲</span>
+      </div>
+      <div class="note" id="annoPreviewNote" style="display:none"></div>
+    </div>
 
     <div class="log" id="addLog"></div>
     <div class="note">در پایان، پوشهٔ ریشهٔ پروژهٔ coreader را از شما خواهد پرسید (فقط در Chrome/Edge)
@@ -128,6 +325,9 @@
 <script>
 fetch('books-index.json').then(function(r){return r.json()}).then(function(list){
   var grid = document.getElementById('grid');
+  var skeleton = document.getElementById('skeletonGrid');
+  skeleton.style.display = 'none';
+  grid.style.display = '';
   if (!list.length){ grid.innerHTML = '<div class="empty">هنوز کتابی افزوده نشده است.</div>'; return; }
   grid.innerHTML = list.map(function(b){
     return '<a class="card" href="books/'+b.slug+'/index.html">'+
@@ -136,7 +336,11 @@ fetch('books-index.json').then(function(r){return r.json()}).then(function(list)
       '<div class="stats">'+b.pages+' صفحه'+(b.hasPdf?' · دارای PDF':'')+'</div></a>';
   }).join('');
 }).catch(function(){
-  document.getElementById('grid').innerHTML = '<div class="empty">خطا در بارگذاری فهرست کتاب‌ها.</div>';
+  var skeleton = document.getElementById('skeletonGrid');
+  skeleton.style.display = 'none';
+  var grid = document.getElementById('grid');
+  grid.style.display = '';
+  grid.innerHTML = '<div class="empty">خطا در بارگذاری فهرست کتاب‌ها.</div>';
 });
 
 var txtFile = null, pdfFiles = [];
@@ -154,10 +358,6 @@ function onPdfChosen(files){
   pdfFiles = Array.from(files);
   document.getElementById('pdfFileList').innerHTML = pdfFiles.map(function(f){ return '<div>📄 ' + f.name + '</div>'; }).join('');
 }
-// The file downloaded by the Noor-library console script is a plain .txt
-// with the same "=== صفحه N ===" page-marker convention add-book.js
-// already knows how to split on — so it's handled as a regular text
-// upload, just via a different tab for clearer instructions.
 function onNoorChosen(files){
   txtFile = files[0] || null;
   document.getElementById('noorFileList').textContent = txtFile ? txtFile.name : '';
@@ -169,13 +369,6 @@ function log(msg){
   el.scrollTop = el.scrollHeight;
 }
 
-// Console script for noorlib.ir: scrolls through every page of the
-// currently-open book (must be logged in, starting from page 1) reading
-// each page's paragraphs out of the site's own Nuxt/Vuex store, and
-// downloads the assembled text with explicit page markers. Total page
-// count and the book name are asked interactively (via prompt()) so the
-// same script works for any book without hand-editing — the original
-// version this was adapted from had both hardcoded for one specific book.
 var NOOR_SCRIPT = '(async function() {\n' +
 '  const store = window.$nuxt && window.$nuxt.$store;\n' +
 '  if (!store) { alert("Vuex store پیدا نشد — مطمئن شوید در صفحهٔ کتاب سایت نور هستید."); return; }\n' +
@@ -189,8 +382,9 @@ var NOOR_SCRIPT = '(async function() {\n' +
 '  var guessed = guessTotalPages();\n' +
 '  var totalStr = prompt("تعداد کل صفحات کتاب چند است؟", guessed ? String(guessed) : "");\n' +
 '  var TOTAL = parseInt(totalStr, 10);\n' +
+'\n' +
 '  if (!TOTAL || TOTAL <= 0) { alert("تعداد صفحهٔ معتبر وارد نشد."); return; }\n' +
-'  var bookName = (prompt("نام کتاب (برای نام فایل خروجی):", "کتاب") || "کتاب").replace(/[\\\\/:*?"<>|]/g, "_");\n' +
+'  var bookName = (prompt("نام کتاب (برای نام فایل خروجی):", "کتاب") || "کتاب").replace(/[\\\\\\\\/:*?"<>|]/g, "_");\n' +
 '\n' +
 '  const scrollContainer = document.querySelector(".book-viewer-scroll") || document.querySelector(".html-viewer") || document.querySelector(\'[class*="viewer"]\') || document.querySelector(\'[class*="scroll"]\');\n' +
 '  if (!scrollContainer) {\n' +
@@ -279,15 +473,23 @@ async function processAndSave(){
           else if (i % 10 === 0 || i === total) log('  صفحهٔ ' + i + '/' + total + ' (' + kind + ')');
         });
         allSourcesPages.push(pages);
-        pdfMeta.push(null); // filled after save with real filenames
+        pdfMeta.push(null);
       }
       log('ادغام نسخه‌ها...');
       pagesText = window.coreaderAddBook.mergeSources(allSourcesPages);
     }
 
     log('تشخیص فصل‌ها و حاشیه‌نویسی...');
+    // Read annotation settings from the "ایجاد حاشیه" tab
+    var annoDepth = +document.getElementById('annoDepth').value || 2;
+    var annoTypes = [];
+    document.querySelectorAll('.anno-type-cb:checked').forEach(function(cb){ annoTypes.push(cb.value); });
+    var annoMax = +document.getElementById('annoMaxPerPage').value || 12;
+    // Depth mapping: 1=glossary only (high confidence), 2=+candidates, 3=all
+    var annoOpts = { types: annoTypes.length ? annoTypes : ['word','arabic','poem','quran'], maxPerPage: annoMax, depth: annoDepth };
     var result = window.coreaderAddBook.buildBookFromPages(pagesText, {
       slug: slug, title: title, author: author,
+      annoOpts: annoOpts,
       pdfSources: pdfFiles.map(function(f, i){ return { id: 'pdf_' + (i + 1), label: f.name.replace(/\.pdf$/i, ''), filename: 'pdf_' + (i + 1) + '.pdf' }; }),
     });
     log(result.book.pages.length + ' صفحه، ' + result.book.chapters.length + ' فصل، ' + result.candidates.length + ' واژهٔ نامزد برای بازبینی');
