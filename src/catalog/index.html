@@ -138,6 +138,25 @@
     padding:5px 12px;font-size:11px;cursor:pointer;font-family:inherit;transition:all .2s}
   .code-box button:hover{background:var(--accent-light);transform:scale(1.05)}
 
+  /* Catalog search */
+  .catalog-search{max-width:960px;margin:0 auto;padding:16px 24px 0;position:relative;z-index:1}
+  .catalog-search input{width:100%;padding:12px 16px;border:2px solid #e8e2d6;border-radius:12px;font-family:'Vazirmatn',sans-serif;
+    font-size:14px;background:#fff;color:var(--text);transition:border-color .2s,box-shadow .2s;box-sizing:border-box}
+  .catalog-search input:focus{outline:none;border-color:var(--accent);box-shadow:0 0 0 3px rgba(138,90,59,.12)}
+  .catalog-search-results{max-width:960px;margin:0 auto;padding:0 24px;position:relative;z-index:1}
+  .catalog-search-results:empty{display:none}
+  .sr-item{padding:12px 16px;background:#fff;border:1px solid #e8e2d6;border-radius:10px;margin-bottom:8px;
+    cursor:pointer;transition:all .2s;text-decoration:none;color:inherit;display:block}
+  .sr-item:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(138,90,59,.12);border-color:var(--accent-light)}
+  .sr-item .sr-book{font-weight:600;font-size:14px;color:var(--accent-dark)}
+  .sr-item .sr-snippet{font-size:12px;color:var(--muted);margin-top:4px;line-height:1.7}
+  .sr-item mark{background:rgba(212,168,83,.3);border-radius:2px;padding:0 1px}
+
+  /* Card progress bar */
+  .card-progress{margin-top:8px;height:4px;background:#e8e2d6;border-radius:2px;overflow:hidden;position:relative;z-index:1}
+  .card-progress-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent-dark));border-radius:2px;transition:width .3s}
+  .card-progress-text{font-size:11px;color:var(--muted);margin-top:3px;position:relative;z-index:1}
+
   /* Responsive */
   @media(max-width:640px){
     header h1{font-size:22px}
@@ -220,6 +239,12 @@
   <div class="skeleton-card"><div class="skeleton-line w80"></div><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div></div>
   <div class="skeleton-card"><div class="skeleton-line w80"></div><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div></div>
 </div>
+
+<!-- Advanced search (Feature 7) -->
+<div class="catalog-search" id="catalogSearchWrap" style="display:none">
+  <input type="text" id="catalogSearchInput" placeholder="جست‌وجو در عنوان‌ها و حاشیه‌ها..." oninput="catalogSearch(this.value)">
+</div>
+<div class="catalog-search-results" id="catalogSearchResults"></div>
 
 <div class="grid" id="grid" style="display:none"></div>
 
@@ -321,19 +346,34 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>window.pdfjsLib && (pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js');</script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<script>
+// Register service worker for offline support
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('../sw.js').catch(function(){});
+}
+</script>
 <script src="assets/add-book.js"></script>
 <script>
+var _catalogBooks = [];
 fetch('books-index.json').then(function(r){return r.json()}).then(function(list){
+  _catalogBooks = list;
   var grid = document.getElementById('grid');
   var skeleton = document.getElementById('skeletonGrid');
   skeleton.style.display = 'none';
   grid.style.display = '';
+  document.getElementById('catalogSearchWrap').style.display = '';
   if (!list.length){ grid.innerHTML = '<div class="empty">هنوز کتابی افزوده نشده است.</div>'; return; }
+  var progress = {};
+  try { progress = JSON.parse(localStorage.getItem('coreader-progress') || '{}'); } catch(e){}
   grid.innerHTML = list.map(function(b){
+    var pg = progress[b.slug] || 0;
+    var pct = b.pages ? Math.min(100, Math.round(pg / b.pages * 100)) : 0;
+    var pbar = pct > 0 ? '<div class="card-progress"><div class="card-progress-bar" style="width:'+pct+'%"></div></div><div class="card-progress-text">'+pct+'٪ خوانده شده</div>' : '';
     return '<a class="card" href="books/'+b.slug+'/index.html">'+
       '<h2>'+b.title+'</h2>'+
       '<div class="author">'+(b.author||'ناشناس')+'</div>'+
-      '<div class="stats">'+b.pages+' صفحه'+(b.hasPdf?' · دارای PDF':'')+'</div></a>';
+      '<div class="stats">'+b.pages+' صفحه'+(b.hasPdf?' · دارای PDF':'')+'</div>'+
+      pbar+'</a>';
   }).join('');
 }).catch(function(){
   var skeleton = document.getElementById('skeletonGrid');
@@ -342,6 +382,38 @@ fetch('books-index.json').then(function(r){return r.json()}).then(function(list)
   grid.style.display = '';
   grid.innerHTML = '<div class="empty">خطا در بارگذاری فهرست کتاب‌ها.</div>';
 });
+
+// ===== Feature 7: Catalog advanced search =====
+function catalogSearch(q){
+  var resultsEl = document.getElementById('catalogSearchResults');
+  q = (q || '').trim();
+  if (!q){ resultsEl.innerHTML = ''; return; }
+  var terms = q.split(/\s+/).map(function(w){ return w.toLowerCase(); }).filter(Boolean);
+  if (!terms.length){ resultsEl.innerHTML = ''; return; }
+  var results = [];
+  _catalogBooks.forEach(function(b){
+    var title = (b.title || '').toLowerCase();
+    var author = (b.author || '').toLowerCase();
+    var match = terms.every(function(t){ return title.indexOf(t) >= 0 || author.indexOf(t) >= 0; });
+    if (match){
+      results.push({ slug: b.slug, title: b.title, author: b.author, snippet: (b.title || '') + ' — ' + (b.author || '') });
+    }
+  });
+  if (!results.length){
+    resultsEl.innerHTML = '<div style="padding:8px;color:#999;font-size:13px">نتیجه‌ای یافت نشد</div>';
+    return;
+  }
+  resultsEl.innerHTML = results.slice(0, 20).map(function(r){
+    var snippet = r.snippet || r.title;
+    terms.forEach(function(t){
+      var re = new RegExp('(' + t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+      snippet = snippet.replace(re, '<mark>$1</mark>');
+    });
+    return '<a class="sr-item" href="books/' + r.slug + '/index.html">' +
+      '<div class="sr-book">' + r.title + (r.author ? ' — ' + r.author : '') + '</div>' +
+      '<div class="sr-snippet">' + snippet + '</div></a>';
+  }).join('');
+}
 
 var txtFile = null, pdfFiles = [];
 function openAddModal(){ document.getElementById('addOverlay').classList.add('on'); }
@@ -384,7 +456,7 @@ var NOOR_SCRIPT = '(async function() {\n' +
 '  var TOTAL = parseInt(totalStr, 10);\n' +
 '\n' +
 '  if (!TOTAL || TOTAL <= 0) { alert("تعداد صفحهٔ معتبر وارد نشد."); return; }\n' +
-'  var bookName = (prompt("نام کتاب (برای نام فایل خروجی):", "کتاب") || "کتاب").replace(/[\\\\\\\\/:*?"<>|]/g, "_");\n' +
+'  var bookName = (prompt("نام کتاب (برای نام فایل خروجی):", "کتاب") || "کتاب").replace(/[\\\\\\\\\\\\\\\\\\\\/:*?"<>|]/g, "_");\n' +
 '\n' +
 '  const scrollContainer = document.querySelector(".book-viewer-scroll") || document.querySelector(".html-viewer") || document.querySelector(\'[class*="viewer"]\') || document.querySelector(\'[class*="scroll"]\');\n' +
 '  if (!scrollContainer) {\n' +

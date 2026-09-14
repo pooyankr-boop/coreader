@@ -69,6 +69,21 @@ function splitByExplicitMarkers(text){
 }
 function splitIntoPages(text){ return splitByExplicitMarkers(text) || splitIntoVirtualPages(text); }
 function stripLeadingPageNumber(text){ return text.replace(/^\uFEFF?\s*\d+\s*\n+/, ''); }
+var PAGE_MARKER_INLINE_RE = /[=\-*_]{2,}\s*(?:صفحه|page)\s*\d*\s*(?:[=\-*_]{2,})?/gi;
+function stripInlinePageMarkers(text){
+  return text.replace(PAGE_MARKER_INLINE_RE, ' ').replace(/\s{2,}/g, ' ').trim();
+}
+var TRAILING_DECORATOR_RE = /\s*[=\-*_]{2,}\s*$/;
+var LEADING_MARKER_TAIL_RE = /^\s*(?:صفحه|page)\s*\d*\s*[=\-*_]{2,}\s*\d*\s*/i;
+function cleanCrossPageMarkerSplits(pages){
+  for (var i = 0; i < pages.length - 1; i++){
+    if (TRAILING_DECORATOR_RE.test(pages[i]) && LEADING_MARKER_TAIL_RE.test(pages[i + 1])){
+      pages[i] = pages[i].replace(TRAILING_DECORATOR_RE, '').trim();
+      pages[i + 1] = pages[i + 1].replace(LEADING_MARKER_TAIL_RE, '').trim();
+    }
+  }
+  return pages;
+}
 function detectChapters(pages){
   var chapters = [];
   pages.forEach(function(pageText, idx){
@@ -153,34 +168,85 @@ function buildSearchIndex(pages){
   return index;
 }
 
-// ===== PDF extraction: text layer first, OCR fallback =====
+// ===== PDF extraction: text layer separation + OCR fallback =====
+// Separates main text (largest font group) from annotations (smaller fonts)
+// Returns { pages: [...], annotations: {pageNum: [{text, word, bbox}]} }
 function extractPdfPages(file, onProgress){
   return file.arrayBuffer().then(function(buf){
     return pdfjsLib.getDocument({ data: new Uint8Array(buf) }).promise;
   }).then(function(doc){
-    var pages = [];
+    var pages = [], allAnnotations = {};
     function step(i){
-      if (i > doc.numPages) return pages;
+      if (i > doc.numPages) return { pages: cleanCrossPageMarkerSplits(pages), annotations: allAnnotations };
       return doc.getPage(i).then(function(page){
         return page.getTextContent().then(function(tc){
-          var text = tc.items.map(function(it){ return it.str; }).join(' ').trim();
-          if (text.length > 20){
-            pages.push(text);
-            onProgress(i, doc.numPages, 'text');
-            return step(i + 1);
+          // Group items by font size
+          var sizeGroups = {};
+          tc.items.forEach(function(it){
+            var sz = Math.round((it.height || 12) * 10) / 10; // normalize font size
+            if (!sizeGroups[sz]) sizeGroups[sz] = [];
+            sizeGroups[sz].push(it);
+          });
+          var sizes = Object.keys(sizeGroups).map(Number).sort(function(a,b){ return b - a; });
+          if (sizes.length === 0){
+            // No text -> OCR
+            var viewport = page.getViewport({ scale: 2 });
+            var canvas = document.createElement('canvas');
+            canvas.width = viewport.width; canvas.height = viewport.height;
+            return page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise.then(function(){
+              onProgress(i, doc.numPages, 'ocr-start');
+              return Tesseract.recognize(canvas, 'fas').then(function(result){
+                pages.push((result.data.text || '').trim());
+                onProgress(i, doc.numPages, 'ocr-done');
+                return step(i + 1);
+              });
+            });
           }
-          // No usable embedded text -> render + OCR this page
-          var viewport = page.getViewport({ scale: 2 });
-          var canvas = document.createElement('canvas');
-          canvas.width = viewport.width; canvas.height = viewport.height;
-          return page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise.then(function(){
-            onProgress(i, doc.numPages, 'ocr-start');
-            return Tesseract.recognize(canvas, 'fas').then(function(result){
-              pages.push((result.data.text || '').trim());
-              onProgress(i, doc.numPages, 'ocr-done');
-              return step(i + 1);
+          // Main text = largest font size group (by total span count)
+          var mainSize = sizes[0];
+          var mainItems = sizeGroups[mainSize] || [];
+          var mainText = stripInlinePageMarkers(mainItems.map(function(it){ return it.str; }).join(' ').trim());
+          if (mainText.length < 20){
+            // Try second largest
+            if (sizes.length > 1){
+              mainSize = sizes[1];
+              mainItems = sizeGroups[mainSize] || [];
+              mainText = stripInlinePageMarkers(mainItems.map(function(it){ return it.str; }).join(' ').trim());
+            }
+          }
+          // Annotations = all other font sizes, mapped to nearest main-text word
+          var annotations = [];
+          sizes.forEach(function(sz){
+            if (sz === mainSize) return;
+            (sizeGroups[sz] || []).forEach(function(it){
+              var t = (it.str || '').trim();
+              if (t.length < 2) return;
+              // Find nearest word in main text by vertical position
+              var nearestWord = '';
+              var minDist = Infinity;
+              mainItems.forEach(function(mi){
+                var dist = Math.abs((it.transform ? it.transform[5] : 0) - (mi.transform ? mi.transform[5] : 0));
+                if (dist < minDist){ minDist = dist; nearestWord = (mi.str || '').trim(); }
+              });
+              if (nearestWord) annotations.push({ text: t, word: nearestWord, fontSize: sz });
             });
           });
+          if (mainText.length > 20){
+            pages.push(mainText);
+            if (annotations.length) allAnnotations[i] = annotations;
+            onProgress(i, doc.numPages, 'text');
+          } else {
+            // Fallback: use all text combined
+            var allText = stripInlinePageMarkers(tc.items.map(function(it){ return it.str; }).join(' ').trim());
+            if (allText.length > 20){
+              pages.push(allText);
+              onProgress(i, doc.numPages, 'text-mixed');
+            } else {
+              pages.push(allText || '(صفحه خالی)');
+              onProgress(i, doc.numPages, 'empty');
+            }
+          }
+          return step(i + 1);
         });
       });
     }
@@ -220,18 +286,38 @@ function slugify(title){
 }
 
 function buildBookFromPages(rawPageTexts, meta){
-  var pages = rawPageTexts.map(function(raw, i){ return { page: i + 1, raw: stripLeadingPageNumber(raw) }; });
+  var pages = rawPageTexts.map(function(raw, i){ return { page: i + 1, raw: stripInlinePageMarkers(stripLeadingPageNumber(raw)) }; });
   var chapters = detectChapters(pages.map(function(p){ return p.raw; }));
   var annoOpts = meta.annoOpts || null;
   var htmlPages = pages.map(function(p){ return { page: p.page, html: annotatePageHtml(p.raw, {}, annoOpts) }; });
   var candidates = buildCandidates(pages, annoOpts ? (annoOpts.depth || 2) : 2);
   var searchIndex = buildSearchIndex(pages);
+  // Merge PDF text-layer annotations into book annotations
+  var pdfAnnos = meta.pdfAnnotations || {};
+  var hasPdfAnnos = Object.keys(pdfAnnos).length > 0;
+  if (hasPdfAnnos){
+    htmlPages.forEach(function(p){
+      var pgAnnos = pdfAnnos[p.page] || pdfAnnos[(p.page - 1)] || [];
+      if (!pgAnnos.length) return;
+      // Wrap each annotation's word with an <span class="anno anno-pdf" data-text="...">
+      pgAnnos.forEach(function(a){
+        if (!a.word || !a.text) return;
+        var escapedWord = escapeRegex(a.word.replace(/</g, ''));
+        if (!escapedWord) return;
+        try {
+          var wordRe = new RegExp('(' + escapedWord + ')', 'g');
+          p.html = p.html.replace(wordRe, '<span class="anno anno-word" data-cat="word" data-text="' + escapeAttr(a.text) + '">$1</span>');
+        } catch(e){}
+      });
+    });
+  }
   var book = {
     slug: meta.slug, title: meta.title, author: meta.author || 'ناشناس',
     chapters: chapters.length ? chapters : [{ title: '(بدون فصل‌بندی تشخیص‌داده‌شده)', startPage: 1 }],
     pages: htmlPages, searchIndex: searchIndex,
     pdfSources: meta.pdfSources || [], hasPdf: !!(meta.pdfSources && meta.pdfSources.length),
     candidateCount: candidates.length,
+    hasPdfAnnotations: hasPdfAnnos,
   };
   return { book: book, candidates: candidates };
 }
