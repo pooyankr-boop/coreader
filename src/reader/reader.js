@@ -24,7 +24,9 @@ var curPage = 1, annoOn = true;
 function toFA(n){return String(n).replace(/[0-9]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[d]})}
 
 // ===== Load book =====
+console.log('[coreader] loading book.json from', window.BOOK_URL || 'book.json');
 fetch(window.BOOK_URL || 'book.json').then(function(r){return r.json()}).then(function(book){
+  console.log('[coreader] book loaded:', book.title, 'pages:', book.pages ? book.pages.length : 'NONE');
   BOOK = book;
   document.getElementById('bookTitle').textContent = book.title;
   document.getElementById('bookMeta').textContent = 'تألیف: ' + (book.author || 'ناشناس');
@@ -50,8 +52,10 @@ fetch(window.BOOK_URL || 'book.json').then(function(r){return r.json()}).then(fu
   populateTtsVoices();
   loadAutoTheme();
   if (book.hasPdf) document.getElementById('bPdf').style.display = '';
+  console.log('[coreader] book setup complete');
 }).catch(function(err){
-  document.getElementById('tc').innerHTML = '<p style="color:red">خطا در بارگذاری کتاب: ' + err.message + '</p>';
+  console.error('[coreader] book load error:', err);
+  document.getElementById('tc').innerHTML = '<p style="color:red">خطا در بارگذاری کتاب: ' + (err && err.message ? err.message : String(err)) + '</p>';
 });
 
 function buildToc(){

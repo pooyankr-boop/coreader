@@ -24,7 +24,9 @@ var curPage = 1, annoOn = true;
 function toFA(n){return String(n).replace(/[0-9]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[d]})}
 
 // ===== Load book =====
+console.log('[coreader] loading book.json from', window.BOOK_URL || 'book.json');
 fetch(window.BOOK_URL || 'book.json').then(function(r){return r.json()}).then(function(book){
+  console.log('[coreader] book loaded:', book.title, 'pages:', book.pages ? book.pages.length : 'NONE');
   BOOK = book;
   document.getElementById('bookTitle').textContent = book.title;
   document.getElementById('bookMeta').textContent = 'تألیف: ' + (book.author || 'ناشناس');
@@ -48,9 +50,12 @@ fetch(window.BOOK_URL || 'book.json').then(function(r){return r.json()}).then(fu
   loadUserEdits();
   loadTtsSettings();
   populateTtsVoices();
+  loadAutoTheme();
   if (book.hasPdf) document.getElementById('bPdf').style.display = '';
+  console.log('[coreader] book setup complete');
 }).catch(function(err){
-  document.getElementById('tc').innerHTML = '<p style="color:red">خطا در بارگذاری کتاب: ' + err.message + '</p>';
+  console.error('[coreader] book load error:', err);
+  document.getElementById('tc').innerHTML = '<p style="color:red">خطا در بارگذاری کتاب: ' + (err && err.message ? err.message : String(err)) + '</p>';
 });
 
 function buildToc(){
@@ -92,7 +97,7 @@ function buildPages(){
       for (var i = 0; i < entries.length; i++){
         if (entries[i].isIntersecting){
           var pg = +entries[i].target.id.replace('pg_', '');
-          if (pg && pg !== curPage){ curPage = pg; updNav(); hlToc(); }
+          if (pg && pg !== curPage){ curPage = pg; updNav(); hlToc(); saveReadingProgress(); }
         }
       }
     }, { rootMargin: '-20% 0px -70% 0px' });
@@ -105,6 +110,10 @@ function goPg(n){
   var el = document.getElementById('pg_' + n);
   if (el && el.scrollIntoView) el.scrollIntoView();
   updNav(); hlToc();
+  // Sync PDF if open
+  if (pdfDoc && document.getElementById('pdfWrap').classList.contains('on')){
+    pdfGoto(n);
+  }
   clearMarginAnnos(); // clear margin annotations on page change
   // Clear highlight overlays
   var sl = document.getElementById('hlSlide');
@@ -114,6 +123,8 @@ function goPg(n){
   var et = document.getElementById('editToolbar');
   if (et) et.classList.remove('on');
   editingText = false;
+  // Feature 3: Save reading progress
+  saveReadingProgress();
 }
 function updNav(){
   var inp = document.getElementById('pgInput');
@@ -188,6 +199,21 @@ function applySetting(k, v){
     magAutoFollow = document.getElementById('setMagAutoFollow').checked;
     saveMagSettings(); return;
   }
+  else if (k === 'glassOpacity'){
+    var alpha = v / 100;
+    // Update all theme glass-bg values
+    document.documentElement.style.setProperty('--glass-bg', 'rgba(250,248,245,' + alpha + ')');
+    document.body.style.setProperty('--glass-bg', 'rgba(250,248,245,' + alpha + ')');
+    document.getElementById('setGlassOpacityV').textContent = toFA(v) + '٪';
+    localStorage.setItem('coreader-glass-opacity', v);
+    return;
+  }
+  else if (k === 'autoTheme'){
+    var enabled = document.getElementById('setAutoTheme').checked;
+    localStorage.setItem('coreader-auto-theme', enabled ? '1' : '0');
+    if (enabled) checkAutoTheme();
+    return;
+  }
   localStorage.setItem('coreader-settings', JSON.stringify({
     font: document.getElementById('setFont').value,
     fs: document.getElementById('setFs').value,
@@ -252,6 +278,45 @@ function setTheme(t){
   localStorage.setItem('coreader-theme', t || '');
 }
 (function(){ var t = localStorage.getItem('coreader-theme'); if (t) setTheme(t); })();
+
+// ===== Feature 2: Glass opacity on load =====
+(function(){
+  var v = localStorage.getItem('coreader-glass-opacity');
+  if (v){
+    var alpha = v / 100;
+    document.documentElement.style.setProperty('--glass-bg', 'rgba(250,248,245,' + alpha + ')');
+    document.body.style.setProperty('--glass-bg', 'rgba(250,248,245,' + alpha + ')');
+    var inp = document.getElementById('setGlassOpacity');
+    if (inp){ inp.value = v; document.getElementById('setGlassOpacityV').textContent = toFA(v) + '٪'; }
+  }
+})();
+
+// ===== Feature 3: Reading progress persistence =====
+function saveReadingProgress(){
+  if (!BOOK) return;
+  try {
+    var prog = JSON.parse(localStorage.getItem('coreader-progress') || '{}');
+    prog[BOOK.slug] = curPage;
+    localStorage.setItem('coreader-progress', JSON.stringify(prog));
+  } catch(e){}
+}
+
+// ===== Feature 6: Auto night/day mode =====
+var autoThemeTimer = null;
+function checkAutoTheme(){
+  var h = new Date().getHours();
+  var theme = (h >= 18 || h < 7) ? 'dark' : '';
+  setTheme(theme);
+}
+function loadAutoTheme(){
+  var enabled = localStorage.getItem('coreader-auto-theme') === '1';
+  var inp = document.getElementById('setAutoTheme');
+  if (inp) inp.checked = enabled;
+  if (enabled){
+    checkAutoTheme();
+    autoThemeTimer = setInterval(checkAutoTheme, 300000); // every 5 minutes
+  }
+}
 
 // ===== Annotation display: tooltips (normal) / persistent margin cards (recording/TTS) =====
 var CAT_LABELS = { arabic: 'عربی', poem: 'شعر و نظم', quran: 'آیه و حدیث', hist: 'تاریخ',
@@ -470,8 +535,8 @@ function pdfRender(n){
     });
   });
 }
-function pdfGoto(n){ if (n >= 1 && n <= (pdfDoc ? pdfDoc.numPages : 1)) pdfRender(n); }
-function pdfNav(d){ pdfGoto(curPdf + d); }
+function pdfGoto(n){ if (n >= 1 && n <= (pdfDoc ? pdfDoc.numPages : 1)){ pdfRender(n); curPdf = n; } }
+function pdfNav(d){ var n = curPdf + d; pdfGoto(n); }
 function pdfZoom(d){ pdfSc = Math.max(.5, Math.min(3, pdfSc + d)); document.getElementById('pdfZL').textContent = Math.round(pdfSc * 100) + '%'; pdfRender(curPdf); }
 function openPdfAt(n){ pdfPendingPage = n; showMode('pdf'); }
 function showMode(m){
@@ -686,6 +751,155 @@ function ctxSearchEnc(){
   doEncSearch(word);
 }
 
+// ===== Share annotation (Feature 8) =====
+function ctxShareAnno(){
+  _closeCtx();
+  if (!ctxAnnoEl){
+    // If no annotation element was right-clicked, try to share the current selection
+    if (!ctxSel){ alert('روی حاشیه راست‌کلیک کنید'); return; }
+  }
+  var annoEl = ctxAnnoEl;
+  if (!annoEl){
+    // Generate a shareable link based on current page and selection
+    var url = new URL(location.href);
+    url.searchParams.set('book', BOOK ? BOOK.slug : '');
+    url.searchParams.set('page', curPage);
+    navigator.clipboard.writeText(url.toString()).then(function(){
+      alert('لینک صفحه کپی شد ✓');
+    });
+    return;
+  }
+  // Find or create an ID for this annotation
+  if (!annoEl.id){
+    annoEl.id = 'anno-' + Math.random().toString(36).substr(2, 9);
+  }
+  var url = new URL(location.href);
+  url.searchParams.set('book', BOOK ? BOOK.slug : '');
+  url.searchParams.set('page', curPage);
+  url.searchParams.set('anno', annoEl.id);
+  navigator.clipboard.writeText(url.toString()).then(function(){
+    alert('لینک حاشیه کپی شد ✓');
+  });
+}
+
+// ===== PDF export with annotations (Feature 10) =====
+function exportAnnotationsPdf(){
+  var title = BOOK ? BOOK.title : 'کتاب';
+  var notes = JSON.parse(localStorage.getItem('coreader-notes') || '[]');
+  var highlights = JSON.parse(localStorage.getItem('coreader-highlights') || '[]');
+  var favs = JSON.parse(localStorage.getItem('coreader-favs') || '[]');
+
+  var html = '<!DOCTYPE html><html lang="fa" dir="rtl"><head><meta charset="UTF-8">' +
+    '<title>خروجی حاشیه‌ها — ' + title + '</title>' +
+    '<style>@import url("https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap");' +
+    'body{font-family:"Vazirmatn",sans-serif;direction:rtl;padding:40px;max-width:800px;margin:0 auto;color:#222;line-height:2}' +
+    'h1{color:#8b4513;border-bottom:2px solid #d4a853;padding-bottom:8px}' +
+    'h2{color:#8b4513;margin-top:32px;border-bottom:1px solid #eee;padding-bottom:4px}' +
+    '.item{background:#faf8f5;border:1px solid #e8e2d6;border-radius:8px;padding:12px 16px;margin:8px 0}' +
+    '.item .text{font-size:16px}' +
+    '.item .meta{font-size:12px;color:#888;margin-top:4px}' +
+    '.item .note{font-size:14px;color:#555;margin-top:4px}' +
+    '.hl{background:#ffe08a;border-radius:3px;padding:1px 3px}' +
+    '</style></head><body>' +
+    '<h1>' + title + '</h1>' +
+    '<p style="color:#888;font-size:14px">تاریخ: ' + new Date().toLocaleDateString('fa-IR') + '</p>';
+
+  if (favs.length){
+    html += '<h2>⭐ علاقه‌مندی‌ها (' + favs.length + ')</h2>';
+    favs.forEach(function(f){
+      html += '<div class="item"><div class="text">' + (f.text||'').replace(/</g,'&lt;') + '</div>' +
+        '<div class="meta">' + (f.book||'') + (f.page ? ' — صفحهٔ ' + f.page : '') + '</div></div>';
+    });
+  }
+
+  if (highlights.length){
+    html += '<h2>🖍️ هایلایت‌ها (' + highlights.length + ')</h2>';
+    highlights.forEach(function(h){
+      html += '<div class="item"><div class="text"><span class="hl">' + (h.text||'').replace(/</g,'&lt;') + '</span></div>' +
+        '<div class="meta">' + (h.book||'') + (h.page ? ' — صفحهٔ ' + h.page : '') + '</div></div>';
+    });
+  }
+
+  if (notes.length){
+    html += '<h2>🗒️ یادداشت‌ها (' + notes.length + ')</h2>';
+    notes.forEach(function(n){
+      html += '<div class="item"><div class="text">' + (n.text||'').replace(/</g,'&lt;') + '</div>' +
+        '<div class="note">📝 ' + (n.note||'').replace(/</g,'&lt;') + '</div>' +
+        '<div class="meta">' + (n.book||'') + (n.page ? ' — صفحهٔ ' + n.page : '') + '</div></div>';
+    });
+  }
+
+  if (!favs.length && !highlights.length && !notes.length){
+    html += '<p style="text-align:center;color:#999;padding:40px">هنوز حاشیه‌ای ثبت نشده است.</p>';
+  }
+
+  html += '<script>window.print();<\/script></body></html>';
+
+  var w = window.open('', '_blank');
+  w.document.write(html);
+  w.document.close();
+}
+
+// ===== LocalStorage export/import (Feature 12) =====
+function exportLocalData(){
+  var data = {};
+  for (var i = 0; i < localStorage.length; i++){
+    var k = localStorage.key(i);
+    if (k && k.indexOf('coreader-') === 0){
+      data[k] = localStorage.getItem(k);
+    }
+  }
+  var blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'coreader-backup-' + new Date().toISOString().slice(0,10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+function importLocalData(file){
+  if (!file) return;
+  if (!confirm('داده‌های فعلی بازنویسی می‌شوند. ادامه می‌دهید؟')) return;
+  var reader = new FileReader();
+  reader.onload = function(e){
+    try {
+      var data = JSON.parse(e.target.result);
+      Object.keys(data).forEach(function(k){
+        if (k.indexOf('coreader-') === 0) localStorage.setItem(k, data[k]);
+      });
+      alert('داده‌ها بازیابی شد — صفحه رفرش می‌شود');
+      location.reload();
+    } catch (err){
+      alert('خطا در خواندن فایل: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+// ===== URL-based annotation sharing — Feature 8 =====
+(function(){
+  var p = new URLSearchParams(location.search);
+  var annoId = p.get('anno');
+  if (!annoId) return;
+  var pg = +p.get('page') || 1;
+  // Wait for book to load then navigate and highlight
+  var wait = setInterval(function(){
+    if (BOOK){ clearInterval(wait); goPg(pg); setTimeout(function(){
+      var el = document.getElementById(annoId);
+      if (el){
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        el.style.outline = '3px solid var(--accent)';
+        el.style.outlineOffset = '2px';
+        el.style.borderRadius = '3px';
+        setTimeout(function(){ el.style.outline = ''; el.style.outlineOffset = ''; }, 4000);
+      }
+    }, 500); }
+  }, 100);
+  setTimeout(function(){ clearInterval(wait); }, 10000);
+})();
+
 // ===== Context menu: note, highlight, favorite, copy-with-source =====
 function _closeCtx(){ document.getElementById('ctxMenu').setAttribute('data-open', 'false'); }
 
@@ -743,6 +957,88 @@ function ctxCopyWithSource(){
   });
 }
 
+// ===== Bookmarks (Feature 4) =====
+function ctxBookmark(){
+  _closeCtx();
+  if (!BOOK) return;
+  var bookmarks = JSON.parse(localStorage.getItem('coreader-bookmarks') || '[]');
+  var exists = bookmarks.some(function(b){ return b.page === curPage && b.book === BOOK.title; });
+  if (exists){ alert('این صفحه قبلاً نشانه شده است'); return; }
+  bookmarks.push({ page: curPage, book: BOOK.title, title: BOOK.title, time: Date.now() });
+  localStorage.setItem('coreader-bookmarks', JSON.stringify(bookmarks));
+  var toast = document.createElement('div');
+  toast.textContent = '🔖 نشانه ذخیره شد';
+  toast.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;padding:8px 20px;border-radius:8px;z-index:99999;font-size:14px;animation:fade-slide-up .4s ease';
+  document.body.appendChild(toast);
+  setTimeout(function(){ toast.remove(); }, 1500);
+}
+
+// ===== Export annotations as Markdown (Feature 5) =====
+function exportAnnotations(){
+  var sections = [];
+  var favs = JSON.parse(localStorage.getItem('coreader-favs') || '[]');
+  var notes = JSON.parse(localStorage.getItem('coreader-notes') || '[]');
+  var highlights = JSON.parse(localStorage.getItem('coreader-highlights') || '[]');
+  var bookmarks = JSON.parse(localStorage.getItem('coreader-bookmarks') || '[]');
+
+  sections.push('# خروجی حاشیه‌نویسی‌ها');
+  sections.push('');
+
+  if (favs.length){
+    sections.push('## ⭐ علاقه‌مندی‌ها');
+    sections.push('');
+    favs.forEach(function(f){
+      sections.push('- **' + (f.book || '') + '** — صفحهٔ ' + toFA(f.page || 1));
+      sections.push('  > ' + (f.text || ''));
+      if (f.note) sections.push('  📝 ' + f.note);
+      sections.push('');
+    });
+  }
+
+  if (notes.length){
+    sections.push('## 🗒️ یادداشت‌ها');
+    sections.push('');
+    notes.forEach(function(n){
+      sections.push('- **' + (n.book || '') + '** — صفحهٔ ' + toFA(n.page || 1));
+      sections.push('  > ' + (n.text || ''));
+      if (n.note) sections.push('  📝 ' + n.note);
+      sections.push('');
+    });
+  }
+
+  if (highlights.length){
+    sections.push('## 🖍️ هایلایت‌ها');
+    sections.push('');
+    highlights.forEach(function(h){
+      sections.push('- **' + (h.book || '') + '** — صفحهٔ ' + toFA(h.page || 1));
+      sections.push('  > ' + (h.text || ''));
+      sections.push('');
+    });
+  }
+
+  if (bookmarks.length){
+    sections.push('## 🔖 نشانه‌ها');
+    sections.push('');
+    bookmarks.forEach(function(b){
+      sections.push('- **' + (b.book || '') + '** — صفحهٔ ' + toFA(b.page || 1));
+      sections.push('');
+    });
+  }
+
+  if (!sections.length || sections.length <= 1){
+    alert('داده‌ای برای خروجی وجود ندارد');
+    return;
+  }
+
+  var md = sections.join('\n');
+  var blob = new Blob([md], { type: 'text/markdown;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = 'coreader-annotations.md';
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
 // ===== Favorites / Notes panel =====
 function showFavPanel(){
   document.getElementById('favPanel').classList.add('on');
@@ -750,10 +1046,11 @@ function showFavPanel(){
 }
 function showFavTab(tab){
   document.querySelectorAll('.fav-tab').forEach(function(b, i){
-    b.classList.toggle('on', (tab === 'favs' && i === 0) || (tab === 'notes' && i === 1) || (tab === 'highlights' && i === 2));
+    b.classList.toggle('on', (tab === 'favs' && i === 0) || (tab === 'notes' && i === 1) || (tab === 'highlights' && i === 2) || (tab === 'bookmarks' && i === 3));
   });
   var list = document.getElementById('favList');
-  var data = JSON.parse(localStorage.getItem('coreader-' + tab) || '[]');
+  var key = tab === 'bookmarks' ? 'coreader-bookmarks' : 'coreader-' + tab;
+  var data = JSON.parse(localStorage.getItem(key) || '[]');
   if (!data.length){
     list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted-foreground,#999)">خالی</div>';
     return;
@@ -762,12 +1059,13 @@ function showFavTab(tab){
     var meta = (item.book || '') + (item.page ? ' — صفحهٔ ' + toFA(item.page) : '');
     var note = item.note ? '<div style="margin-top:4px;font-size:12px;opacity:.8">📝 ' + item.note + '</div>' : '';
     var colorSwatch = item.color ? '<span style="display:inline-block;width:12px;height:12px;background:' + item.color + ';border-radius:3px;margin-inline-start:4px;vertical-align:middle"></span>' : '';
-    var textPreview = (item.text || '').substring(0, 200) + ((item.text || '').length > 200 ? '…' : '');
+    var textPreview = (item.text || item.title || '').substring(0, 200) + ((item.text || item.title || '').length > 200 ? '…' : '');
+    var timeStr = item.time ? '<span style="margin-inline-start:6px;opacity:.6">' + new Date(item.time).toLocaleDateString('fa') + '</span>' : '';
     return '<div class="fav-item" onclick="goToFav(' + (item.page || 1) + ')">' +
       '<button class="fav-del" onclick="event.stopPropagation();delFav(\'' + tab + '\',' + i + ')">✕</button>' +
       '<div>' + colorSwatch + textPreview + '</div>' +
       note +
-      '<div class="fav-meta">' + meta + '</div></div>';
+      '<div class="fav-meta">' + meta + timeStr + '</div></div>';
   }).join('');
 }
 function goToFav(page){
@@ -1039,6 +1337,10 @@ function stopTts(){
 // ===================================================================
 var micOn = false, recording = false, recognition = null;
 var micWords = [], micIdx = 0, spokenBuf = [], locked = false, lastAnnoEl = null;
+// SpeechRecognition re-emits a changing interim transcript several times
+// before it becomes final.  Keep its identity separately: otherwise each
+// redraw of the same phrase can move the reader forward again.
+var lastInterimKey = '';
 
 function toggleMic(){
   micOn = !micOn;
@@ -1087,7 +1389,8 @@ function buildMicIndex(pg){
           if (!part) return;
           var span = document.createElement('span'); span.className = 'wl'; span.textContent = part;
           frag.appendChild(span);
-          micWords.push({ el: span, n: normW(part) });
+          var normalized = normW(part);
+          if (normalized) micWords.push({ el: span, n: normalized });
         });
       });
       node.parentNode.replaceChild(frag, node);
@@ -1153,9 +1456,11 @@ function tryAdvance(buf, live, wide){
   // staying stuck in the normal, narrower window forever.
   var ahead = live ? 15 : (wide ? 220 : 60), behind = live ? 2 : (wide ? 25 : 10);
   var res = alignBuffer(buf, micIdx, ahead, behind);
-  var minConf = live ? 1 : Math.max(2, Math.ceil(buf.length * 0.3));
-  var ratio = live ? 0.3 : (wide ? 0.85 : 0.7); // wide recovery needs stronger evidence, since it can jump far
-  var pass = res && res.matchedSpoken >= minConf && res.score >= res.matchedSpoken * ratio && res.pageIndex >= micIdx - behind;
+  var distinctive = buf.filter(function(w){ return !STOPW[w]; }).length;
+  var minConf = live ? 2 : Math.max(2, Math.ceil(buf.length * 0.3));
+  var ratio = live ? 0.3 : (wide ? 0.85 : 0.7);
+  var pass = res && distinctive > 0 && res.matchedSpoken >= minConf &&
+    res.score >= res.matchedSpoken * ratio && res.pageIndex >= micIdx;
   if (!pass) return { moved: false, res: res, micIdxBefore: micIdxBefore, micIdxAfter: micIdx, minConf: minConf, ratio: ratio, curWord: null };
   micIdx = Math.min(res.pageIndex + 1, micWords.length);
   locked = true;
@@ -1235,64 +1540,17 @@ function highlightAt(idx){
     hideNeighbors();
   }
 
-  // Auto-follow: magnifier locked at bottom-center, content jumps every 3 lines
   if (magAutoFollow && magOn && hlEl && (recording || ttsPlaying)){
-    var r2 = hlEl.getBoundingClientRect();
-    var mag = document.getElementById('magnifier');
-    if (!mag) return;
-    var pgEl = document.getElementById('pg_' + curPage);
-    var txtEl = pgEl && pgEl.querySelector('.ps-txt');
-    if (!txtEl) return;
-    var fs = parseFloat(getComputedStyle(txtEl).fontSize) || 22;
-    var lh = fs * 2.2;
-    var tc = document.querySelector('.tc');
-    if (!tc) return;
-    var tcRect = tc.getBoundingClientRect();
-    var wordRelY = r2.top - tcRect.top + r2.height / 2;
-    var lineIdx = Math.floor(wordRelY / lh);
-    var groupIdx = Math.floor(lineIdx / 3);
-    // Lock magnifier position every frame
-    mag.style.left = Math.max(10, (window.innerWidth - MAG_W) / 2) + 'px';
-    mag.style.top = (window.innerHeight - MAG_H - 10) + 'px';
-    // Only reposition content when 3-line group changes
-    if (groupIdx !== _magGroup){
-      _magGroup = groupIdx;
-      var midLineY = (groupIdx * 3 + 1) * lh + lh / 2;
-      // Center horizontally: clone width matches .tc width, center is always at half width
-      var offsetX = MAG_W / 2 - (tc.offsetWidth * MAG_SCALE) / 2;
-      var offsetY = -(midLineY * MAG_SCALE) + MAG_H / 2;
-      var content = document.getElementById('magContent');
-      if (content){
-        updateMagClone();
-        content.style.transform = 'scale(' + MAG_SCALE + ')';
-        content.style.left = offsetX + 'px';
-        content.style.top = offsetY + 'px';
-      }
-      // Smart scroll: center the reading line in visible area above magnifier
-      var magTop = window.innerHeight - MAG_H - 10;
-      var visibleCenter = magTop / 2;
-      var absLineY = tc.offsetTop + midLineY;
-      var targetScroll = absLineY - visibleCenter;
-      window.scrollTo({ top: Math.max(0, targetScroll), behavior: 'smooth' });
-    }
+    followMagnifier(hlEl);
   }
 }
 
 // Render magnified content at a specific page coordinate (without moving the lens)
 function _renderMagAt(pageX, pageY){
-  var content = document.getElementById('magContent');
-  if (!content) return;
   var tc = document.querySelector('.tc');
   if (!tc) return;
-  updateMagClone();
   var tcRect = tc.getBoundingClientRect();
-  var srcX = pageX - tcRect.left;
-  var srcY = pageY - tcRect.top;
-  var offsetX = -(srcX * MAG_SCALE) + MAG_W / 2;
-  var offsetY = -(srcY * MAG_SCALE) + MAG_H / 2;
-  content.style.transform = 'scale(' + MAG_SCALE + ')';
-  content.style.left = offsetX + 'px';
-  content.style.top = offsetY + 'px';
+  renderMagnifierSource(pageX - tcRect.left, pageY - tcRect.top);
 }
 
 // Neighbor highlight overlays (prev/next words — fainter)
@@ -1394,6 +1652,17 @@ var missStreak = 0;
 function processFinal(text){
   var words = text.split(/\s+/).filter(function(w){ return w.length > 0; }).map(normW).filter(Boolean);
   if (!words.length) return;
+  var overlap = 0;
+  for (var k = Math.min(spokenBuf.length, words.length); k > 0; k--){
+    var same = true;
+    for (var q = 0; q < k; q++){
+      if (spokenBuf[spokenBuf.length - k + q] !== words[q]){ same = false; break; }
+    }
+    if (same){ overlap = k; break; }
+  }
+  words = words.slice(overlap);
+  lastInterimKey = '';
+  if (!words.length) return;
   spokenBuf = spokenBuf.concat(words).slice(-16);
   var wide = missStreak >= 3;
   var r = tryAdvance(spokenBuf, false, wide);
@@ -1409,8 +1678,11 @@ function processFinal(text){
 function processInterim(text){
   var words = text.split(/\s+/).filter(function(w){ return w.length > 0; }).map(normW).filter(Boolean);
   if (!words.length) return;
+  var interimKey = words.join(' ');
+  if (interimKey === lastInterimKey) return;
+  lastInterimKey = interimKey;
   var tempBuf = spokenBuf.concat(words).slice(-16);
-  var r = tryAdvance(tempBuf, locked);
+  var r = tryAdvance(tempBuf, true, false);
   logEvt({ type: 'interim', raw: text, norm: words, bufLen: tempBuf.length, live: locked, res: r.res, moved: r.moved,
     micIdxBefore: r.micIdxBefore, micIdxAfter: r.micIdxAfter, curWord: r.curWord, minConf: r.minConf, ratio: r.ratio });
   var pct = Math.round(micIdx / (micWords.length || 1) * 100);
@@ -1429,7 +1701,7 @@ function toggleRecording(){
   if (!SR){ document.getElementById('micStatus').textContent = 'مرورگر پشتیبانی نمی‌کند (از Chrome استفاده کنید)'; return; }
   buildMicIndex(curPage);
   if (!micWords.length){ document.getElementById('micStatus').textContent = 'خطا در آماده‌سازی صفحه'; return; }
-  recording = true; spokenBuf = []; locked = false; lastAnnoEl = null;
+  recording = true; spokenBuf = []; locked = false; lastAnnoEl = null; lastInterimKey = '';
   lastResultTime = Date.now(); restartAttempts = 0;
   startSessionLogging();
   document.getElementById('micBtn').classList.add('recording');
@@ -1511,7 +1783,7 @@ function stopMic(){
   var sl = document.getElementById('hlSlide');
   if (sl) sl.classList.remove('active');
   hideNeighbors();
-  micWords = []; micIdx = 0; spokenBuf = []; locked = false; lastAnnoEl = null; missStreak = 0;
+  micWords = []; micIdx = 0; spokenBuf = []; locked = false; lastAnnoEl = null; missStreak = 0; lastInterimKey = '';
   clearMarginAnnos();
   var pdfHl = document.getElementById('pdfHl'); if (pdfHl) pdfHl.style.display = 'none';
 }
@@ -1572,7 +1844,7 @@ var magOn = false, magDragging = false, magOffX = 0, magOffY = 0;
 var MAG_W = 1600, MAG_H = 461, MAG_SCALE = 2;
 var magAutoFollow = false; // follow current word during TTS/خط‌بَر
 var _magGroup = -1; // last 3-line group the magnifier was positioned for
-var magClone = null, magCloneSrc = '';
+var magClone = null, magCloneSrc = '', magHandleDownHandler = null, magMouseUpHandler = null;
 
 function toggleMagnifier(){
   magOn = !magOn;
@@ -1605,20 +1877,19 @@ function startMagnifier(){
   mag.style.left = Math.max(10, (window.innerWidth - MAG_W) / 2) + 'px';
   mag.style.top = (window.innerHeight - MAG_H - 10) + 'px';
 
-  // Drag handle
   var handle = document.getElementById('magHandle');
-  handle.addEventListener('mousedown', function(e){
-    if (magAutoFollow && (recording || ttsPlaying)) return; // locked during auto-follow
+  magHandleDownHandler = function(e){
+    if (magAutoFollow && (recording || ttsPlaying)) return;
     magDragging = true;
     var r = mag.getBoundingClientRect();
     magOffX = e.clientX - r.left;
     magOffY = e.clientY - r.top;
     e.preventDefault();
-  });
-
-  // Track mouse
+  };
+  handle.addEventListener('mousedown', magHandleDownHandler);
   document.addEventListener('mousemove', magMoveHandler);
-  document.addEventListener('mouseup', function(){ magDragging = false; });
+  magMouseUpHandler = function(){ magDragging = false; };
+  document.addEventListener('mouseup', magMouseUpHandler);
 
   // Initial clone
   updateMagClone();
@@ -1635,17 +1906,18 @@ function updateMagClone(){
   if (html !== magCloneSrc){
     magCloneSrc = html;
     content.innerHTML = html;
-    // Apply same computed styles as the original
-    var cs = getComputedStyle(tc);
-    content.style.fontFamily = cs.fontFamily;
-    content.style.fontSize = cs.fontSize;
-    content.style.lineHeight = cs.lineHeight;
-    content.style.fontWeight = cs.fontWeight;
-    content.style.direction = cs.direction;
-    content.style.textAlign = cs.textAlign;
-    content.style.color = cs.color;
-    content.style.width = tc.offsetWidth + 'px';
   }
+  var cs = getComputedStyle(tc);
+  content.style.fontFamily = cs.fontFamily;
+  content.style.fontSize = cs.fontSize;
+  content.style.lineHeight = cs.lineHeight;
+  content.style.fontWeight = cs.fontWeight;
+  content.style.direction = cs.direction;
+  content.style.textAlign = cs.textAlign;
+  content.style.color = cs.color;
+  content.style.boxSizing = cs.boxSizing;
+  content.style.padding = cs.padding;
+  content.style.width = tc.offsetWidth + 'px';
 }
 
 var magMoveRAF = 0;
@@ -1665,6 +1937,26 @@ function magMoveHandler(e){
     magMoveRAF = 0;
     moveMagLens(e.clientX, e.clientY);
   });
+}
+
+function followMagnifier(target){
+  var mag = document.getElementById('magnifier');
+  var tc = document.querySelector('.tc');
+  if (!mag || !tc) return;
+  var targetRect = target.getBoundingClientRect();
+  var tcRect = tc.getBoundingClientRect();
+  var srcX = targetRect.left - tcRect.left + targetRect.width / 2;
+  var srcY = targetRect.top - tcRect.top + targetRect.height / 2;
+  mag.style.left = Math.max(10, (window.innerWidth - MAG_W) / 2) + 'px';
+  mag.style.top = Math.max(10, window.innerHeight - MAG_H - 10) + 'px';
+  renderMagnifierSource(srcX, srcY);
+  var lineHeight = parseFloat(getComputedStyle(tc).lineHeight) || 48;
+  var groupIdx = Math.floor(srcY / lineHeight / 3);
+  if (groupIdx === _magGroup) return;
+  _magGroup = groupIdx;
+  var visibleCenter = Math.max(80, (window.innerHeight - MAG_H - 10) / 2);
+  var targetScroll = window.scrollY + targetRect.top + targetRect.height / 2 - visibleCenter;
+  window.scrollTo({ top: Math.max(0, targetScroll), behavior: 'smooth' });
 }
 
 function moveMagLens(cx, cy){
@@ -1688,13 +1980,16 @@ function moveMagLens(cx, cy){
   var srcX = cx - tcRect.left;
   var srcY = cy - tcRect.top;
 
-  // Translate to show the source region centered in the lens, zoomed MAG_SCALE×
-  var offsetX = -(srcX * MAG_SCALE) + MAG_W / 2;
-  var offsetY = -(srcY * MAG_SCALE) + MAG_H / 2;
+  renderMagnifierSource(srcX, srcY);
+}
 
+function renderMagnifierSource(srcX, srcY){
+  var content = document.getElementById('magContent');
+  if (!content) return;
+  updateMagClone();
   content.style.transform = 'scale(' + MAG_SCALE + ')';
-  content.style.left = offsetX + 'px';
-  content.style.top = offsetY + 'px';
+  content.style.left = (MAG_W / 2 - srcX * MAG_SCALE) + 'px';
+  content.style.top = (MAG_H / 2 - srcY * MAG_SCALE) + 'px';
 }
 
 // Smooth version for auto-follow — same logic, CSS transition handles animation
@@ -1703,10 +1998,12 @@ function moveMagLensSmooth(cx, cy){
 }
 
 function stopMagnifier(){
-  if (window._magMoveHandler){
-    document.removeEventListener('mousemove', window._magMoveHandler);
-    window._magMoveHandler = null;
-  }
+  document.removeEventListener('mousemove', magMoveHandler);
+  if (magMouseUpHandler) document.removeEventListener('mouseup', magMouseUpHandler);
+  var handle = document.getElementById('magHandle');
+  if (handle && magHandleDownHandler) handle.removeEventListener('mousedown', magHandleDownHandler);
+  magMouseUpHandler = null;
+  magHandleDownHandler = null;
   if (magMoveRAF){ cancelAnimationFrame(magMoveRAF); magMoveRAF = 0; }
   magDragging = false;
   magCloneSrc = '';
@@ -1726,7 +2023,11 @@ window.ctxEditText = ctxEditText; window.ctxToggleTashkil = ctxToggleTashkil; wi
 window.toggleTashkilBar = toggleTashkilBar; window.insertTashkil = insertTashkil;
 window.doEncSearch = doEncSearch; window.closeEncPanel = closeEncPanel; window.ctxSearchEnc = ctxSearchEnc;
 window.ctxAddNote = ctxAddNote; window.ctxHighlight = ctxHighlight; window.ctxAddFavorite = ctxAddFavorite; window.ctxCopyWithSource = ctxCopyWithSource;
+window.ctxBookmark = ctxBookmark; window.exportAnnotations = exportAnnotations;
+window.ctxShareAnno = ctxShareAnno;
 window.showFavPanel = showFavPanel; window.showFavTab = showFavTab; window.delFav = delFav; window.goToFav = goToFav;
+window.exportAnnotationsPdf = exportAnnotationsPdf;
+window.exportLocalData = exportLocalData; window.importLocalData = importLocalData;
 window.toggleTts = toggleTts; window.toggleTtsPlay = toggleTtsPlay; window.setTtsRate = setTtsRate;
 window.setTtsEngine = setTtsEngine; window.toggleTtsPlayGoogle = toggleTtsPlayGoogle;
 window.toggleMagnifier = toggleMagnifier;
