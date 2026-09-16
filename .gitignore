@@ -1,0 +1,20 @@
+# PDFs - too large for git
+*.pdf
+**/*.pdf
+
+# OCR intermediate data
+**/_ocr*/
+**/ocr_pass*.json
+**/candidates.json
+**/pdf-sources.json
+
+# Node modules
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Sources not needed in site
+src/ocr/tessdata/*.traineddata
