@@ -63,6 +63,14 @@ function renderSite(){
     });
     const hasPdf = pdfSources.length > 0;
 
+    // Copy cover image if exists
+    if (book.cover) {
+      const coverSrc = path.join(BOOKS_DIR, slug, book.cover);
+      if (fs.existsSync(coverSrc)) {
+        fs.copyFileSync(coverSrc, path.join(outDir, path.basename(book.cover)));
+      }
+    }
+
     const shell = readerHtml
       .replace('<title>کتاب</title>', `<title>${book.title}</title>`)
       .replace('</head>', `<script>window.BOOK_URL='book.json';</script></head>`);

@@ -4,8 +4,88 @@
   "author": "ناشناس",
   "chapters": [
     {
-      "title": "(بدون فصل‌بندی تشخیص‌داده‌شده)",
+      "title": "مقدمه",
       "startPage": 1
+    },
+    {
+      "title": "بخش 2",
+      "startPage": 23
+    },
+    {
+      "title": "بخش 3",
+      "startPage": 45
+    },
+    {
+      "title": "بخش 4",
+      "startPage": 67
+    },
+    {
+      "title": "بخش 5",
+      "startPage": 89
+    },
+    {
+      "title": "بخش 6",
+      "startPage": 111
+    },
+    {
+      "title": "بخش 7",
+      "startPage": 133
+    },
+    {
+      "title": "بخش 8",
+      "startPage": 155
+    },
+    {
+      "title": "بخش 9",
+      "startPage": 177
+    },
+    {
+      "title": "بخش 10",
+      "startPage": 199
+    },
+    {
+      "title": "بخش 11",
+      "startPage": 221
+    },
+    {
+      "title": "بخش 12",
+      "startPage": 243
+    },
+    {
+      "title": "بخش 13",
+      "startPage": 265
+    },
+    {
+      "title": "بخش 14",
+      "startPage": 287
+    },
+    {
+      "title": "بخش 15",
+      "startPage": 309
+    },
+    {
+      "title": "بخش 16",
+      "startPage": 331
+    },
+    {
+      "title": "بخش 17",
+      "startPage": 353
+    },
+    {
+      "title": "بخش 18",
+      "startPage": 375
+    },
+    {
+      "title": "بخش 19",
+      "startPage": 397
+    },
+    {
+      "title": "بخش 20",
+      "startPage": 419
+    },
+    {
+      "title": "بخش 21",
+      "startPage": 441
     }
   ],
   "pages": [
@@ -98395,5 +98475,5 @@
   ],
   "hasPdf": true,
   "candidateCount": 250,
-  "cover": "covers/qara.svg"
+  "cover": "cover.webp"
 }

@@ -1,26 +1,11 @@
-# PDFs - too large for git
-*.pdf
-**/*.pdf
-
-# Generated deployment output; gh-pages contains only site/
-site/
-
-# Generated per-book shells
-books/*/index.html
-
-# OCR intermediate data
-**/_ocr*/
-**/ocr_pass*.json
-**/candidates.json
-**/pdf-sources.json
-
-# Node modules
 node_modules/
-
-# OS
 .DS_Store
 Thumbs.db
 *.log
-
-# Sources not needed in site
 src/ocr/tessdata/*.traineddata
+src/ocr/_test_*
+
+# Intermediate OCR working directories (page images + raw first-pass text) —
+# large and fully reproducible from the source PDFs via src/ocr/ocr_pdf.py;
+# only the final book.json (built from these) is meant to be tracked.
+books/*/_ocr*/

@@ -4,8 +4,124 @@
   "author": "جیسون بابک محقق",
   "chapters": [
     {
-      "title": "(بدون فصل‌بندی تشخیص‌داده‌شده)",
-      "startPage": 1
+      "title": "Foreword: In Praise of Perpetual Imminence, by Robin Mackay",
+      "startPage": 5
+    },
+    {
+      "title": "Introduction: Book of the Eleventh Hour (Philosophy of Doom)",
+      "startPage": 7
+    },
+    {
+      "title": "Part 2",
+      "startPage": 12
+    },
+    {
+      "title": "Part 3",
+      "startPage": 20
+    },
+    {
+      "title": "Part 4",
+      "startPage": 27
+    },
+    {
+      "title": "Part 6",
+      "startPage": 34
+    },
+    {
+      "title": "Part 7",
+      "startPage": 39
+    },
+    {
+      "title": "Part 8",
+      "startPage": 43
+    },
+    {
+      "title": "Part 9",
+      "startPage": 50
+    },
+    {
+      "title": "Part 10",
+      "startPage": 54
+    },
+    {
+      "title": "Part 11",
+      "startPage": 60
+    },
+    {
+      "title": "Part 12",
+      "startPage": 63
+    },
+    {
+      "title": "Part 13",
+      "startPage": 74
+    },
+    {
+      "title": "Part 14",
+      "startPage": 79
+    },
+    {
+      "title": "Interlude: Book of the Opium Den",
+      "startPage": 86
+    },
+    {
+      "title": "Part 15",
+      "startPage": 95
+    },
+    {
+      "title": "Part 16",
+      "startPage": 103
+    },
+    {
+      "title": "Part 17",
+      "startPage": 108
+    },
+    {
+      "title": "Part 18",
+      "startPage": 112
+    },
+    {
+      "title": "Part 19",
+      "startPage": 116
+    },
+    {
+      "title": "Part 21",
+      "startPage": 123
+    },
+    {
+      "title": "Part 22",
+      "startPage": 127
+    },
+    {
+      "title": "Interlude: Book of Poor Games",
+      "startPage": 133
+    },
+    {
+      "title": "Part 23",
+      "startPage": 140
+    },
+    {
+      "title": "Part 24",
+      "startPage": 146
+    },
+    {
+      "title": "Part 25",
+      "startPage": 152
+    },
+    {
+      "title": "Part 26",
+      "startPage": 164
+    },
+    {
+      "title": "Part 27",
+      "startPage": 170
+    },
+    {
+      "title": "Epilogue: Book of the Liar (Philosophy of Deception)",
+      "startPage": 175
+    },
+    {
+      "title": "Select Bibliography",
+      "startPage": 184
     }
   ],
   "pages": [
@@ -92636,8 +92752,15 @@
       414
     ]
   },
-  "pdfSources": [],
-  "hasPdf": false,
+  "pdfSources": [
+    {
+      "id": "pdf_1",
+      "label": "PDF",
+      "filename": "pdf_1.pdf"
+    }
+  ],
+  "hasPdf": true,
   "candidateCount": 250,
-  "cover": "covers/homicide2.jpg"
+  "cover": "cover.webp",
+  "pdf": "pdf_1.pdf"
 }

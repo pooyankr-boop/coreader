@@ -4,8 +4,92 @@
   "author": "جیسون بابک محقق",
   "chapters": [
     {
-      "title": "(بدون فصل‌بندی تشخیص‌داده‌شده)",
-      "startPage": 1
+      "title": "Foreword: In Praise of Abnormal Persistence",
+      "startPage": 12
+    },
+    {
+      "title": "Introduction: Movement of the Lost Cause",
+      "startPage": 24
+    },
+    {
+      "title": "Part 1",
+      "startPage": 40
+    },
+    {
+      "title": "I. Augomania (Light)",
+      "startPage": 44
+    },
+    {
+      "title": "II. Heliomania (Sun)",
+      "startPage": 84
+    },
+    {
+      "title": "III. Selenomania (Moon)",
+      "startPage": 108
+    },
+    {
+      "title": "Part 5",
+      "startPage": 138
+    },
+    {
+      "title": "I. Dromomania (Travelling)",
+      "startPage": 144
+    },
+    {
+      "title": "II. Ecdemomania (Wandering)",
+      "startPage": 170
+    },
+    {
+      "title": "III. Cartogramania (Maps)",
+      "startPage": 202
+    },
+    {
+      "title": "IV. Kinetomania (Continual Movement)",
+      "startPage": 230
+    },
+    {
+      "title": "V. Dinomania (Dizziness, Whirlpools)",
+      "startPage": 268
+    },
+    {
+      "title": "VI. Labyrintomania (Labyrinths)",
+      "startPage": 300
+    },
+    {
+      "title": "Part 20",
+      "startPage": 332
+    },
+    {
+      "title": "I. Monomania (Aloneness)",
+      "startPage": 338
+    },
+    {
+      "title": "II. Isolomania (Isolation)",
+      "startPage": 362
+    },
+    {
+      "title": "III. Megalomania (Self)",
+      "startPage": 394
+    },
+    {
+      "title": "IV. Catoptromania/Eisoptromania (Mirrors)",
+      "startPage": 422
+    },
+    {
+      "title": "V. Colossomania (Giants)",
+      "startPage": 440
+    },
+    {
+      "title": "Omnicide Returned: Endtime Visions",
+      "startPage": 478
+    },
+    {
+      "title": "Select Bibliography",
+      "startPage": 484
+    },
+    {
+      "title": "Urbanomic/Sequence Press Titles",
+      "startPage": 488
     }
   ],
   "pages": [
@@ -77817,8 +77901,15 @@
       330
     ]
   },
-  "pdfSources": [],
-  "hasPdf": false,
+  "pdfSources": [
+    {
+      "id": "pdf_1",
+      "label": "PDF",
+      "filename": "pdf_1.pdf"
+    }
+  ],
+  "hasPdf": true,
   "candidateCount": 250,
-  "cover": "covers/homicide.jpg"
+  "cover": "cover.webp",
+  "pdf": "pdf_1.pdf"
 }

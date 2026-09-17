@@ -22,6 +22,7 @@
 </style>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700&family=El+Messiri:wght@400;500;600;700&family=Lalezar&family=Lateef&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Reem+Kufi:wght@400;500;600;700&family=Sakkal+Majalla&family=Scheherazade+New:wght@400;700&family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../assets/fonts.css">
 </head>
 <body>
 <div class="loading-overlay" id="loadingOverlay">
@@ -282,26 +283,47 @@
       </select>
     </div>
     <div class="sp-row">
-      <label>فاصله خطوط</label>
-      <input type="range" id="setLh" min="16" max="40" value="22" step="2" oninput="applySetting('lh',this.value)">
-      <span id="setLhV">۲٫۲</span>
-    </div>
-  </div>
+          <label>فاصله خطوط</label>
+          <input type="range" id="setLh" min="16" max="40" value="22" step="2" oninput="applySetting('lh',this.value)">
+          <span id="setLhV">۲٫۲</span>
+        </div>
+        <div class="sp-row">
+          <label>رنگ فونت</label>
+          <div class="hl-presets">
+            <div class="hl-preset" style="background:#222" onclick="applySetting('fgColor','#222')"></div>
+            <div class="hl-preset" style="background:#444" onclick="applySetting('fgColor','#444')"></div>
+            <div class="hl-preset" style="background:#664422" onclick="applySetting('fgColor','#664422')"></div>
+            <div class="hl-preset" style="background:#fff" onclick="applySetting('fgColor','#fff')"></div>
+            <div class="hl-preset" style="background:#00f" onclick="applySetting('fgColor','#00f')"></div>
+            <div class="hl-preset" style="background:#0a0" onclick="applySetting('fgColor','#0a0')"></div>
+          </div>
+        </div>
+        <div class="sp-row">
+          <label>رنگ فونت سفارشی</label>
+          <input type="color" id="setFgColor" value="#222222" onchange="applySetting('fgColor',this.value)">
+          <span id="setFgColorV"></span>
+        </div>
+      </div>
   <div class="sp-section">
-    <h3>پوسته رنگی</h3>
-    <div class="theme-grid">
-      <button class="theme-btn on" data-theme="" style="background:#faf8f5" onclick="setTheme('')"></button>
-      <button class="theme-btn" data-theme="sepia" style="background:#f4ecd8" onclick="setTheme('sepia')"></button>
-      <button class="theme-btn" data-theme="cream" style="background:#fdf6e3" onclick="setTheme('cream')"></button>
-      <button class="theme-btn" data-theme="green" style="background:#e8f5e9" onclick="setTheme('green')"></button>
-      <button class="theme-btn" data-theme="dark" style="background:#1a1a2e" onclick="setTheme('dark')"></button>
-      <button class="theme-btn" data-theme="night" style="background:#0d1117" onclick="setTheme('night')"></button>
-    </div>
-    <div class="sp-row" style="margin-top:12px">
-      <label>شفافیت پنل‌ها</label>
-      <input type="range" id="setGlassOpacity" min="30" max="100" value="72" oninput="applySetting('glassOpacity',this.value)">
-      <span id="setGlassOpacityV">۷۲٪</span>
-    </div>
+      <h3>پوسته رنگی</h3>
+      <div class="theme-grid">
+        <button class="theme-btn on" data-theme="" style="background:#faf8f5" onclick="setTheme('')"></button>
+        <button class="theme-btn" data-theme="sepia" style="background:#f4ecd8" onclick="setTheme('sepia')"></button>
+        <button class="theme-btn" data-theme="cream" style="background:#fdf6e3" onclick="setTheme('cream')"></button>
+        <button class="theme-btn" data-theme="green" style="background:#e8f5e9" onclick="setTheme('green')"></button>
+        <button class="theme-btn" data-theme="dark" style="background:#1a1a2e" onclick="setTheme('dark')"></button>
+        <button class="theme-btn" data-theme="night" style="background:#0d1117" onclick="setTheme('night')"></button>
+      </div>
+      <div class="sp-row" style="margin-top:12px">
+        <label>رنگ پوسته سفارشی</label>
+        <input type="color" id="setThemeColor" value="#faf8f5" onchange="setThemeColor(this.value)">
+        <span id="setThemeColorV"></span>
+      </div>
+      <div class="sp-row" style="margin-top:12px">
+        <label>شفافیت پنل‌ها</label>
+        <input type="range" id="setGlassOpacity" min="30" max="100" value="72" oninput="applySetting('glassOpacity',this.value)">
+        <span id="setGlassOpacityV">۷۲٪</span>
+      </div>
     <div class="sp-row">
       <label>🕐 حالت خودکار (شب/روز)</label>
       <input type="checkbox" id="setAutoTheme" onchange="applySetting('autoTheme',this.checked)">

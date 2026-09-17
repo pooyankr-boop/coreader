@@ -22,6 +22,70 @@ var BOOK = null;
 var curPage = 1, annoOn = true;
 
 function toFA(n){return String(n).replace(/[0-9]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[d]})}
+// Lighten color by percentage (0-100)
+// Normalize word for search (remove diacritics, convert to Persian)
+function normW(w){
+  return w
+    .replace(/[\u064B-\u065F]/g, '') // Remove Arabic diacritics
+    .replace(/[\u0650-\u065F\u064B-\u064F\u0610-\u061A]/g, '') // Remove all diacritics
+    .replace(/ی/g, 'ي').replace(/ک/g, 'ك') // Standard Persian forms
+    .replace(/[ـًٌٍَُِْٰ\u200C\u200F]/g, '') // Remove zero-width and other marks
+    .replace(/[^آ-یA-Za-z0-9]/g, '') // Keep only Persian/Arabic letters and numbers
+    .toLowerCase();
+}
+// Darken color by percentage (0-100)
+function darkenColor(hex, percent){
+  // Remove # if present
+  hex = hex.replace(/^#/, '');
+  // Parse r, g, b
+  var r = parseInt(hex.slice(0,2), 16);
+  var g = parseInt(hex.slice(2,4), 16);
+  var b = parseInt(hex.slice(4,6), 16);
+  // Convert to darken
+  r = Math.round(r * (100 - percent) / 100);
+  g = Math.round(g * (100 - percent) / 100);
+  b = Math.round(b * (100 - percent) / 100);
+  // Ensure within bounds
+  r = Math.max(0, Math.min(255, r));
+  g = Math.max(0, Math.min(255, g));
+  b = Math.max(0, Math.min(255, b));
+  // Return hex
+  return '#' + [r,g,b].map(function(c){
+    return ('0' + c.toString(16)).slice(-2);
+  }).join('');
+}
+// Build search index from book pages
+function buildSearchIndex(){
+  if (!BOOK || !BOOK.pages) return;
+  var index = {};
+  BOOK.pages.forEach(function(p){
+    // Extract text from HTML (remove tags)
+    var txt = p.html.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+    var words = txt.split(/[\s،؛:.,!?]/).filter(Boolean);
+    words.forEach(function(w){
+      var nw = normW(w);
+      if (!nw || nw.length < 2) return;
+      if (!index[nw]) index[nw] = [];
+      if (!index[nw].includes(p.page)) index[nw].push(p.page);
+    });
+  });
+  BOOK.searchIndex = index;
+  console.log('[coreader] search index built:', Object.keys(index).length, 'unique words');
+}
+function lightenColor(hex, percent){
+  // Remove # if present
+  hex = hex.replace(/^#/, '');
+  // Convert to RGB
+  var r = parseInt(hex.substr(0,2), 16);
+  var g = parseInt(hex.substr(2,2), 16);
+  var b = parseInt(hex.substr(4,2), 16);
+  // Calculate lightness
+  r = Math.min(255, Math.floor(r + (255 - r) * (percent / 100)));
+  g = Math.min(255, Math.floor(g + (255 - g) * (percent / 100)));
+  b = Math.min(255, Math.floor(b + (255 - b) * (percent / 100)));
+  // Convert back to hex
+  return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
 
 // ===== Load book =====
 console.log('[coreader] loading book.json from', window.BOOK_URL || 'book.json');
@@ -38,6 +102,8 @@ fetch(window.BOOK_URL || 'book.json').then(function(r){return r.json()}).then(fu
   loadHighlightSettings();
   loadFontWeightSettings();
   loadMagSettings();
+  loadColorSettings();
+  loadThemeColor();
   // Load text width from localStorage
   (function(){
     var tw = localStorage.getItem('coreader-tw');
@@ -196,14 +262,30 @@ function applySetting(k, v){
     saveMagSettings(); return;
   }
   else if (k === 'magAutoFollow'){
-    magAutoFollow = document.getElementById('setMagAutoFollow').checked;
-    saveMagSettings(); return;
+      toggleMagAutoFollow();
+      return;
+    }
+  else if (k === 'fgColor'){
+    document.documentElement.style.setProperty('--fg-color', v);
+    document.body.style.setProperty('--fg-color', v);
+    document.getElementById('setFgColorV').textContent = v;
+    localStorage.setItem('coreader-fg-color', v);
+    return;
   }
   else if (k === 'glassOpacity'){
     var alpha = v / 100;
-    // Update all theme glass-bg values
-    document.documentElement.style.setProperty('--glass-bg', 'rgba(250,248,245,' + alpha + ')');
-    document.body.style.setProperty('--glass-bg', 'rgba(250,248,245,' + alpha + ')');
+    // Update all theme glass-bg values — preserve RGB from computed style
+    var rootStyle = getComputedStyle(document.documentElement);
+    var rootBg = rootStyle.getPropertyValue('--glass-bg').trim();
+    var rootRgb = rootBg.replace(/^rgba?\s*\(\s*/, '').replace(/\s*\)\s*$/, '').split(/\s*,\s*/).slice(0,3);
+    document.documentElement.style.setProperty('--glass-bg', 'rgba(' + rootRgb.join(',') + ',' + alpha + ')');
+    
+    var bodyStyle = getComputedStyle(document.body);
+    var bodyBg = bodyStyle.getPropertyValue('--glass-bg').trim();
+    if (bodyBg) {
+      var bodyRgb = bodyBg.replace(/^rgba?\s*\(\s*/, '').replace(/\s*\)\s*$/, '').split(/\s*,\s*/).slice(0,3);
+      document.body.style.setProperty('--glass-bg', 'rgba(' + bodyRgb.join(',') + ',' + alpha + ')');
+    }
     document.getElementById('setGlassOpacityV').textContent = toFA(v) + '٪';
     localStorage.setItem('coreader-glass-opacity', v);
     return;
@@ -226,6 +308,32 @@ function loadSettings(){
   if (s.font){ document.documentElement.style.setProperty('--ff', s.font); document.getElementById('setFont').value = s.font; }
   if (s.fs){ document.documentElement.style.setProperty('--fs', s.fs + 'px'); document.getElementById('setFs').value = s.fs; document.getElementById('setFsV').textContent = toFA(s.fs); }
   if (s.lh){ document.documentElement.style.setProperty('--lh', s.lh / 10); document.getElementById('setLh').value = s.lh; document.getElementById('setLhV').textContent = (s.lh / 10).toFixed(1); }
+}
+function loadColorSettings(){
+  // Load fgColor
+  var fgColor = localStorage.getItem('coreader-fg-color');
+  if (fgColor){
+    document.documentElement.style.setProperty('--fg-color', fgColor);
+    document.body.style.setProperty('--fg-color', fgColor);
+    document.getElementById('setFgColor').value = fgColor;
+    document.getElementById('setFgColorV').textContent = fgColor;
+  }
+  // Load glassOpacity
+  var glassOpacity = localStorage.getItem('coreader-glass-opacity');
+  if (glassOpacity){
+    var alpha = glassOpacity / 100;
+    var rootStyle = getComputedStyle(document.documentElement);
+    var rootBg = rootStyle.getPropertyValue('--glass-bg').trim();
+    var rootRgb = rootBg.replace(/rgba?\s*\(/, '').replace(/\s*\)/, '').split(',').slice(0,3);
+    document.documentElement.style.setProperty('--glass-bg', 'rgba(' + rootRgb.join(',') + ',' + alpha + ')');
+    var bodyBg = getComputedStyle(document.body).getPropertyValue('--glass-bg').trim();
+    if (bodyBg){
+      var bodyRgb = bodyBg.replace(/rgba?\s*\(/, '').replace(/\s*\)/, '').split(',').slice(0,3);
+      document.body.style.setProperty('--glass-bg', 'rgba(' + bodyRgb.join(',') + ',' + alpha + ')');
+    }
+    document.getElementById('setGlassOpacity').value = glassOpacity;
+    document.getElementById('setGlassOpacityV').textContent = toFA(glassOpacity) + '٪';
+  }
 }
 function saveHighlightSettings(){
   localStorage.setItem('coreader-highlight-settings', JSON.stringify({
@@ -315,6 +423,97 @@ function loadAutoTheme(){
   if (enabled){
     checkAutoTheme();
     autoThemeTimer = setInterval(checkAutoTheme, 300000); // every 5 minutes
+  }
+}
+
+// ===== Custom theme color =====
+function setThemeColor(color){
+  // Remove any existing theme classes
+  document.body.className = document.body.className.replace(/theme-\w+/g, '').trim();
+  // Set custom background color
+  document.documentElement.style.setProperty('--bg', color);
+  document.body.style.setProperty('--bg', color);
+  // Derive card, side, hover colors from theme
+  // Use HSL conversion for light/dark variants
+  var r = parseInt(color.slice(1,3), 16);
+  var g = parseInt(color.slice(3,5), 16);
+  var b = parseInt(color.slice(5,7), 16);
+  // Calculate brightness
+  var brightness = (r * 299 + g * 587 + b * 114) / 1000;
+  var isDark = brightness < 128;
+  
+  // Card color: 12% lighter than bg
+  var card = lightenColor(color, isDark ? 8 : 12);
+  // Side color: 4% lighter than bg  
+  var side = lightenColor(color, isDark ? 2 : 4);
+  // Hover color: intermediate between bg and card
+  var hover = lightenColor(color, isDark ? 4 : 6);
+  // Accent colors: choose contrasting colors
+  var accent = isDark ? '#c49a6c' : '#8b4513';
+  var accent2 = isDark ? '#a07848' : '#6b3410';
+  // Border color: 18% darker than bg for light, 8% lighter for dark
+  var border = darkenColor(color, isDark ? 8 : 18);
+  // Tooltip background: accent color
+  var ttBg = accent;
+  // Tooltip foreground: contrasting text
+  var ttFg = isDark ? '#f5e6d3' : '#fff9f0';
+  // Link color: accent2
+  var link = accent2;
+  // Glass border: semi‑transparent border
+  var glassBorder = 'rgba(' + r + ',' + g + ',' + b + ',' + '0.45)';
+  // Glow spread for highlights
+  var glowSpread = '0 0 12px rgba(' + 
+    parseInt(accent.slice(1,3), 16) + ',' +
+    parseInt(accent.slice(3,5), 16) + ',' +
+    parseInt(accent.slice(5,7), 16) + ',.35)';
+  
+  // Apply ALL theme variables
+  var vars = {
+    '--card': card,
+    '--side': side,
+    '--hover': hover,
+    '--accent': accent,
+    '--accent2': accent2,
+    '--border': border,
+    '--tt-bg': ttBg,
+    '--tt-fg': ttFg,
+    '--link': link,
+    '--glass-border': glassBorder,
+    '--glow-spread': glowSpread
+  };
+  
+  Object.keys(vars).forEach(function(key){
+    document.documentElement.style.setProperty(key, vars[key]);
+    document.body.style.setProperty(key, vars[key]);
+  });
+  
+  // Adjust glass-bg RGB to match theme
+  var alpha = (localStorage.getItem('coreader-glass-opacity') || 72) / 100;
+  document.documentElement.style.setProperty('--glass-bg', 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')');
+  document.body.style.setProperty('--glass-bg', 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')');
+  
+  document.getElementById('setThemeColorV').textContent = color;
+  localStorage.setItem('coreader-theme-color', color);
+}
+function loadThemeColor(){
+  var themeColor = localStorage.getItem('coreader-theme-color');
+  if (themeColor && themeColor.match(/^#[0-9A-Fa-f]{6}$/)){
+    // Apply theme color with stored opacity
+    var opacity = localStorage.getItem('coreader-glass-opacity') || 72;
+    var alpha = opacity / 100;
+    var r = parseInt(themeColor.slice(1,3), 16);
+    var g = parseInt(themeColor.slice(3,5), 16);
+    var b = parseInt(themeColor.slice(5,7), 16);
+    document.documentElement.style.setProperty('--bg', themeColor);
+    document.body.style.setProperty('--bg', themeColor);
+    document.documentElement.style.setProperty('--glass-bg', 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')');
+    document.body.style.setProperty('--glass-bg', 'rgba(' + r + ',' + g + ',' + b + ',' + alpha + ')');
+    var el = document.getElementById('setThemeColorV');
+    if (el) el.textContent = themeColor;
+  } else {
+    // Default theme color
+    localStorage.setItem('coreader-theme-color', '#faf8f5');
+    setThemeColor('#faf8f5');
   }
 }
 
@@ -551,6 +750,73 @@ function showMode(m){
 }
 function closePdf(){ showMode('text'); }
 
+// PDF.js text search for word-level highlight sync
+// Returns word index in page text if found, -1 otherwise
+function pdfFindText(text, pageIndex, pdfDoc){
+  return new Promise(function(resolve, reject){
+    if(!pdfDoc || !pdfDoc.pdfDocument) { resolve(-1); return; }
+    pdfDoc.pdfDocument.getPage(pageIndex).then(function(page){
+      page.getTextContent().then(function(tc){
+        var str = tc.items.map(function(i){ return i.str; }).join(' ');
+        var idx = str.indexOf(text);
+        resolve(idx >= 0 ? idx : -1);
+      }).catch(function(){ resolve(-1); });
+    }).catch(function(){ resolve(-1); });
+  });
+}
+
+// Draw text selection highlight on PDF canvas using PDF.js text content
+function drawPdfHighlight(text, pageIndex, pdfDoc){
+  return new Promise(function(resolve, reject){
+    if(!pdfDoc || !pdfDoc.pdfDocument) { resolve(false); return; }
+    pdfDoc.pdfDocument.getPage(pageIndex).then(function(page){
+      page.getTextContent().then(function(tc){
+        var items = tc.items;
+        var str = items.map(function(i){ return i.str; }).join(' ');
+        var idx = str.indexOf(text);
+        if(idx < 0) { resolve(false); return; }
+        
+        // Find start/end items by character position
+        var charIdx = 0, startItem = -1, endItem = -1;
+        for(var i=0; i<items.length; i++){
+          var len = items[i].str.length;
+          if(startItem < 0 && charIdx + len > idx) startItem = i;
+          if(startItem >= 0 && charIdx + len >= idx + text.length) { endItem = i; break; }
+          charIdx += len;
+        }
+        
+        if(startItem < 0 || endItem < 0) { resolve(false); return; }
+        
+        // Get bounding boxes for start and end items
+        var startBox = items[startItem].dir === 'ltr' ? items[startItem].dir === 'ttb' ? 
+          {x: items[startItem].transform[4], y: items[startItem].transform[5], w: items[startItem].width, h: items[startItem].height} :
+          {x: items[startItem].transform[4], y: items[startItem].transform[5], w: items[startItem].width, h: items[startItem].height} :
+          {x: items[startItem].transform[4] - items[startItem].width, y: items[startItem].transform[5], w: items[startItem].width, h: items[startItem].height};
+        
+        var endBox = items[endItem].dir === 'ltr' ? items[endItem].transform[4] :
+          {x: items[endItem].transform[4] - items[endItem].width, y: items[endItem].transform[5], w: items[endItem].width, h: items[endItem].height};
+        
+        // Calculate combined rectangle
+        var x = Math.min(startBox.x, endBox.x);
+        var y = Math.min(startBox.y, endBox.y);
+        var w = (endBox.x + endBox.w) - x;
+        var h = (endBox.y + endBox.h) - y;
+        
+        // Draw on canvas if available
+        var canvas = document.getElementById('pdfC');
+        var ctx = canvas ? canvas.getContext('2d') : null;
+        if(ctx && canvas.width > 0){
+          var scale = canvas.width / page.view[2];
+          var dx = x * scale, dy = y * scale, dw = w * scale, dh = h * scale;
+          ctx.fillStyle = 'rgba(255,232,0,0.5)';
+          ctx.fillRect(dx, dy, dw, dh);
+        }
+        resolve(true);
+      }).catch(function(){ resolve(false); });
+    }).catch(function(){ resolve(false); });
+  });
+}
+
 // خط‌بَر ↔ PDF sync: turns the PDF to the page being read, and draws an
 // approximate horizontal highlight band at how far through the page's
 // words the reader currently is. This is a proportional estimate, not a
@@ -571,8 +837,28 @@ function updatePdfHighlightPosition(){
 }
 function syncPdfHighlight(){
   if (!document.body.classList.contains('pdf-open') || !recording) return;
-  if (pdfDoc && curPdf !== curPage){ pdfGoto(curPage); return; } // pdfRender's own callback updates the band once the new page is drawn
-  updatePdfHighlightPosition();
+  if (pdfDoc && curPdf !== curPage){ pdfGoto(curPage); return; }
+  
+  // PDF.js text search highlight logic
+  if(micWords.length > 0 && micIdx < micWords.length){
+    var word = micWords[micIdx];
+    if(word && word.length > 0){
+      // Try to find word in PDF page using PDF.js text search
+      pdfFindText(word, curPdf - 1, pdfDoc).then(function(idx){
+        if(idx >= 0 && pdfDoc && pdfDoc.pdfDocument){
+          // Word found - draw highlight on canvas
+          drawPdfHighlight(word, curPdf - 1, pdfDoc);
+        } else {
+          // Fallback to horizontal band
+          updatePdfHighlightPosition();
+        }
+      });
+    } else {
+      updatePdfHighlightPosition();
+    }
+  } else {
+    updatePdfHighlightPosition();
+  }
 }
 
 // ===== Right-click context menu: add/edit/delete annotation, edit text,
