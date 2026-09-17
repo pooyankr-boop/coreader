@@ -1,0 +1,26 @@
+# PDFs - too large for git
+*.pdf
+**/*.pdf
+
+# Generated deployment output; gh-pages contains only site/
+site/
+
+# Generated per-book shells
+books/*/index.html
+
+# OCR intermediate data
+**/_ocr*/
+**/ocr_pass*.json
+**/candidates.json
+**/pdf-sources.json
+
+# Node modules
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+
+# Sources not needed in site
+src/ocr/tessdata/*.traineddata
