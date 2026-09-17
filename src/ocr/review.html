@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ویرایشگر OCR — متون کهن فارسی</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Vazirmatn',sans-serif;background:#f7f4ee;color:#2a2620;direction:rtl;height:100vh;overflow:hidden}
+  .bar{display:flex;align-items:center;gap:10px;padding:10px 16px;background:#fff;border-bottom:1px solid #e2ddd0}
+  .bar button{font-family:inherit;font-size:13px;padding:6px 14px;border:1px solid #ccc;border-radius:8px;background:#fff;cursor:pointer}
+  .bar button.primary{background:#8a5a3b;color:#fff;border-color:#8a5a3b}
+  .bar button:disabled{opacity:.4;cursor:default}
+  .bar .status{font-size:13px;color:#8c8577;margin-inline-start:auto}
+  .layout{display:flex;height:calc(100vh - 53px)}
+  .pagelist{width:150px;overflow-y:auto;border-left:1px solid #e2ddd0;background:#fff}
+  .pagelist button{display:block;width:100%;text-align:right;padding:8px 12px;border:none;background:none;
+    font-family:inherit;font-size:13px;cursor:pointer;border-bottom:1px solid #f0ece1}
+  .pagelist button.cur{background:#ffe08a}
+  .pagelist button.done::after{content:' ✓';color:#4a8a4a}
+  .split{flex:1;display:flex;overflow:hidden}
+  .imgpane{flex:1;overflow:auto;background:#404040;display:flex;justify-content:center;padding:10px}
+  .imgpane img{max-width:none;box-shadow:0 4px 20px rgba(0,0,0,.4)}
+  .txtpane{flex:1;display:flex;flex-direction:column;border-right:1px solid #e2ddd0}
+  .txtpane textarea{flex:1;border:none;resize:none;padding:20px;font-size:18px;line-height:2;
+    font-family:'Vazirmatn',sans-serif;direction:rtl;text-align:justify}
+  .empty{margin:auto;color:#8c8577;text-align:center;padding:40px}
+</style>
+</head>
+<body>
+<div class="bar">
+  <button class="primary" id="bOpen">انتخاب پوشهٔ خروجی OCR...</button>
+  <button id="bPrev" disabled>‹ قبلی</button>
+  <button id="bNext" disabled>بعدی ›</button>
+  <button id="bSave" disabled>ذخیره</button>
+  <input id="imgZoom" type="range" min="50" max="200" value="100" style="width:100px" disabled>
+  <span class="status" id="status">پوشه‌ای انتخاب نشده</span>
+</div>
+<div class="layout">
+  <div class="pagelist" id="pagelist"></div>
+  <div class="split">
+    <div class="txtpane"><textarea id="txt" placeholder="متن OCR اینجا نمایش داده می‌شود..." disabled></textarea></div>
+    <div class="imgpane" id="imgpane"><div class="empty">پوشهٔ خروجیِ ocr_pdf.py را انتخاب کنید<br>(شامل manifest.json و زیرپوشهٔ images/)</div></div>
+  </div>
+</div>
+
+<script>
+let dirHandle = null, manifest = [], curIdx = -1, dirty = false;
+
+document.getElementById('bOpen').onclick = async () => {
+  if (!window.showDirectoryPicker) {
+    alert('این قابلیت فقط در Chrome/Edge پشتیبانی می‌شود، و صفحه باید از طریق یک سرور محلی (نه file://) باز شود.');
+    return;
+  }
+  try {
+    dirHandle = await window.showDirectoryPicker();
+    const manifestFile = await (await dirHandle.getFileHandle('manifest.json')).getFile();
+    manifest = JSON.parse(await manifestFile.text());
+    renderPageList();
+    document.getElementById('status').textContent = manifest.length + ' صفحه بارگذاری شد';
+    if (manifest.length) loadPage(0);
+  } catch (e) {
+    if (e.name !== 'AbortError') alert('خطا: ' + e.message);
+  }
+};
+
+function renderPageList(){
+  const el = document.getElementById('pagelist');
+  el.innerHTML = '';
+  manifest.forEach((p, i) => {
+    const b = document.createElement('button');
+    b.textContent = 'صفحه ' + p.page;
+    b.className = (i === curIdx ? 'cur ' : '') + (p.reviewed ? 'done' : '');
+    b.onclick = () => loadPage(i);
+    el.appendChild(b);
+  });
+}
+
+async function loadPage(i){
+  if (dirty && !confirm('تغییرات ذخیره نشده‌اند. جابه‌جا شوم بدون ذخیره؟')) return;
+  curIdx = i;
+  const p = manifest[i];
+  const txtHandle = await dirHandle.getFileHandle(p.text);
+  const text = await (await txtHandle.getFile()).text();
+  document.getElementById('txt').value = text;
+  document.getElementById('txt').disabled = false;
+
+  const imgParts = p.image.split('/');
+  let imgDir = dirHandle;
+  for (let j = 0; j < imgParts.length - 1; j++) imgDir = await imgDir.getDirectoryHandle(imgParts[j]);
+  const imgFile = await (await imgDir.getFileHandle(imgParts[imgParts.length - 1])).getFile();
+  const url = URL.createObjectURL(imgFile);
+  document.getElementById('imgpane').innerHTML = `<img id="pgimg" src="${url}">`;
+
+  document.getElementById('bPrev').disabled = i === 0;
+  document.getElementById('bNext').disabled = i === manifest.length - 1;
+  document.getElementById('bSave').disabled = false;
+  document.getElementById('imgZoom').disabled = false;
+  document.getElementById('status').textContent = `صفحه ${p.page} از ${manifest.length}${p.reviewed ? ' — بازبینی‌شده' : ''}`;
+  dirty = false;
+  renderPageList();
+}
+
+document.getElementById('txt').oninput = () => { dirty = true; };
+document.getElementById('imgZoom').oninput = (e) => {
+  const img = document.getElementById('pgimg');
+  if (img) img.style.width = e.target.value + '%';
+};
+
+document.getElementById('bSave').onclick = async () => {
+  const p = manifest[curIdx];
+  const handle = await dirHandle.getFileHandle(p.text, { create: true });
+  const writable = await handle.createWritable();
+  await writable.write(document.getElementById('txt').value);
+  await writable.close();
+  p.reviewed = true;
+  const mHandle = await dirHandle.getFileHandle('manifest.json', { create: true });
+  const mWritable = await mHandle.createWritable();
+  await mWritable.write(JSON.stringify(manifest, null, 2));
+  await mWritable.close();
+  dirty = false;
+  renderPageList();
+  document.getElementById('status').textContent = `صفحه ${p.page} ذخیره شد ✓`;
+};
+
+document.getElementById('bPrev').onclick = () => loadPage(curIdx - 1);
+document.getElementById('bNext').onclick = () => loadPage(curIdx + 1);
+
+window.addEventListener('keydown', (e) => {
+  if (e.ctrlKey && e.key === 's') { e.preventDefault(); document.getElementById('bSave').click(); }
+});
+window.addEventListener('beforeunload', (e) => { if (dirty) e.preventDefault(); });
+</script>
+</body>
+</html>

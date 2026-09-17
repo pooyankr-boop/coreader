@@ -1,0 +1,16 @@
+{
+  "name": "coreader",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Static-site generator + reader for classical Persian literary texts — structure, glossary annotation, search, and synchronized read-aloud tracking (خط‌بَر).",
+  "type": "commonjs",
+  "bin": {
+    "coreader": "src/build/cli.js"
+  },
+  "scripts": {
+    "build-book": "node src/build/cli.js book",
+    "build-site": "node src/build/cli.js site",
+    "serve": "node src/build/serve.js"
+  },
+  "engines": { "node": ">=18" }
+}
