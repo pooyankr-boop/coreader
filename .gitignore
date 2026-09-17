@@ -2,6 +2,12 @@
 *.pdf
 **/*.pdf
 
+# Generated deployment output; gh-pages contains only site/
+site/
+
+# Generated per-book shells
+books/*/index.html
+
 # OCR intermediate data
 **/_ocr*/
 **/ocr_pass*.json

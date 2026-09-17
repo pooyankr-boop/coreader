@@ -1,9 +1,9 @@
 // coreader service worker — cache-first for static assets, network-first for data
-var CACHE = 'coreader-v1';
+var CACHE = 'coreader-v2';
 var STATIC_ASSETS = [
   './',
-  '../index.html',
-  'books-index.json'
+  './index.html',
+  './books-index.json'
 ];
 
 self.addEventListener('install', function(e) {
