@@ -24,3 +24,6 @@ Thumbs.db
 
 # Sources not needed in site
 src/ocr/tessdata/*.traineddata
+
+# Disable Jekyll on this repo - we serve static files directly
+# (but keep .nojekyll for any Jekyll-aware deploy)
