@@ -1,8 +1,17 @@
 [
   {
+    "slug": "philosophy-of-asif",
+    "title": "فلسفه‌ی «به فرض»",
+    "author": "هانس فاینینگر",
+    "source": "local",
+    "pages": 646,
+    "cover": "cover.jpg"
+  },
+  {
     "slug": "end-times-fascism",
     "title": "فاشیسم آخرالزمان و مبارزه برای جهان زنده",
     "author": "نائومی کلاین و استرا تیلور",
+    "source": "local",
     "pages": 314,
     "hasPdf": true,
     "candidateCount": 250,
@@ -12,6 +21,7 @@
     "slug": "nasaim-al-ahsaar",
     "title": "نسائم الأسحار من لطائم الأخبار",
     "author": "ناصرالدین منشی کرمانی",
+    "source": "local",
     "pages": 265,
     "hasPdf": true,
     "candidateCount": 250,
@@ -21,6 +31,7 @@
     "slug": "samt-al-olaa",
     "title": "سمط العلی للحضرة العلیا",
     "author": "ناصرالدین منشی کرمانی",
+    "source": "local",
     "pages": 105,
     "hasPdf": true,
     "candidateCount": 250,
@@ -28,8 +39,9 @@
   },
   {
     "slug": "x-risk",
-    "title": "X-Risk: چگونه بشریت انقراض خود را کشف کرد",
+    "title": "اکس-ریسک: چگونه بشریت انقراض خود را کشف کرد",
     "author": "توماس موینیهان",
+    "source": "local",
     "pages": 386,
     "hasPdf": true,
     "candidateCount": 250,
@@ -39,6 +51,7 @@
     "slug": "تاریخ-شاهی-قراختائیان",
     "title": "تاریخ شاهی قراختائیان",
     "author": "ناشناس",
+    "source": "local",
     "pages": 524,
     "hasPdf": true,
     "candidateCount": 250,
@@ -48,6 +61,7 @@
     "slug": "حی-بن-یقضان",
     "title": "حی بن یقضان",
     "author": "ابن سینا",
+    "source": "local",
     "pages": 272,
     "hasPdf": true,
     "candidateCount": 250,
@@ -57,6 +71,7 @@
     "slug": "همه-کُشی",
     "title": "همه‌کُشی",
     "author": "جیسون بابک محقق",
+    "source": "local",
     "pages": 330,
     "hasPdf": true,
     "candidateCount": 250,
@@ -66,9 +81,438 @@
     "slug": "همه-کُشی-۲",
     "title": "همه‌کُشی ۲",
     "author": "جیسون بابک محقق",
+    "source": "local",
     "pages": 414,
     "hasPdf": true,
     "candidateCount": 250,
     "cover": "cover.webp"
+  },
+  {
+    "slug": "bsb-gulistan-saadi",
+    "title": "گلستان سعدی",
+    "author": "سعدی شیرازی",
+    "source": "iiif",
+    "provider": "Bayerische Staatsbibliothek",
+    "manifestUrl": "https://api.digitale-sammlungen.de/iiif/presentation/v2/bsb00047632/manifest",
+    "pages": 355,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://api.digitale-sammlungen.de/view/bsb00047632"
+    }
+  },
+  {
+    "slug": "bodleian-hyde-10",
+    "title": "جامی — نسخهٔ خطی هاید ۱۰",
+    "author": "جمال‌الدین جامی",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/23c9305a-844e-48c8-8e76-8832f5e42b2e.json",
+    "pages": 364,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/23c9305a-844e-48c8-8e76-8832f5e42b2e/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/23c9305a-844e-48c8-8e76-8832f5e42b2e.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/23c9305a-844e-48c8-8e76-8832f5e42b2e.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2F23c9305a-844e-48c8-8e76-8832f5e42b2e%2F"
+    }
+  },
+  {
+    "slug": "bodleian-ouseley-add-176-shahnama",
+    "title": "شاهنامه فردوسی — نسخهٔ خطی ۱۷۶",
+    "author": "فردوسی توسی",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/bcbfd832-086b-4874-80f8-87500e0de704.json",
+    "pages": 953,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/bcbfd832-086b-4874-80f8-87500e0de704/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/bcbfd832-086b-4874-80f8-87500e0de704.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/bcbfd832-086b-4874-80f8-87500e0de704.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2Fbcbfd832-086b-4874-80f8-87500e0de704%2F"
+    }
+  },
+  {
+    "slug": "bodleian-ouseley-add-175-hafiz",
+    "title": "ثلاث آثار شعر فارسی — نسخهٔ خطی ۱۷۵",
+    "author": "قاسم انوار و دیگران",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/4d01494c-8aba-4fea-b8f9-e7b70c826d0f.json",
+    "pages": 666,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/4d01494c-8aba-4fea-b8f9-e7b70c826d0f/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/4d01494c-8aba-4fea-b8f9-e7b70c826d0f.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/4d01494c-8aba-4fea-b8f9-e7b70c826d0f.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2F4d01494c-8aba-4fea-b8f9-e7b70c826d0f%2F"
+    }
+  },
+  {
+    "slug": "bodleian-ouseley-add-23-jami",
+    "title": "سبحۃ الابرار — نسخهٔ خطی ۲۳",
+    "author": "جمال‌الدین جامی",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/78f9e2cd-6d77-4f57-8ca5-a5544273a654.json",
+    "pages": 306,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/78f9e2cd-6d77-4f57-8ca5-a5544273a654/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/78f9e2cd-6d77-4f57-8ca5-a5544273a654.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/78f9e2cd-6d77-4f57-8ca5-a5544273a654.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2F78f9e2cd-6d77-4f57-8ca5-a5544273a654%2F"
+    }
+  },
+  {
+    "slug": "bodleian-elliott-254-jami",
+    "title": "بهارستان — نسخهٔ الیوت ۲۵۴",
+    "author": "جمال‌الدین جامی",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/56911adf-3d32-4a52-a9c6-653eb5bd6cb7.json",
+    "pages": 159,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/56911adf-3d32-4a52-a9c6-653eb5bd6cb7/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/56911adf-3d32-4a52-a9c6-653eb5bd6cb7.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/56911adf-3d32-4a52-a9c6-653eb5bd6cb7.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2F56911adf-3d32-4a52-a9c6-653eb5bd6cb7%2F"
+    }
+  },
+  {
+    "slug": "bodleian-greaves-1-jami",
+    "title": "یوسف و زلیخا — نسخهٔ خطی ۱",
+    "author": "جمال‌الدین جامی",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/916f7aa0-d9aa-40dd-b067-238f0d6e7377.json",
+    "pages": 2,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/916f7aa0-d9aa-40dd-b067-238f0d6e7377/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/916f7aa0-d9aa-40dd-b067-238f0d6e7377.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/916f7aa0-d9aa-40dd-b067-238f0d6e7377.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2F916f7aa0-d9aa-40dd-b067-238f0d6e7377%2F"
+    }
+  },
+  {
+    "slug": "bodleian-bodl-or-793-quran",
+    "title": "قرآن کریم — نسخهٔ خطی ۷۹۳",
+    "author": "ناشناس",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/1d091ec9-33f8-42d9-a620-141dfc7b1816.json",
+    "pages": 692,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/1d091ec9-33f8-42d9-a620-141dfc7b1816/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/1d091ec9-33f8-42d9-a620-141dfc7b1816.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/1d091ec9-33f8-42d9-a620-141dfc7b1816.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2F1d091ec9-33f8-42d9-a620-141dfc7b1816%2F"
+    }
+  },
+  {
+    "slug": "bodleian-bodl-or-716-shahnameh",
+    "title": "شاهنامۀ فردوسی — نسخهٔ خطی ۷۱۶",
+    "author": "فردوسی",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/8287e6c8-8b65-4a55-8ad0-e22dff4eccc2.json",
+    "pages": 1555,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/8287e6c8-8b65-4a55-8ad0-e22dff4eccc2/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/8287e6c8-8b65-4a55-8ad0-e22dff4eccc2.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/8287e6c8-8b65-4a55-8ad0-e22dff4eccc2.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2F8287e6c8-8b65-4a55-8ad0-e22dff4eccc2%2F"
+    }
+  },
+  {
+    "slug": "bodleian-6b3da54c",
+    "title": "رباعیات خیام",
+    "author": "عمر خیام",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/6b3da54c-5f21-4dda-af76-726fee02d9e5.json",
+    "pages": 60,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/6b3da54c-5f21-4dda-af76-726fee02d9e5/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/6b3da54c-5f21-4dda-af76-726fee02d9e5.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/6b3da54c-5f21-4dda-af76-726fee02d9e5.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2F6b3da54c-5f21-4dda-af76-726fee02d9e5%2F"
+    }
+  },
+  {
+    "slug": "bodleian-19cf9814",
+    "title": "نجومیّات (الست کالج ۱۵۱)",
+    "author": "الغ‌بیگ",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/19cf9814-fc13-4b5d-8961-f8520bea9edc.json",
+    "pages": 369,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/19cf9814-fc13-4b5d-8961-f8520bea9edc/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/19cf9814-fc13-4b5d-8961-f8520bea9edc.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/19cf9814-fc13-4b5d-8961-f8520bea9edc.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2F19cf9814-fc13-4b5d-8961-f8520bea9edc%2F"
+    }
+  },
+  {
+    "slug": "bodleian-9809c716",
+    "title": "دیوان حافظ",
+    "author": "حافظ شیرازی",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/9809c716-be88-4fc1-9469-78acabc07f79.json",
+    "pages": 344,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/9809c716-be88-4fc1-9469-78acabc07f79/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/9809c716-be88-4fc1-9469-78acabc07f79.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/9809c716-be88-4fc1-9469-78acabc07f79.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2F9809c716-be88-4fc1-9469-78acabc07f79%2F"
+    }
+  },
+  {
+    "slug": "bodleian-64f5a170",
+    "title": "مراسلات ابوردوز شوقی",
+    "author": "ناشناس",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/64f5a170-7542-415c-845f-9e5127c9bb5e.json",
+    "pages": 930,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/64f5a170-7542-415c-845f-9e5127c9bb5e/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/64f5a170-7542-415c-845f-9e5127c9bb5e.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/64f5a170-7542-415c-845f-9e5127c9bb5e.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2F64f5a170-7542-415c-845f-9e5127c9bb5e%2F"
+    }
+  },
+  {
+    "slug": "bodleian-a0fc5fa6",
+    "title": "شاهنامۀ فردوسی",
+    "author": "فردوسی",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/a0fc5fa6-f3d8-4089-90be-f0ffd2128865.json",
+    "pages": 1108,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/a0fc5fa6-f3d8-4089-90be-f0ffd2128865/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/a0fc5fa6-f3d8-4089-90be-f0ffd2128865.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/a0fc5fa6-f3d8-4089-90be-f0ffd2128865.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2Fa0fc5fa6-f3d8-4089-90be-f0ffd2128865%2F"
+    }
+  },
+  {
+    "slug": "bodleian-ef568d4f",
+    "title": "هدایة المتعلمین در طب",
+    "author": "ابن اخوینی",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/ef568d4f-c70a-4493-aa67-17db035e7f89.json",
+    "pages": 668,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/ef568d4f-c70a-4493-aa67-17db035e7f89/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/ef568d4f-c70a-4493-aa67-17db035e7f89.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/ef568d4f-c70a-4493-aa67-17db035e7f89.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2Fef568d4f-c70a-4493-aa67-17db035e7f89%2F"
+    }
+  },
+  {
+    "slug": "bodleian-d633c8a4",
+    "title": "مفتاح السرود",
+    "author": "قاضی حسن طاهر",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/d633c8a4-53e1-4afe-bc51-518f5fe4e357.json",
+    "pages": 216,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/d633c8a4-53e1-4afe-bc51-518f5fe4e357/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/d633c8a4-53e1-4afe-bc51-518f5fe4e357.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/d633c8a4-53e1-4afe-bc51-518f5fe4e357.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2Fd633c8a4-53e1-4afe-bc51-518f5fe4e357%2F"
+    }
+  },
+  {
+    "slug": "bodleian-882f4307",
+    "title": "بوستان سعدی",
+    "author": "سعدی شیرازی",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/882f4307-f40a-4a29-9a62-d19b3b2bb908.json",
+    "pages": 122,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/882f4307-f40a-4a29-9a62-d19b3b2bb908/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/882f4307-f40a-4a29-9a62-d19b3b2bb908.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/882f4307-f40a-4a29-9a62-d19b3b2bb908.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2F882f4307-f40a-4a29-9a62-d19b3b2bb908%2F"
+    }
+  },
+  {
+    "slug": "bodleian-7d185003",
+    "title": "خمسۀ نظامی",
+    "author": "نظامی گنجوی",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/7d185003-d35f-4381-aef8-a6b12c6e6b94.json",
+    "pages": 674,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/7d185003-d35f-4381-aef8-a6b12c6e6b94/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/7d185003-d35f-4381-aef8-a6b12c6e6b94.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/7d185003-d35f-4381-aef8-a6b12c6e6b94.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2F7d185003-d35f-4381-aef8-a6b12c6e6b94%2F"
+    }
+  },
+  {
+    "slug": "bodleian-399a2a26",
+    "title": "شرح نهج‌البلاغه",
+    "author": "امیرالمؤمنین علی بن ابی‌طالب",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/399a2a26-96de-484a-b9c0-ad37877e1b16.json",
+    "pages": 18,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/399a2a26-96de-484a-b9c0-ad37877e1b16/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/399a2a26-96de-484a-b9c0-ad37877e1b16.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/399a2a26-96de-484a-b9c0-ad37877e1b16.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2F399a2a26-96de-484a-b9c0-ad37877e1b16%2F"
+    }
+  },
+  {
+    "slug": "bodleian-4183fd93",
+    "title": "رسالۀ موسیقی — درّة التاج",
+    "author": "جمال‌الدین جامی",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/4183fd93-986f-40ee-ada4-5eff5287a8bf.json",
+    "pages": 111,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/4183fd93-986f-40ee-ada4-5eff5287a8bf/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/4183fd93-986f-40ee-ada4-5eff5287a8bf.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/4183fd93-986f-40ee-ada4-5eff5287a8bf.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2F4183fd93-986f-40ee-ada4-5eff5287a8bf%2F"
+    }
+  },
+  {
+    "slug": "bodleian-cce97ab5",
+    "title": "لیلی و مجنون",
+    "author": "نظامی گنجوی",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/cce97ab5-19e9-4fab-bc06-5a3560101156.json",
+    "pages": 130,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/cce97ab5-19e9-4fab-bc06-5a3560101156/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/cce97ab5-19e9-4fab-bc06-5a3560101156.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/cce97ab5-19e9-4fab-bc06-5a3560101156.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2Fcce97ab5-19e9-4fab-bc06-5a3560101156%2F"
+    }
+  },
+  {
+    "slug": "bodleian-2e3a3c8d",
+    "title": "خمسۀ نظامی",
+    "author": "نظامی گنجوی",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/2e3a3c8d-1465-4721-9923-12436f367498.json",
+    "pages": 780,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/2e3a3c8d-1465-4721-9923-12436f367498/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/2e3a3c8d-1465-4721-9923-12436f367498.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/2e3a3c8d-1465-4721-9923-12436f367498.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2F2e3a3c8d-1465-4721-9923-12436f367498%2F"
+    }
+  },
+  {
+    "slug": "bodleian-b54c3f88",
+    "title": "کلّیات سعدی",
+    "author": "سعدی شیرازی",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/b54c3f88-a3bf-4cfe-a743-e4fd42c8b67c.json",
+    "pages": 547,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/b54c3f88-a3bf-4cfe-a743-e4fd42c8b67c/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/b54c3f88-a3bf-4cfe-a743-e4fd42c8b67c.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/b54c3f88-a3bf-4cfe-a743-e4fd42c8b67c.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2Fb54c3f88-a3bf-4cfe-a743-e4fd42c8b67c%2F"
+    }
+  },
+  {
+    "slug": "bodleian-20f1c921",
+    "title": "نورنامه",
+    "author": "ناشناس",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/20f1c921-e68a-484d-8b40-1604c83d7bd2.json",
+    "pages": 185,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/20f1c921-e68a-484d-8b40-1604c83d7bd2/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/20f1c921-e68a-484d-8b40-1604c83d7bd2.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/20f1c921-e68a-484d-8b40-1604c83d7bd2.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2F20f1c921-e68a-484d-8b40-1604c83d7bd2%2F"
+    }
+  },
+  {
+    "slug": "bodleian-a1246f80",
+    "title": "حدائق الأنصار در حقائق الأسرار",
+    "author": "فخرالدین رازی",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/a1246f80-b45e-47ed-aa68-19af4898a2df.json",
+    "pages": 230,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/a1246f80-b45e-47ed-aa68-19af4898a2df/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/a1246f80-b45e-47ed-aa68-19af4898a2df.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/a1246f80-b45e-47ed-aa68-19af4898a2df.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2Fa1246f80-b45e-47ed-aa68-19af4898a2df%2F"
+    }
+  },
+  {
+    "slug": "bodleian-7f010f0d",
+    "title": "دیوان حافظ",
+    "author": "حافظ شیرازی",
+    "source": "iiif",
+    "provider": "Bodleian Library, Oxford",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/7f010f0d-a12f-41e9-8eb6-fd9db60eae7d.json",
+    "pages": 414,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/7f010f0d-a12f-41e9-8eb6-fd9db60eae7d/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/7f010f0d-a12f-41e9-8eb6-fd9db60eae7d.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/7f010f0d-a12f-41e9-8eb6-fd9db60eae7d.json",
+      "embed": "https://digital.bodleian.ox.ac.uk/embed/iframe/?url=https%3A%2F%2Fdigital.bodleian.ox.ac.uk%2Fobjects%2F7f010f0d-a12f-41e9-8eb6-fd9db60eae7d%2F"
+    }
+  },
+  {
+    "slug": "eap-mantiq-al-tayr",
+    "title": "منطق الطیر",
+    "author": "فريد الدين عطار نیشابوری",
+    "source": "iiif",
+    "provider": "British Library — Endangered Archives Programme",
+    "manifestUrl": "https://eap.bl.uk/archive-file/EAP1326-1-55/manifest?manifest=https://eap.bl.uk/archive-file/EAP1326-1-55/manifest",
+    "pages": 67,
+    "cover": "",
+    "externalLinks": {
+      "digitalObject": "https://eap.bl.uk/archive-file/EAP1326-1-55",
+      "iiifManifest": "https://eap.bl.uk/archive-file/EAP1326-1-55/manifest?manifest=https://eap.bl.uk/archive-file/EAP1326-1-55/manifest",
+      "embed": "https://eap.bl.uk/archive-file/EAP1326-1-55/manifest?manifest=https://eap.bl.uk/archive-file/EAP1326-1-55/manifest"
+    }
   }
 ]

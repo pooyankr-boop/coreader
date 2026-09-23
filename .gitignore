@@ -5,7 +5,13 @@ Thumbs.db
 src/ocr/tessdata/*.traineddata
 src/ocr/_test_*
 
-# Intermediate OCR working directories (page images + raw first-pass text) —
-# large and fully reproducible from the source PDFs via src/ocr/ocr_pdf.py;
-# only the final book.json (built from these) is meant to be tracked.
+# Intermediate OCR working directories
 books/*/_ocr*/
+
+# Source book files (large, not for git)
+books/*
+
+# Large PDF files
+site/books/**/*.pdf
+site/books/**/*.txt
+site/books/**/*.epub

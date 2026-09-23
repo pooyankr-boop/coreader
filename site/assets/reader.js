@@ -88,9 +88,13 @@ function lightenColor(hex, percent){
 }
 
 // ===== Load book =====
+(function(){
+  var _params = new URLSearchParams(location.search);
+  var _slug = _params.get('book');
+  if (!window.BOOK_URL && _slug) window.BOOK_URL = '/site/books/' + encodeURIComponent(_slug) + '/book.json';
+})();
 console.log('[coreader] loading book.json from', window.BOOK_URL || 'book.json');
-fetch(window.BOOK_URL || 'book.json').then(function(r){return r.json()}).then(function(book){
-  console.log('[coreader] book loaded:', book.title, 'pages:', book.pages ? book.pages.length : 'NONE');
+function _initBook(book){
   BOOK = book;
   document.getElementById('bookTitle').textContent = book.title;
   document.getElementById('bookMeta').textContent = 'تألیف: ' + (book.author || 'ناشناس');
@@ -104,7 +108,6 @@ fetch(window.BOOK_URL || 'book.json').then(function(r){return r.json()}).then(fu
   loadMagSettings();
   loadColorSettings();
   loadThemeColor();
-  // Load text width from localStorage
   (function(){
     var tw = localStorage.getItem('coreader-tw');
     if (tw){
@@ -119,11 +122,21 @@ fetch(window.BOOK_URL || 'book.json').then(function(r){return r.json()}).then(fu
   loadAutoTheme();
   if (book.hasPdf) document.getElementById('bPdf').style.display = '';
   console.log('[coreader] book setup complete');
+}
+var _localBooks=JSON.parse(localStorage.getItem('coreader-local-books')||'{}');
+var _slug2=(function(){var p=new URLSearchParams(location.search);return p.get('book')})();
+if(_slug2 && _localBooks[_slug2]){
+  console.log('[coreader] found in localStorage:', _slug2);
+  _initBook(_localBooks[_slug2]);
+} else {
+fetch(window.BOOK_URL || 'book.json').then(function(r){return r.json()}).then(function(book){
+  console.log('[coreader] book loaded:', book.title, 'pages:', book.pages ? book.pages.length : 'NONE');
+  _initBook(book);
 }).catch(function(err){
   console.error('[coreader] book load error:', err);
   document.getElementById('tc').innerHTML = '<p style="color:red">خطا در بارگذاری کتاب: ' + (err && err.message ? err.message : String(err)) + '</p>';
 });
-
+}
 function buildToc(){
   var tocEl = document.getElementById('toc');
   tocEl.innerHTML = '';
@@ -614,6 +627,22 @@ function showPersistentMarginAnno(el){
   margin.style.top = top + 'px';
   activeMarginCards.push({ el: el, marginEl: margin, side: side });
   setTimeout(function(){ margin.classList.remove('anno-margin-entering'); }, 300);
+  // Auto-fade after 6 seconds
+  setTimeout(function(){
+    if (margin.parentNode){
+      margin.classList.add('anno-margin-fading');
+      setTimeout(function(){
+        if (margin.parentNode) margin.parentNode.removeChild(margin);
+        el._marginEl = null;
+        var idx = -1;
+        for (var j = 0; j < activeMarginCards.length; j++){
+          if (activeMarginCards[j].marginEl === margin){ idx = j; break; }
+        }
+        if (idx >= 0) activeMarginCards.splice(idx, 1);
+        repositionStack(side);
+      }, 500);
+    }
+  }, 6000);
   repositionStack(side);
 }
 
@@ -718,7 +747,19 @@ function loadPdf(){
   var src = srcs[curPdfSrc];
   if (!src){ showPdfErr('این کتاب نسخهٔ PDF ندارد.'); return; }
   hidePdfErr(); document.getElementById('pdfMax').textContent = '...';
-  fetch(src.filename).then(function(r){ if (!r.ok) throw 0; return r.arrayBuffer(); })
+  // Support dataUrl from localStorage books
+  if(src.dataUrl){
+    var raw=atob(src.dataUrl.split(',')[1]);
+    var arr=new Uint8Array(raw.length);for(var i=0;i<raw.length;i++) arr[i]=raw.charCodeAt(i);
+    pdfjsLib.getDocument({data:arr}).promise.then(function(doc){
+      pdfDoc=doc;pdfDocCache[curPdfSrc]=doc;
+      document.getElementById('pdfMax').textContent=doc.numPages;
+      pdfRender(pdfPendingPage||1);pdfPendingPage=null;
+    }).catch(function(){showPdfErr('خطا در باز کردن PDF.')});
+    return;
+  }
+  var pdfBase = '/site/books/' + encodeURIComponent(BOOK.slug) + '/';
+  fetch(pdfBase + src.filename).then(function(r){ if (!r.ok) throw 0; return r.arrayBuffer(); })
     .then(function(buf){ return pdfjsLib.getDocument({ data: new Uint8Array(buf) }).promise; })
     .then(function(doc){ pdfDoc = doc; pdfDocCache[curPdfSrc] = doc; document.getElementById('pdfMax').textContent = doc.numPages; pdfRender(pdfPendingPage || 1); pdfPendingPage = null; })
     .catch(function(){ showPdfErr('فایل «' + src.filename + '» در کنار book.json یافت نشد.'); });
@@ -2233,14 +2274,27 @@ function followMagnifier(target){
   var tcRect = tc.getBoundingClientRect();
   var srcX = targetRect.left - tcRect.left + targetRect.width / 2;
   var srcY = targetRect.top - tcRect.top + targetRect.height / 2;
+  // Position magnifier at bottom-center of viewport
   mag.style.left = Math.max(10, (window.innerWidth - MAG_W) / 2) + 'px';
-  mag.style.top = Math.max(10, window.innerHeight - MAG_H - 10) + 'px';
-  renderMagnifierSource(srcX, srcY);
+  mag.style.top = Math.max(10, window.innerHeight - MAG_H - 30) + 'px';
+  // Throttle DOM clone — only re-render when content changed
+  var tcHtml = tc.innerHTML;
+  if (tcHtml !== magCloneSrc){
+    renderMagnifierSource(srcX, srcY);
+  } else {
+    // Just reposition without expensive clone
+    var content = document.getElementById('magContent');
+    if (content){
+      content.style.left = (MAG_W / 2 - srcX * MAG_SCALE) + 'px';
+      content.style.top = (MAG_H / 2 - srcY * MAG_SCALE) + 'px';
+    }
+  }
+  // Auto-scroll to keep target visible
   var lineHeight = parseFloat(getComputedStyle(tc).lineHeight) || 48;
   var groupIdx = Math.floor(srcY / lineHeight / 3);
   if (groupIdx === _magGroup) return;
   _magGroup = groupIdx;
-  var visibleCenter = Math.max(80, (window.innerHeight - MAG_H - 10) / 2);
+  var visibleCenter = Math.max(80, (window.innerHeight - MAG_H - 30) / 2);
   var targetScroll = window.scrollY + targetRect.top + targetRect.height / 2 - visibleCenter;
   window.scrollTo({ top: Math.max(0, targetScroll), behavior: 'smooth' });
 }
