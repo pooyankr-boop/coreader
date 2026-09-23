@@ -42,8 +42,9 @@ function render(){
     var pct=b.pages?Math.min(100,Math.round(pg/b.pages*100)):0;
     var pbar=pct>0?'<div class="card-progress"><div class="card-progress-bar" style="width:'+pct+'%"></div></div><div class="card-progress-text">'+pct+'% خوانده شده</div>':'';
     var coverSrc=b.cover?(b.source==='local'?'books/'+b.slug+'/'+b.cover:'books/'+b.slug+'/cover.webp'):'';
+    if(!coverSrc && b.thumbnail){var t0=Array.isArray(b.thumbnail)?b.thumbnail[0]:b.thumbnail; coverSrc=t0;}
     var coverImg=coverSrc?'<img class="card-cover" src="'+coverSrc+'" alt="'+(b.title||'')+'" loading="lazy">':'';
-    var fallback='';if(!coverSrc){fallback='<div class="card-cover-fallback"><span class="book-icon">📖</span><span class="book-title-fa">'+(b.title||'')+'</span></div>';}
+    var fallback='';if(!coverImg){fallback='<div class="card-cover-fallback"><span class="book-icon">📖</span><span class="book-title-fa">'+(b.title||'')+'</span></div>';}
     var slides='';
     if(b.thumbnail){
       var thumbs=Array.isArray(b.thumbnail)?b.thumbnail:[b.thumbnail];
