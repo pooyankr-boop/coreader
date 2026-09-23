@@ -5,7 +5,7 @@ var _books=[], _filter='all';
 
 function init(){
   loadTheme();
-  fetch('site/books-index.json').then(function(r){return r.json()}).then(function(list){
+  fetch('books-index.json').then(function(r){return r.json()}).then(function(list){
     // Merge custom books from localStorage
     var custom=JSON.parse(localStorage.getItem('coreader-custom-books')||'[]');
     _books=list.concat(custom);
@@ -41,11 +41,11 @@ function render(){
     var pg=progress[b.slug]||0;
     var pct=b.pages?Math.min(100,Math.round(pg/b.pages*100)):0;
     var pbar=pct>0?'<div class="card-progress"><div class="card-progress-bar" style="width:'+pct+'%"></div></div><div class="card-progress-text">'+pct+'% خوانده شده</div>':'';
-    var coverSrc=b.cover?(b.source==='local'?'site/books/'+b.slug+'/'+b.cover:'site/books/'+b.slug+'/cover.webp'):'';
+    var coverSrc=b.cover?(b.source==='local'?'books/'+b.slug+'/'+b.cover:'books/'+b.slug+'/cover.webp'):'';
     var coverEl=coverSrc?'<img class="card-cover" src="'+coverSrc+'" alt="'+(b.title||'')+'" loading="lazy" onerror="this.style.display=\'none\'">':'<div class="card-cover" style="display:flex;align-items:center;justify-content:center;font-size:48px;opacity:.3">📖</div>';
     var badge=b.source==='iiif'?'<span class="source-badge iiif">IIIF</span>':'<span class="source-badge local">محلی</span>';
     var provider=b.provider?' · '+b.provider:'';
-    var href=(b.source==='iiif'?'site/viewer/viewer.html?book=':'site/reader/reader.html?book=')+encodeURIComponent(b.slug);
+    var href=(b.source==='iiif'?'viewer/viewer.html?book=':'reader/reader.html?book=')+encodeURIComponent(b.slug);
     return '<a class="card" href="'+href+'" style="animation-delay:'+(i*0.05)+'s">'+
       coverEl+'<div class="card-body">'+
       '<h2>'+b.title+'</h2>'+
@@ -228,7 +228,7 @@ window.saveLocalBook=function(){
   }
 
   function processPdfs(existingPages){
-    // For PDFs, just store file names — reader loads them from /site/books/<slug>/
+    // For PDFs, just store file names — reader loads them from /books/<slug>/
     // But since we're in browser-only mode, we store PDFs as base64 in localStorage
     var pdfSources=[];
     var done=0;

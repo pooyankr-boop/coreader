@@ -91,7 +91,7 @@ function lightenColor(hex, percent){
 (function(){
   var _params = new URLSearchParams(location.search);
   var _slug = _params.get('book');
-  if (!window.BOOK_URL && _slug) window.BOOK_URL = '/site/books/' + encodeURIComponent(_slug) + '/book.json';
+  if (!window.BOOK_URL && _slug) window.BOOK_URL = '../books/' + encodeURIComponent(_slug) + '/book.json';
 })();
 console.log('[coreader] loading book.json from', window.BOOK_URL || 'book.json');
 function _initBook(book){
@@ -758,7 +758,7 @@ function loadPdf(){
     }).catch(function(){showPdfErr('خطا در باز کردن PDF.')});
     return;
   }
-  var pdfBase = '/site/books/' + encodeURIComponent(BOOK.slug) + '/';
+  var pdfBase = '../books/' + encodeURIComponent(BOOK.slug) + '/';
   fetch(pdfBase + src.filename).then(function(r){ if (!r.ok) throw 0; return r.arrayBuffer(); })
     .then(function(buf){ return pdfjsLib.getDocument({ data: new Uint8Array(buf) }).promise; })
     .then(function(doc){ pdfDoc = doc; pdfDocCache[curPdfSrc] = doc; document.getElementById('pdfMax').textContent = doc.numPages; pdfRender(pdfPendingPage || 1); pdfPendingPage = null; })

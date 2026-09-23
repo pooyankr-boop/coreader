@@ -25,15 +25,15 @@ function init(){
 
 function loadBook(slug){
   // Try local book first
-  fetch('/site/books/'+encodeURIComponent(slug)+'/book.json').then(function(r){
+  fetch('../books/'+encodeURIComponent(slug)+'/book.json').then(function(r){
     if(r.ok) return r.json();
-    return fetch('/site/books/'+encodeURIComponent(slug)+'/manifest.json').then(function(r2){
+    return fetch('../books/'+encodeURIComponent(slug)+'/manifest.json').then(function(r2){
       if(r2.ok) return r2.json();
       throw new Error('not-local');
     });
   }).catch(function(e){
     // For IIIF/custom books: fetch from books-index and resolve manifest
-    return fetch('/site/books-index.json').then(function(r){return r.json()}).then(function(list){
+    return fetch('../books-index.json').then(function(r){return r.json()}).then(function(list){
       var custom=JSON.parse(localStorage.getItem('coreader-custom-books')||'[]');
       var all=list.concat(custom);
       var entry=all.find(function(b){return b.slug===slug});
@@ -335,7 +335,7 @@ function loadText(slug){
     renderText();
     return;
   }
-  fetch('/site/books/'+encodeURIComponent(slug)+'/pages.json').then(function(r){
+  fetch('../books/'+encodeURIComponent(slug)+'/pages.json').then(function(r){
     if(!r.ok) return null;
     return r.json();
   }).then(function(pages){
