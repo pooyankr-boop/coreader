@@ -1,7 +1,7 @@
 // catalog.js — museum home page logic
 (function(){
 'use strict';
-var _books=[], _filter='all';
+var _books=[], _filter='iiif';
 
 function init(){
   loadTheme();
@@ -52,7 +52,7 @@ function render(){
       }).join('');
     }
     var slideshow=slides?'<div class="card-slideshow">'+slides+'</div>':'';
-    var badge=b.source==='iiif'?'<span class="source-badge iiif">IIIF</span>':'<span class="source-badge local">محلی</span>';
+    var badge=b.source==='iiif'?'<span class="source-badge iiif">IIIF</span>':'<span class="source-badge local">ذخیره‌شده</span>';
     var provider=b.provider?' · '+b.provider:'';
     var href=(b.source==='iiif'?'viewer/viewer.html?book=':'reader/reader.html?book=')+encodeURIComponent(b.slug);
     return '<a class="card" href="'+href+'" style="animation-delay:'+(i*0.05)+'s" data-slug="'+b.slug+'">'+
