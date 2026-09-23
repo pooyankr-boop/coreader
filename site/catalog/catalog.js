@@ -42,19 +42,54 @@ function render(){
     var pct=b.pages?Math.min(100,Math.round(pg/b.pages*100)):0;
     var pbar=pct>0?'<div class="card-progress"><div class="card-progress-bar" style="width:'+pct+'%"></div></div><div class="card-progress-text">'+pct+'% خوانده شده</div>':'';
     var coverSrc=b.cover?(b.source==='local'?'books/'+b.slug+'/'+b.cover:'books/'+b.slug+'/cover.webp'):'';
-    var coverEl=coverSrc?'<img class="card-cover" src="'+coverSrc+'" alt="'+(b.title||'')+'" loading="lazy" onerror="this.style.display=\'none\'">':'<div class="card-cover" style="display:flex;align-items:center;justify-content:center;font-size:48px;opacity:.3">📖</div>';
+    var coverImg=coverSrc?'<img class="card-cover" src="'+coverSrc+'" alt="'+(b.title||'')+'" loading="lazy">':'';
+    var fallback='';if(!coverSrc){fallback='<div class="card-cover-fallback"><span class="book-icon">📖</span><span class="book-title-fa">'+(b.title||'')+'</span></div>';}
+    var slides='';
+    if(b.thumbnail){
+      var thumbs=Array.isArray(b.thumbnail)?b.thumbnail:[b.thumbnail];
+      slides=thumbs.slice(0,5).map(function(url,si){
+        return '<div class="slide'+(si===0?' active':'')+'"><img src="'+url+'" alt="" loading="lazy"></div>';
+      }).join('');
+    }
+    var slideshow=slides?'<div class="card-slideshow">'+slides+'</div>':'';
     var badge=b.source==='iiif'?'<span class="source-badge iiif">IIIF</span>':'<span class="source-badge local">محلی</span>';
     var provider=b.provider?' · '+b.provider:'';
     var href=(b.source==='iiif'?'viewer/viewer.html?book=':'reader/reader.html?book=')+encodeURIComponent(b.slug);
-    return '<a class="card" href="'+href+'" style="animation-delay:'+(i*0.05)+'s">'+
-      coverEl+'<div class="card-body">'+
+    return '<a class="card" href="'+href+'" style="animation-delay:'+(i*0.05)+'s" data-slug="'+b.slug+'">'+
+      '<div class="card-cover-wrap">'+coverImg+fallback+slideshow+
+      '<div class="card-cover-title">'+(b.title||'')+'</div></div>'+
+      '<div class="card-body">'+
       '<h2>'+b.title+'</h2>'+
       '<div class="author">'+(b.author||'ناشناس')+'</div>'+
       '<div class="meta">'+badge+'<span>'+b.pages+' صفحه'+provider+'</span></div>'+
       pbar+'</div></a>';
   }).join('');
+  initSlideshows();
 }
 
+var _slideIntervals={};
+function initSlideshows(){
+  document.querySelectorAll('.card').forEach(function(card){
+    var slug=card.dataset.slug;
+    var ss=card.querySelector('.card-slideshow');
+    if(!ss) return;
+    var slides=ss.querySelectorAll('.slide');
+    if(slides.length<2) return;
+    var idx=0;
+    card.addEventListener('mouseenter',function(){
+      _slideIntervals[slug]=setInterval(function(){
+        slides[idx].classList.remove('active');
+        idx=(idx+1)%slides.length;
+        slides[idx].classList.add('active');
+      },2000);
+    });
+    card.addEventListener('mouseleave',function(){
+      clearInterval(_slideIntervals[slug]);
+      slides.forEach(function(s){s.classList.remove('active')});
+      if(slides[0]) slides[0].classList.add('active');
+    });
+  });
+}
 function loadTheme(){var t=localStorage.getItem('coreader-theme');if(t)document.body.className=t;updateThemeDots()}
 function setTheme(cls){document.body.className=cls;localStorage.setItem('coreader-theme',cls);updateThemeDots()}
 function updateThemeDots(){var cur=document.body.className||'';document.querySelectorAll('.theme-dot').forEach(function(d){d.classList.toggle('on',d.dataset.theme===cur)})}
