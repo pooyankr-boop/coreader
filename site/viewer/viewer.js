@@ -18,7 +18,7 @@ function init(){
   loadTheme();
   var params=new URLSearchParams(location.search);
   var slug=params.get('book');
-  if(!slug){document.body.innerHTML='<div style="text-align:center;padding:60px;color:#999">کتابی انتخاب نشد. <a href="/">بازگشت</a></div>';return}
+  if(!slug){document.body.innerHTML='<div style="text-align:center;padding:60px;color:#999">کتابی انتخاب نشد. <a href="../">بازگشت</a></div>';return}
   document.title=slug+' — کتابخوان';
   loadBook(slug);
 }
@@ -58,7 +58,7 @@ function loadBook(slug){
     goPage(1);
     buildThumbStrip();
   }).catch(function(e){
-    document.body.innerHTML='<div style="text-align:center;padding:60px;color:#c0392b">خطا: '+e.message+'<br><a href="/">بازگشت</a></div>';
+    document.body.innerHTML='<div style="text-align:center;padding:60px;color:#c0392b">خطا: '+e.message+'<br><a href="../">بازگشت</a></div>';
   });
 }
 
@@ -561,7 +561,7 @@ function stopTts(){window.speechSynthesis.cancel();document.getElementById('ttsS
 window.setTtsEngine=function(v){_ttsEngine=v};
 
 // === UI toggles ===
-window.toggleToc=toggleToc;window.goHome=function(){location.href='/'};
+window.toggleToc=toggleToc;window.goHome=function(){location.href='../'};
 window.nextPage=nextPage;
 window.prevPage=prevPage;
 window.goPage=goPage;
