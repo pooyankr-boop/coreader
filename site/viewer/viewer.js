@@ -20,14 +20,32 @@ function init(){
   var slug=params.get('book');
   if(!slug){document.body.innerHTML='<div style="text-align:center;padding:60px;color:#999">کتابی انتخاب نشد. <a href="../">بازگشت</a></div>';return}
   document.title=slug+' — کتابخوان';
+  // Load ganjoor text immediately (don't wait for manifest)
+  preloadGanjoorText(slug);
   loadBook(slug);
+}
+
+// Preload ganjoor text in parallel with manifest fetch
+var _preloadedGanjoor = null;
+function preloadGanjoorText(slug){
+  if(typeof loadGanjoorText !== 'function') return;
+  loadGanjoorText(slug, function(){
+    if(_ganjoor){
+      _preloadedGanjoor = _ganjoor;
+      console.log('[viewer] ganjoor preloaded:', _ganjoor.length, 'chapters');
+      // Render immediately since we don't have BOOK yet
+      if(document.getElementById('textContent')){
+        renderGanjoorText();
+      }
+    }
+  });
 }
 
 function loadBook(slug){
   // Try local book first
   fetch('../books/'+encodeURIComponent(slug)+'/book.json').then(function(r){
     if(r.ok) return r.json();
-    return fetch('../books/'+encodeURIComponent(slug)+'/manifest.json').then(function(r2){
+    return fetch('../books/'+encodeURIComponent(slug)+'/manifest.json?_='+Date.now()).then(function(r2){
       if(r2.ok) return r2.json();
       throw new Error('not-local');
     });
@@ -38,19 +56,37 @@ function loadBook(slug){
       var all=list.concat(custom);
       var entry=all.find(function(b){return b.slug===slug});
       if(entry && entry.manifestUrl){
-        return fetch(entry.manifestUrl).then(function(r){
-          if(!r.ok) throw new Error('manifest fetch failed: '+r.status);
-          return r.json();
-        }).then(function(data){data._entry=entry;return data;});
+        // Proxy QDL/BL manifests through local server (Cloudflare blocks direct fetch)
+        var manifestUrl = entry.manifestUrl;
+        var needsProxy = /qdl\.qa|digirati\.io/.test(manifestUrl);
+        var fetchUrl = needsProxy ? '/proxy-manifest?url=' + encodeURIComponent(manifestUrl) : manifestUrl;
+        // Don't block - fetch with timeout
+        return Promise.race([
+          fetch(fetchUrl).then(function(r){
+            if(!r.ok) throw new Error('manifest fetch failed: '+r.status);
+            return r.json();
+          }).then(function(data){data._entry=entry;return data;}),
+          new Promise(function(_, reject){ setTimeout(function(){ reject(new Error('manifest timeout')); }, 15000); })
+        ]).catch(function(){
+          // If manifest fails, create a minimal book entry
+          return { source: 'iiif', title: entry.title || slug, pages: entry.pages || 100, _entry: entry };
+        });
       }
       throw new Error('Book not found');
     });
   }).then(function(data){
     BOOK=normalizeBook(data, slug);
+    window.BOOK=BOOK; // export for ganjoor-text.js
         _rawManifest=data;
         setupOsd();
         renderMeta();
         renderIiifToc(data);
+            // If ganjoor was preloaded, use it
+            if(_preloadedGanjoor && !BOOK.hasText){
+              _ganjoor = _preloadedGanjoor;
+              BOOK.hasText = true;
+              renderGanjoorText();
+            }
             loadText(slug);
             setTimeout(annotateGlossary,500);
     loadAnnos(slug);
@@ -58,6 +94,7 @@ function loadBook(slug){
     goPage(1);
     buildThumbStrip();
   }).catch(function(e){
+    console.error('[viewer] loadBook failed:', e);
     document.body.innerHTML='<div style="text-align:center;padding:60px;color:#c0392b">خطا: '+e.message+'<br><a href="../">بازگشت</a></div>';
   });
 }
@@ -73,7 +110,7 @@ var META_LABELS={
   'Note':'یادداشت','Provenance':'سابقهٔ مالکیت','Former Owner':'مالک قبلی',
   'Subject':'موضوع','Call Number':'شمارهٔ تماس','Shelfmark/Call Number':'شمارهٔ قفسه',
   'Repository':'بایگانی','Digital Origin':'منبع دیجیتال','Rights':'حقوق',
-  'Local Reference':'مرجع محلی'
+  'Local Reference':'مرجع محلی','Creator':'پدیدآور','Work title':'عنوان اثر','Published':'ناشر','Date':'تاریخ','Extent':'تعداد صفحات','Type':'نوع','Format':'قالب','Language':'زبان','Identifier':'شناسه'
 };
 function translateMetaLabel(label){
   return META_LABELS[label]||label;
@@ -83,10 +120,21 @@ function extractIiifMetadata(data){
   if(data.metadata && data.metadata.length){
     data.metadata.forEach(function(m){
       var label=m.label||'';
+      // Handle array-of-objects label (IIIF v2 multilingual)
+      if(Array.isArray(label)){
+        var en=label.find(function(l){return l['@language']==='en'});
+        var fa=label.find(function(l){return l['@language']==='fa'||l['@language']==='per'});
+        label=(en||fa||label[0]||{})['@value']||'';
+      }
       var val=m.value||'';
+      // Handle object value
+      if(typeof val==='object' && val!==null){
+        if(Array.isArray(val)) val=val.join(' ');
+        else if(val['@value']) val=val['@value'];
+        else val=JSON.stringify(val);
+      }
       // Strip HTML tags for display
-      if(typeof val==='string') val=val.replace(/<[^>]+>/g,'').trim();
-      if(Array.isArray(val)) val=val.join(' ');
+      if(typeof val==='string') val=val.replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&#?\w+;/g,'').trim();
       if(label && val && val!=='') meta.push({label:translateMetaLabel(label),rawLabel:label,value:val});
     });
   }
@@ -161,8 +209,8 @@ function normalizeBook(data, slug){
         c.images.forEach(function(anno){
           var res=anno.resource||anno.body;
           if(res){
-            if(res.service) page.images.push({id:res['@id']||res.id, service:res.service});
-            else if(res['@id']) page.images.push({id:res['@id'], service:null});
+            var imgObj={id:res['@id']||res.id, service:res.service, width:res.width, height:res.height};
+            page.images.push(imgObj);
           }
         });
       }
@@ -203,11 +251,19 @@ function setupOsd(){
     minZoomLevel:0.5,
     zoomPerClick:2,
     visibilityRatio:0.9,
-    rtl:true
+    rtl:true,
+    crossOriginPolicy:'Anonymous',
+    ajaxWithCredentials:false,
+    timeout:120000,
+    imageLoaderLimit:6,
+    tileRetryMax:3,
+    tileRetryDelay:2000
   };
   // OpenSeadragon IIIF: pass info.json URL directly
   if(tileSource.type==='iiif'){
     osdOpts.tileSources=tileSource.infoUrl;
+  } else if(tileSource.type==='image' && tileSource.width && tileSource.height){
+    osdOpts.tileSources={type:'image', url:tileSource.url, width:tileSource.width, height:tileSource.height};
   } else {
     osdOpts.tileSources=tileSource.url;
   }
@@ -217,7 +273,9 @@ function setupOsd(){
 function getTileSource(item){
   if(item.images && item.images.length){
     var img=item.images[0];
+    // Check service at top level or in resource
     var svc=img.service;
+    if(!svc && img.resource) svc=img.resource.service;
     if(svc){
       if(Array.isArray(svc)) svc=svc[0];
       var svcId=svc && (svc['@id']||svc.id);
@@ -225,10 +283,19 @@ function getTileSource(item){
         return {type:'iiif', infoUrl:svcId+'/info.json', baseUrl:svcId};
       }
     }
-    if(img.id){
-      return {type:'image',url:img.id};
+    // Image URL: check item.images[0].id, or resource.@id
+    var imgUrl=img.id || img['@id'];
+    var w=img.width, h=img.height;
+    if(img.resource && img.resource['@id']){
+      imgUrl=img.resource['@id'];
+      w=w||img.resource.width;
+      h=h||img.resource.height;
+    }
+    if(imgUrl){
+      return {type:'image', url:imgUrl, width:w||null, height:h||null};
     }
   }
+  // Also check item.num for label
   return {type:'image',url:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="600" fill="#f0ebe3"><text x="200" y="300" text-anchor="middle" font-family="sans-serif" font-size="24" fill="#8c8577">صفحه '+item.num+'</text></svg>')};
 }
 
@@ -238,6 +305,9 @@ function goToPageImage(pageIdx){
   var ts=getTileSource(item);
   if(ts.type==='iiif'){
     _osd.open(ts.infoUrl);
+  } else if(ts.type==='image' && ts.width && ts.height){
+    // Pass tile source object with dimensions for OSD to render correctly
+    _osd.open({type:'image', url:ts.url, width:ts.width, height:ts.height});
   } else {
     _osd.open(ts.url);
   }
@@ -264,19 +334,25 @@ function buildThumbStrip(){
     if(!item.images||!item.images.length) return false;
     var svc=item.images[0].service;
     if(svc){if(Array.isArray(svc))svc=svc[0];return !!(svc&&(svc['@id']||svc.id));}
-    return false;
+    return !!(item.images[0].id); // QDL: direct image URL
   });
   if(!hasThumbs) return;
   var strip=document.createElement('div');
   strip.className='thumb-strip';
   strip.id='thumbStrip';
   BOOK.items.forEach(function(item,i){
-    var svcId=null;
+    var thumbUrl='data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="60" height="80" fill="#f0ebe3"><text x="30" y="45" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#8c8577">'+(i+1)+'</text></svg>');
     if(item.images&&item.images.length){
       var svc=item.images[0].service;
-      if(svc){if(Array.isArray(svc))svc=svc[0];svcId=svc&&((svc['@id'])||svc.id);}
+      if(svc){
+        if(Array.isArray(svc))svc=svc[0];
+        var svcId=svc&&((svc['@id'])||svc.id);
+        if(svcId) thumbUrl=svcId+'/full/60,/0/default.jpg';
+      } else if(item.images[0].id){
+        // QDL: replace /full/full/ with /full/60,/ for thumbnail
+        thumbUrl=item.images[0].id.replace(/\/full\/full\//,'/full/60,/');
+      }
     }
-    var thumbUrl=svcId?svcId+'/full/60,/0/default.jpg':'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="60" height="80" fill="#f0ebe3"><text x="30" y="45" text-anchor="middle" font-family="sans-serif" font-size="10" fill="#8c8577">'+(i+1)+'</text></svg>');
     var div=document.createElement('div');
     div.className='thumb-item'+(i===(_curPage-1)?' active':'');
     div.onclick=function(){goPage(i+1);};
@@ -316,10 +392,21 @@ function buildThumbStrip(){
 function goPage(n){
   n=Math.max(1,Math.min(BOOK.pages,n));
   _curPage=n;
+  window._curPage=n;
   document.getElementById('pgInput').value=n;
     document.getElementById('pgTotal').textContent='از '+toFA(BOOK.pages);
   goToPageImage(n-1);
-  renderText();
+  if(_ganjoor && typeof renderGanjoorChunk === 'function') {
+    // If this page has a chunk, show it. Otherwise keep the ganjoor text view.
+    var chunk = typeof getChunkForPage === 'function' ? getChunkForPage(n) : null;
+    if (chunk) { renderGanjoorChunk(n); }
+    // else: keep whatever ganjoor text was last rendered (don't overwrite with renderText)
+  } else if(_ganjoor) {
+    // ganjoor loaded but full rendering not available — show inline fallback
+    _fallbackRenderGanjoorText();
+  } else {
+    renderText();
+  }
   renderAnnos();
   updateProgress();
 }
@@ -327,8 +414,63 @@ function nextPage(){goPage(_curPage+1)}
 function prevPage(){goPage(_curPage-1)}
 function toFA(n){return String(n).replace(/[0-9]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[d]})}
 
+// === Ganjoor inline fallback (works even if ganjoor-text.js fails to load) ===
+function _fallbackRenderGanjoorText(){
+  var el=document.getElementById('textContent');
+  if(!el||!_ganjoor||!_ganjoor.length) return;
+  try{
+    var ch=_ganjoor[0], poem=ch.poems[0];
+    var h='<div class="g-chapters">';
+    _ganjoor.forEach(function(c,i){h+='<button class="g-ch-btn'+(i===0?' on':'')+'">'+c.chapter+'</button>';});
+    h+='</div><div class="g-poems">';
+    ch.poems.forEach(function(p,i){
+      var label=p.id==='dibache'?'دیباچه':'حکایت '+(i+1);
+      h+='<button class="g-poem-btn'+(i===0?' on':'')+'">'+label+'</button>';
+    });
+    h+='</div><div class="g-text">';
+    poem.lines.forEach(function(line){
+      h+='<div class="g-line">'+line+'</div>';
+    });
+    h+='</div>';
+    el.innerHTML=h;
+    console.log('[viewer] inline ganjoor rendered:',el.innerHTML.length,'chars');
+  }catch(e){console.error('[viewer] inline render error:',e);}
+}
 // === Text ===
 function loadText(slug){
+  // Try ganjoor text first for IIIF books
+  if(BOOK && BOOK.source === 'iiif'){
+    if(typeof loadGanjoorText === 'function'){
+      loadGanjoorText(slug, function(){
+        if(_ganjoor){
+          BOOK.hasText = true;
+          renderGanjoorText();
+        } else {
+          BOOK.hasText = false;
+          renderText();
+        }
+      });
+    } else {
+      // Fallback: load ganjoor text inline (external file didn't load)
+      var url = '../books/' + encodeURIComponent(slug) + '/ganjoor_golestan.json?_=' + Date.now();
+      fetch(url).then(function(r){
+        if(!r.ok) throw new Error('HTTP '+r.status);
+        return r.json();
+      }).then(function(d){
+        console.log('[viewer] ganjoor fallback loaded', d.length, 'chapters');
+        _ganjoor = d;
+        if(typeof buildPageMap === 'function') buildPageMap();
+        BOOK.hasText = true;
+        if(typeof renderGanjoorText === 'function') renderGanjoorText();
+        else _fallbackRenderGanjoorText();
+      }).catch(function(e){
+        console.error('[viewer] ganjoor fallback failed:', e);
+        BOOK.hasText = false;
+        renderText();
+      });
+    }
+    return;
+  }
   // Skip local pages.json fetch for IIIF books (no local text files)
   if(BOOK && BOOK.source === 'iiif'){
     BOOK.hasText = false;
@@ -357,6 +499,7 @@ function loadText(slug){
 
 function renderText(){
   var el=document.getElementById('textContent');
+  if(typeof _ganjoor!=='undefined' && _ganjoor) return; // ganjoor handles its own text
   if(!BOOK.hasText || !_texts.length){
     el.innerHTML='<p style="color:var(--muted);font-size:13px;text-align:center">متن صفحه موجود نیست</p>';
     return;
@@ -421,6 +564,7 @@ function renderMeta(){
 // === Annotations ===
 function loadAnnos(slug){
   try{_annos=JSON.parse(localStorage.getItem('coreader-anno-'+slug)||'[]')}catch(e){_annos=[]}
+  window._annos=_annos;
 }
 function saveAnnos(slug){
   localStorage.setItem('coreader-anno-'+BOOK.slug,JSON.stringify(_annos));
@@ -438,7 +582,7 @@ window.addAnnotation=function(){
   var text=input.value.trim();
   if(!text) return;
   _annos.push({page:_curPage,text:text,time:Date.now()});
-  saveAnnos(); input.value=''; renderAnnos();
+  window._annos=_annos; saveAnnos(); input.value=''; renderAnnos();
 };
 window.delAnnotation=function(i){
   // Find actual index in full array
@@ -525,6 +669,10 @@ function speakPage(){
   if(!pageData) return;
   var text=(pageData.text||'').replace(/<[^>]+>/g,'');
   if(!text.trim()) return;
+  // Show annotations for this page
+  showPageAnnotationsForPage(_curPage);
+  // Auto-show inline .anno tooltips sequentially
+  showInlineAnnoTooltips();
   var engine=document.getElementById('setTtsEngine').value;
   if(engine==='google'){
     speakGoogle(text);
@@ -557,7 +705,103 @@ function speakGoogle(text){
   }
   playNext();
 }
-function stopTts(){window.speechSynthesis.cancel();document.getElementById('ttsStatus').textContent='آماده خوانش'}
+// Show annotation tooltips during TTS for saved text books
+var _annoOverlayTimer = null;
+function showPageAnnotationsForPage(pg) {
+  var old = document.getElementById('annoTtsOverlay');
+  if (old) old.remove();
+  var annos = _annos;
+  if (!annos || !annos.length) return;
+  var pageAnnos = annos.filter(function(a) { return a.page == pg; });
+  if (!pageAnnos.length) return;
+  var textEl = document.getElementById('textContent');
+  if (!textEl) return;
+  var box = document.createElement('div');
+  box.id = 'annoTtsOverlay';
+  box.style.cssText = 'position:absolute;right:8px;top:8px;max-width:280px;z-index:100;pointer-events:none;';
+  pageAnnos.forEach(function(a) {
+    var tip = document.createElement('div');
+    tip.style.cssText = 'background:rgba(45,45,45,.92);color:#f5e6c8;border:1px solid rgba(212,168,83,.4);border-radius:8px;padding:8px 12px;margin-bottom:6px;font-size:12px;line-height:1.7;direction:rtl;box-shadow:0 2px 12px rgba(0,0,0,.3);animation:annoSlideIn .4s ease-out;pointer-events:auto;';
+    tip.textContent = '📝 ' + a.text;
+    box.appendChild(tip);
+  });
+  textEl.style.position = 'relative';
+  textEl.appendChild(box);
+  if (_annoOverlayTimer) clearTimeout(_annoOverlayTimer);
+  _annoOverlayTimer = setTimeout(function() {
+    if (box.parentNode) {
+      box.style.transition = 'opacity 1.5s';
+      box.style.opacity = '0';
+      setTimeout(function() { if (box.parentNode) box.remove(); }, 1500);
+    }
+  }, 8000);
+}
+// Auto-show inline .anno tooltips sequentially during TTS
+var _inlineAnnoTimer = null;
+var _inlineAnnoIdx = 0;
+function showInlineAnnoTooltips() {
+  var textEl = document.getElementById('textContent');
+  if (!textEl) return;
+  var annos = textEl.querySelectorAll('.anno[data-text], .anno[data-title]');
+  if (!annos.length) return;
+  _inlineAnnoIdx = 0;
+  if (_inlineAnnoTimer) clearInterval(_inlineAnnoTimer);
+  _inlineAnnoTimer = setInterval(function() {
+    if (!window.speechSynthesis || !window.speechSynthesis.speaking) {
+      clearInterval(_inlineAnnoTimer);
+      _inlineAnnoTimer = null;
+      hideInlineAnnoTooltip();
+      return;
+    }
+    if (_inlineAnnoIdx >= annos.length) {
+      clearInterval(_inlineAnnoTimer);
+      _inlineAnnoTimer = null;
+      return;
+    }
+    var el = annos[_inlineAnnoIdx];
+    // Scroll into view
+    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Show tooltip
+    showInlineAnnoTooltip(el);
+    _inlineAnnoIdx++;
+  }, 4000); // Show each annotation for 4 seconds
+}
+var _inlineAnnoTooltipEl = null;
+function showInlineAnnoTooltip(el) {
+  if (!el) return;
+  var text = el.dataset.text || '';
+  var title = el.dataset.title || '';
+  var cat = el.dataset.cat || '';
+  if (!text && !title) return;
+  if (!_inlineAnnoTooltipEl) {
+    _inlineAnnoTooltipEl = document.createElement('div');
+    _inlineAnnoTooltipEl.className = 'anno-tooltip';
+    _inlineAnnoTooltipEl.style.cssText = 'position:fixed;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px;max-width:250px;z-index:10000;box-shadow:0 4px 16px rgba(0,0,0,.15);color:var(--text);line-height:1.6;direction:rtl;';
+    document.body.appendChild(_inlineAnnoTooltipEl);
+  }
+  _inlineAnnoTooltipEl.innerHTML = (title ? '<strong>' + title + '</strong><br>' : '') +
+    (cat ? '<span style="display:inline-block;background:var(--accent);color:#fff;border-radius:4px;padding:0 6px;font-size:10px;margin-left:4px">' + cat + '</span> ' : '') + text;
+  _inlineAnnoTooltipEl.style.display = 'block';
+  var rect = el.getBoundingClientRect();
+  _inlineAnnoTooltipEl.style.left = Math.min(rect.left, window.innerWidth - 260) + 'px';
+  _inlineAnnoTooltipEl.style.top = (rect.bottom + 6) + 'px';
+  // Highlight the anno element
+  el.style.background = 'rgba(212,168,83,.3)';
+  el.style.borderRadius = '3px';
+  setTimeout(function() { el.style.background = ''; }, 3500);
+}
+function hideInlineAnnoTooltip() {
+  if (_inlineAnnoTooltipEl) _inlineAnnoTooltipEl.style.display = 'none';
+}
+function stopTts(){
+  window.speechSynthesis.cancel();
+  document.getElementById('ttsStatus').textContent='آماده خوانش';
+  var old = document.getElementById('annoTtsOverlay');
+  if (old) old.remove();
+  if (_annoOverlayTimer) { clearTimeout(_annoOverlayTimer); _annoOverlayTimer = null; }
+  if (_inlineAnnoTimer) { clearInterval(_inlineAnnoTimer); _inlineAnnoTimer = null; }
+  hideInlineAnnoTooltip();
+}
 window.setTtsEngine=function(v){_ttsEngine=v};
 
 // === UI toggles ===
@@ -568,13 +812,27 @@ window.goPage=goPage;
 window.loadBook=loadBook;
 window.togglePanel=function(){
   var p=document.getElementById('sidePanel');
-  p.classList.toggle('collapsed');
+  var ov=document.getElementById('panelOverlay');
+  var isMobile=window.innerWidth<=900;
+  if(isMobile){
+    p.classList.toggle('open');
+    if(ov) ov.classList.toggle('open', p.classList.contains('open'));
+  }else{
+    p.classList.toggle('collapsed');
+  }
   document.getElementById('bPanel').classList.toggle('on');
   setTimeout(function(){if(_osd)_osd.viewport.goHome(true)},350);
 };
 window.switchPane=function(name){
   document.querySelectorAll('.sp-tab').forEach(function(t){t.classList.toggle('on',t.dataset.pane===name)});
   document.querySelectorAll('.sp-pane').forEach(function(p){p.classList.toggle('on',p.id==='pane-'+name)});
+  // Safety: if switching to text and ganjoor loaded but content empty, re-render
+  if(name==='text' && typeof _ganjoor!=='undefined' && _ganjoor && typeof renderGanjoorText==='function'){
+    var el=document.getElementById('textContent');
+    if(el && !el.querySelector('.g-chapters')){
+      renderGanjoorText();
+    }
+  }
 };
 window.toggleSearch=function(){
   document.getElementById('searchOverlay').classList.toggle('on');
@@ -656,13 +914,7 @@ function loadIiifText(slug,pageNum){
 function saveIiifText(slug,pageNum,text){
   try{var texts=JSON.parse(localStorage.getItem("coreader-iiif-text-"+slug)||"{}");texts[pageNum]=text;localStorage.setItem("coreader-iiif-text-"+slug,JSON.stringify(texts))}catch(e){}
 }
-function renderText(){
-  var el=document.getElementById("textPane");
-  if(!el)return;
-  if(!el)return;
-  var text=loadIiifText(BOOK?BOOK.slug:"",_curPage);
-  if(text){el.innerHTML="<div class=\"text-content\">"+text.replace(/\n/g,"<br>")+"</div>"}else{el.innerHTML="<div class=\"text-content empty-text\"><p style=\"color:var(--muted);text-align:center\">متنی موجود نیست</p><p style=\"color:var(--muted);font-size:12px;text-align:center\">برای افزودن متن، روی صفحه راست‌کلیک کنید → ویرایش متن</p></div>"}
-}
+// second renderText removed — was broken subagent artifact
 function ctxEditTextIiif(){_closeCtx();if(!BOOK)return;
   var existing=loadIiifText(BOOK.slug,_curPage);
   var text=prompt("متن صفحهٔ "+toFA(_curPage)+":\n(برای افزودن متن OCR یا تایپ متن)",existing||"");
@@ -680,7 +932,7 @@ function loadGlossary(){
 }
 function annotateGlossary(){
   if(!_glossary)return;
-  var el=document.getElementById("textPane");
+  var el=document.getElementById("textContent");
   if(!el)return;
   var textEl=el.querySelector(".text-content");
   if(!textEl)return;

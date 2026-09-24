@@ -726,5 +726,101 @@
       "https://images.eap.bl.uk/EAP1326/EAP1326_1_55/5.jp2/full/!128,128/0/default.jpg",
       "https://images.eap.bl.uk/EAP1326/EAP1326_1_55/6.jp2/full/!128,128/0/default.jpg"
     ]
+  },
+  {
+    "slug": "bl-add-ms-6998",
+    "title": "صد در صد — ایرانشاه بن ملکشاه",
+    "author": "ایرانشاه بن ملکشاه",
+    "source": "iiif",
+    "provider": "British Library",
+    "manifestUrl": "https://bl.digirati.io/iiif/ark:/81055/vdc_100145840943.0x000001?manifest=https://bl.digirati.io/iiif/ark:/81055/vdc_100145840943.0x000001",
+    "pages": 483,
+    "cover": "",
+    "language": "Persian",
+    "date": "~12th-13th century",
+    "viewingDirection": "right-to-left",
+    "thumbnail": [
+      "https://bl.digirati.io/thumbs/ark:/81055/vdc_100159249837.0x0001d9/full/!200,200/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "qdl-add-ms-7492",
+    "title": "چهار رساله در نجوم و تقویم",
+    "author": "قوشجی و دیگران",
+    "source": "iiif",
+    "provider": "Qatar Digital Library — British Library",
+    "manifestUrl": "books/qdl-add-ms-7492/manifest.json",
+    "pages": 162,
+    "cover": "",
+    "language": "عربی/فارسی",
+    "date": "~قرن ۱۰ هجری (۱۵۰۷ میلادی)",
+    "viewingDirection": "right-to-left",
+    "thumbnail": [
+      "https://iiif.qdl.qa/iiif/images/81055/vdc_100106885028.0x000001/Add MS 7492_0005.jp2/full/!200,200/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "qdl-add-ms-23569",
+    "title": "پنج رساله در نجوم و ریاضیات",
+    "author": "قوشجی",
+    "source": "iiif",
+    "provider": "Qatar Digital Library — British Library",
+    "manifestUrl": "books/qdl-add-ms-23569/manifest.json",
+    "pages": 296,
+    "cover": "",
+    "language": "فارسی/عربی",
+    "date": "~قرن ۹-۱۰ هجری",
+    "viewingDirection": "right-to-left",
+    "thumbnail": [
+      "https://iiif.qdl.qa/iiif/images/81055/vdc_100024386010.0x000001/Add MS 23569_0001.jp2/full/!200,200/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "qdl-add-ms-16659",
+    "title": "مجموعه آثار فلسفی و علمی ابن سینا",
+    "author": "الجزرجانی و دیگران",
+    "source": "iiif",
+    "provider": "Qatar Digital Library — British Library",
+    "manifestUrl": "books/qdl-add-ms-16659/manifest.json",
+    "pages": 1208,
+    "cover": "",
+    "language": "عربی",
+    "date": "~قرن ۱۲ هجری (۱۷۶۸-۹ میلادی)",
+    "viewingDirection": "right-to-left",
+    "thumbnail": [
+      "https://iiif.qdl.qa/iiif/images/81055/vdc_100000001517.0x000093/Add MS 16659_0001.jp2/full/!200,200/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "qdl-add-ms-23570",
+    "title": "مجموعه ریاضی",
+    "author": "ناشناس",
+    "source": "iiif",
+    "provider": "Qatar Digital Library — British Library",
+    "manifestUrl": "books/qdl-add-ms-23570/manifest.json",
+    "pages": 306,
+    "cover": "",
+    "language": "عربی/فارسی",
+    "date": "~قرن ۹-۱۰ هجری",
+    "viewingDirection": "right-to-left",
+    "thumbnail": [
+      "https://iiif.qdl.qa/iiif/images/81055/vdc_100022582060.0x000001/Add MS 23570_0001.jp2/full/!200,200/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "qdl-add-ms-23560",
+    "title": "مجموعه متون طبی",
+    "author": "ناشناس",
+    "source": "iiif",
+    "provider": "Qatar Digital Library — British Library",
+    "manifestUrl": "books/qdl-add-ms-23560/manifest.json",
+    "pages": 640,
+    "cover": "",
+    "language": "عربی/فارسی",
+    "date": "~۱۰۹۹ هجری (۱۶۸۸ میلادی)",
+    "viewingDirection": "right-to-left",
+    "thumbnail": [
+      "https://iiif.qdl.qa/iiif/images/81055/vdc_100088054536.0x000001/Add MS 23560_0001.jp2/full/!200,200/0/default.jpg"
+    ]
   }
 ]

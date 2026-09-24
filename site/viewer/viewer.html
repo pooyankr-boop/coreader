@@ -2,6 +2,9 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>کتاب</title>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -40,6 +43,8 @@
     </div>
     <div class="spacer"></div>
     <button onclick="toggleSearch()" id="bSearch">🔍 جستجو</button>
+    <button onclick="toggleGanjoorTTS()" id="bGanjoorTTS" style="display:none">🔊 خوانش</button>
+    <button onclick="toggleGanjoorMic()" id="bGanjoorMic" style="display:none">🎤 خط‌بر</button>
     <button onclick="openSettings()" id="bSettings">⚙️</button>
     <button onclick="toggleMagnifier()" id="bMag">🔍 ذره‌بین</button>
     <button onclick="showFavPanel()">⭐ علاقه‌مندی</button>
@@ -47,6 +52,7 @@
     <button onclick="rotateImage(-90)" title="چرخش پادساعتگرد">↺</button>
     <button onclick="zoomIn()" title="بزرگ‌نمایی">+</button>
     <button onclick="zoomOut()" title="کوچک‌نمایی">−</button>
+    <button onclick="toggleFullscreen()" id="bFullscreen" title="تمام صفحه">⛶</button>
   </div>
 
   <div class="body">
@@ -56,6 +62,7 @@
     </div>
 
     <div class="side-panel" id="sidePanel">
+      <div class="panel-resizer" id="panelResizer" title="کشیدن برای تغییر اندازه"></div>
       <div class="sp-tabs">
         <div class="sp-tab on" data-pane="meta" onclick="switchPane('meta')">اطلاعات</div>
         <div class="sp-tab" data-pane="text" onclick="switchPane('text')">متن</div>
@@ -66,6 +73,11 @@
           <div id="metaContent"><p style="color:var(--muted);font-size:13px">در حال بارگذاری...</p></div>
         </div>
         <div class="sp-pane" id="pane-text">
+          <div style="padding:8px;background:var(--cream);border-bottom:1px solid var(--border);font-size:11px;color:var(--muted)">
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer">
+              <input type="checkbox" id="textSelectToggle" checked onchange="toggleTextSelection(this.checked)"> امکان انتخاب متن
+            </label>
+          </div>
           <div class="tts-controls" id="ttsInlineControls" style="display:none">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;padding:10px;background:var(--cream);border-radius:10px;border:1px solid var(--border)">
               <button class="tts-btn" id="ttsPlayBtn" onclick="toggleTtsPlay()" style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;background:var(--card);cursor:pointer;font-size:14px">▶️</button>
@@ -89,6 +101,12 @@
     </div>
   </div>
 </div>
+
+<!-- Ganjoor TTS/Mic bottom bar -->
+<div class="g-bottom-bar" id="gBottomBar" style="display:none"></div>
+
+<!-- Mobile panel overlay -->
+<div class="side-panel-overlay" id="panelOverlay" onclick="togglePanel()"></div>
 
 <!-- Search panel -->
 <div class="settings-overlay" id="searchOverlay" onclick="toggleSearch()"></div>
@@ -352,11 +370,27 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.1/openseadragon.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>window.pdfjsLib && (pdfjsLib.GlobalWorkerOptions.workerSrc='');</script>
-<script src="viewer.js"></script>
+<script src="ganjoor-text.js?v=4"></script>
+<script src="viewer.js?v=3"></script>
+<script src="ui-functions.js?v=1"></script>
 <script>
-// Register service worker for offline support
+// Register service worker for offline support — auto-reload on new version
+// DISABLED for debugging — SW was caching stale ganjoor-text.js
+// Also UNREGISTER any old SW that might be serving cached files
 if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('../sw.js').catch(function(){});
+  navigator.serviceWorker.getRegistrations().then(function(regs) {
+    if (regs.length > 0) {
+      regs.forEach(function(r) { r.unregister(); console.log('[viewer] unregistered old SW'); });
+      // Force reload after SW unregister so this page load uses fresh files
+      setTimeout(function() { location.reload(true); }, 100);
+    }
+  });
+  // Clear old caches
+  if ('caches' in window) {
+    caches.keys().then(function(names) {
+      names.forEach(function(n) { caches.delete(n); console.log('[viewer] deleted cache:', n); });
+    });
+  }
 }
 // Hide loading spinner once book content is available
 (function(){
