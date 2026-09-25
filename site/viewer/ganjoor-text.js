@@ -149,6 +149,8 @@ function renderGanjoorText() {
   if (active) scrollInPanel(active);
   showGanjoorButtons();
   updateBottomBarState();
+  // Annotate glossary words after render
+  if (typeof annotateGlossary === 'function') setTimeout(annotateGlossary, 300);
 }
 
 function wrapWords(text) {
@@ -172,7 +174,7 @@ function switchGChapter(ci) {
   var sec = document.getElementById('g-ch-' + ci);
   if (sec) scrollInPanel(sec, "start");
   var pg = findPageForLine(_gFlatLine);
-  if (pg && typeof goPage === 'function') goPage(pg);
+  if (pg && typeof window.goPage === 'function') window.goPage(pg);
 }
 
 function switchGPoem(pi) {
@@ -182,7 +184,7 @@ function switchGPoem(pi) {
   var sec = document.getElementById('g-po-' + _gCh + '-' + pi);
   if (sec) scrollInPanel(sec, "start");
   var pg = findPageForLine(_gFlatLine);
-  if (pg && typeof goPage === 'function') goPage(pg);
+  if (pg && typeof window.goPage === 'function') window.goPage(pg);
 }
 
 // ── Click text line → navigate OSD ──
@@ -202,7 +204,7 @@ function onGLineClick(flatIdx) {
   _gPoem = loc.poem;
   var pg = findPageForLine(flatIdx);
   highlightActiveLine(flatIdx);
-  if (pg && pg !== _curPage && typeof goPage === 'function') goPage(pg);
+  if (pg && pg !== window._curPage && typeof window.goPage === 'function') window.goPage(pg);
   // Resume reading/mic from clicked line
   if (readingActive) {
     if (_gLastMode === 'mic') {
@@ -318,9 +320,8 @@ function speakLine(fi) {
   _gFlatLine = fi;
   highlightActiveLine(fi);
   var pg = findPageForLine(fi);
-  if (pg && pg !== _curPage && typeof goPage === 'function') goPage(pg);
-  // Auto-show annotations for this page during TTS/mic
-  showPageAnnotations(pg);
+  if (pg && pg !== window._curPage && typeof window.goPage === 'function') window.goPage(pg);
+  // Auto-show annotations per-word via highlightSpeakingWords()
   var loc = flatToLoc(fi);
   if (loc.ch !== _gCh || loc.poem !== _gPoem) {
     _gCh = loc.ch;
@@ -368,34 +369,28 @@ function speakLine(fi) {
   }, 80);
 }
 
-// Auto-show annotation tooltip for an .anno element
-var _gAnnoTooltip = null;
-function showAnnoTooltipForElement(el) {
+// Auto-show annotation tooltip via side-tt system (viewer.js)
+function showSideTt(el) {
+  if (typeof window._showSideTt === 'function') { window._showSideTt(el); return; }
+  // Fallback: simple tooltip
   if (!el) return;
   var text = el.dataset.text || '';
   var title = el.dataset.title || '';
-  var cat = el.dataset.cat || '';
   if (!text && !title) return;
-  if (!_gAnnoTooltip) {
-    _gAnnoTooltip = document.createElement('div');
-    _gAnnoTooltip.className = 'anno-tooltip';
-    _gAnnoTooltip.style.cssText = 'position:fixed;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px;max-width:250px;z-index:10000;box-shadow:0 4px 16px rgba(0,0,0,.15);color:var(--text);line-height:1.6;direction:rtl;';
-    document.body.appendChild(_gAnnoTooltip);
-  }
-  _gAnnoTooltip.innerHTML = (title ? '<strong>' + title + '</strong><br>' : '') +
-    (cat ? '<span style="display:inline-block;background:var(--accent);color:#fff;border-radius:4px;padding:0 6px;font-size:10px;margin-left:4px">' + cat + '</span> ' : '') + text;
-  _gAnnoTooltip.style.display = 'block';
+  var tip = document.createElement('div');
+  tip.className = 'side-tt visible side-r';
+  tip.innerHTML = '<div class="at-word">' + el.textContent + '</div>' +
+    (title ? '<div class="at-title">' + title + '</div>' : '') +
+    '<div class="at-text">' + text + '</div>';
+  var pgEl = el.closest('.g-reading-box') || el.closest('#textContent');
+  if (pgEl) { pgEl.style.position = 'relative'; pgEl.appendChild(tip); }
   var rect = el.getBoundingClientRect();
-  _gAnnoTooltip.style.left = Math.min(rect.left, window.innerWidth - 260) + 'px';
-  _gAnnoTooltip.style.top = (rect.bottom + 6) + 'px';
-  // Auto-hide after 5 seconds
-  if (_gAnnoTooltip._hideTimer) clearTimeout(_gAnnoTooltip._hideTimer);
-  _gAnnoTooltip._hideTimer = setTimeout(function() {
-    if (_gAnnoTooltip) _gAnnoTooltip.style.display = 'none';
-  }, 5000);
+  tip.style.top = (rect.top - (pgEl ? pgEl.getBoundingClientRect().top : 0) - 10) + 'px';
+  setTimeout(function() { if (tip.parentNode) tip.classList.add('fading'); }, 5000);
+  setTimeout(function() { if (tip.parentNode) tip.remove(); }, 6000);
 }
-function hideAnnoTooltip() {
-  if (_gAnnoTooltip) _gAnnoTooltip.style.display = 'none';
+function clearAllSideTt() {
+  document.querySelectorAll('.side-tt').forEach(function(el) { if (el.parentNode) el.remove(); });
 }
 
 function highlightSpeakingWords(flatIdx, text) {
@@ -419,7 +414,7 @@ function highlightSpeakingWords(flatIdx, text) {
         // Auto-show annotation tooltip if this word has one
         var annoEl = wEl.closest('.anno') || wEl.querySelector('.anno') || wEl;
         if (annoEl && annoEl.classList && annoEl.classList.contains('anno')) {
-          showAnnoTooltipForElement(annoEl);
+          showSideTt(annoEl);
         }
       }, delay);
     })(w, elapsed);
@@ -480,13 +475,12 @@ function startGMic() {
           }
           highlightActiveLine(matched);
           var pg = findPageForLine(matched);
-          if (pg && pg !== _curPage && typeof goPage === 'function') goPage(pg);
-          showPageAnnotations(pg);
+          if (pg && pg !== window._curPage && typeof window.goPage === 'function') window.goPage(pg);
           // Auto-show annotation tooltips for .anno elements in matched line
           var lineEl = document.querySelector('#textContent .g-line[data-flat="' + matched + '"]');
           if (lineEl) {
             var annoEls = lineEl.querySelectorAll('.anno[data-text], .anno[data-title]');
-            if (annoEls.length) showAnnoTooltipForElement(annoEls[0]);
+            if (annoEls.length) showSideTt(annoEls[0]);
           }
           updateBottomBarState();
         }
@@ -586,10 +580,10 @@ function highlightPartialWords(transcript) {
 (function() {
   var last = 0;
   setInterval(function() {
-    if (typeof _curPage === 'undefined' || _curPage === last) return;
-    last = _curPage;
+    if (typeof window._curPage === 'undefined' || window._curPage === last) return;
+    last = window._curPage;
     if (_ganjoor && !_gSpeaking && !_gMicActive) {
-      var lines = getLinesForPage(_curPage);
+      var lines = getLinesForPage(window._curPage);
       if (lines && lines.length) {
         var fi = lines[0];
         var loc = flatToLoc(fi);
@@ -642,7 +636,7 @@ function stopAllReading() {
   document.querySelectorAll('#textContent .g-line.active').forEach(function(el) { el.classList.remove('active'); });
   document.querySelectorAll('#textContent .g-word.partial-match').forEach(function(el) { el.classList.remove('partial-match'); });
   clearAnnotationOverlay();
-  hideAnnoTooltip();
+  clearAllSideTt();
   updateBottomBarState();
 }
 
@@ -674,10 +668,8 @@ function showPageAnnotations(pg) {
   _gLastAnnoPage = pg;
   // Get annotations for this page from viewer.js
   var annos = window._annos;
-  console.log('[ganjoor] showPageAnnotations: pg=', pg, 'annos=', annos ? annos.length : 'null', 'window._annos=', typeof window._annos);
   if (!annos || !annos.length) return;
   var pageAnnos = annos.filter(function(a) { return a.page == pg; });
-  console.log('[ganjoor] pageAnnos for page', pg, ':', pageAnnos.length);
   if (!pageAnnos.length) return;
   // Create floating overlay
   var box = document.createElement('div');

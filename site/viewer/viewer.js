@@ -736,62 +736,96 @@ function showPageAnnotationsForPage(pg) {
     }
   }, 8000);
 }
-// Auto-show inline .anno tooltips sequentially during TTS
+// Side-margin annotation tooltips (adapted from 888)
+var _sideTtR = [], _sideTtL = [];
+var SIDE_TT_FADE_MS = 5000, SIDE_TT_MAX = 4;
+function _buildSideTtHtml(el) {
+  var cat = el.dataset.cat || 'word';
+  var h = '<button class="at-dismiss" onclick="dismissSideTt(this)">✕</button>';
+  h += '<div class="at-word">' + el.textContent + '</div>';
+  h += '<span class="at-cat tc-' + cat + '">' + (CAT_LABELS[cat] || cat) + '</span>';
+  if (el.dataset.title) h += '<div class="at-title">' + el.dataset.title + '</div>';
+  h += '<div class="at-text">' + (el.dataset.text || el.getAttribute('title') || '') + '</div>';
+  if (el.dataset.extra) h += '<div class="at-extra">' + el.dataset.extra + '</div>';
+  return h;
+}
+var CAT_LABELS = { word: 'واژه', arabic: 'عربی', name: 'نام', place: 'مکان', book: 'کتاب', concept: 'مفهوم', poem: 'شعر', hist: 'تاریخ', quran: 'قرآن', person: 'شخص', event: 'رویداد' };
+function showSideTt(el) {
+  if (!el) return;
+  var pgEl = el.closest('.g-reading-box') || el.closest('.ps') || el.closest('.text-content') || el.closest('#textContent');
+  if (!pgEl) return;
+  pgEl.style.position = 'relative';
+  var annos = pgEl.querySelectorAll('.anno');
+  var myIdx = Array.prototype.indexOf.call(annos, el);
+  var side = myIdx % 2 === 0 ? 'r' : 'l';
+  var list = side === 'r' ? _sideTtR : _sideTtL;
+  for (var i = 0; i < list.length; i++) {
+    if (list[i].srcEl === el) {
+      clearTimeout(list[i].timer);
+      list[i].el.classList.remove('fading');
+      list[i].el.classList.add('visible');
+      list[i].timer = setTimeout(function() { _fadeSideTt(list[i].el); }, SIDE_TT_FADE_MS);
+      return;
+    }
+  }
+  var card = document.createElement('div');
+  card.className = 'side-tt side-' + side;
+  card.innerHTML = _buildSideTtHtml(el);
+  pgEl.appendChild(card);
+  var elRect = el.getBoundingClientRect();
+  var pgRect = pgEl.getBoundingClientRect();
+  var top = elRect.top - pgRect.top + pgEl.scrollTop - 10;
+  top = Math.max(0, Math.min(top, pgRect.height - 140));
+  card.style.top = top + 'px';
+  requestAnimationFrame(function() { card.classList.add('visible'); });
+  var timer = setTimeout(function() { _fadeSideTt(card); }, SIDE_TT_FADE_MS);
+  list.push({ el: card, srcEl: el, timer: timer });
+  if (list.length > SIDE_TT_MAX) { var old = list.shift(); _fadeSideTt(old.el); }
+}
+function _fadeSideTt(card) {
+  if (!card || !card.parentNode) return;
+  card.classList.remove('visible');
+  card.classList.add('fading');
+  setTimeout(function() { if (card.parentNode) card.parentNode.removeChild(card); }, 900);
+}
+window.dismissSideTt = function(btn) {
+  var card = btn.closest('.side-tt');
+  if (card) _fadeSideTt(card);
+};
+function clearAllSideTt() {
+  _sideTtR.concat(_sideTtL).forEach(function(item) { clearTimeout(item.timer); _fadeSideTt(item.el); });
+  _sideTtR = []; _sideTtL = [];
+}
+// Auto-show annotations during TTS for saved text books
 var _inlineAnnoTimer = null;
-var _inlineAnnoIdx = 0;
 function showInlineAnnoTooltips() {
   var textEl = document.getElementById('textContent');
   if (!textEl) return;
   var annos = textEl.querySelectorAll('.anno[data-text], .anno[data-title]');
   if (!annos.length) return;
-  _inlineAnnoIdx = 0;
   if (_inlineAnnoTimer) clearInterval(_inlineAnnoTimer);
+  // Show all annotations as side-tt cards at once
+  for (var i = 0; i < annos.length; i++) {
+    (function(el, delay) {
+      setTimeout(function() { showSideTt(el); }, delay);
+    })(annos[i], i * 300);
+  }
+  // Re-show as TTS continues
+  var idx = 0;
   _inlineAnnoTimer = setInterval(function() {
     if (!window.speechSynthesis || !window.speechSynthesis.speaking) {
       clearInterval(_inlineAnnoTimer);
       _inlineAnnoTimer = null;
-      hideInlineAnnoTooltip();
       return;
     }
-    if (_inlineAnnoIdx >= annos.length) {
-      clearInterval(_inlineAnnoTimer);
-      _inlineAnnoTimer = null;
-      return;
+    if (idx < annos.length) {
+      showSideTt(annos[idx]);
+      idx++;
     }
-    var el = annos[_inlineAnnoIdx];
-    // Scroll into view
-    el.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    // Show tooltip
-    showInlineAnnoTooltip(el);
-    _inlineAnnoIdx++;
-  }, 4000); // Show each annotation for 4 seconds
-}
-var _inlineAnnoTooltipEl = null;
-function showInlineAnnoTooltip(el) {
-  if (!el) return;
-  var text = el.dataset.text || '';
-  var title = el.dataset.title || '';
-  var cat = el.dataset.cat || '';
-  if (!text && !title) return;
-  if (!_inlineAnnoTooltipEl) {
-    _inlineAnnoTooltipEl = document.createElement('div');
-    _inlineAnnoTooltipEl.className = 'anno-tooltip';
-    _inlineAnnoTooltipEl.style.cssText = 'position:fixed;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:8px 12px;font-size:12px;max-width:250px;z-index:10000;box-shadow:0 4px 16px rgba(0,0,0,.15);color:var(--text);line-height:1.6;direction:rtl;';
-    document.body.appendChild(_inlineAnnoTooltipEl);
-  }
-  _inlineAnnoTooltipEl.innerHTML = (title ? '<strong>' + title + '</strong><br>' : '') +
-    (cat ? '<span style="display:inline-block;background:var(--accent);color:#fff;border-radius:4px;padding:0 6px;font-size:10px;margin-left:4px">' + cat + '</span> ' : '') + text;
-  _inlineAnnoTooltipEl.style.display = 'block';
-  var rect = el.getBoundingClientRect();
-  _inlineAnnoTooltipEl.style.left = Math.min(rect.left, window.innerWidth - 260) + 'px';
-  _inlineAnnoTooltipEl.style.top = (rect.bottom + 6) + 'px';
-  // Highlight the anno element
-  el.style.background = 'rgba(212,168,83,.3)';
-  el.style.borderRadius = '3px';
-  setTimeout(function() { el.style.background = ''; }, 3500);
+  }, SIDE_TT_FADE_MS + 1000);
 }
 function hideInlineAnnoTooltip() {
-  if (_inlineAnnoTooltipEl) _inlineAnnoTooltipEl.style.display = 'none';
+  clearAllSideTt();
 }
 function stopTts(){
   window.speechSynthesis.cancel();
@@ -800,9 +834,10 @@ function stopTts(){
   if (old) old.remove();
   if (_annoOverlayTimer) { clearTimeout(_annoOverlayTimer); _annoOverlayTimer = null; }
   if (_inlineAnnoTimer) { clearInterval(_inlineAnnoTimer); _inlineAnnoTimer = null; }
-  hideInlineAnnoTooltip();
+  clearAllSideTt();
 }
 window.setTtsEngine=function(v){_ttsEngine=v};
+window._showSideTt=showSideTt;
 
 // === UI toggles ===
 window.toggleToc=toggleToc;window.goHome=function(){location.href='../'};
@@ -928,23 +963,49 @@ function ctxEditTextIiif(){_closeCtx();if(!BOOK)return;
 var _glossary=null;
 function loadGlossary(){
   if(_glossary)return;
-  fetch("/src/build/data/glossary.json").then(function(r){return r.json()}).then(function(g){_glossary=g}).catch(function(){})
+  fetch("/assets/glossary.json").then(function(r){return r.json()}).then(function(g){_glossary=g}).catch(function(){})
 }
 function annotateGlossary(){
   if(!_glossary)return;
+  // --- Ganjoor text: annotate .g-word spans inside .g-line ---
+  var gLines=document.querySelectorAll("#textContent .g-line");
+  if(gLines.length){
+    gLines.forEach(function(lineEl){
+      var words=lineEl.querySelectorAll(".g-word");
+      words.forEach(function(wEl){
+        var txt=wEl.textContent.trim();
+        if(!txt)return;
+        Object.keys(_glossary).forEach(function(key){
+          if(!txt.includes(key))return;
+          var def=_glossary[key];
+          var cat=def.cat||"word";
+          var gloss=def.gloss||def.definition||def;
+          if(typeof gloss!=="string")gloss=JSON.stringify(gloss);
+          // Only wrap if not already annotated
+          if(wEl.classList.contains("anno"))return;
+          wEl.classList.add("anno","anno-word");
+          wEl.setAttribute("data-cat",cat);
+          wEl.setAttribute("data-title",key);
+          wEl.setAttribute("data-text",gloss);
+          wEl.style.borderBottom="1.5px dotted var(--accent,#8b5e3c)";
+        });
+      });
+    });
+    return;
+  }
+  // --- Regular IIIF text: annotate .text-content ---
   var el=document.getElementById("textContent");
   if(!el)return;
   var textEl=el.querySelector(".text-content");
   if(!textEl)return;
-  var text=textEl.textContent;
   var html=textEl.innerHTML;
   Object.keys(_glossary).forEach(function(word){
     var def=_glossary[word];
-    if(typeof def==="string")def=def;
-    else if(def.definition)def=def.definition;
-    else def=JSON.stringify(def);
-    var re=new RegExp("("+word.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","gi");
-    html=html.replace(re,"<span class=\"anno anno-word\" data-cat=\"word\" data-text=\""+def.replace(/"/g,"&quot;")+"\">$1</span>")
+    var cat=def.cat||"word";
+    var gloss=def.gloss||def.definition||(typeof def==="string"?def:"");
+    if(!gloss)return;
+    var re=new RegExp("(" + word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "gi");
+    html=html.replace(re, "<span class=\"anno anno-word\" data-cat=\"" + cat + "\" data-title=\"" + word.replace(/"/g, "&quot;") + "\" data-text=\"" + gloss.replace(/"/g, "&quot;") + "\">$1</span>");
   });
   textEl.innerHTML=html;
 }
@@ -981,24 +1042,16 @@ function renderIiifToc(manifest){
 }
 
 // === Annotation hover tooltip ===
-var _annoTooltip=null;
 document.addEventListener("mouseover",function(e){
   var anno=e.target.closest&&(e.target.closest(".anno")||e.target.closest(".anno-item"));
   if(!anno)return;
   var text=anno.dataset.text||"";
   var title=anno.dataset.title||"";
-  var cat=anno.dataset.cat||"";
   if(!text&&!title)return;
-  if(!_annoTooltip){_annoTooltip=document.createElement("div");_annoTooltip.className="anno-tooltip";document.body.appendChild(_annoTooltip)}
-  _annoTooltip.innerHTML=(title?"<strong>"+title+"</strong><br>":"")+(cat?"<span class=\"at-cat\">"+cat+"</span> ":"")+text;
-  _annoTooltip.style.display="block";
-  var rect=anno.getBoundingClientRect();
-  _annoTooltip.style.left=Math.min(rect.left,window.innerWidth-250)+"px";
-  _annoTooltip.style.top=(rect.bottom+6)+"px";
+  showSideTt(anno);
 });
 document.addEventListener("mouseout",function(e){
-  var anno=e.target.closest&&e.target.closest(".anno");
-  if(anno&&_annoTooltip)_annoTooltip.style.display="none";
+  // Side-tt cards auto-fade, no action needed
 });
 
 function _closeCtx(){document.getElementById('ctxMenu').setAttribute('data-open','false')}

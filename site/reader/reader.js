@@ -88,11 +88,6 @@ function lightenColor(hex, percent){
 }
 
 // ===== Load book =====
-(function(){
-  var _params = new URLSearchParams(location.search);
-  var _slug = _params.get('book');
-  if (!window.BOOK_URL && _slug) window.BOOK_URL = '../books/' + encodeURIComponent(_slug) + '/book.json';
-})();
 console.log('[coreader] loading book.json from', window.BOOK_URL || 'book.json');
 fetch(window.BOOK_URL || 'book.json').then(function(r){return r.json()}).then(function(book){
   console.log('[coreader] book loaded:', book.title, 'pages:', book.pages ? book.pages.length : 'NONE');
@@ -536,47 +531,83 @@ function clearMarginAnnos(){
     c.el._marginEl = null;
   });
   activeMarginCards = [];
-  document.querySelectorAll('.anno-tooltip').forEach(function(t){
-    if (t.parentNode) t.parentNode.removeChild(t);
-  });
+  clearAllSideTt();
+  // Also clean up any orphaned hover tooltips
+  var tt = document.getElementById('tt');
+  if (tt) tt.classList.remove('on');
 }
 
 function showMarginAnno(el){
   if (!el || !annoOn) return;
-  if (isPersistMode()){
-    // Clean up any leftover tooltip
-    if (el._tooltipEl){ if (el._tooltipEl.parentNode) el._tooltipEl.parentNode.removeChild(el._tooltipEl); el._tooltipEl = null; }
-    showPersistentMarginAnno(el);
-  } else {
-    showTooltip(el);
-  }
+  showSideTt(el);
 }
 
-// --- Normal mode: floating tooltip on hover ---
-function showTooltip(el){
-  if (el._tooltipEl && el._tooltipEl.parentNode) return;
+// --- Side-margin tooltip system ---
+// Cards appear OUTSIDE the text box, on right/left margins.
+// Multiple cards coexist — old ones stay. Each auto-fades after a delay.
+var _sideTtCounter = 0;
+var _sideTtR = [], _sideTtL = [];
+var SIDE_TT_FADE_MS = 5000, SIDE_TT_MAX = 4;
+
+function _buildSideTtHtml(el){
   var cat = el.dataset.cat || 'word';
-  var tt = document.createElement('div');
-  tt.className = 'anno-tooltip';
-  var html = '<div class="at-word">' + el.textContent + '</div>';
-  html += '<span class="am-cat tc-' + cat + '">' + (CAT_LABELS[cat] || cat) + '</span>';
-  if (el.dataset.title) html += '<div class="at-title">' + el.dataset.title + '</div>';
-  html += '<div class="at-text">' + (el.dataset.text || el.getAttribute('title') || '') + '</div>';
-  if (el.dataset.extra) html += '<div class="at-extra">' + el.dataset.extra + '</div>';
-  tt.innerHTML = html;
-  document.body.appendChild(tt);
-  el._tooltipEl = tt;
+  var h = '<button class="at-dismiss" onclick="dismissSideTt(this)">✕</button>';
+  h += '<div class="at-word">' + el.textContent + '</div>';
+  h += '<span class="at-cat tc-' + cat + '">' + (CAT_LABELS[cat] || cat) + '</span>';
+  if (el.dataset.title) h += '<div class="at-title">' + el.dataset.title + '</div>';
+  h += '<div class="at-text">' + (el.dataset.text || el.getAttribute('title') || '') + '</div>';
+  if (el.dataset.extra) h += '<div class="at-extra">' + el.dataset.extra + '</div>';
+  return h;
+}
+function showSideTt(el){
+  if (!el || !annoOn) return;
+  var annos = document.querySelectorAll('.ps .anno');
+  var myIdx = Array.prototype.indexOf.call(annos, el);
+  var side = myIdx % 2 === 0 ? 'r' : 'l';
+  var list = side === 'r' ? _sideTtR : _sideTtL;
+  // Don't duplicate same word
+  for (var i = 0; i < list.length; i++){
+    if (list[i].srcEl === el){ clearTimeout(list[i].timer); list[i].el.classList.remove('fading'); list[i].el.classList.add('visible'); list[i].timer = setTimeout(function(){ _fadeSideTt(list[i].el); }, SIDE_TT_FADE_MS); return; }
+  }
+  // Get .tc bounds to place card OUTSIDE it in viewport margins
+  var tcEl = document.querySelector('.tc');
+  if (!tcEl) return;
+  var tcRect = tcEl.getBoundingClientRect();
   var elRect = el.getBoundingClientRect();
-  var ttW = 280;
-  var left = elRect.left + elRect.width / 2 - ttW / 2;
-  left = Math.max(8, Math.min(left, window.innerWidth - ttW - 8));
-  tt.style.left = left + 'px';
-  tt.style.top = (elRect.top - 8) + 'px';
-  requestAnimationFrame(function(){
-    if (!tt.parentNode) return;
-    var ttRect = tt.getBoundingClientRect();
-    if (ttRect.top < 4) tt.style.top = (elRect.bottom + 8) + 'px';
-  });
+  var cardW = 220;
+  var card = document.createElement('div');
+  card.className = 'side-tt side-' + side;
+  card.innerHTML = _buildSideTtHtml(el);
+  document.body.appendChild(card);
+  // Vertically align with the annotated word (viewport coords)
+  var top = elRect.top - 10;
+  top = Math.max(8, Math.min(top, window.innerHeight - 160));
+  card.style.top = top + 'px';
+  // Place OUTSIDE the .tc column in the viewport margin
+  if (side === 'r'){
+    card.style.right = (window.innerWidth - tcRect.left + 12) + 'px';
+    card.style.left = 'auto';
+  } else {
+    card.style.left = (tcRect.right + 12) + 'px';
+    card.style.right = 'auto';
+  }
+  requestAnimationFrame(function(){ card.classList.add('visible'); });
+  var timer = setTimeout(function(){ _fadeSideTt(card); }, SIDE_TT_FADE_MS);
+  list.push({ el: card, srcEl: el, timer: timer });
+  if (list.length > SIDE_TT_MAX){ var old = list.shift(); _fadeSideTt(old.el); }
+}
+function _fadeSideTt(card){
+  if (!card || !card.parentNode) return;
+  card.classList.remove('visible');
+  card.classList.add('fading');
+  setTimeout(function(){ if (card.parentNode) card.parentNode.removeChild(card); }, 900);
+  _removeFromList(card, _sideTtR); _removeFromList(card, _sideTtL);
+}
+function dismissSideTt(btn){ var card = btn.closest('.side-tt'); if (card) _fadeSideTt(card); }
+function _removeFromList(card, list){ for (var i = 0; i < list.length; i++){ if (list[i].el === card){ clearTimeout(list[i].timer); list.splice(i, 1); break; } } }
+function clearAllSideTt(){
+  _sideTtR.concat(_sideTtL).forEach(function(e){ clearTimeout(e.timer); _fadeSideTt(e.el); });
+  _sideTtR = []; _sideTtL = [];
 }
 
 // --- Recording/TTS mode: persistent margin cards with stacking ---
@@ -619,22 +650,6 @@ function showPersistentMarginAnno(el){
   margin.style.top = top + 'px';
   activeMarginCards.push({ el: el, marginEl: margin, side: side });
   setTimeout(function(){ margin.classList.remove('anno-margin-entering'); }, 300);
-  // Auto-fade after 6 seconds
-  setTimeout(function(){
-    if (margin.parentNode){
-      margin.classList.add('anno-margin-fading');
-      setTimeout(function(){
-        if (margin.parentNode) margin.parentNode.removeChild(margin);
-        el._marginEl = null;
-        var idx = -1;
-        for (var j = 0; j < activeMarginCards.length; j++){
-          if (activeMarginCards[j].marginEl === margin){ idx = j; break; }
-        }
-        if (idx >= 0) activeMarginCards.splice(idx, 1);
-        repositionStack(side);
-      }, 500);
-    }
-  }, 6000);
   repositionStack(side);
 }
 
@@ -664,7 +679,7 @@ document.addEventListener('mouseout', function(e){
   var related = e.relatedTarget;
   if (related && related.closest && related.closest('.anno') === a) return;
   if (a._tooltipEl){
-    if (a._tooltipEl.parentNode) a._tooltipEl.parentNode.removeChild(a._tooltipEl);
+    a._tooltipEl.classList.remove('on');
     a._tooltipEl = null;
   }
 });
@@ -739,8 +754,7 @@ function loadPdf(){
   var src = srcs[curPdfSrc];
   if (!src){ showPdfErr('این کتاب نسخهٔ PDF ندارد.'); return; }
   hidePdfErr(); document.getElementById('pdfMax').textContent = '...';
-  var pdfBase = '../books/' + encodeURIComponent(BOOK.slug) + '/';
-  fetch(pdfBase + src.filename).then(function(r){ if (!r.ok) throw 0; return r.arrayBuffer(); })
+  fetch(src.filename).then(function(r){ if (!r.ok) throw 0; return r.arrayBuffer(); })
     .then(function(buf){ return pdfjsLib.getDocument({ data: new Uint8Array(buf) }).promise; })
     .then(function(doc){ pdfDoc = doc; pdfDocCache[curPdfSrc] = doc; document.getElementById('pdfMax').textContent = doc.numPages; pdfRender(pdfPendingPage || 1); pdfPendingPage = null; })
     .catch(function(){ showPdfErr('فایل «' + src.filename + '» در کنار book.json یافت نشد.'); });
@@ -1848,6 +1862,11 @@ function highlightAt(idx){
     hideNeighbors();
   }
 
+  // Show side-margin tooltip when highlight reaches annotation (TTS/line-tracking)
+  if (hlEl && hlEl.classList && hlEl.classList.contains('anno') && annoOn){
+    showSideTt(hlEl);
+  }
+
   if (magAutoFollow && magOn && hlEl && (recording || ttsPlaying)){
     followMagnifier(hlEl);
   }
@@ -2255,27 +2274,14 @@ function followMagnifier(target){
   var tcRect = tc.getBoundingClientRect();
   var srcX = targetRect.left - tcRect.left + targetRect.width / 2;
   var srcY = targetRect.top - tcRect.top + targetRect.height / 2;
-  // Position magnifier at bottom-center of viewport
   mag.style.left = Math.max(10, (window.innerWidth - MAG_W) / 2) + 'px';
-  mag.style.top = Math.max(10, window.innerHeight - MAG_H - 30) + 'px';
-  // Throttle DOM clone — only re-render when content changed
-  var tcHtml = tc.innerHTML;
-  if (tcHtml !== magCloneSrc){
-    renderMagnifierSource(srcX, srcY);
-  } else {
-    // Just reposition without expensive clone
-    var content = document.getElementById('magContent');
-    if (content){
-      content.style.left = (MAG_W / 2 - srcX * MAG_SCALE) + 'px';
-      content.style.top = (MAG_H / 2 - srcY * MAG_SCALE) + 'px';
-    }
-  }
-  // Auto-scroll to keep target visible
+  mag.style.top = Math.max(10, window.innerHeight - MAG_H - 10) + 'px';
+  renderMagnifierSource(srcX, srcY);
   var lineHeight = parseFloat(getComputedStyle(tc).lineHeight) || 48;
   var groupIdx = Math.floor(srcY / lineHeight / 3);
   if (groupIdx === _magGroup) return;
   _magGroup = groupIdx;
-  var visibleCenter = Math.max(80, (window.innerHeight - MAG_H - 30) / 2);
+  var visibleCenter = Math.max(80, (window.innerHeight - MAG_H - 10) / 2);
   var targetScroll = window.scrollY + targetRect.top + targetRect.height / 2 - visibleCenter;
   window.scrollTo({ top: Math.max(0, targetScroll), behavior: 'smooth' });
 }
@@ -2353,4 +2359,6 @@ window.toggleTts = toggleTts; window.toggleTtsPlay = toggleTtsPlay; window.setTt
 window.setTtsEngine = setTtsEngine; window.toggleTtsPlayGoogle = toggleTtsPlayGoogle;
 window.toggleMagnifier = toggleMagnifier;
 window.toggleToolbar = toggleToolbar;
+window.dismissSideTt = dismissSideTt;
+window.clearAllSideTt = clearAllSideTt;
 })();

@@ -403,6 +403,16 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>window.pdfjsLib && (pdfjsLib.GlobalWorkerOptions.workerSrc='');</script>
+<script>
+// Resolve book.json path from ?book=slug parameter
+(function(){
+  var p=new URLSearchParams(location.search);
+  var slug=p.get('book');
+  if(slug&&!window.BOOK_URL){
+    window.BOOK_URL='../books/'+encodeURIComponent(slug)+'/book.json';
+  }
+})();
+</script>
 <script src="../assets/reader.js"></script>
 <script>
 // Register service worker for offline support

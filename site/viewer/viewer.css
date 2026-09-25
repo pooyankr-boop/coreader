@@ -59,6 +59,8 @@ a{color:var(--accent)}
 /* Text panel */
 .text-content{font-size:16px;line-height:2.2;text-align:justify;padding:8px 0}
 .text-content .anno{background:rgba(212,168,83,.2);border-radius:3px;padding:0 2px;cursor:pointer;border-bottom:1px dashed var(--gold)}
+.g-word.anno{background:rgba(212,168,83,.15);border-radius:3px;padding:0 2px;cursor:pointer;border-bottom:1.5px dotted var(--accent,#8b5e3c);transition:background .2s}
+.g-word.anno:hover{background:rgba(212,168,83,.35)}
 
 /* Annotations */
 .anno-list{margin:0;padding:0;list-style:none}
@@ -261,3 +263,20 @@ body.dark .g-bottom-bar{border-color:rgba(255,255,255,.1);background:linear-grad
 .g-poem-section{margin-bottom:16px}
 @keyframes annoSlideIn{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
 .g-poem-title{font-size:13px;color:var(--muted);margin-bottom:8px;font-weight:500}
+
+/* Side-margin annotation tooltips (from 888) */
+.side-tt{position:absolute;z-index:55;width:220px;padding:13px 15px;background:var(--card);color:var(--text);border-radius:11px;font-size:13px;line-height:1.9;direction:rtl;box-shadow:0 6px 24px rgba(0,0,0,.35),0 0 0 1px rgba(255,255,255,.07) inset;pointer-events:auto;font-family:inherit;opacity:0;transform:translateY(14px);transition:opacity .4s ease,transform .45s ease,filter .8s ease;border:1px solid var(--border)}
+.side-tt.visible{opacity:1;transform:translateY(0)}
+.side-tt.shrunk{opacity:.45;transform:scale(.88);filter:blur(.5px)}
+.side-tt.fading{opacity:0!important;transform:translateY(-10px)!important;filter:blur(3px);pointer-events:none}
+.side-tt .at-word{font-size:15px;font-weight:700;color:var(--accent);margin-bottom:5px}
+.side-tt .at-cat{display:inline-block;font-size:10px;padding:2px 8px;border-radius:12px;margin-bottom:6px;font-weight:700;background:var(--accent);color:#fff}
+.side-tt .at-title{font-size:13px;font-weight:700;margin-bottom:3px;color:var(--accent-dark)}
+.side-tt .at-text{font-size:12px;opacity:.92;line-height:2}
+.side-tt .at-extra{margin-top:5px;padding-top:5px;border-top:1px solid var(--border);font-size:11px;opacity:.65}
+.side-tt .at-dismiss{position:absolute;top:5px;left:5px;background:none;border:none;color:var(--muted);cursor:pointer;font-size:13px;padding:2px 5px;border-radius:4px;transition:color .2s;line-height:1}
+.side-tt .at-dismiss:hover{color:var(--text)}
+.side-tt::before{content:'';position:absolute;top:16px;width:16px;height:1px;background:var(--accent);opacity:.4}
+.side-tt.side-r{right:0}.side-tt.side-r::before{right:100%}
+.side-tt.side-l{left:0}.side-tt.side-l::before{left:100%}
+@keyframes side-tt-fadeout{0%{opacity:1;transform:translateY(0);filter:blur(0)}100%{opacity:0;transform:translateY(-16px);filter:blur(5px)}}
