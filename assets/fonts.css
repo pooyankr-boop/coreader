@@ -1,0 +1,510 @@
+/* fonts.css — @font-face declarations for Persian/Arabic fonts */
+
+/* === Google Fonts (CDN) === */
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700&family=El+Messiri:wght@400;500;600;700&family=Lalezar&family=Lateef&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Reem+Kufi:wght@400;500;600;700&family=Sakkal+Majalla&family=Scheherazade+New:wght@400;700&family=Vazirmatn:wght@400;500;700&display=swap');
+
+/* === Local fonts (downloaded) === */
+
+/* Lalezar */
+@font-face {
+  font-family: 'Lalezar Local';
+  src: url('fonts/Lalezar-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Vazirmatn */
+@font-face {
+  font-family: 'Vazirmatn Local';
+  src: url('fonts/Vazirmatn.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Noto Nastaliq Urdu */
+@font-face {
+  font-family: 'Noto Nastaliq Urdu Local';
+  src: url('fonts/NotoNastaliqUrdu.ttf') format('truetype');
+  font-weight: 100 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Noto Naskh Arabic */
+@font-face {
+  font-family: 'Noto Naskh Arabic Local';
+  src: url('fonts/NotoNaskhArabic.ttf') format('truetype');
+  font-weight: 100 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Scheherazade New */
+@font-face {
+  font-family: 'Scheherazade New Local';
+  src: url('fonts/ScheherazadeNew.ttf') format('truetype');
+  font-weight: 100 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Amiri */
+@font-face {
+  font-family: 'Amiri Local';
+  src: url('fonts/Amiri-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Aref Ruqaa */
+@font-face {
+  font-family: 'Aref Ruqaa Local';
+  src: url('fonts/ArefRuqaa-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Cairo */
+@font-face {
+  font-family: 'Cairo Local';
+  src: url('fonts/Cairo.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* El Messiri */
+@font-face {
+  font-family: 'El Messiri Local';
+  src: url('fonts/ElMessiri.ttf') format('truetype');
+  font-weight: 100 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Reem Kufi */
+@font-face {
+  font-family: 'Reem Kufi Local';
+  src: url('fonts/ReemKufi.ttf') format('truetype');
+  font-weight: 100 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Sakkal Majalla */
+@font-face {
+  font-family: 'Sakkal Majalla Local';
+  src: url('fonts/SakkalMajalla-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Lateef */
+@font-face {
+  font-family: 'Lateef Local';
+  src: url('fonts/Lateef-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* B Nazanin */
+@font-face {
+  font-family: 'B Nazanin';
+  src: url('fonts/BNazanin.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* IranSans */
+@font-face {
+  font-family: 'IranSans';
+  src: url('fonts/IranSans-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IranSans';
+  src: url('fonts/IranSans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'IranSans';
+  src: url('fonts/IranSans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Yekan */
+@font-face {
+  font-family: 'Yekan';
+  src: url('fonts/Yekan.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Kalameh */
+@font-face {
+  font-family: 'Kalameh';
+  src: url('fonts/Kalameh-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Dana */
+@font-face {
+  font-family: 'Dana';
+  src: url('fonts/Dana-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* === Iranian Calligraphic Fonts (commercial — use system fallbacks) === */
+/* These fonts require manual installation or commercial license */
+/* Fallback chain: local → Google Font → web-safe */
+
+/* Iran Nastaliq */
+@font-face {
+  font-family: 'Iran Nastaliq';
+  src: local('IranNastaliq'), local('Iran Nastaliq');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Shakasteh Beta */
+@font-face {
+  font-family: 'Shakasteh Beta';
+  src: local('ShakastehBeta'), local('Shakasteh Beta');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Dima Shakasteh */
+@font-face {
+  font-family: 'Dima Shakasteh';
+  src: local('DimaShakasteh'), local('Dima Shakasteh');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Nastaliq Alavi */
+@font-face {
+  font-family: 'Nastaliq Alavi';
+  src: local('NastaliqAlavi'), local('Nastaliq Alavi');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Loghman */
+@font-face {
+  font-family: 'Loghman';
+  src: local('Loghman'), local('لقمان');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Thuluth */
+@font-face {
+  font-family: 'Thuluth';
+  src: local('Thuluth'), local('ثلث');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Khat-Khati */
+@font-face {
+  font-family: 'Khat-Khati';
+  src: local('KhatKhati'), local('Khat-Khati');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Dima Tahriri */
+@font-face {
+  font-family: 'Dima Tahriri';
+  src: local('DimaTahriri'), local('Dima Tahriri');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Nirizi */
+@font-face {
+  font-family: 'Nirizi';
+  src: local('Nirizi'), local('نیریزی');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Khodkar */
+@font-face {
+  font-family: 'Khodkar';
+  src: local('Khodkar'), local('خودکار');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Sayeh */
+@font-face {
+  font-family: 'Sayeh';
+  src: local('Sayeh'), local('سایه');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Dastnevis */
+@font-face {
+  font-family: 'Dastnevis';
+  src: local('Dastnevis'), local('دست‌نویس');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Shekari */
+@font-face {
+  font-family: 'Shekari';
+  src: local('Shekari'), local('شکاری');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Sahra */
+@font-face {
+  font-family: 'Sahra';
+  src: local('Sahra'), local('صحرا');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Feraz */
+@font-face {
+  font-family: 'Feraz';
+  src: local('Feraz'), local('فراز');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Badkhat */
+@font-face {
+  font-family: 'Badkhat';
+  src: local('Badkhat'), local('بد‌خط');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Ghafari */
+@font-face {
+  font-family: 'Ghafari';
+  src: local('Ghafari'), local('غفوری');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Ordibehesht */
+@font-face {
+  font-family: 'Ordibehesht';
+  src: local('Ordibehesht'), local('اردیبهشت');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Fedra */
+@font-face {
+  font-family: 'Fedra';
+  src: local('Fedra'), local('فدرا');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Titr */
+@font-face {
+  font-family: 'Titr';
+  src: local('Titr'), local('تیتر');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Jadid */
+@font-face {
+  font-family: 'Jadid';
+  src: local('Jadid'), local('جدید');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Lalezar */
+@font-face {
+  font-family: 'Lalezar';
+  src: local('Lalezar'), local('لاله‌زار');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Grafik */
+@font-face {
+  font-family: 'Grafik';
+  src: local('Grafik'), local('گرافیک');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Radin */
+@font-face {
+  font-family: 'Radin';
+  src: local('Radin'), local('رادین');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Adob Nokh */
+@font-face {
+  font-family: 'Adob Nokh';
+  src: local('AdobNokh'), local('ادوب نسخ');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Kuh-e Noor */
+@font-face {
+  font-family: 'Kuh-e Noor';
+  src: local('Kuh-e-Noor'), local('کوه نور');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Rooznameh */
+@font-face {
+  font-family: 'Rooznameh';
+  src: local('Rooznameh'), local('روزنامه');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Dirooz */
+@font-face {
+  font-family: 'Dirooz';
+  src: local('Dirooz'), local('دیروز');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Dastan */
+@font-face {
+  font-family: 'Dastan';
+  src: local('Dastan'), local('داستان');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Danesh */
+@font-face {
+  font-family: 'Danesh';
+  src: local('Danesh'), local('دانش');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Harir */
+@font-face {
+  font-family: 'Harir';
+  src: local('Harir'), local('حریر');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Kara */
+@font-face {
+  font-family: 'Kara';
+  src: local('Kara'), local('کارا');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Ketab */
+@font-face {
+  font-family: 'Ketab';
+  src: local('Ketab'), local('کتاب');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Estedadh */
+@font-face {
+  font-family: 'Estedadh';
+  src: local('Estedadh'), local('استعداد');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Sahel */
+@font-face {
+  font-family: 'Sahel';
+  src: local('Sahel'), local('ساحل');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Traffic */
+@font-face {
+  font-family: 'Traffic';
+  src: local('Traffic'), local('ترافیک');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Yekan */
+@font-face {
+  font-family: 'Yekan';
+  src: local('Yekan'), local('یکان');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

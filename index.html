@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>کتابخوانهٔ نسخ خطی و اوراق فارسی</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="catalog/catalog.css">
+</head>
+<body>
+<header>
+  <svg class="header-ornament" viewBox="0 0 500 80" fill="none">
+    <path d="M250,10 L265,40 L250,70 L235,40Z" fill="#8a5a3b" opacity=".12"/>
+    <path d="M250,16 L260,40 L250,64 L240,40Z" stroke="#8a5a3b" stroke-width="1" fill="none"/>
+    <line x1="233" y1="40" x2="80" y2="40" stroke="#8a5a3b" stroke-width="1" opacity=".4"/>
+    <line x1="267" y1="40" x2="420" y2="40" stroke="#8a5a3b" stroke-width="1" opacity=".4"/>
+    <circle cx="160" cy="40" r="2.5" fill="#8a5a3b" opacity=".35"/>
+    <circle cx="340" cy="40" r="2.5" fill="#8a5a3b" opacity=".35"/>
+    <circle cx="80" cy="40" r="3.5" fill="none" stroke="#8a5a3b" stroke-width=".5" opacity=".3"/>
+    <circle cx="420" cy="40" r="3.5" fill="none" stroke="#8a5a3b" stroke-width=".5" opacity=".3"/>
+    <path d="M210,34 L215,40 L210,46 L205,40Z" stroke="#d4a853" stroke-width=".7" fill="none" opacity=".4"/>
+    <path d="M290,34 L295,40 L290,46 L285,40Z" stroke="#d4a853" stroke-width=".7" fill="none" opacity=".4"/>
+  </svg>
+  <div class="header-inner">
+    <h1>کتابخوانهٔ نسخ خطی و اوراق فارسی</h1>
+    <p class="subtitle">مرور، خوانش، مقابله و حاشیه‌نویسی نسخ ایرانی از کتابخانه‌های سراسر جهان</p>
+  </div>
+  <div class="header-line"></div>
+  <div class="theme-bar">
+    <div class="theme-dot on" data-theme="" style="background:#f7f4ee" onclick="setTheme('')"></div>
+    <div class="theme-dot" data-theme="sepia" style="background:#f4ecd8" onclick="setTheme('sepia')"></div>
+    <div class="theme-dot" data-theme="dark" style="background:#1a1a2e" onclick="setTheme('dark')"></div>
+  </div>
+</header>
+<div class="controls">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="جست‌وجو در عنوان و نویسنده...">
+  </div>
+  <div class="filter-tabs">
+    <button class="filter-tab" data-filter="all">همه</button>
+    <button class="filter-tab on" data-filter="iiif">نسخه‌های خطی IIIF</button>
+    <button class="filter-tab" data-filter="local">کتاب‌های ذخیره‌شده</button>
+  </div>
+</div>
+
+<div class="skeleton-grid" id="skeletonGrid">
+  <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div></div></div>
+  <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div></div></div>
+  <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line w60"></div><div class="skeleton-line w40"></div></div></div>
+</div>
+
+<div class="grid" id="grid" style="display:none"></div>
+
+<button class="add-fab" onclick="openAddModal()">+</button>
+
+<div class="modal-overlay" id="addOverlay">
+  <div class="modal">
+    <h2>افزودن کتاب جدید</h2>
+    <div class="sub">آدرس manifest IIIF را وارد کنید یا فایل متنی/PDF آپلود کنید.</div>
+    <div class="tabs">
+      <div class="tab on" data-tab="iiif" onclick="switchTab('iiif')">نسخه‌های خطی IIIF</div>
+      <div class="tab" data-tab="local" onclick="switchTab('local')">فایل محلی</div>
+    </div>
+    <div class="tabpane on" id="tab-iiif">
+      <div class="field">
+        <label>آدرس manifest IIIF</label>
+        <input type="url" id="iiifUrl" placeholder="https://gallica.bnf.fr/iiif/manifest/...">
+      </div>
+      <button onclick="fetchIiifManifest()" style="padding:8px 16px;border:1.5px solid var(--accent);border-radius:8px;background:var(--card-bg);font-family:inherit;font-size:13px;cursor:pointer;color:var(--accent);font-weight:500">بررسی manifest</button>
+      <div style="font-size:11px;color:var(--muted);margin-top:8px;line-height:1.8">
+        نمونه آدرس‌ها:<br>
+        • Gallica (BnF): <code style="direction:ltr;font-size:10px">https://gallica.bnf.fr/iiif/manifest/ar74718.json</code><br>
+        • British Library: <code style="direction:ltr;font-size:10px">https://api.bl.uk/metadata/iiif/ark:/81055/vdc_100022544098.0x2/manifest.json</code>
+      </div>
+    </div>
+    <div class="tabpane" id="tab-local">
+      <div class="field">
+        <label>عنوان کتاب</label>
+        <input type="text" id="fTitle" placeholder="مثلاً: نسائم الأسحار">
+      </div>
+      <div class="field">
+        <label>نویسنده</label>
+        <input type="text" id="fAuthor" placeholder="مثلاً: ناصرالدین منشی کرمانی">
+      </div>
+      <div class="dropzone" onclick="document.getElementById('fTxt').click()">فایل متنی (.txt) را انتخاب کنید</div>
+      <input type="file" id="fTxt" accept=".txt" style="display:none" onchange="onTxtChosen(this.files)">
+      <div id="txtFileList" style="font-size:12px;color:var(--accent);margin-top:6px"></div>
+      <div style="text-align:center;color:var(--muted);font-size:12px;margin:10px 0">— یا —</div>
+      <div class="dropzone" onclick="document.getElementById('fPdf').click()">یک یا چند PDF انتخاب کنید</div>
+      <input type="file" id="fPdf" accept=".pdf" multiple style="display:none" onchange="onPdfChosen(this.files)">
+      <div id="pdfFileList" style="font-size:12px;color:var(--accent);margin-top:6px"></div>
+    </div>
+    <div class="log" id="addLog"></div>
+    <div class="modal-actions">
+      <button onclick="closeAddModal()">انصراف</button>
+      <button class="primary" id="bSaveIiif" onclick="saveIiifBook()" disabled>ذخیره IIIF</button>
+      <button class="primary" id="bSaveLocal" onclick="saveLocalBook()" style="display:none">ذخیره کتاب</button>
+    </div>
+  </div>
+</div>
+<script src="catalog/catalog.js"></script>
+</body>
+</html>
