@@ -1289,5 +1289,289 @@
       "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:19:53:0:wdl_19530:bsb00048402_00003/full/!400,400/0/default.jpg",
       "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:19:53:0:wdl_19530:bsb00048402_00004/full/!400,400/0/default.jpg"
     ]
+  },
+  {
+    "slug": "bod-f0c08098",
+    "title": "کتابخانهٔ بالئول - ام‌اس الیوت ۴۹",
+    "author": "مخطوط فارسی",
+    "source": "iiif",
+    "provider": "کتابخانهٔ بادلین، آکسفورد",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/f0c08098-65c9-4524-b8b0-ce2610c341cb.json",
+    "externalLinks": {
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/f0c08098-65c9-4524-b8b0-ce2610c341cb.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/f0c08098-65c9-4524-b8b0-ce2610c341cb/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/f0c08098-65c9-4524-b8b0-ce2610c341cb.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/f0c08098-65c9-4524-b8b0-ce2610c341cb.json"
+    },
+    "pages": 434,
+    "thumbnail": [
+      "https://iiif.bodleian.ox.ac.uk/iiif/image/23d8fd45-7f91-4d31-9bfb-c1c8d1a57b7e/full/!400,400/0/default.jpg"
+    ],
+    "cover": ""
+  },
+  {
+    "slug": "bod-a25334b2",
+    "title": "کتابخانهٔ بالئول - ام‌اس کانونیکی اور ۱۲۲",
+    "author": "مخطوط عربی",
+    "source": "iiif",
+    "provider": "کتابخانهٔ بادلین، آکسفورد",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/a25334b2-9fab-4931-9a0b-14eaa4ab898f.json",
+    "externalLinks": {
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/a25334b2-9fab-4931-9a0b-14eaa4ab898f.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/a25334b2-9fab-4931-9a0b-14eaa4ab898f/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/a25334b2-9fab-4931-9a0b-14eaa4ab898f.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/a25334b2-9fab-4931-9a0b-14eaa4ab898f.json"
+    },
+    "pages": 134,
+    "thumbnail": "https://iiif.bodleian.ox.ac.uk/iiif/image/e63ebd03-d100-443b-8fda-8d05b425c1ef/full/!400,400/0/default.jpg",
+    "cover": ""
+  },
+  {
+    "slug": "bod-4d51197b",
+    "title": "کتابخانهٔ بالئول - ام‌اس Bodl Or 548",
+    "author": "مخطوط فارسی",
+    "source": "iiif",
+    "provider": "کتابخانهٔ بادلین، آکسفورد",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/4d51197b-36c4-4ab2-bc4e-9eb24ea763a5.json",
+    "externalLinks": {
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/4d51197b-36c4-4ab2-bc4e-9eb24ea763a5.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/4d51197b-36c4-4ab2-bc4e-9eb24ea763a5/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/4d51197b-36c4-4ab2-bc4e-9eb24ea763a5.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/4d51197b-36c4-4ab2-bc4e-9eb24ea763a5.json"
+    },
+    "pages": 394,
+    "thumbnail": [
+      "https://iiif.bodleian.ox.ac.uk/iiif/image/7939a823-029f-4bda-ab0f-9803d1ccc8e4/full/!400,400/0/default.jpg"
+    ],
+    "cover": ""
+  },
+  {
+    "slug": "bod-0962ca25",
+    "title": "کالج آل سلز - ام‌اس ۲۸۸",
+    "author": "مخطوط فارسی",
+    "source": "iiif",
+    "provider": "کتابخانهٔ بادلین، آکسفورد",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/0962ca25-66d8-4758-bbeb-07e1ee5b633e.json",
+    "externalLinks": {
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/0962ca25-66d8-4758-bbeb-07e1ee5b633e.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/0962ca25-66d8-4758-bbeb-07e1ee5b633e/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/0962ca25-66d8-4758-bbeb-07e1ee5b633e.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/0962ca25-66d8-4758-bbeb-07e1ee5b633e.json"
+    },
+    "pages": 986,
+    "thumbnail": "https://iiif.bodleian.ox.ac.uk/iiif/image/b0f269d7-a973-4c54-a6eb-979b8b86d1ca/full/!400,400/0/default.jpg",
+    "cover": ""
+  },
+  {
+    "slug": "bod-26ae1dfa",
+    "title": "کتابخانهٔ بالئول - ام‌اس اوزلی ۳۷۳ (صور البلاد)",
+    "author": "ابراهیم ابن محمد اصطخری",
+    "source": "iiif",
+    "provider": "کتابخانهٔ بادلین، آکسفورد",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/26ae1dfa-db31-4a1a-889a-cb4e034215fc.json",
+    "externalLinks": {
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/26ae1dfa-db31-4a1a-889a-cb4e034215fc.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/26ae1dfa-db31-4a1a-889a-cb4e034215fc/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/26ae1dfa-db31-4a1a-889a-cb4e034215fc.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/26ae1dfa-db31-4a1a-889a-cb4e034215fc.json"
+    },
+    "pages": 324,
+    "thumbnail": [
+      "https://iiif.bodleian.ox.ac.uk/iiif/image/0bccdc92-7f82-4de5-a287-613c652c28a6/full/!400,400/0/default.jpg"
+    ],
+    "cover": ""
+  },
+  {
+    "slug": "bod-6fe30233",
+    "title": "کتابخانهٔ بالئول - ام‌اس اوزلی ۳۶۹",
+    "author": "مخطوط فارسی",
+    "source": "iiif",
+    "provider": "کتابخانهٔ بادلین، آکسفورد",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/6fe30233-ebb3-4165-afb8-86d0c423ae82.json",
+    "externalLinks": {
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/6fe30233-ebb3-4165-afb8-86d0c423ae82.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/6fe30233-ebb3-4165-afb8-86d0c423ae82/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/6fe30233-ebb3-4165-afb8-86d0c423ae82.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/6fe30233-ebb3-4165-afb8-86d0c423ae82.json"
+    },
+    "pages": 1222,
+    "thumbnail": "https://iiif.bodleian.ox.ac.uk/iiif/image/a79f86a0-3083-4cb9-ace9-2d406165862f/full/!400,400/0/default.jpg",
+    "cover": ""
+  },
+  {
+    "slug": "bod-ad16640a",
+    "title": "کتابنامهٔ فردوسی - ام‌اس اوزلی ۳۴۵",
+    "author": "فردوسی",
+    "source": "iiif",
+    "provider": "کتابخانهٔ بادلین، آکسفورد",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/ad16640a-3e51-4750-b6ce-86e8be191cda.json",
+    "externalLinks": {
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/ad16640a-3e51-4750-b6ce-86e8be191cda.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/ad16640a-3e51-4750-b6ce-86e8be191cda/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/ad16640a-3e51-4750-b6ce-86e8be191cda.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/ad16640a-3e51-4750-b6ce-86e8be191cda.json"
+    },
+    "pages": 1010,
+    "thumbnail": [
+      "https://iiif.bodleian.ox.ac.uk/iiif/image/dda7bc62-b27e-4bba-93bf-ce18c8a406e7/full/!400,400/0/default.jpg"
+    ],
+    "cover": ""
+  },
+  {
+    "slug": "bod-bb573df6",
+    "title": "کتابخانهٔ بالئول - ام‌اس اوزلی ۳۴۴",
+    "author": "مخطوط فارسی",
+    "source": "iiif",
+    "provider": "کتابخانهٔ بادلین، آکسفورد",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/bb573df6-5d45-4950-8460-12e356b136d3.json",
+    "externalLinks": {
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/bb573df6-5d45-4950-8460-12e356b136d3.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/bb573df6-5d45-4950-8460-12e356b136d3/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/bb573df6-5d45-4950-8460-12e356b136d3.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/bb573df6-5d45-4950-8460-12e356b136d3.json"
+    },
+    "pages": 1178,
+    "thumbnail": [
+      "https://iiif.bodleian.ox.ac.uk/iiif/image/1e221c69-385a-46ce-ba00-a438e7591010/full/!400,400/0/default.jpg"
+    ],
+    "cover": ""
+  },
+  {
+    "slug": "bod-75699dc5",
+    "title": "کتابخانهٔ بالئول - ام‌اس اوزلی ۲۱۷",
+    "author": "مخطوط فارسی",
+    "source": "iiif",
+    "provider": "کتابخانهٔ بادلین، آکسفورد",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/75699dc5-d5bb-4b55-ae56-c6e092fc473a.json",
+    "externalLinks": {
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/75699dc5-d5bb-4b55-ae56-c6e092fc473a.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/75699dc5-d5bb-4b55-ae56-c6e092fc473a/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/75699dc5-d5bb-4b55-ae56-c6e092fc473a.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/75699dc5-d5bb-4b55-ae56-c6e092fc473a.json"
+    },
+    "pages": 252,
+    "thumbnail": "https://iiif.bodleian.ox.ac.uk/iiif/image/43e3a7d9-965b-4f17-9f54-1149f4765438/full/!400,400/0/default.jpg",
+    "cover": ""
+  },
+  {
+    "slug": "bod-f2aaafc7",
+    "title": "کتابخانهٔ بالئول - ام‌اس فریزر ۷۳",
+    "author": "مخطوط فارسی",
+    "source": "iiif",
+    "provider": "کتابخانهٔ بادلین، آکسفورد",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/f2aaafc7-e268-42fd-98cd-c8220aaa3e74.json",
+    "externalLinks": {
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/f2aaafc7-e268-42fd-98cd-c8220aaa3e74.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/f2aaafc7-e268-42fd-98cd-c8220aaa3e74/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/f2aaafc7-e268-42fd-98cd-c8220aaa3e74.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/f2aaafc7-e268-42fd-98cd-c8220aaa3e74.json"
+    },
+    "pages": 364,
+    "thumbnail": "https://iiif.bodleian.ox.ac.uk/iiif/image/6b0a76b7-e0a4-445c-9ac3-c43bfc940e73/full/!400,400/0/default.jpg",
+    "cover": ""
+  },
+  {
+    "slug": "bod-aa2c5fc4",
+    "title": "کتابخانهٔ بالئول - ام‌اس الیوت ۲۴۶",
+    "author": "مخطوط فارسی",
+    "source": "iiif",
+    "provider": "کتابخانهٔ بادلین، آکسفورد",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/aa2c5fc4-99fc-4be1-89e8-75dbefa4f95f.json",
+    "externalLinks": {
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/aa2c5fc4-99fc-4be1-89e8-75dbefa4f95f.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/aa2c5fc4-99fc-4be1-89e8-75dbefa4f95f/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/aa2c5fc4-99fc-4be1-89e8-75dbefa4f95f.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/aa2c5fc4-99fc-4be1-89e8-75dbefa4f95f.json"
+    },
+    "pages": 362,
+    "thumbnail": "https://iiif.bodleian.ox.ac.uk/iiif/image/4183c185-d726-453d-91c1-46fe36f25c02/full/!400,400/0/default.jpg",
+    "cover": ""
+  },
+  {
+    "slug": "bod-79361790",
+    "title": "کتابخانهٔ بالئول - ام‌اس الیوت ۳۲۵",
+    "author": "مخطوط فارسی",
+    "source": "iiif",
+    "provider": "کتابخانهٔ بادلین، آکسفورد",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/79361790-4671-4c4f-983a-c40044671f56.json",
+    "externalLinks": {
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/79361790-4671-4c4f-983a-c40044671f56.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/79361790-4671-4c4f-983a-c40044671f56/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/79361790-4671-4c4f-983a-c40044671f56.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/79361790-4671-4c4f-983a-c40044671f56.json"
+    },
+    "pages": 1278,
+    "thumbnail": [
+      "https://iiif.bodleian.ox.ac.uk/iiif/image/59cce562-4954-4093-9908-5d33ecdf01e6/full/!400,400/0/default.jpg"
+    ],
+    "cover": ""
+  },
+  {
+    "slug": "bod-fddaa126",
+    "title": "کتابخانهٔ بالئول - ام‌اس الیوت ۳۲۷",
+    "author": "مخطوط فارسی",
+    "source": "iiif",
+    "provider": "کتابخانهٔ بادلین، آکسفورد",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/fddaa126-1223-4166-a351-821528b2f984.json",
+    "externalLinks": {
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/fddaa126-1223-4166-a351-821528b2f984.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/fddaa126-1223-4166-a351-821528b2f984/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/fddaa126-1223-4166-a351-821528b2f984.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/fddaa126-1223-4166-a351-821528b2f984.json"
+    },
+    "pages": 910,
+    "thumbnail": "https://iiif.bodleian.ox.ac.uk/iiif/image/1e3472f0-a9b3-4f62-847a-19cfc2e1003d/full/!400,400/0/default.jpg",
+    "cover": ""
+  },
+  {
+    "slug": "bod-99009d40",
+    "title": "کتابخانهٔ بالئول - ام‌اس الیوت ۳۶۷",
+    "author": "مخطوط فارسی",
+    "source": "iiif",
+    "provider": "کتابخانهٔ بادلین، آکسفورد",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/99009d40-fd00-4160-8bd3-7e946c9f0716.json",
+    "externalLinks": {
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/99009d40-fd00-4160-8bd3-7e946c9f0716.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/99009d40-fd00-4160-8bd3-7e946c9f0716/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/99009d40-fd00-4160-8bd3-7e946c9f0716.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/99009d40-fd00-4160-8bd3-7e946c9f0716.json"
+    },
+    "pages": 1148,
+    "thumbnail": "https://iiif.bodleian.ox.ac.uk/iiif/image/5689aab0-9c8b-42c9-84ca-dd7c943abebf/full/!400,400/0/default.jpg",
+    "cover": ""
+  },
+  {
+    "slug": "bod-6f5b6382",
+    "title": "کتابخانهٔ بالئول - ام‌اس الیوت ۳۷۷",
+    "author": "مخطوط فارسی",
+    "source": "iiif",
+    "provider": "کتابخانهٔ بادلین، آکسفورد",
+    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/6f5b6382-f892-4109-b3be-f6a26da9ebc3.json",
+    "externalLinks": {
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/6f5b6382-f892-4109-b3be-f6a26da9ebc3.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/6f5b6382-f892-4109-b3be-f6a26da9ebc3/",
+      "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/6f5b6382-f892-4109-b3be-f6a26da9ebc3.json",
+      "universalViewer": "https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/6f5b6382-f892-4109-b3be-f6a26da9ebc3.json"
+    },
+    "pages": 1256,
+    "thumbnail": [
+      "https://iiif.bodleian.ox.ac.uk/iiif/image/ba3885f5-cef8-41da-a347-3677e318c63d/full/!400,400/0/default.jpg"
+    ],
+    "cover": ""
+  },
+  {
+    "slug": "loc-2015481272",
+    "title": "دیوان خواجه",
+    "author": "خواجه",
+    "source": "iiif",
+    "provider": "کتابخانهٔ کنگره",
+    "manifestUrl": "books/loc-2015481272/manifest.json",
+    "externalLinks": {
+      "iiifManifest": "https://www.loc.gov/item/2015481272/manifest.json"
+    },
+    "pages": 485,
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m021:0001/full/!400,400/0/default.jpg"
+    ]
   }
 ]
