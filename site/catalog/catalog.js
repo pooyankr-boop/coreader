@@ -106,6 +106,30 @@ window.switchTab=function(name){
   if(iiifBtn&&localBtn){iiifBtn.style.display=name==='iiif'?'':'none';localBtn.style.display=name==='local'?'':'none';}
 };
 
+// Normalize any IIIF label shape to plain text:
+// "x" | ["x"] | [{@language,@value}] | {en:["x"]} | {@en:["x"]}
+function iiifLabel(v){
+  if(v==null) return '';
+  if(typeof v==='string') return v;
+  if(Array.isArray(v)){
+    if(!v.length) return '';
+    if(typeof v[0]==='string') return v.join(' ');
+    if(v[0] && v[0]['@value']) return v.map(function(x){return x&&x['@value']||''}).join(' ').trim();
+    return iiifLabel(v[0]);
+  }
+  if(typeof v==='object'){
+    var pref=['en','@en','fa','@fa','per','@per'];
+    var i,k;
+    for(i=0;i<pref.length;i++){ if(Array.isArray(v[pref[i]]) && v[pref[i]].length) return iiifLabel(v[pref[i]]); }
+    var keys=Object.keys(v);
+    for(i=0;i<keys.length;i++){ k=keys[i]; if(Array.isArray(v[k]) && v[k].length) return iiifLabel(v[k]); }
+    if(v['@value']) return String(v['@value']);
+    return '';
+  }
+  return String(v);
+}
+window.iiifLabel=iiifLabel;
+
 // Resolve any URL to a IIIF manifest URL
 function resolveManifestUrl(inputUrl){
   var u=inputUrl.trim();
@@ -124,32 +148,78 @@ function resolveManifestUrl(inputUrl){
   // EAP (British Library) archive-file URL → manifest
   var eapMatch=u.match(/eap\.bl\.uk\/archive-file\/([A-Za-z0-9-]+)(?:\/|$|\?)/);
   if(eapMatch) return Promise.resolve('https://eap.bl.uk/archive-file/'+eapMatch[1]+'/manifest?manifest=https://eap.bl.uk/archive-file/'+eapMatch[1]+'/manifest');
+  // Library of Congress — manifest URL itself
+  var locMan=u.match(/loc\.gov\/(?:item|resource)\/[A-Za-z0-9._:-]+\/manifest\.json/);
+  if(locMan) return Promise.resolve(u);
+  // LOC item page → manifest (verified: item manifests are CORS-readable)
+  var locItem=u.match(/loc\.gov\/item\/([A-Za-z0-9._-]+)\/?$/);
+  if(locItem) return Promise.resolve('https://www.loc.gov/item/'+locItem[1]+'/manifest.json');
+  // LOC resource page (e.g. gdcwdl.wdl_NNNNN) → resource manifest (LOC's own IIIF link)
+  var locRes=u.match(/(loc\.gov\/resource\/[A-Za-z0-9._:-]+)\/?$/);
+  if(locRes) return Promise.resolve('https://www.'+locRes[1]+'/manifest.json');
+  // LOC handle (hdl.loc.gov/loc.wdl/wdl.NNNNN) → resource manifest
+  var locHdl=u.match(/hdl\.loc\.gov\/loc\.wdl\/wdl\.(\d+)/);
+  if(locHdl) return Promise.resolve('https://www.loc.gov/resource/gdcwdl.wdl_'+locHdl[1]+'/manifest.json');
   // Generic: try fetching as JSON, check if it's a IIIF manifest
-  return fetch(u).then(function(r){
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    return r.json();
-  }).then(function(data){
+  return fetchManifestJson(u).then(function(data){
     if(data['@context'] && data['@context'].indexOf('iiif')>=0) return u;
     if(data.items || data.sequences) return u;
     throw new Error('URL is not a IIIF manifest');
   });
 }
 
+// Fetch a manifest JSON. loc.gov blocks cross-origin fetch() (Cloudflare),
+// so route it through the local server proxy (headless-Chrome backed).
+function isLocUrl(u){ return /^(https?:)?\/\/([^/]+\.)?loc\.gov\//.test(u) || /^\/proxy-manifest\?url=/.test(u) && /loc\.gov/.test(u); }
+function fetchManifestJson(u){
+  var target=isLocUrl(u)?('/proxy-manifest?url='+encodeURIComponent(u)):u;
+  return fetch(target).then(function(r){
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    return r.json();
+  });
+}
+
 // IIIF manifest fetch
 window.fetchIiifManifest=function(){
   var inputUrl=document.getElementById('iiifUrl').value.trim();
-  if(!inputUrl){alert('آدرس را وارد کنید');return}
   var log=document.getElementById('addLog');
+  if(!inputUrl){log.classList.add('on');log.textContent='آدرس را وارد کنید\n';return}
   log.classList.add('on');log.textContent='در حال تحلیل آدرس...\n';
   resolveManifestUrl(inputUrl).then(function(manifestUrl){
     if(manifestUrl!==inputUrl) log.textContent+='آدرس مانیفست: '+manifestUrl+'\n';
     log.textContent+='در حال دریافت manifest...\n';
-    return fetch(manifestUrl).then(function(r){if(!r.ok)throw new Error('HTTP '+r.status);return r.json()}).then(function(m){
-      var label=m.label||'';if(Array.isArray(label))label=label.join(' ');
-      var summary=m.summary||'';if(Array.isArray(summary))summary=summary.join(' ');
-      var prov=m.provider&&m.provider[0]?m.provider[0].label:'';if(Array.isArray(prov))prov=Array.isArray(prov)?prov.join(' '):prov;
+    return fetchManifestJson(manifestUrl).then(function(m){
+      var label=iiifLabel(m.label);
+      var summary=iiifLabel(m.summary);
+      var prov=iiifLabel(Array.isArray(m.provider)?m.provider[0]:m.provider)||String(m.attribution||'').replace(/^Provided by\s+/i,'');
       var pages=(m.items||[]).length;
       if(!pages && m.sequences && m.sequences[0]) pages=(m.sequences[0].canvases||[]).length;
+      // Thumbnails for catalog card (v3 canvas.thumbnail / v2 manifest or canvas thumbnail)
+      var thumbs=[];
+      function pushThumb(t){
+        var url=(typeof t==='string')?t:(t&&(t.id||t['@id']))||'';
+        if(url.indexOf('/full/')>=0) url=url.replace(/\/full\/[^/]+\//,'/full/!400,400/');
+        if(url && thumbs.indexOf(url)<0 && thumbs.length<6) thumbs.push(url);
+      }
+      if(m.thumbnail) pushThumb(Array.isArray(m.thumbnail)?m.thumbnail[0]:m.thumbnail);
+      (m.items||[]).slice(0,6).forEach(function(it){
+        if(it.thumbnail) pushThumb(Array.isArray(it.thumbnail)?it.thumbnail[0]:it.thumbnail);
+        else{
+          var ap=it.items&&it.items[0], an=ap&&ap.items&&ap.items[0], body=an&&an.body;
+          var img=Array.isArray(body)?body[0]:body;
+          if(img&&img.id&&/\/full\//.test(img.id)) pushThumb(img.id.replace(/\/full\/[^/]+\//,'/full/!400,400/'));
+        }
+      });
+      if(!thumbs.length && m.sequences && m.sequences[0] && m.sequences[0].canvases){
+        m.sequences[0].canvases.slice(0,6).forEach(function(c){
+          if(c.thumbnail) pushThumb(Array.isArray(c.thumbnail)?c.thumbnail[0]:c.thumbnail);
+          else{
+            var res=c.images&&c.images[0]&&c.images[0].resource;
+            var id=res&&(res['@id']||res.id);
+            if(id&&/\/full\//.test(id)) pushThumb(id.replace(/\/full\/[^/]+\//,'/full/!400,400/'));
+          }
+        });
+      }
       // Extract external links based on provider
       var externalLinks={};
       // Bodleian
@@ -166,9 +236,15 @@ window.fetchIiifManifest=function(){
         var bsbMatch=manifestUrl.match(/bsb(\d+)/);
         if(bsbMatch) externalLinks.digitalObject='https://api.digitale-sammlungen.de/view/'+bsbMatch[1];
       }
+      // EAP
+      var eapId=manifestUrl.match(/eap\.bl\.uk\/archive-file\/([A-Za-z0-9-]+)/);
+      if(eapId) externalLinks.digitalObject='https://eap.bl.uk/archive-file/'+eapId[1];
+      // Library of Congress
+      var locId=manifestUrl.match(/loc\.gov\/item\/([A-Za-z0-9._-]+)\/manifest\.json/);
+      if(locId) externalLinks.digitalObject='https://www.loc.gov/item/'+locId[1]+'/';
       externalLinks.iiifManifest=manifestUrl;
       log.textContent+='عنوان: '+label+'\nتعداد صفحات: '+pages+'\nمنبع: '+prov+'\n\n✓ manifest معتبر است.\n';
-      window._pendingManifest={url:manifestUrl,data:m,label:label,summary:summary,provider:prov,pages:pages,externalLinks:externalLinks};
+      window._pendingManifest={url:manifestUrl,data:m,label:label,summary:summary,provider:prov,pages:pages,thumbnail:thumbs,externalLinks:externalLinks};
       document.getElementById('bSaveIiif').disabled=false;
     });
   }).catch(function(e){
@@ -178,26 +254,41 @@ window.fetchIiifManifest=function(){
           '• https://iiif.bodleian.ox.ac.uk/iiif/manifest/<uuid>.json\n'+
           '• https://eap.bl.uk/archive-file/<id>\n'+
           '• https://www.digitale-sammlungen.de/iiif/...manifest\n'+
+          '• https://www.loc.gov/resource/gdcwdl.wdl_<id>/\n'+
+          '• https://www.loc.gov/item/wdl_<id>/\n'+
+          '• https://www.loc.gov/item/wdl_<id>/manifest.json\n'+
+          '• https://hdl.loc.gov/loc.wdl/wdl.<id>\n'+
           '• هر آدرس manifest IIIF مستقیم\n';
   });
 };
 window.saveIiifBook=function(){
   var pm=window._pendingManifest;if(!pm)return;
-  var slug=(pm.label||'iiif').replace(/[^\w\u0600-\u06FF]+/g,'-').replace(/^-|-$/g,'').toLowerCase()||'iiif-'+Date.now();
+  var title=iiifLabel(pm.label)||'کتاب IIIF';
+  var slug=title.replace(/[^\w؀-ۿ]+/g,'-').replace(/^-|-$/g,'').toLowerCase()||'iiif-'+Date.now();
   // Save to localStorage
   var custom=JSON.parse(localStorage.getItem('coreader-custom-books')||'[]');
-  custom.push({
-    slug:slug,title:pm.label,author:pm.summary||'ناشناس',
-    source:'iiif',provider:pm.provider||'IIIF',
+  if(custom.find(function(b){return b.slug===slug})) slug=slug+'-'+Date.now();
+  var entry={
+    slug:slug,title:title,author:iiifLabel(pm.summary)||'ناشناس',
+    source:'iiif',provider:iiifLabel(pm.provider)||'IIIF',
     manifestUrl:pm.url,pages:pm.pages,cover:'',
+    thumbnail:pm.thumbnail||[],
     externalLinks:pm.externalLinks||{iiifManifest:pm.url}
-  });
-  localStorage.setItem('coreader-custom-books',JSON.stringify(custom));
+  };
   var log=document.getElementById('addLog');
-  log.textContent+='\n✓ کتاب «'+pm.label+'» ذخیره شد.\n';
-  window._pendingManifest=null;document.getElementById('bSaveIiif').disabled=true;
-  // Reload page to show new book
-  setTimeout(function(){location.reload()},1000);
+  // Cache manifest into site/books/<slug>/manifest.json (local server only) —
+  // saved book then works offline and after deploy, without any proxy.
+  fetch('/cache-manifest?slug='+encodeURIComponent(slug),{method:'POST',body:JSON.stringify(pm.data)})
+    .catch(function(){return null})
+    .then(function(r){ return (r&&r.ok)?r.json().catch(function(){return null}):null; })
+    .then(function(j){
+      if(j&&j.path) entry.manifestUrl=j.path;
+      custom.push(entry);
+      localStorage.setItem('coreader-custom-books',JSON.stringify(custom));
+      log.textContent+='\n✓ کتاب «'+title+'» ذخیره شد'+(j&&j.path?' (مانیفست در پروژه کش شد)':'')+'.\n';
+      window._pendingManifest=null;document.getElementById('bSaveIiif').disabled=true;
+      setTimeout(function(){location.reload()},1200);
+    });
 };
 
 // Local file upload
@@ -208,8 +299,12 @@ window.onPdfChosen=function(files){_pdfFiles=Array.from(files);document.getEleme
 window.saveLocalBook=function(){
   var title=(document.getElementById('fTitle').value||'').trim();
   var author=(document.getElementById('fAuthor').value||'').trim();
-  if(!title){alert('عنوان کتاب را وارد کنید');return}
-  if(!_txtFile && !_pdfFiles.length){alert('یک فایل متنی یا PDF انتخاب کنید');return}
+  if(!title||(!_txtFile && !_pdfFiles.length)){
+    var lg=document.getElementById('addLog');lg.classList.add('on');
+    lg.textContent=(!title?'عنوان کتاب را وارد کنید\n':'')+
+      (!_txtFile && !_pdfFiles.length?'یک فایل متنی یا PDF انتخاب کنید\n':'');
+    return;
+  }
   var log=document.getElementById('addLog');
   log.classList.add('on'); log.textContent='در حال پردازش...\n';
   var slug=title.replace(/[^\w\u0600-\u06FF]+/g,'-').replace(/^-|-$/g,'').toLowerCase()||'local-'+Date.now();

@@ -12,5 +12,10 @@
     "build-site": "node src/build/cli.js site",
     "serve": "node src/build/serve.js"
   },
-  "engines": { "node": ">=18" }
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "puppeteer-core": "^23.11.1"
+  }
 }

@@ -822,5 +822,472 @@
     "thumbnail": [
       "https://iiif.qdl.qa/iiif/images/81055/vdc_100088054536.0x000001/Add MS 23560_0001.jp2/full/!200,200/0/default.jpg"
     ]
+  },
+  {
+    "slug": "eap-anvari-sukhaili",
+    "title": "انوار سهیلی (ترجمهٔ فارسی کلیله و دمنه)",
+    "author": "حسین وصفی کشافی",
+    "source": "iiif",
+    "provider": "British Library — Endangered Archives Programme",
+    "manifestUrl": "https://eap.bl.uk/archive-file/EAP910-1-5-45/manifest?manifest=https://eap.bl.uk/archive-file/EAP910-1-5-45/manifest",
+    "pages": 258,
+    "cover": "",
+    "language": "فارسی",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://eap.bl.uk/archive-file/EAP910-1-5-45",
+      "iiifManifest": "https://eap.bl.uk/archive-file/EAP910-1-5-45/manifest?manifest=https://eap.bl.uk/archive-file/EAP910-1-5-45/manifest"
+    },
+    "thumbnail": [
+      "https://images.eap.bl.uk/EAP910/EAP910_1_5_45/1.jp2/full/!400,400/0/default.jpg",
+      "https://images.eap.bl.uk/EAP910/EAP910_1_5_45/2.jp2/full/!400,400/0/default.jpg",
+      "https://images.eap.bl.uk/EAP910/EAP910_1_5_45/3.jp2/full/!400,400/0/default.jpg",
+      "https://images.eap.bl.uk/EAP910/EAP910_1_5_45/4.jp2/full/!400,400/0/default.jpg",
+      "https://images.eap.bl.uk/EAP910/EAP910_1_5_45/5.jp2/full/!400,400/0/default.jpg",
+      "https://images.eap.bl.uk/EAP910/EAP910_1_5_45/6.jp2/full/!400,400/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "loc-zakhirah-khvarazm-shah",
+    "title": "ذخیرهٔ خوارزم‌شاهی",
+    "author": "اسماعیل بن حسن جرجانی (حکیم جرجانی)",
+    "source": "iiif",
+    "provider": "Library of Congress — World Digital Library",
+    "manifestUrl": "https://www.loc.gov/item/2021667285/manifest.json",
+    "pages": 848,
+    "cover": "",
+    "language": "فارسی",
+    "date": "۱۱۰۰ تا ۱۱۹۹ میلادی",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://www.loc.gov/resource/gdcwdl.wdl_10608/",
+      "iiifManifest": "https://www.loc.gov/item/2021667285/manifest.json"
+    },
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:10:60:8:wdl_10608:0001/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:10:60:8:wdl_10608:0005/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:10:60:8:wdl_10608:0020/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:10:60:8:wdl_10608:0101/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:10:60:8:wdl_10608:0166/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:10:60:8:wdl_10608:0300/full/!400,400/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "loc-2007332311",
+    "title": "کتاب مزامیر حضرت داوید (سِفر تِهیلیم)",
+    "author": "عبدالحمید معصومی تهرانی",
+    "source": "iiif",
+    "provider": "Library of Congress",
+    "manifestUrl": "books/loc-2007332311/manifest.json",
+    "pages": 612,
+    "cover": "",
+    "language": "فارسی/عبری",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://www.loc.gov/item/2007332311/",
+      "iiifManifest": "https://www.loc.gov/item/2007332311/manifest.json"
+    },
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m118:0001/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m118:0002/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m118:0003/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m118:0004/full/!400,400/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "loc-2008401028",
+    "title": "صورت‌الکواکب",
+    "author": "عبدالرحمن صوفی",
+    "source": "iiif",
+    "provider": "Library of Congress",
+    "manifestUrl": "books/loc-2008401028/manifest.json",
+    "pages": 374,
+    "cover": "",
+    "language": "عربی",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://www.loc.gov/item/2008401028/",
+      "iiifManifest": "https://www.loc.gov/item/2008401028/manifest.json"
+    },
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/public:amed:2008401028:0001/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:2008401028:0002/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:2008401028:0003/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:2008401028:0004/full/!400,400/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "loc-2012498627",
+    "title": "منتخب شاهنامه",
+    "author": "فردوسی",
+    "source": "iiif",
+    "provider": "Library of Congress",
+    "manifestUrl": "books/loc-2012498627/manifest.json",
+    "pages": 192,
+    "cover": "",
+    "language": "فارسی",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://www.loc.gov/item/2012498627/",
+      "iiifManifest": "https://www.loc.gov/item/2012498627/manifest.json"
+    },
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m012:0001/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m012:0002/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m012:0003/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m012:0004/full/!400,400/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "loc-2012498861",
+    "title": "مثنوی معنوی",
+    "author": "جلال‌الدین رومی",
+    "source": "iiif",
+    "provider": "Library of Congress",
+    "manifestUrl": "books/loc-2012498861/manifest.json",
+    "pages": 640,
+    "cover": "",
+    "language": "فارسی",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://www.loc.gov/item/2012498861/",
+      "iiifManifest": "https://www.loc.gov/item/2012498861/manifest.json"
+    },
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m073:0001/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m073:0002/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m073:0003/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m073:0004/full/!400,400/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "loc-2013415253",
+    "title": "تاریخ نادری",
+    "author": "مهدی‌خان استرآبادی",
+    "source": "iiif",
+    "provider": "Library of Congress",
+    "manifestUrl": "books/loc-2013415253/manifest.json",
+    "pages": 547,
+    "cover": "",
+    "language": "فارسی",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://www.loc.gov/item/2013415253/",
+      "iiifManifest": "https://www.loc.gov/item/2013415253/manifest.json"
+    },
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m002:0001/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m002:0002/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m002:0003/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m002:0004/full/!400,400/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "loc-2015481730",
+    "title": "دیوان حافظ",
+    "author": "حافظ شیرازی",
+    "source": "iiif",
+    "provider": "Library of Congress",
+    "manifestUrl": "books/loc-2015481730/manifest.json",
+    "pages": 333,
+    "cover": "",
+    "language": "فارسی",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://www.loc.gov/item/2015481730/",
+      "iiifManifest": "https://www.loc.gov/item/2015481730/manifest.json"
+    },
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m025:0001/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m025:0002/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m025:0003/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m025:0004/full/!400,400/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "loc-2016397203",
+    "title": "گلستان سعدی",
+    "author": "سعدی شیرازی",
+    "source": "iiif",
+    "provider": "Library of Congress",
+    "manifestUrl": "books/loc-2016397203/manifest.json",
+    "pages": 331,
+    "cover": "",
+    "language": "فارسی",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://www.loc.gov/item/2016397203/",
+      "iiifManifest": "https://www.loc.gov/item/2016397203/manifest.json"
+    },
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m083:0001/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m083:0002/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m083:0003/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m083:0004/full/!400,400/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "loc-2017406026",
+    "title": "بوستان سعدی",
+    "author": "سعدی شیرازی",
+    "source": "iiif",
+    "provider": "Library of Congress",
+    "manifestUrl": "books/loc-2017406026/manifest.json",
+    "pages": 349,
+    "cover": "",
+    "language": "فارسی",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://www.loc.gov/item/2017406026/",
+      "iiifManifest": "https://www.loc.gov/item/2017406026/manifest.json"
+    },
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m084:0001/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m084:0002/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m084:0003/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m084:0004/full/!400,400/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "loc-2017454465",
+    "title": "عجایب المخلوقات",
+    "author": "زکریای قزوینی",
+    "source": "iiif",
+    "provider": "Library of Congress",
+    "manifestUrl": "books/loc-2017454465/manifest.json",
+    "pages": 713,
+    "cover": "",
+    "language": "عربی/فارسی",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://www.loc.gov/item/2017454465/",
+      "iiifManifest": "https://www.loc.gov/item/2017454465/manifest.json"
+    },
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m067:0001/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m067:0002/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m067:0003/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m067:0004/full/!400,400/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "loc-2017498317",
+    "title": "اثر طلسمی کیهانی قاجار",
+    "author": "ناشناس",
+    "source": "iiif",
+    "provider": "Library of Congress",
+    "manifestUrl": "books/loc-2017498317/manifest.json",
+    "pages": 87,
+    "cover": "",
+    "language": "فارسی",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://www.loc.gov/item/2017498317/",
+      "iiifManifest": "https://www.loc.gov/item/2017498317/manifest.json"
+    },
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m146:0001/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m146:0002/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m146:0003/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m146:0004/full/!400,400/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "loc-2021667223",
+    "title": "بابرنامه",
+    "author": "بابر",
+    "source": "iiif",
+    "provider": "Library of Congress",
+    "manifestUrl": "books/loc-2021667223/manifest.json",
+    "pages": 78,
+    "cover": "",
+    "language": "فارسی",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://www.loc.gov/item/2021667223/",
+      "iiifManifest": "https://www.loc.gov/item/2021667223/manifest.json"
+    },
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:08:90:6:wdl_08906:W596_000001_300/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:08:90:6:wdl_08906:W596_000002_300/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:08:90:6:wdl_08906:W596_000003_300/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:08:90:6:wdl_08906:W596_000004_300/full/!400,400/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "loc-2021667229",
+    "title": "شاهنامه",
+    "author": "فردوسی",
+    "source": "iiif",
+    "provider": "Library of Congress",
+    "manifestUrl": "books/loc-2021667229/manifest.json",
+    "pages": 1530,
+    "cover": "",
+    "language": "فارسی",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://www.loc.gov/item/2021667229/",
+      "iiifManifest": "https://www.loc.gov/item/2021667229/manifest.json"
+    },
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:08:96:6:wdl_08966:bsb00043870_00001/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:08:96:6:wdl_08966:bsb00043870_00002/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:08:96:6:wdl_08966:bsb00043870_00003/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:08:96:6:wdl_08966:bsb00043870_00004/full/!400,400/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "loc-2021667230",
+    "title": "خمسهٔ امیر خسرو دهلوی",
+    "author": "امیر خسرو دهلوی",
+    "source": "iiif",
+    "provider": "Library of Congress",
+    "manifestUrl": "books/loc-2021667230/manifest.json",
+    "pages": 426,
+    "cover": "",
+    "language": "فارسی",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://www.loc.gov/item/2021667230/",
+      "iiifManifest": "https://www.loc.gov/item/2021667230/manifest.json"
+    },
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:09:20:5:wdl_09205:W624_000001_300/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:09:20:5:wdl_09205:W624_000002_300/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:09:20:5:wdl_09205:W624_000003_300/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:09:20:5:wdl_09205:W624_000004_300/full/!400,400/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "loc-2021667231",
+    "title": "مهر و مشتری",
+    "author": "محمد بن احمد عسار تبریزی",
+    "source": "iiif",
+    "provider": "Library of Congress",
+    "manifestUrl": "books/loc-2021667231/manifest.json",
+    "pages": 499,
+    "cover": "",
+    "language": "فارسی",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://www.loc.gov/item/2021667231/",
+      "iiifManifest": "https://www.loc.gov/item/2021667231/manifest.json"
+    },
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:09:20:6:wdl_09206:W627_000001_300/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:09:20:6:wdl_09206:W627_000002_300/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:09:20:6:wdl_09206:W627_000003_300/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:09:20:6:wdl_09206:W627_000004_300/full/!400,400/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "loc-2021667238",
+    "title": "اصول حساب",
+    "author": "بهاءالدین محمد بن حسین عاملی",
+    "source": "iiif",
+    "provider": "Library of Congress",
+    "manifestUrl": "books/loc-2021667238/manifest.json",
+    "pages": 58,
+    "cover": "",
+    "language": "عربی/فارسی",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://www.loc.gov/item/2021667238/",
+      "iiifManifest": "https://www.loc.gov/item/2021667238/manifest.json"
+    },
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:09:54:2:wdl_09542:8200001/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:09:54:2:wdl_09542:8200002/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:09:54:2:wdl_09542:8200003/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:09:54:2:wdl_09542:8200004/full/!400,400/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "loc-2021667365",
+    "title": "الکافی فی‌الطب",
+    "author": "ابن النفیس",
+    "source": "iiif",
+    "provider": "Library of Congress",
+    "manifestUrl": "books/loc-2021667365/manifest.json",
+    "pages": 283,
+    "cover": "",
+    "language": "عربی",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://www.loc.gov/item/2021667365/",
+      "iiifManifest": "https://www.loc.gov/item/2021667365/manifest.json"
+    },
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:17:14:7:wdl_17147:WMS_Arabic_234_0001/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:17:14:7:wdl_17147:WMS_Arabic_234_0002/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:17:14:7:wdl_17147:WMS_Arabic_234_0003/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:17:14:7:wdl_17147:WMS_Arabic_234_0004/full/!400,400/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "loc-2021667284",
+    "title": "عجایب المخلوقات",
+    "author": "زکریای قزوینی",
+    "source": "iiif",
+    "provider": "Library of Congress",
+    "manifestUrl": "books/loc-2021667284/manifest.json",
+    "pages": 1158,
+    "cover": "",
+    "language": "فارسی/عربی",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://www.loc.gov/item/2021667284/",
+      "iiifManifest": "https://www.loc.gov/item/2021667284/manifest.json"
+    },
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:10:60:6:wdl_10606:0001/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:10:60:6:wdl_10606:0002/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:10:60:6:wdl_10606:0003/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:10:60:6:wdl_10606:0004/full/!400,400/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "loc-2021667287",
+    "title": "شاهنامه",
+    "author": "فردوسی",
+    "source": "iiif",
+    "provider": "Library of Congress",
+    "manifestUrl": "books/loc-2021667287/manifest.json",
+    "pages": 696,
+    "cover": "",
+    "language": "فارسی",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://www.loc.gov/item/2021667287/",
+      "iiifManifest": "https://www.loc.gov/item/2021667287/manifest.json"
+    },
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:10:61:0:wdl_10610:0001/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:10:61:0:wdl_10610:0002/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:10:61:0:wdl_10610:0003/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:10:61:0:wdl_10610:0004/full/!400,400/0/default.jpg"
+    ]
+  },
+  {
+    "slug": "loc-2021667400",
+    "title": "خمسهٔ نظامی",
+    "author": "نظامی گنجوی",
+    "source": "iiif",
+    "provider": "Library of Congress",
+    "manifestUrl": "books/loc-2021667400/manifest.json",
+    "pages": 685,
+    "cover": "",
+    "language": "فارسی",
+    "viewingDirection": "right-to-left",
+    "externalLinks": {
+      "digitalObject": "https://www.loc.gov/item/2021667400/",
+      "iiifManifest": "https://www.loc.gov/item/2021667400/manifest.json"
+    },
+    "thumbnail": [
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:19:53:0:wdl_19530:bsb00048402_00001/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:19:53:0:wdl_19530:bsb00048402_00002/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:19:53:0:wdl_19530:bsb00048402_00003/full/!400,400/0/default.jpg",
+      "https://tile.loc.gov/image-services/iiif/service:gdc:gdcwdl:wd:l_:19:53:0:wdl_19530:bsb00048402_00004/full/!400,400/0/default.jpg"
+    ]
   }
 ]
