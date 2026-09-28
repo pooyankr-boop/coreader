@@ -10,12 +10,12 @@ books/*/_ocr*/
 
 # Source book files (large, not for git)
 books/*
+!books/
+!books/*/
+!books/*/manifest.json
+!books/*/cover.*
 
 # Large PDF files
 site/books/**/*.pdf
 site/books/**/*.txt
 site/books/**/*.epub
-
-# Include manifests and covers
-!books/*/manifest.json
-!books/*/cover.*
