@@ -1298,7 +1298,8 @@
     "provider": "کتابخانهٔ کنگره آمریکا",
     "manifestUrl": "books/loc-2015481272/manifest.json",
     "externalLinks": {
-      "iiifManifest": "https://www.loc.gov/item/2015481272/manifest.json"
+      "iiifManifest": "https://www.loc.gov/item/2015481272/manifest.json",
+      "digitalObject": "https://www.loc.gov/item/2015481272/"
     },
     "pages": 485,
     "thumbnail": [
@@ -1318,7 +1319,8 @@
       "https://iiif.bodleian.ox.ac.uk/iiif/image/23d8fd45-7f91-4d31-9bfb-c1c8d1a57b7e/full/!400,400/0/default.jpg"
     ],
     "externalLinks": {
-      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/elliott-49.json"
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/f0c08098-65c9-4524-b8b0-ce2610c341cb.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/f0c08098-65c9-4524-b8b0-ce2610c341cb/"
     }
   },
   {
@@ -1333,7 +1335,8 @@
       "https://iiif.bodleian.ox.ac.uk/iiif/image/e63ebd03-d100-443b-8fda-8d05b425c1ef/full/!400,400/0/default.jpg"
     ],
     "externalLinks": {
-      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/canonici-or-122.json"
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/a25334b2-9fab-4931-9a0b-14eaa4ab898f.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/a25334b2-9fab-4931-9a0b-14eaa4ab898f/"
     },
     "cover": "cover.jpg"
   },
@@ -1349,7 +1352,8 @@
       "https://iiif.bodleian.ox.ac.uk/iiif/image/7939a823-029f-4bda-ab0f-9803d1ccc8e4/full/!400,400/0/default.jpg"
     ],
     "externalLinks": {
-      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/bodl-or-548.json"
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/4d51197b-36c4-4ab2-bc4e-9eb24ea763a5.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/4d51197b-36c4-4ab2-bc4e-9eb24ea763a5/"
     },
     "cover": "cover.jpg"
   },
@@ -1365,7 +1369,8 @@
       "https://iiif.bodleian.ox.ac.uk/iiif/image/b0f269d7-a973-4c54-a6eb-979b8b86d1ca/full/!400,400/0/default.jpg"
     ],
     "externalLinks": {
-      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/288.json"
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/0962ca25-66d8-4758-bbeb-07e1ee5b633e.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/0962ca25-66d8-4758-bbeb-07e1ee5b633e/"
     },
     "cover": "cover.jpg"
   },
@@ -1381,7 +1386,8 @@
       "https://iiif.bodleian.ox.ac.uk/iiif/image/0bccdc92-7f82-4de5-a287-613c652c28a6/full/!400,400/0/default.jpg"
     ],
     "externalLinks": {
-      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/ouseley-373.json"
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/26ae1dfa-db31-4a1a-889a-cb4e034215fc.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/26ae1dfa-db31-4a1a-889a-cb4e034215fc/"
     }
   },
   {
@@ -1396,7 +1402,8 @@
       "https://iiif.bodleian.ox.ac.uk/iiif/image/a79f86a0-3083-4cb9-ace9-2d406165862f/full/!400,400/0/default.jpg"
     ],
     "externalLinks": {
-      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/ouseley-369.json"
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/6fe30233-ebb3-4165-afb8-86d0c423ae82.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/6fe30233-ebb3-4165-afb8-86d0c423ae82/"
     },
     "cover": "cover.jpg"
   },
@@ -1412,7 +1419,8 @@
       "https://iiif.bodleian.ox.ac.uk/iiif/image/dda7bc62-b27e-4bba-93bf-ce18c8a406e7/full/!400,400/0/default.jpg"
     ],
     "externalLinks": {
-      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/ouseley-345.json"
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/ad16640a-3e51-4750-b6ce-86e8be191cda.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/ad16640a-3e51-4750-b6ce-86e8be191cda/"
     }
   },
   {
@@ -1427,7 +1435,8 @@
       "https://iiif.bodleian.ox.ac.uk/iiif/image/1e221c69-385a-46ce-ba00-a438e7591010/full/!400,400/0/default.jpg"
     ],
     "externalLinks": {
-      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/ouseley-344.json"
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/bb573df6-5d45-4950-8460-12e356b136d3.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/bb573df6-5d45-4950-8460-12e356b136d3/"
     }
   },
   {
@@ -1442,7 +1451,8 @@
       "https://iiif.bodleian.ox.ac.uk/iiif/image/43e3a7d9-965b-4f17-9f54-1149f4765438/full/!400,400/0/default.jpg"
     ],
     "externalLinks": {
-      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/ouseley-217.json"
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/75699dc5-d5bb-4b55-ae56-c6e092fc473a.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/75699dc5-d5bb-4b55-ae56-c6e092fc473a/"
     },
     "cover": "cover.jpg"
   },
@@ -1458,7 +1468,8 @@
       "https://iiif.bodleian.ox.ac.uk/iiif/image/6b0a76b7-e0a4-445c-9ac3-c43bfc940e73/full/!400,400/0/default.jpg"
     ],
     "externalLinks": {
-      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/fraser-73.json"
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/f2aaafc7-e268-42fd-98cd-c8220aaa3e74.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/f2aaafc7-e268-42fd-98cd-c8220aaa3e74/"
     },
     "cover": "cover.jpg"
   },
@@ -1474,7 +1485,8 @@
       "https://iiif.bodleian.ox.ac.uk/iiif/image/4183c185-d726-453d-91c1-46fe36f25c02/full/!400,400/0/default.jpg"
     ],
     "externalLinks": {
-      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/elliott-246.json"
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/aa2c5fc4-99fc-4be1-89e8-75dbefa4f95f.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/aa2c5fc4-99fc-4be1-89e8-75dbefa4f95f/"
     },
     "cover": "cover.jpg"
   },
@@ -1490,7 +1502,8 @@
       "https://iiif.bodleian.ox.ac.uk/iiif/image/59cce562-4954-4093-9908-5d33ecdf01e6/full/!400,400/0/default.jpg"
     ],
     "externalLinks": {
-      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/elliott-325.json"
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/79361790-4671-4c4f-983a-c40044671f56.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/79361790-4671-4c4f-983a-c40044671f56/"
     }
   },
   {
@@ -1505,7 +1518,8 @@
       "https://iiif.bodleian.ox.ac.uk/iiif/image/1e3472f0-a9b3-4f62-847a-19cfc2e1003d/full/!400,400/0/default.jpg"
     ],
     "externalLinks": {
-      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/elliott-327.json"
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/fddaa126-1223-4166-a351-821528b2f984.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/fddaa126-1223-4166-a351-821528b2f984/"
     },
     "cover": "cover.jpg"
   },
@@ -1521,7 +1535,8 @@
       "https://iiif.bodleian.ox.ac.uk/iiif/image/5689aab0-9c8b-42c9-84ca-dd7c943abebf/full/!400,400/0/default.jpg"
     ],
     "externalLinks": {
-      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/elliott-367.json"
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/99009d40-fd00-4160-8bd3-7e946c9f0716.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/99009d40-fd00-4160-8bd3-7e946c9f0716/"
     },
     "cover": "cover.jpg"
   },
@@ -1537,7 +1552,8 @@
       "https://iiif.bodleian.ox.ac.uk/iiif/image/ba3885f5-cef8-41da-a347-3677e318c63d/full/!400,400/0/default.jpg"
     ],
     "externalLinks": {
-      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/elliott-377.json"
+      "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/6f5b6382-f892-4109-b3be-f6a26da9ebc3.json",
+      "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/6f5b6382-f892-4109-b3be-f6a26da9ebc3/"
     }
   }
 ]
