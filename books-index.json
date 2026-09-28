@@ -5,7 +5,7 @@
     "author": "هانس فاینینگر",
     "source": "iiif",
     "pages": 646,
-    "cover": "cover.jpg"
+    "cover": "/site/cover.jpg"
   },
   {
     "slug": "end-times-fascism",
@@ -15,7 +15,7 @@
     "pages": 314,
     "hasPdf": true,
     "candidateCount": 250,
-    "cover": "cover.webp"
+    "cover": "/site/cover.webp"
   },
   {
     "slug": "nasaim-al-ahsaar",
@@ -25,7 +25,7 @@
     "pages": 265,
     "hasPdf": true,
     "candidateCount": 250,
-    "cover": "cover.webp"
+    "cover": "/site/cover.webp"
   },
   {
     "slug": "samt-al-olaa",
@@ -35,7 +35,7 @@
     "pages": 105,
     "hasPdf": true,
     "candidateCount": 250,
-    "cover": "cover.webp"
+    "cover": "/site/cover.webp"
   },
   {
     "slug": "x-risk",
@@ -45,7 +45,7 @@
     "pages": 386,
     "hasPdf": true,
     "candidateCount": 250,
-    "cover": "cover.webp"
+    "cover": "/site/cover.webp"
   },
   {
     "slug": "تاریخ-شاهی-قراختائیان",
@@ -55,7 +55,7 @@
     "pages": 524,
     "hasPdf": true,
     "candidateCount": 250,
-    "cover": "cover.webp"
+    "cover": "/site/cover.webp"
   },
   {
     "slug": "حی-بن-یقضان",
@@ -65,7 +65,7 @@
     "pages": 272,
     "hasPdf": true,
     "candidateCount": 250,
-    "cover": "cover.webp"
+    "cover": "/site/cover.webp"
   },
   {
     "slug": "همه-کُشی",
@@ -75,7 +75,7 @@
     "pages": 330,
     "hasPdf": true,
     "candidateCount": 250,
-    "cover": "cover.webp"
+    "cover": "/site/cover.webp"
   },
   {
     "slug": "همه-کُشی-۲",
@@ -85,7 +85,7 @@
     "pages": 414,
     "hasPdf": true,
     "candidateCount": 250,
-    "cover": "cover.webp"
+    "cover": "/site/cover.webp"
   },
   {
     "slug": "bsb-gulistan-saadi",
@@ -93,7 +93,7 @@
     "author": "سعدی شیرازی",
     "source": "iiif",
     "provider": "Bayerische Staatsbibliothek",
-    "manifestUrl": "https://api.digitale-sammlungen.de/iiif/presentation/v2/bsb00047632/manifest",
+    "manifestUrl": "/site/https://api.digitale-sammlungen.de/iiif/presentation/v2/bsb00047632/manifest",
     "pages": 355,
     "cover": "",
     "externalLinks": {
@@ -114,7 +114,7 @@
     "author": "جمال‌الدین جامی",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/23c9305a-844e-48c8-8e76-8832f5e42b2e.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/23c9305a-844e-48c8-8e76-8832f5e42b2e.json",
     "pages": 364,
     "cover": "",
     "externalLinks": {
@@ -138,7 +138,7 @@
     "author": "فردوسی توسی",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/bcbfd832-086b-4874-80f8-87500e0de704.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/bcbfd832-086b-4874-80f8-87500e0de704.json",
     "pages": 953,
     "cover": "",
     "externalLinks": {
@@ -162,7 +162,7 @@
     "author": "قاسم انوار و دیگران",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/4d01494c-8aba-4fea-b8f9-e7b70c826d0f.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/4d01494c-8aba-4fea-b8f9-e7b70c826d0f.json",
     "pages": 666,
     "cover": "",
     "externalLinks": {
@@ -186,7 +186,7 @@
     "author": "جمال‌الدین جامی",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/78f9e2cd-6d77-4f57-8ca5-a5544273a654.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/78f9e2cd-6d77-4f57-8ca5-a5544273a654.json",
     "pages": 306,
     "cover": "",
     "externalLinks": {
@@ -210,7 +210,7 @@
     "author": "جمال‌الدین جامی",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/56911adf-3d32-4a52-a9c6-653eb5bd6cb7.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/56911adf-3d32-4a52-a9c6-653eb5bd6cb7.json",
     "pages": 159,
     "cover": "",
     "externalLinks": {
@@ -234,7 +234,7 @@
     "author": "جمال‌الدین جامی",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/916f7aa0-d9aa-40dd-b067-238f0d6e7377.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/916f7aa0-d9aa-40dd-b067-238f0d6e7377.json",
     "pages": 2,
     "cover": "",
     "externalLinks": {
@@ -254,7 +254,7 @@
     "author": "ناشناس",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/1d091ec9-33f8-42d9-a620-141dfc7b1816.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/1d091ec9-33f8-42d9-a620-141dfc7b1816.json",
     "pages": 692,
     "cover": "",
     "externalLinks": {
@@ -278,7 +278,7 @@
     "author": "فردوسی",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/8287e6c8-8b65-4a55-8ad0-e22dff4eccc2.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/8287e6c8-8b65-4a55-8ad0-e22dff4eccc2.json",
     "pages": 1555,
     "cover": "",
     "externalLinks": {
@@ -302,7 +302,7 @@
     "author": "عمر خیام",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/6b3da54c-5f21-4dda-af76-726fee02d9e5.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/6b3da54c-5f21-4dda-af76-726fee02d9e5.json",
     "pages": 60,
     "cover": "",
     "externalLinks": {
@@ -326,7 +326,7 @@
     "author": "الغ‌بیگ",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/19cf9814-fc13-4b5d-8961-f8520bea9edc.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/19cf9814-fc13-4b5d-8961-f8520bea9edc.json",
     "pages": 369,
     "cover": "",
     "externalLinks": {
@@ -350,7 +350,7 @@
     "author": "حافظ شیرازی",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/9809c716-be88-4fc1-9469-78acabc07f79.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/9809c716-be88-4fc1-9469-78acabc07f79.json",
     "pages": 344,
     "cover": "",
     "externalLinks": {
@@ -374,7 +374,7 @@
     "author": "ناشناس",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/64f5a170-7542-415c-845f-9e5127c9bb5e.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/64f5a170-7542-415c-845f-9e5127c9bb5e.json",
     "pages": 930,
     "cover": "",
     "externalLinks": {
@@ -398,7 +398,7 @@
     "author": "فردوسی",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/a0fc5fa6-f3d8-4089-90be-f0ffd2128865.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/a0fc5fa6-f3d8-4089-90be-f0ffd2128865.json",
     "pages": 1108,
     "cover": "",
     "externalLinks": {
@@ -422,7 +422,7 @@
     "author": "ابن اخوینی",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/ef568d4f-c70a-4493-aa67-17db035e7f89.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/ef568d4f-c70a-4493-aa67-17db035e7f89.json",
     "pages": 668,
     "cover": "",
     "externalLinks": {
@@ -446,7 +446,7 @@
     "author": "قاضی حسن طاهر",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/d633c8a4-53e1-4afe-bc51-518f5fe4e357.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/d633c8a4-53e1-4afe-bc51-518f5fe4e357.json",
     "pages": 216,
     "cover": "",
     "externalLinks": {
@@ -470,7 +470,7 @@
     "author": "سعدی شیرازی",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/882f4307-f40a-4a29-9a62-d19b3b2bb908.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/882f4307-f40a-4a29-9a62-d19b3b2bb908.json",
     "pages": 122,
     "cover": "",
     "externalLinks": {
@@ -494,7 +494,7 @@
     "author": "نظامی گنجوی",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/7d185003-d35f-4381-aef8-a6b12c6e6b94.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/7d185003-d35f-4381-aef8-a6b12c6e6b94.json",
     "pages": 674,
     "cover": "",
     "externalLinks": {
@@ -518,7 +518,7 @@
     "author": "امیرالمؤمنین علی بن ابی‌طالب",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/399a2a26-96de-484a-b9c0-ad37877e1b16.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/399a2a26-96de-484a-b9c0-ad37877e1b16.json",
     "pages": 18,
     "cover": "",
     "externalLinks": {
@@ -542,7 +542,7 @@
     "author": "جمال‌الدین جامی",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/4183fd93-986f-40ee-ada4-5eff5287a8bf.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/4183fd93-986f-40ee-ada4-5eff5287a8bf.json",
     "pages": 111,
     "cover": "",
     "externalLinks": {
@@ -566,7 +566,7 @@
     "author": "نظامی گنجوی",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/cce97ab5-19e9-4fab-bc06-5a3560101156.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/cce97ab5-19e9-4fab-bc06-5a3560101156.json",
     "pages": 130,
     "cover": "",
     "externalLinks": {
@@ -590,7 +590,7 @@
     "author": "نظامی گنجوی",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/2e3a3c8d-1465-4721-9923-12436f367498.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/2e3a3c8d-1465-4721-9923-12436f367498.json",
     "pages": 780,
     "cover": "",
     "externalLinks": {
@@ -614,7 +614,7 @@
     "author": "سعدی شیرازی",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/b54c3f88-a3bf-4cfe-a743-e4fd42c8b67c.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/b54c3f88-a3bf-4cfe-a743-e4fd42c8b67c.json",
     "pages": 547,
     "cover": "",
     "externalLinks": {
@@ -638,7 +638,7 @@
     "author": "ناشناس",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/20f1c921-e68a-484d-8b40-1604c83d7bd2.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/20f1c921-e68a-484d-8b40-1604c83d7bd2.json",
     "pages": 185,
     "cover": "",
     "externalLinks": {
@@ -662,7 +662,7 @@
     "author": "فخرالدین رازی",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/a1246f80-b45e-47ed-aa68-19af4898a2df.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/a1246f80-b45e-47ed-aa68-19af4898a2df.json",
     "pages": 230,
     "cover": "",
     "externalLinks": {
@@ -686,7 +686,7 @@
     "author": "حافظ شیرازی",
     "source": "iiif",
     "provider": "Bodleian Library, Oxford",
-    "manifestUrl": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/7f010f0d-a12f-41e9-8eb6-fd9db60eae7d.json",
+    "manifestUrl": "/site/https://iiif.bodleian.ox.ac.uk/iiif/manifest/7f010f0d-a12f-41e9-8eb6-fd9db60eae7d.json",
     "pages": 414,
     "cover": "",
     "externalLinks": {
@@ -710,7 +710,7 @@
     "author": "فريد الدين عطار نیشابوری",
     "source": "iiif",
     "provider": "British Library — Endangered Archives Programme",
-    "manifestUrl": "https://eap.bl.uk/archive-file/EAP1326-1-55/manifest?manifest=https://eap.bl.uk/archive-file/EAP1326-1-55/manifest",
+    "manifestUrl": "/site/https://eap.bl.uk/archive-file/EAP1326-1-55/manifest?manifest=https://eap.bl.uk/archive-file/EAP1326-1-55/manifest",
     "pages": 67,
     "cover": "",
     "externalLinks": {
@@ -733,7 +733,7 @@
     "author": "ایرانشاه بن ملکشاه",
     "source": "iiif",
     "provider": "British Library",
-    "manifestUrl": "https://bl.digirati.io/iiif/ark:/81055/vdc_100145840943.0x000001?manifest=https://bl.digirati.io/iiif/ark:/81055/vdc_100145840943.0x000001",
+    "manifestUrl": "/site/https://bl.digirati.io/iiif/ark:/81055/vdc_100145840943.0x000001?manifest=https://bl.digirati.io/iiif/ark:/81055/vdc_100145840943.0x000001",
     "pages": 483,
     "cover": "",
     "language": "Persian",
@@ -749,7 +749,7 @@
     "author": "قوشجی و دیگران",
     "source": "iiif",
     "provider": "Qatar Digital Library — British Library",
-    "manifestUrl": "books/qdl-add-ms-7492/manifest.json",
+    "manifestUrl": "/site/books/qdl-add-ms-7492/manifest.json",
     "pages": 162,
     "cover": "",
     "language": "عربی/فارسی",
@@ -765,7 +765,7 @@
     "author": "قوشجی",
     "source": "iiif",
     "provider": "Qatar Digital Library — British Library",
-    "manifestUrl": "books/qdl-add-ms-23569/manifest.json",
+    "manifestUrl": "/site/books/qdl-add-ms-23569/manifest.json",
     "pages": 296,
     "cover": "",
     "language": "فارسی/عربی",
@@ -781,7 +781,7 @@
     "author": "الجزرجانی و دیگران",
     "source": "iiif",
     "provider": "Qatar Digital Library — British Library",
-    "manifestUrl": "books/qdl-add-ms-16659/manifest.json",
+    "manifestUrl": "/site/books/qdl-add-ms-16659/manifest.json",
     "pages": 1208,
     "cover": "",
     "language": "عربی",
@@ -797,7 +797,7 @@
     "author": "ناشناس",
     "source": "iiif",
     "provider": "Qatar Digital Library — British Library",
-    "manifestUrl": "books/qdl-add-ms-23570/manifest.json",
+    "manifestUrl": "/site/books/qdl-add-ms-23570/manifest.json",
     "pages": 306,
     "cover": "",
     "language": "عربی/فارسی",
@@ -813,7 +813,7 @@
     "author": "ناشناس",
     "source": "iiif",
     "provider": "Qatar Digital Library — British Library",
-    "manifestUrl": "books/qdl-add-ms-23560/manifest.json",
+    "manifestUrl": "/site/books/qdl-add-ms-23560/manifest.json",
     "pages": 640,
     "cover": "",
     "language": "عربی/فارسی",
@@ -829,7 +829,7 @@
     "author": "حسین وصفی کشافی",
     "source": "iiif",
     "provider": "British Library — Endangered Archives Programme",
-    "manifestUrl": "https://eap.bl.uk/archive-file/EAP910-1-5-45/manifest?manifest=https://eap.bl.uk/archive-file/EAP910-1-5-45/manifest",
+    "manifestUrl": "/site/https://eap.bl.uk/archive-file/EAP910-1-5-45/manifest?manifest=https://eap.bl.uk/archive-file/EAP910-1-5-45/manifest",
     "pages": 258,
     "cover": "",
     "language": "فارسی",
@@ -853,7 +853,7 @@
     "author": "اسماعیل بن حسن جرجانی (حکیم جرجانی)",
     "source": "iiif",
     "provider": "Library of Congress — World Digital Library",
-    "manifestUrl": "https://www.loc.gov/item/2021667285/manifest.json",
+    "manifestUrl": "/site/https://www.loc.gov/item/2021667285/manifest.json",
     "pages": 848,
     "cover": "",
     "language": "فارسی",
@@ -878,7 +878,7 @@
     "author": "عبدالحمید معصومی تهرانی",
     "source": "iiif",
     "provider": "Library of Congress",
-    "manifestUrl": "books/loc-2007332311/manifest.json",
+    "manifestUrl": "/site/books/loc-2007332311/manifest.json",
     "pages": 612,
     "cover": "",
     "language": "فارسی/عبری",
@@ -900,7 +900,7 @@
     "author": "عبدالرحمن صوفی",
     "source": "iiif",
     "provider": "Library of Congress",
-    "manifestUrl": "books/loc-2008401028/manifest.json",
+    "manifestUrl": "/site/books/loc-2008401028/manifest.json",
     "pages": 374,
     "cover": "",
     "language": "عربی",
@@ -922,7 +922,7 @@
     "author": "فردوسی",
     "source": "iiif",
     "provider": "Library of Congress",
-    "manifestUrl": "books/loc-2012498627/manifest.json",
+    "manifestUrl": "/site/books/loc-2012498627/manifest.json",
     "pages": 192,
     "cover": "",
     "language": "فارسی",
@@ -944,7 +944,7 @@
     "author": "جلال‌الدین رومی",
     "source": "iiif",
     "provider": "Library of Congress",
-    "manifestUrl": "books/loc-2012498861/manifest.json",
+    "manifestUrl": "/site/books/loc-2012498861/manifest.json",
     "pages": 640,
     "cover": "",
     "language": "فارسی",
@@ -966,7 +966,7 @@
     "author": "مهدی‌خان استرآبادی",
     "source": "iiif",
     "provider": "Library of Congress",
-    "manifestUrl": "books/loc-2013415253/manifest.json",
+    "manifestUrl": "/site/books/loc-2013415253/manifest.json",
     "pages": 547,
     "cover": "",
     "language": "فارسی",
@@ -988,7 +988,7 @@
     "author": "حافظ شیرازی",
     "source": "iiif",
     "provider": "Library of Congress",
-    "manifestUrl": "books/loc-2015481730/manifest.json",
+    "manifestUrl": "/site/books/loc-2015481730/manifest.json",
     "pages": 333,
     "cover": "",
     "language": "فارسی",
@@ -1010,7 +1010,7 @@
     "author": "سعدی شیرازی",
     "source": "iiif",
     "provider": "Library of Congress",
-    "manifestUrl": "books/loc-2016397203/manifest.json",
+    "manifestUrl": "/site/books/loc-2016397203/manifest.json",
     "pages": 331,
     "cover": "",
     "language": "فارسی",
@@ -1032,7 +1032,7 @@
     "author": "سعدی شیرازی",
     "source": "iiif",
     "provider": "Library of Congress",
-    "manifestUrl": "books/loc-2017406026/manifest.json",
+    "manifestUrl": "/site/books/loc-2017406026/manifest.json",
     "pages": 349,
     "cover": "",
     "language": "فارسی",
@@ -1054,7 +1054,7 @@
     "author": "زکریای قزوینی",
     "source": "iiif",
     "provider": "Library of Congress",
-    "manifestUrl": "books/loc-2017454465/manifest.json",
+    "manifestUrl": "/site/books/loc-2017454465/manifest.json",
     "pages": 713,
     "cover": "",
     "language": "عربی/فارسی",
@@ -1076,7 +1076,7 @@
     "author": "ناشناس",
     "source": "iiif",
     "provider": "Library of Congress",
-    "manifestUrl": "books/loc-2017498317/manifest.json",
+    "manifestUrl": "/site/books/loc-2017498317/manifest.json",
     "pages": 87,
     "cover": "",
     "language": "فارسی",
@@ -1098,7 +1098,7 @@
     "author": "بابر",
     "source": "iiif",
     "provider": "Library of Congress",
-    "manifestUrl": "books/loc-2021667223/manifest.json",
+    "manifestUrl": "/site/books/loc-2021667223/manifest.json",
     "pages": 78,
     "cover": "",
     "language": "فارسی",
@@ -1120,7 +1120,7 @@
     "author": "فردوسی",
     "source": "iiif",
     "provider": "Library of Congress",
-    "manifestUrl": "books/loc-2021667229/manifest.json",
+    "manifestUrl": "/site/books/loc-2021667229/manifest.json",
     "pages": 1530,
     "cover": "",
     "language": "فارسی",
@@ -1142,7 +1142,7 @@
     "author": "امیر خسرو دهلوی",
     "source": "iiif",
     "provider": "Library of Congress",
-    "manifestUrl": "books/loc-2021667230/manifest.json",
+    "manifestUrl": "/site/books/loc-2021667230/manifest.json",
     "pages": 426,
     "cover": "",
     "language": "فارسی",
@@ -1164,7 +1164,7 @@
     "author": "محمد بن احمد عسار تبریزی",
     "source": "iiif",
     "provider": "Library of Congress",
-    "manifestUrl": "books/loc-2021667231/manifest.json",
+    "manifestUrl": "/site/books/loc-2021667231/manifest.json",
     "pages": 499,
     "cover": "",
     "language": "فارسی",
@@ -1186,7 +1186,7 @@
     "author": "بهاءالدین محمد بن حسین عاملی",
     "source": "iiif",
     "provider": "Library of Congress",
-    "manifestUrl": "books/loc-2021667238/manifest.json",
+    "manifestUrl": "/site/books/loc-2021667238/manifest.json",
     "pages": 58,
     "cover": "",
     "language": "عربی/فارسی",
@@ -1208,7 +1208,7 @@
     "author": "ابن النفیس",
     "source": "iiif",
     "provider": "Library of Congress",
-    "manifestUrl": "books/loc-2021667365/manifest.json",
+    "manifestUrl": "/site/books/loc-2021667365/manifest.json",
     "pages": 283,
     "cover": "",
     "language": "عربی",
@@ -1230,7 +1230,7 @@
     "author": "زکریای قزوینی",
     "source": "iiif",
     "provider": "Library of Congress",
-    "manifestUrl": "books/loc-2021667284/manifest.json",
+    "manifestUrl": "/site/books/loc-2021667284/manifest.json",
     "pages": 1158,
     "cover": "",
     "language": "فارسی/عربی",
@@ -1252,7 +1252,7 @@
     "author": "فردوسی",
     "source": "iiif",
     "provider": "Library of Congress",
-    "manifestUrl": "books/loc-2021667287/manifest.json",
+    "manifestUrl": "/site/books/loc-2021667287/manifest.json",
     "pages": 696,
     "cover": "",
     "language": "فارسی",
@@ -1274,7 +1274,7 @@
     "author": "نظامی گنجوی",
     "source": "iiif",
     "provider": "Library of Congress",
-    "manifestUrl": "books/loc-2021667400/manifest.json",
+    "manifestUrl": "/site/books/loc-2021667400/manifest.json",
     "pages": 685,
     "cover": "",
     "language": "فارسی",
@@ -1296,7 +1296,7 @@
     "author": "حافظ شیرازی",
     "source": "iiif",
     "provider": "کتابخانهٔ کنگره آمریکا",
-    "manifestUrl": "books/loc-2015481272/manifest.json",
+    "manifestUrl": "/site/books/loc-2015481272/manifest.json",
     "externalLinks": {
       "iiifManifest": "https://www.loc.gov/item/2015481272/manifest.json"
     },
@@ -1304,7 +1304,7 @@
     "thumbnail": [
       "https://tile.loc.gov/image-services/iiif/public:amed:amedlplmp-m021:0001/full/!400,400/0/default.jpg"
     ],
-    "cover": "cover.jpg"
+    "cover": "/site/cover.jpg"
   },
   {
     "slug": "bodleian-library-ms-elliott-49",
@@ -1312,7 +1312,7 @@
     "author": "بابا فتحعلی خان افغان",
     "source": "iiif",
     "provider": "کتابخانهٔ بادلین، آکسفورد",
-    "manifestUrl": "books/bodleian-library-ms-elliott-49/manifest.json",
+    "manifestUrl": "/site/books/bodleian-library-ms-elliott-49/manifest.json",
     "pages": 434,
     "thumbnail": [
       "https://iiif.bodleian.ox.ac.uk/iiif/image/23d8fd45-7f91-4d31-9bfb-c1c8d1a57b7e/full/!400,400/0/default.jpg"
@@ -1327,7 +1327,7 @@
     "author": "عبدالرحمن صوفی",
     "source": "iiif",
     "provider": "کتابخانهٔ بادلین، آکسفورد",
-    "manifestUrl": "books/bodleian-library-ms-canonici-or-122/manifest.json",
+    "manifestUrl": "/site/books/bodleian-library-ms-canonici-or-122/manifest.json",
     "pages": 134,
     "thumbnail": [
       "https://iiif.bodleian.ox.ac.uk/iiif/image/e63ebd03-d100-443b-8fda-8d05b425c1ef/full/!400,400/0/default.jpg"
@@ -1335,7 +1335,7 @@
     "externalLinks": {
       "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/canonici-or-122.json"
     },
-    "cover": "cover.jpg"
+    "cover": "/site/cover.jpg"
   },
   {
     "slug": "bodleian-library-ms-bodl-or-548",
@@ -1343,7 +1343,7 @@
     "author": "غیاث الدین جمشید کاشانی",
     "source": "iiif",
     "provider": "کتابخانهٔ بادلین، آکسفورد",
-    "manifestUrl": "books/bodleian-library-ms-bodl-or-548/manifest.json",
+    "manifestUrl": "/site/books/bodleian-library-ms-bodl-or-548/manifest.json",
     "pages": 394,
     "thumbnail": [
       "https://iiif.bodleian.ox.ac.uk/iiif/image/7939a823-029f-4bda-ab0f-9803d1ccc8e4/full/!400,400/0/default.jpg"
@@ -1351,7 +1351,7 @@
     "externalLinks": {
       "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/bodl-or-548.json"
     },
-    "cover": "cover.jpg"
+    "cover": "/site/cover.jpg"
   },
   {
     "slug": "all-souls-college-ms-288",
@@ -1359,7 +1359,7 @@
     "author": "فردوسی",
     "source": "iiif",
     "provider": "کتابخانهٔ بادلین، آکسفورد",
-    "manifestUrl": "books/all-souls-college-ms-288/manifest.json",
+    "manifestUrl": "/site/books/all-souls-college-ms-288/manifest.json",
     "pages": 986,
     "thumbnail": [
       "https://iiif.bodleian.ox.ac.uk/iiif/image/b0f269d7-a973-4c54-a6eb-979b8b86d1ca/full/!400,400/0/default.jpg"
@@ -1367,7 +1367,7 @@
     "externalLinks": {
       "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/288.json"
     },
-    "cover": "cover.jpg"
+    "cover": "/site/cover.jpg"
   },
   {
     "slug": "bodleian-library-ms-ouseley-373",
@@ -1375,7 +1375,7 @@
     "author": "ابراهیم ابن محمد اصطخری",
     "source": "iiif",
     "provider": "کتابخانهٔ بادلین، آکسفورد",
-    "manifestUrl": "books/bodleian-library-ms-ouseley-373/manifest.json",
+    "manifestUrl": "/site/books/bodleian-library-ms-ouseley-373/manifest.json",
     "pages": 324,
     "thumbnail": [
       "https://iiif.bodleian.ox.ac.uk/iiif/image/0bccdc92-7f82-4de5-a287-613c652c28a6/full/!400,400/0/default.jpg"
@@ -1390,7 +1390,7 @@
     "author": "فردوسی",
     "source": "iiif",
     "provider": "کتابخانهٔ بادلین، آکسفورد",
-    "manifestUrl": "books/bodleian-library-ms-ouseley-369/manifest.json",
+    "manifestUrl": "/site/books/bodleian-library-ms-ouseley-369/manifest.json",
     "pages": 1222,
     "thumbnail": [
       "https://iiif.bodleian.ox.ac.uk/iiif/image/a79f86a0-3083-4cb9-ace9-2d406165862f/full/!400,400/0/default.jpg"
@@ -1398,7 +1398,7 @@
     "externalLinks": {
       "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/ouseley-369.json"
     },
-    "cover": "cover.jpg"
+    "cover": "/site/cover.jpg"
   },
   {
     "slug": "bodleian-library-ms-ouseley-345",
@@ -1406,7 +1406,7 @@
     "author": "فردوسی",
     "source": "iiif",
     "provider": "کتابخانهٔ بادلین، آکسفورد",
-    "manifestUrl": "books/bodleian-library-ms-ouseley-345/manifest.json",
+    "manifestUrl": "/site/books/bodleian-library-ms-ouseley-345/manifest.json",
     "pages": 1010,
     "thumbnail": [
       "https://iiif.bodleian.ox.ac.uk/iiif/image/dda7bc62-b27e-4bba-93bf-ce18c8a406e7/full/!400,400/0/default.jpg"
@@ -1421,7 +1421,7 @@
     "author": "فردوسی",
     "source": "iiif",
     "provider": "کتابخانهٔ بادلین، آکسفورد",
-    "manifestUrl": "books/bodleian-library-ms-ouseley-344/manifest.json",
+    "manifestUrl": "/site/books/bodleian-library-ms-ouseley-344/manifest.json",
     "pages": 1178,
     "thumbnail": [
       "https://iiif.bodleian.ox.ac.uk/iiif/image/1e221c69-385a-46ce-ba00-a438e7591010/full/!400,400/0/default.jpg"
@@ -1436,7 +1436,7 @@
     "author": "ناشناس",
     "source": "iiif",
     "provider": "کتابخانهٔ بادلین، آکسفورد",
-    "manifestUrl": "books/bodleian-library-ms-ouseley-217/manifest.json",
+    "manifestUrl": "/site/books/bodleian-library-ms-ouseley-217/manifest.json",
     "pages": 252,
     "thumbnail": [
       "https://iiif.bodleian.ox.ac.uk/iiif/image/43e3a7d9-965b-4f17-9f54-1149f4765438/full/!400,400/0/default.jpg"
@@ -1444,7 +1444,7 @@
     "externalLinks": {
       "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/ouseley-217.json"
     },
-    "cover": "cover.jpg"
+    "cover": "/site/cover.jpg"
   },
   {
     "slug": "bodleian-library-ms-fraser-73",
@@ -1452,7 +1452,7 @@
     "author": "سعدی شیرازی",
     "source": "iiif",
     "provider": "کتابخانهٔ بادلین، آکسفورد",
-    "manifestUrl": "books/bodleian-library-ms-fraser-73/manifest.json",
+    "manifestUrl": "/site/books/bodleian-library-ms-fraser-73/manifest.json",
     "pages": 364,
     "thumbnail": [
       "https://iiif.bodleian.ox.ac.uk/iiif/image/6b0a76b7-e0a4-445c-9ac3-c43bfc940e73/full/!400,400/0/default.jpg"
@@ -1460,7 +1460,7 @@
     "externalLinks": {
       "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/fraser-73.json"
     },
-    "cover": "cover.jpg"
+    "cover": "/site/cover.jpg"
   },
   {
     "slug": "bodleian-library-ms-elliott-246",
@@ -1468,7 +1468,7 @@
     "author": "عطار نیشابوری",
     "source": "iiif",
     "provider": "کتابخانهٔ بادلین، آکسفورد",
-    "manifestUrl": "books/bodleian-library-ms-elliott-246/manifest.json",
+    "manifestUrl": "/site/books/bodleian-library-ms-elliott-246/manifest.json",
     "pages": 362,
     "thumbnail": [
       "https://iiif.bodleian.ox.ac.uk/iiif/image/4183c185-d726-453d-91c1-46fe36f25c02/full/!400,400/0/default.jpg"
@@ -1476,7 +1476,7 @@
     "externalLinks": {
       "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/elliott-246.json"
     },
-    "cover": "cover.jpg"
+    "cover": "/site/cover.jpg"
   },
   {
     "slug": "bodleian-library-ms-elliott-325",
@@ -1484,7 +1484,7 @@
     "author": "فردوسی",
     "source": "iiif",
     "provider": "کتابخانهٔ بادلین، آکسفورد",
-    "manifestUrl": "books/bodleian-library-ms-elliott-325/manifest.json",
+    "manifestUrl": "/site/books/bodleian-library-ms-elliott-325/manifest.json",
     "pages": 1278,
     "thumbnail": [
       "https://iiif.bodleian.ox.ac.uk/iiif/image/59cce562-4954-4093-9908-5d33ecdf01e6/full/!400,400/0/default.jpg"
@@ -1499,7 +1499,7 @@
     "author": "ناشناس",
     "source": "iiif",
     "provider": "کتابخانهٔ بادلین، آکسفورد",
-    "manifestUrl": "books/bodleian-library-ms-elliott-327/manifest.json",
+    "manifestUrl": "/site/books/bodleian-library-ms-elliott-327/manifest.json",
     "pages": 910,
     "thumbnail": [
       "https://iiif.bodleian.ox.ac.uk/iiif/image/1e3472f0-a9b3-4f62-847a-19cfc2e1003d/full/!400,400/0/default.jpg"
@@ -1507,7 +1507,7 @@
     "externalLinks": {
       "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/elliott-327.json"
     },
-    "cover": "cover.jpg"
+    "cover": "/site/cover.jpg"
   },
   {
     "slug": "bodleian-library-ms-elliott-367",
@@ -1515,7 +1515,7 @@
     "author": "ناشناس",
     "source": "iiif",
     "provider": "کتابخانهٔ بادلین، آکسفورد",
-    "manifestUrl": "books/bodleian-library-ms-elliott-367/manifest.json",
+    "manifestUrl": "/site/books/bodleian-library-ms-elliott-367/manifest.json",
     "pages": 1148,
     "thumbnail": [
       "https://iiif.bodleian.ox.ac.uk/iiif/image/5689aab0-9c8b-42c9-84ca-dd7c943abebf/full/!400,400/0/default.jpg"
@@ -1523,7 +1523,7 @@
     "externalLinks": {
       "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/elliott-367.json"
     },
-    "cover": "cover.jpg"
+    "cover": "/site/cover.jpg"
   },
   {
     "slug": "bodleian-library-ms-elliott-377",
@@ -1531,7 +1531,7 @@
     "author": "محمد بن جریر طبری",
     "source": "iiif",
     "provider": "کتابخانهٔ بادلین، آکسفورد",
-    "manifestUrl": "books/bodleian-library-ms-elliott-377/manifest.json",
+    "manifestUrl": "/site/books/bodleian-library-ms-elliott-377/manifest.json",
     "pages": 1256,
     "thumbnail": [
       "https://iiif.bodleian.ox.ac.uk/iiif/image/ba3885f5-cef8-41da-a347-3677e318c63d/full/!400,400/0/default.jpg"
