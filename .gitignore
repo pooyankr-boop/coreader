@@ -15,3 +15,7 @@ books/*
 site/books/**/*.pdf
 site/books/**/*.txt
 site/books/**/*.epub
+
+# Include manifests and covers
+!books/*/manifest.json
+!books/*/cover.*
