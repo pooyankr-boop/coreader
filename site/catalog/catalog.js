@@ -6,8 +6,11 @@ var _books=[], _filter='iiif';
 function init(){
   loadTheme();
   fetch('books-index.json').then(function(r){return r.json()}).then(function(list){
-    // Merge custom books from localStorage
+    // Merge custom books from localStorage, but only if slug not already in index (index has better metadata)
     var custom=JSON.parse(localStorage.getItem('coreader-custom-books')||'[]');
+    var indexSlugs={};list.forEach(function(b){indexSlugs[b.slug]=1});
+    // Drop any custom book whose manifestUrl matches an index book (same source — use index version)
+    custom=custom.filter(function(c){return !indexSlugs[c.slug] && !Object.keys(indexSlugs).some(function(k){return list.find(function(b){return b.manifestUrl===c.manifestUrl})})});
     _books=list.concat(custom);
     document.getElementById('skeletonGrid').style.display='none';
     document.getElementById('grid').style.display='';
