@@ -56,9 +56,11 @@ function loadBook(slug){
       var all=list.concat(custom);
       var entry=all.find(function(b){return b.slug===slug});
       if(entry && entry.manifestUrl){
-        // Proxy QDL/BL manifests through local server (Cloudflare blocks direct fetch)
+        // Proxy QDL/BL/LOC manifests through local server (Cloudflare blocks direct fetch)
         var manifestUrl = entry.manifestUrl;
-        var needsProxy = /qdl\.qa|digirati\.io/.test(manifestUrl);
+        // 'books/...' is relative to site root; this page lives in /viewer/
+        if(/^books\//.test(manifestUrl)) manifestUrl = '../' + manifestUrl;
+        var needsProxy = /qdl\.qa|digirati\.io|loc\.gov/.test(manifestUrl);
         var fetchUrl = needsProxy ? '/proxy-manifest?url=' + encodeURIComponent(manifestUrl) : manifestUrl;
         // Don't block - fetch with timeout
         return Promise.race([
@@ -126,12 +128,14 @@ function extractIiifMetadata(data){
         var fa=label.find(function(l){return l['@language']==='fa'||l['@language']==='per'});
         label=(en||fa||label[0]||{})['@value']||'';
       }
+      // Handle language-map label (IIIF v3: {en:["..."]})
+      if(label && typeof label==='object') label=iiifLabel(label);
       var val=m.value||'';
       // Handle object value
       if(typeof val==='object' && val!==null){
         if(Array.isArray(val)) val=val.join(' ');
         else if(val['@value']) val=val['@value'];
-        else val=JSON.stringify(val);
+        else { var lm=iiifLabel(val); val=lm||JSON.stringify(val); }
       }
       // Strip HTML tags for display
       if(typeof val==='string') val=val.replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&#?\w+;/g,'').trim();
@@ -140,10 +144,31 @@ function extractIiifMetadata(data){
   }
   return meta;
 }
+// Normalize any IIIF label shape to plain text
+// "x" | ["x"] | [{@language,@value}] | {en:["x"]} | {@en:["x"]}
+function iiifLabel(v){
+  if(v==null) return '';
+  if(typeof v==='string') return v;
+  if(Array.isArray(v)){
+    if(!v.length) return '';
+    if(typeof v[0]==='string') return v.join(' ');
+    if(v[0] && v[0]['@value']) return v.map(function(x){return x&&x['@value']||''}).join(' ').trim();
+    return iiifLabel(v[0]);
+  }
+  if(typeof v==='object'){
+    var pref=['en','@en','fa','@fa','per','@per'],i;
+    for(i=0;i<pref.length;i++){ if(Array.isArray(v[pref[i]]) && v[pref[i]].length) return iiifLabel(v[pref[i]]); }
+    var keys=Object.keys(v);
+    for(i=0;i<keys.length;i++){ if(Array.isArray(v[keys[i]]) && v[keys[i]].length) return iiifLabel(v[keys[i]]); }
+    if(v['@value']) return String(v['@value']);
+    return '';
+  }
+  return String(v);
+}
 function normalizeBook(data, slug){
   var entry=data._entry||null;
   // Handle both book.json (local) and manifest.json (IIIF)
-  var b={slug:slug, title:data.label||data.title||slug, author:'', pages:0, items:[], chapters:[], hasText:false, source:'local', iiifMeta:[]};
+  var b={slug:slug, title:(entry&&entry.title)||iiifLabel(data.label)||iiifLabel(data.title)||slug, author:(entry&&entry.author)||'', pages:0, items:[], chapters:[], hasText:false, source:'local', iiifMeta:[]};
   // Copy externalLinks from books-index entry
   if(entry && entry.externalLinks) b.externalLinks=entry.externalLinks;
   else if(entry && entry.manifestUrl) b.externalLinks={iiifManifest:entry.manifestUrl};
@@ -153,11 +178,10 @@ function normalizeBook(data, slug){
   } else if(data.items || data.sequences){
     b.source='iiif';
   }
-  if(data.author) b.author=typeof data.author==='string'?data.author:(Array.isArray(data.author)?data.author.join(' '):'');
-  if(data.summary) b.summary=typeof data.summary==='string'?data.summary:(Array.isArray(data.summary)?data.summary.join(' '):'');
+  if(data.author) b.author=b.author||iiifLabel(data.author);
+  if(data.summary) b.summary=iiifLabel(data.summary);
   if(data.provider && data.provider[0]){
-    var p=data.provider[0].label;
-    b.provider=typeof p==='string'?p:(Array.isArray(p)?p.join(' '):'');
+    b.provider=iiifLabel(data.provider[0].label);
   }
   // Extract IIIF metadata
   if(b.source==='iiif'){
