@@ -1,0 +1,120 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "https://www.hermitagemuseum.org/digital-collection/228522?lng=en",
+ "@type": "sc:Manifest",
+ "label": "جعبه با نقش گل و پرنده و اشعار فارسی نوروز",
+ "metadata": [
+  {
+   "label": "Place",
+   "value": "Iran"
+  },
+  {
+   "label": "Date",
+   "value": "1901-1902"
+  },
+  {
+   "label": "Material",
+   "value": "wood"
+  },
+  {
+   "label": "Technique",
+   "value": "lacquer painting"
+  },
+  {
+   "label": "Dimensions",
+   "value": "35,5x15,3x11,5 cm"
+  },
+  {
+   "label": "Museum number",
+   "value": "VР-145"
+  },
+  {
+   "label": "Collection",
+   "value": "Oriental Art"
+  }
+ ],
+ "thumbnail": "../books/museum-hermitage-228522/cover.jpg",
+ "sequences": [
+  {
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@id": "https://www.hermitagemuseum.org/digital-collection/228522?lng=en#page1",
+     "@type": "sc:Canvas",
+     "label": "1",
+     "width": 1600,
+     "height": 1600,
+     "images": [
+      {
+       "@type": "sc:ImageAnnotation",
+       "resource": {
+        "@id": "cover.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1600,
+        "height": 1600
+       }
+      }
+     ]
+    },
+    {
+     "@id": "https://www.hermitagemuseum.org/digital-collection/228522?lng=en#page2",
+     "@type": "sc:Canvas",
+     "label": "2",
+     "width": 1600,
+     "height": 1600,
+     "images": [
+      {
+       "@type": "sc:ImageAnnotation",
+       "resource": {
+        "@id": "page-2.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1600,
+        "height": 1600
+       }
+      }
+     ]
+    },
+    {
+     "@id": "https://www.hermitagemuseum.org/digital-collection/228522?lng=en#page3",
+     "@type": "sc:Canvas",
+     "label": "3",
+     "width": 1600,
+     "height": 1600,
+     "images": [
+      {
+       "@type": "sc:ImageAnnotation",
+       "resource": {
+        "@id": "page-3.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1600,
+        "height": 1600
+       }
+      }
+     ]
+    },
+    {
+     "@id": "https://www.hermitagemuseum.org/digital-collection/228522?lng=en#page4",
+     "@type": "sc:Canvas",
+     "label": "4",
+     "width": 1600,
+     "height": 1600,
+     "images": [
+      {
+       "@type": "sc:ImageAnnotation",
+       "resource": {
+        "@id": "page-4.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1600,
+        "height": 1600
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

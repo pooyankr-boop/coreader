@@ -1,0 +1,63 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "https://www.hermitagemuseum.org/digital-collection/35828?lng=en",
+ "@type": "sc:Manifest",
+ "label": "پایهٔ چراغ برنزی",
+ "metadata": [
+  {
+   "label": "Place",
+   "value": "Iran, Khorasan"
+  },
+  {
+   "label": "Date",
+   "value": "12th century"
+  },
+  {
+   "label": "Material",
+   "value": "bronze, brass"
+  },
+  {
+   "label": "Technique",
+   "value": "cast"
+  },
+  {
+   "label": "Dimensions",
+   "value": "height: 70 cm"
+  },
+  {
+   "label": "Museum number",
+   "value": "ИР-2141"
+  },
+  {
+   "label": "Collection",
+   "value": "Oriental Art"
+  }
+ ],
+ "thumbnail": "../books/museum-hermitage-35828/cover.jpg",
+ "sequences": [
+  {
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@id": "https://www.hermitagemuseum.org/digital-collection/35828?lng=en#page1",
+     "@type": "sc:Canvas",
+     "label": "1",
+     "width": 1600,
+     "height": 1600,
+     "images": [
+      {
+       "@type": "sc:ImageAnnotation",
+       "resource": {
+        "@id": "cover.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1600,
+        "height": 1600
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

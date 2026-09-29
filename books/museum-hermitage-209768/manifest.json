@@ -1,0 +1,63 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "https://www.hermitagemuseum.org/digital-collection/209768?lng=en",
+ "@type": "sc:Manifest",
+ "label": "تندیس گوزن طلایی (Z-556)",
+ "metadata": [
+  {
+   "label": "Place",
+   "value": "Eastern Iran"
+  },
+  {
+   "label": "Date",
+   "value": "5th - 4th century BC"
+  },
+  {
+   "label": "Material",
+   "value": "gold"
+  },
+  {
+   "label": "Technique",
+   "value": "technique of lost wax"
+  },
+  {
+   "label": "Dimensions",
+   "value": "height: 4,5 cm"
+  },
+  {
+   "label": "Museum number",
+   "value": "Z-556"
+  },
+  {
+   "label": "Collection",
+   "value": "Archaeological Artifacts of Eastern Europe and Siberia"
+  }
+ ],
+ "thumbnail": "../books/museum-hermitage-209768/cover.jpg",
+ "sequences": [
+  {
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@id": "https://www.hermitagemuseum.org/digital-collection/209768?lng=en#page1",
+     "@type": "sc:Canvas",
+     "label": "1",
+     "width": 1600,
+     "height": 1600,
+     "images": [
+      {
+       "@type": "sc:ImageAnnotation",
+       "resource": {
+        "@id": "cover.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1600,
+        "height": 1600
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

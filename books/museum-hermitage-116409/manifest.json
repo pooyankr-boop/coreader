@@ -1,0 +1,63 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "https://www.hermitagemuseum.org/digital-collection/116409?lng=en",
+ "@type": "sc:Manifest",
+ "label": "پایهٔ شمعدان",
+ "metadata": [
+  {
+   "label": "Place",
+   "value": "Eastern Iran (Khorasan)"
+  },
+  {
+   "label": "Date",
+   "value": "late 12th – early 13th century"
+  },
+  {
+   "label": "Material",
+   "value": "copper alloy, copper"
+  },
+  {
+   "label": "Technique",
+   "value": "forged, inlaid in silver and copper, engraved"
+  },
+  {
+   "label": "Dimensions",
+   "value": "height: 20 cm; upper diameter: 22 cm; lower diameter: 34 cm"
+  },
+  {
+   "label": "Museum number",
+   "value": "ИР-1458"
+  },
+  {
+   "label": "Collection",
+   "value": "Oriental Art"
+  }
+ ],
+ "thumbnail": "../books/museum-hermitage-116409/cover.jpg",
+ "sequences": [
+  {
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@id": "https://www.hermitagemuseum.org/digital-collection/116409?lng=en#page1",
+     "@type": "sc:Canvas",
+     "label": "1",
+     "width": 1600,
+     "height": 1600,
+     "images": [
+      {
+       "@type": "sc:ImageAnnotation",
+       "resource": {
+        "@id": "cover.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1600,
+        "height": 1600
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
