@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>کتابخوانهٔ نسخ خطی و اوراق فارسی</title>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="catalog/catalog.css">
+<link rel="stylesheet" href="catalog/catalog.css?v=2">
 </head>
 <body>
 <header>
@@ -40,6 +40,7 @@
   <div class="filter-tabs">
     <button class="filter-tab" data-filter="all">همه</button>
     <button class="filter-tab on" data-filter="iiif">نسخه‌های خطی IIIF</button>
+    <button class="filter-tab" data-filter="museum">موزه</button>
     <button class="filter-tab" data-filter="local">کتاب‌های ذخیره‌شده</button>
   </div>
 </div>
@@ -56,13 +57,20 @@
 
 <div class="modal-overlay" id="addOverlay">
   <div class="modal">
-    <h2>افزودن کتاب جدید</h2>
-    <div class="sub">آدرس manifest IIIF را وارد کنید یا فایل متنی/PDF آپلود کنید.</div>
+    <h2>افزودن کتاب یا شیء</h2>
+    <div class="sub">نشانی مانیفست IIIF کتاب یا شیء موزه‌ای را وارد کنید یا فایل متنی/PDF آپلود کنید.</div>
     <div class="tabs">
-      <div class="tab on" data-tab="iiif" onclick="switchTab('iiif')">نسخه‌های خطی IIIF</div>
+      <div class="tab on" data-tab="iiif" onclick="switchTab('iiif')">کتاب یا شیء (IIIF)</div>
       <div class="tab" data-tab="local" onclick="switchTab('local')">فایل محلی</div>
     </div>
     <div class="tabpane on" id="tab-iiif">
+      <div class="field">
+        <label>نوع اثر</label>
+        <select id="iiifKind" style="font-family:inherit;font-size:13px;padding:6px 10px;border-radius:8px;border:1.5px solid var(--border);background:var(--card-bg);color:inherit">
+          <option value="iiif">نسخه خطی</option>
+          <option value="museum">شیء موزه‌ای</option>
+        </select>
+      </div>
       <div class="field">
         <label>آدرس manifest IIIF</label>
         <input type="url" id="iiifUrl" placeholder="https://gallica.bnf.fr/iiif/manifest/...">
@@ -94,7 +102,7 @@
     <div class="log" id="addLog"></div>
     <div class="modal-actions">
       <button onclick="closeAddModal()">انصراف</button>
-      <button class="primary" id="bSaveIiif" onclick="saveIiifBook()" disabled>ذخیره IIIF</button>
+      <button class="primary" id="bSaveIiif" onclick="saveIiifBook()" disabled>ذخیره</button>
       <button class="primary" id="bSaveLocal" onclick="saveLocalBook()" style="display:none">ذخیره کتاب</button>
     </div>
   </div>

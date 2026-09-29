@@ -1,0 +1,63 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "https://www.hermitagemuseum.org/digital-collection/192530?lng=en",
+ "@type": "sc:Manifest",
+ "label": "قلمدان فولادی زرین‌فام",
+ "metadata": [
+  {
+   "label": "Place",
+   "value": "Iran"
+  },
+  {
+   "label": "Date",
+   "value": "second half of 19th century"
+  },
+  {
+   "label": "Material",
+   "value": "steel and gold"
+  },
+  {
+   "label": "Technique",
+   "value": "forged, decorated with inlay"
+  },
+  {
+   "label": "Dimensions",
+   "value": "length: 22,0 cm"
+  },
+  {
+   "label": "Museum number",
+   "value": "VС-867"
+  },
+  {
+   "label": "Collection",
+   "value": "Oriental Art"
+  }
+ ],
+ "thumbnail": "../books/museum-hermitage-192530/cover.jpg",
+ "sequences": [
+  {
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@id": "https://www.hermitagemuseum.org/digital-collection/192530?lng=en#page1",
+     "@type": "sc:Canvas",
+     "label": "1",
+     "width": 1600,
+     "height": 1600,
+     "images": [
+      {
+       "@type": "sc:ImageAnnotation",
+       "resource": {
+        "@id": "cover.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1600,
+        "height": 1600
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

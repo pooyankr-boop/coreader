@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.join(__dirname, '..', '..', 'site');
-const PORT = process.env.PORT || 8081;
+const PORT = process.env.PORT || 8083;
 
 const MIME = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
@@ -13,8 +13,15 @@ const MIME = {
   '.pdf': 'application/pdf', '.png': 'image/png', '.jpg': 'image/jpeg',
 };
 
-// Proxy IIIF manifests from QDL/BL (Cloudflare-protected) and LOC
-const PROXY_HOSTS = ['www.qdl.qa', 'bl.digirati.io', 'www.loc.gov'];
+// Proxy IIIF manifests from QDL/BL (Cloudflare-protected), LOC, and museum
+// image servers that block cross-origin browser fetch (WAF / no CORS).
+const PROXY_HOSTS = ['www.qdl.qa', 'bl.digirati.io', 'www.loc.gov',
+  'ids.si.edu', 'iiif.harvardartmuseums.org', 'nrs.harvard.edu',
+  'ids.lib.harvard.edu', 'mps.lib.harvard.edu',
+  'api.artic.edu', 'www.artic.edu',
+  'manifests.collections.yale.edu', 'images.collections.yale.edu',
+  'iiif.vam.ac.uk', 'framemark.vam.ac.uk',
+  'www.metmuseum.org', 'api.metmuseum.org', 'images.metmuseum.org', 'openaccess-cdn.clevelandart.org', 'worldhistory.org', 'commons.wikimedia.org', 'upload.wikimedia.org', 'iiif.britishmuseum.org', 'iiif.vam.ac.uk', 'framemark.vam.ac.uk'];
 const { execFile } = require('child_process');
 
 // loc.gov serves /resource/* only to browsers that pass the Cloudflare
@@ -40,8 +47,12 @@ function locBrowserFetch(targetUrl, res) {
 function proxyFetch(targetUrl, res, depth) {
   if (depth > 5) { res.writeHead(508); res.end('Too many redirects'); return; }
   const mod = targetUrl.startsWith('https') ? https : http;
+  var isImage = /(jpg|jpeg|png|webp|gif|svg)(\?|$)/i.test(targetUrl);
+  var headers = isImage 
+    ? { 'Accept': 'image/*,*/*;q=0.8', 'User-Agent': 'Mozilla/5.0' }
+    : { 'Accept': 'application/ld+json, application/json', 'User-Agent': 'Mozilla/5.0' };
   mod.get(targetUrl, {
-    headers: { 'Accept': 'application/ld+json, application/json', 'User-Agent': 'Mozilla/5.0' },
+    headers: headers,
     timeout: 15000
   }, (proxyRes) => {
     if (proxyRes.statusCode >= 300 && proxyRes.statusCode < 400 && proxyRes.headers.location) {
@@ -49,16 +60,27 @@ function proxyFetch(targetUrl, res, depth) {
       if (!loc.startsWith('http')) loc = new URL(loc, targetUrl).href;
       return proxyFetch(loc, res, depth + 1);
     }
-    let data = '';
-    proxyRes.on('data', chunk => data += chunk);
-    proxyRes.on('end', () => {
-      res.writeHead(200, {
-        'Content-Type': 'application/json; charset=utf-8',
+    // For images, pass through binary; for JSON, accumulate as string
+    var isImage = /(jpg|jpeg|png|webp|gif|svg)(\?|$)/i.test(targetUrl);
+    if (isImage) {
+      res.writeHead(proxyRes.statusCode || 200, {
+        'Content-Type': proxyRes.headers['content-type'] || 'image/jpeg',
         'Access-Control-Allow-Origin': '*',
         'Cache-Control': 'public, max-age=3600'
       });
-      res.end(data);
-    });
+      proxyRes.pipe(res);
+    } else {
+      let data = '';
+      proxyRes.on('data', chunk => data += chunk);
+      proxyRes.on('end', () => {
+        res.writeHead(200, {
+          'Content-Type': 'application/json; charset=utf-8',
+          'Access-Control-Allow-Origin': '*',
+          'Cache-Control': 'public, max-age=3600'
+        });
+        res.end(data);
+      });
+    }
   }).on('error', (err) => {
     res.writeHead(502, { 'Content-Type': 'text/plain' }); res.end('Proxy error: ' + err.message);
   }).on('timeout', function() { this.destroy(); res.writeHead(504); res.end('Proxy timeout'); });
@@ -76,7 +98,21 @@ http.createServer((req, res) => {
       const host = new URL(target).hostname;
       if (!PROXY_HOSTS.some(h => host.endsWith(h))) { res.writeHead(403); res.end('Host not allowed'); return; }
       if (host.endsWith('loc.gov')) { locBrowserFetch(target, res); return; }
-      proxyFetch(target, res, 0);
+          // Smithsonian ids.si.edu blocks Node fetch (WAF) — use headless Chrome
+          if (host.endsWith('ids.si.edu')) {
+            // Manifests need browser (WAF); images work with plain fetch
+            if (/\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(target)) { proxyFetch(target, res, 0); return; }
+            locBrowserFetch(target, res); return;
+          }
+          if (host.endsWith('images.metmuseum.org')) {
+            // Met blocks cross-origin for images, proxy through
+            proxyFetch(target, res, 0); return;
+          }
+          if (host.endsWith('artic.edu') && /\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(target)) {
+            // Art Institute has Cloudflare — use browser fetch
+            locBrowserFetch(target, res); return;
+          }
+          proxyFetch(target, res, 0);
     } catch(e) { res.writeHead(400); res.end('Bad url'); }
     return;
   }
@@ -99,6 +135,35 @@ http.createServer((req, res) => {
     return;
   }
   if (urlPath === '/cache-manifest') { res.writeHead(405); res.end('POST only'); return; }
+
+  // Proxy route for direct image access
+  if (urlPath === '/proxy-image') {
+    const params = new URL(req.url, 'http://localhost').searchParams;
+    let target = params.get('url');
+    if (!target) { res.writeHead(400); res.end('Missing url'); return; }
+    const doFetch = (url, depth) => {
+      if (depth > 5) { res.writeHead(502); res.end('Too many redirects'); return; }
+      try {
+        const host = new URL(url).hostname;
+        if (!PROXY_HOSTS.some(h => host.endsWith(h))) { res.writeHead(403); res.end('Host not allowed'); return; }
+        const lib = url.startsWith('https') ? https : require('http');
+        const proxyReq = lib.get(url, { headers: { 'User-Agent': 'Mozilla/5.0', 'Accept': 'image/*,*/*;q=0.8', 'Referer': 'https://www.harvardartmuseums.org/' } }, (proxyRes) => {
+          if (proxyRes.statusCode >= 300 && proxyRes.statusCode < 400 && proxyRes.headers.location) {
+            proxyRes.resume();
+            const next = new URL(proxyRes.headers.location, url).href;
+            doFetch(next, depth + 1);
+            return;
+          }
+          res.writeHead(proxyRes.statusCode, proxyRes.headers);
+          proxyRes.pipe(res);
+        });
+        proxyReq.on('error', (e) => { res.writeHead(500); res.end('Proxy error: ' + e.message); });
+        proxyReq.setTimeout(30000, () => { res.writeHead(504); res.end('Gateway timeout'); proxyReq.destroy(); });
+      } catch (e) { res.writeHead(500); res.end(e.message); }
+    };
+    doFetch(target, 0);
+    return;
+  }
 
   let filePath = path.join(ROOT, urlPath);
   if (!filePath.startsWith(ROOT)) { res.writeHead(403); res.end('Forbidden'); return; }

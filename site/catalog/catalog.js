@@ -5,6 +5,17 @@ var _books=[], _filter='iiif';
 
 function init(){
   loadTheme();
+  // Read filter from URL query param or hash
+  var params=new URLSearchParams(location.search);
+  var qf=params.get('filter');
+  var hash=location.hash.slice(1);
+  var f=qf||hash;
+  if(f && /^(all|iiif|museum|local)$/.test(f)){
+    _filter=f;
+    document.querySelectorAll('.filter-tab').forEach(function(t){
+      t.classList.toggle('on', t.dataset.filter===_filter);
+    });
+  }
   fetch('books-index.json').then(function(r){return r.json()}).then(function(list){
     // Merge custom books from localStorage, but only if slug not already in index (index has better metadata)
     var custom=JSON.parse(localStorage.getItem('coreader-custom-books')||'[]');
@@ -46,8 +57,8 @@ function render(){
     var pbar=pct>0?'<div class="card-progress"><div class="card-progress-bar" style="width:'+pct+'%"></div></div><div class="card-progress-text">'+pct+'% خوانده شده</div>':'';
     var coverSrc=b.cover?('books/'+b.slug+'/'+b.cover):'';
     if(!coverSrc && b.thumbnail){var t0=Array.isArray(b.thumbnail)?b.thumbnail[0]:b.thumbnail; coverSrc=t0;}
-    var coverImg=coverSrc?'<img class="card-cover" src="'+coverSrc+'" alt="'+(b.title||'')+'" loading="lazy">':'';
-    var fallback='';if(!coverImg){fallback='<div class="card-cover-fallback"><span class="book-icon">📖</span><span class="book-title-fa">'+(b.title||'')+'</span></div>';}
+    var coverImg=coverSrc?'<img class="card-cover" src="'+coverSrc+'" alt="'+(b.title||'')+'" loading="lazy" onerror="this.remove()">':'';
+    var fallback='<div class="card-cover-fallback"><span class="book-icon">📖</span><span class="book-title-fa">'+(b.title||'')+'</span></div>';
     var slides='';
     if(b.thumbnail){
       var thumbs=Array.isArray(b.thumbnail)?b.thumbnail:[b.thumbnail];
@@ -56,12 +67,11 @@ function render(){
       }).join('');
     }
     var slideshow=slides?'<div class="card-slideshow">'+slides+'</div>':'';
-    var badge=b.source==='iiif'?'<span class="source-badge iiif">IIIF</span>':'<span class="source-badge local">ذخیره‌شده</span>';
+    var badge=b.source==='iiif'?'<span class="source-badge iiif">IIIF</span>':(b.source==='museum'?'<span class="source-badge museum">موزه</span>':'<span class="source-badge local">ذخیره‌شده</span>');
     var provider=b.provider?' · '+b.provider:'';
-    var href=(b.source==='iiif'?'viewer/viewer.html?book=':'reader/reader.html?book=')+encodeURIComponent(b.slug);
+    var href=(b.source==='local'?'reader/reader.html?book=':'viewer/viewer.html?book=')+encodeURIComponent(b.slug);
     return '<a class="card" href="'+href+'" style="animation-delay:'+(i*0.05)+'s" data-slug="'+b.slug+'">'+
-      '<div class="card-cover-wrap">'+coverImg+fallback+slideshow+
-      '<div class="card-cover-title">'+(b.title||'')+'</div></div>'+
+      '<div class="card-cover-wrap">'+coverImg+fallback+slideshow+      '<div class="card-cover-title">'+(b.title||'')+'</div></div>'+
       '<div class="card-body">'+
       '<h2>'+b.title+'</h2>'+
       '<div class="author">'+(b.author||'ناشناس')+'</div>'+
@@ -271,9 +281,11 @@ window.saveIiifBook=function(){
   // Save to localStorage
   var custom=JSON.parse(localStorage.getItem('coreader-custom-books')||'[]');
   if(custom.find(function(b){return b.slug===slug})) slug=slug+'-'+Date.now();
+  var kindEl=document.getElementById('iiifKind');
+  var kind=(kindEl&&kindEl.value==='museum')?'museum':'iiif';
   var entry={
     slug:slug,title:title,author:iiifLabel(pm.summary)||'ناشناس',
-    source:'iiif',provider:iiifLabel(pm.provider)||'IIIF',
+    source:kind,provider:iiifLabel(pm.provider)||'IIIF',
     manifestUrl:pm.url,pages:pm.pages,cover:'',
     thumbnail:pm.thumbnail||[],
     externalLinks:pm.externalLinks||{iiifManifest:pm.url}
