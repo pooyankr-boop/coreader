@@ -58,7 +58,7 @@ function render(){
     var coverSrc=b.cover?('books/'+b.slug+'/'+b.cover):'';
     if(!coverSrc && b.thumbnail){var t0=Array.isArray(b.thumbnail)?b.thumbnail[0]:b.thumbnail; coverSrc=t0;}
     var coverImg=coverSrc?'<img class="card-cover" src="'+coverSrc+'" alt="'+(b.title||'')+'" loading="lazy" onerror="this.remove()">':'';
-    var fallback='<div class="card-cover-fallback"><span class="book-icon">📖</span><span class="book-title-fa">'+(b.title||'')+'</span></div>';
+    var fallback=coverSrc?'':'<div class="card-cover-fallback"><span class="book-icon">📖</span><span class="book-title-fa">'+(b.title||'')+'</span></div>';
     var slides='';
     if(b.thumbnail){
       var thumbs=Array.isArray(b.thumbnail)?b.thumbnail:[b.thumbnail];
@@ -71,11 +71,12 @@ function render(){
     var provider=b.provider?' · '+b.provider:'';
     var href=(b.source==='local'?'reader/reader.html?book=':'viewer/viewer.html?book=')+encodeURIComponent(b.slug);
     return '<a class="card" href="'+href+'" style="animation-delay:'+(i*0.05)+'s" data-slug="'+b.slug+'">'+
-      '<div class="card-cover-wrap">'+coverImg+fallback+slideshow+      '<div class="card-cover-title">'+(b.title||'')+'</div></div>'+
+      '<div class="card-cover-wrap">'+coverImg+fallback+slideshow+'</div>'+
       '<div class="card-body">'+
       '<h2>'+b.title+'</h2>'+
       '<div class="author">'+(b.author||'ناشناس')+'</div>'+
       '<div class="meta">'+badge+'<span>'+b.pages+' صفحه'+provider+'</span></div>'+
+      pbar+'</div></a>';
       pbar+'</div></a>';
   }).join('');
   initSlideshows();
