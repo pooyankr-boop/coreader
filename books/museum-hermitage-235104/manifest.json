@@ -1,0 +1,63 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "https://www.hermitagemuseum.org/digital-collection/235104?lng=en",
+ "@type": "sc:Manifest",
+ "label": "زنی با دستهٔ گل‌های محمدی",
+ "metadata": [
+  {
+   "label": "Place",
+   "value": "Iran"
+  },
+  {
+   "label": "Date",
+   "value": "mid-19th century"
+  },
+  {
+   "label": "Material",
+   "value": "canvas"
+  },
+  {
+   "label": "Technique",
+   "value": "oil, glue colours"
+  },
+  {
+   "label": "Dimensions",
+   "value": "145x85 cm"
+  },
+  {
+   "label": "Museum number",
+   "value": "VР-1111"
+  },
+  {
+   "label": "Collection",
+   "value": "Oriental Art"
+  }
+ ],
+ "thumbnail": "../books/museum-hermitage-235104/cover.jpg",
+ "sequences": [
+  {
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@id": "https://www.hermitagemuseum.org/digital-collection/235104?lng=en#page1",
+     "@type": "sc:Canvas",
+     "label": "1",
+     "width": 1600,
+     "height": 1600,
+     "images": [
+      {
+       "@type": "sc:ImageAnnotation",
+       "resource": {
+        "@id": "cover.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1600,
+        "height": 1600
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

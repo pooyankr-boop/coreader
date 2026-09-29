@@ -46,7 +46,13 @@ function loadBook(slug){
   fetch('../books/'+encodeURIComponent(slug)+'/book.json').then(function(r){
     if(r.ok) return r.json();
     return fetch('../books/'+encodeURIComponent(slug)+'/manifest.json?_='+Date.now()).then(function(r2){
-      if(r2.ok) return r2.json();
+      if(r2.ok) return r2.json().then(function(m){
+        // Attach the books-index entry so externalLinks/manifestUrl survive
+        // the direct-cache path (same as the index path below).
+        return fetch('../books-index.json').then(function(r){return r.json()}).then(function(list){
+          m._entry=list.find(function(b){return b.slug===slug})||null; return m;
+        }).catch(function(){ return m; });
+      });
       throw new Error('not-local');
     });
   }).catch(function(e){
@@ -60,7 +66,31 @@ function loadBook(slug){
         var manifestUrl = entry.manifestUrl;
         // 'books/...' is relative to site root; this page lives in /viewer/
         if(/^books\//.test(manifestUrl)) manifestUrl = '../' + manifestUrl;
-        var needsProxy = /qdl\.qa|digirati\.io|loc\.gov/.test(manifestUrl);
+        // Check if it's a direct image URL (jpg, png, etc.) — handle as single-image book
+        var isDirectImage = /\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(manifestUrl);
+        var needsProxy = /qdl\.qa|digirati\.io|loc\.gov|ids\.si\.edu|harvardartmuseums\.org|harvard\.edu|artic\.edu|collections\.yale\.edu|vam\.ac\.uk|images\.metmuseum\.org|metmuseum\.org/.test(manifestUrl);
+        // Also proxy for direct images from blocked hosts
+        if(isDirectImage){
+          var directHosts=['harvardartmuseums.org','metmuseum.org','images.metmuseum.org','si.edu','artic.edu','qdl.qa','vam.ac.uk','ids.si.edu'];
+          for(var i=0;i<directHosts.length;i++){
+            if(manifestUrl.indexOf(directHosts[i])>=0){
+              needsProxy=true;
+              break;
+            }
+          }
+        }
+        if(isDirectImage){
+          // Route through proxy when the host blocks cross-origin fetch
+          var imgSrc = needsProxy ? '/proxy-image?url=' + encodeURIComponent(manifestUrl) : manifestUrl;
+          // Create a minimal book entry with the direct image
+          return normalizeBook({
+            source: 'iiif',
+            title: entry.title || slug,
+            pages: 1,
+            items: [{num: 1, images: [{id: imgSrc, width: null, height: null}]}],
+            _entry: entry
+          }, slug);
+        }
         var fetchUrl = needsProxy ? '/proxy-manifest?url=' + encodeURIComponent(manifestUrl) : manifestUrl;
         // Don't block - fetch with timeout
         return Promise.race([
@@ -79,6 +109,26 @@ function loadBook(slug){
   }).then(function(data){
     BOOK=normalizeBook(data, slug);
     window.BOOK=BOOK; // export for ganjoor-text.js
+    // Rewrite remote image URLs from WAF-blocked museum image servers
+    // through the local proxy so <img>/OSD can load them.
+    var IMG_PROXY_HOSTS=['si.edu','ids.lib.harvard.edu','nrs.harvard.edu','harvardartmuseums.org','images.metmuseum.org','www.artic.edu','artic.edu','openaccess-cdn.clevelandart.org','framemark.vam.ac.uk','images.collections.yale.edu','worldhistory.org','commons.wikimedia.org','upload.wikimedia.org'];
+var IMAGE_PROXY_PATTERN=/https?:\/\/(?!localhost)/i;
+    (BOOK.items||[]).forEach(function(it){
+      (it.images||[]).forEach(function(im){
+        if(!im.id) return;
+        // Cached manifests may use relative image paths — resolve against books/<slug>/
+        if(!/^https?:|^\/|^data:/.test(im.id)){
+          im.id='../books/'+encodeURIComponent(slug)+'/'+im.id;
+        }
+        for(var k=0;k<IMG_PROXY_HOSTS.length;k++){
+          if(im.id.indexOf(IMG_PROXY_HOSTS[k])>=0 && im.id.indexOf('proxy-manifest')<0 && im.id.indexOf('proxy-image')<0){
+            // Use /proxy-image for direct images, /proxy-manifest for manifest URLs
+            im.id='/proxy-image?url='+encodeURIComponent(im.id);
+            break;
+          }
+        }
+      });
+    });
         _rawManifest=data;
         setupOsd();
         renderMeta();
@@ -112,13 +162,63 @@ var META_LABELS={
   'Note':'یادداشت','Provenance':'سابقهٔ مالکیت','Former Owner':'مالک قبلی',
   'Subject':'موضوع','Call Number':'شمارهٔ تماس','Shelfmark/Call Number':'شمارهٔ قفسه',
   'Repository':'بایگانی','Digital Origin':'منبع دیجیتال','Rights':'حقوق',
-  'Local Reference':'مرجع محلی','Creator':'پدیدآور','Work title':'عنوان اثر','Published':'ناشر','Date':'تاریخ','Extent':'تعداد صفحات','Type':'نوع','Format':'قالب','Language':'زبان','Identifier':'شناسه'
+  'Local Reference':'مرجع محلی','Creator':'پدیدآور','Work title':'عنوان اثر','Published':'ناشر','Date':'تاریخ','Extent':'تعداد اوراق','Type':'نوع','Format':'قالب','Language':'زبان','Identifier':'شناسه',
+  'Dimensions':'ابعاد','Media type':'نوع رسانه','Description':'توضیحات','Catalogue Identifier':'شناسهٔ فهرست',
+  'Holding institution':'مؤسسهٔ نگهدارنده','Call number':'شمارهٔ تماس','URN':'ناشناس (URN)','Digital Object Identifier':'شناسهٔ دیجیتال (DOI)',
+  'Digitised by':'دیجیتال‌سازی','Usage terms':'شرایط استفاده','RAQ_ID':'شناسهٔ RAQ','Link to catalogue record':'پیوند به فهرست',
+  'Place':'مکان','Associated names':'نام‌های مرتبط','Physical description':'توصیف فیزیکی','Shelf mark':'شمارهٔ قفسه','Class mark':'شمارهٔ رده‌ای'
 };
 function translateMetaLabel(label){
-  return META_LABELS[label]||label;
+  if(META_LABELS[label]) return META_LABELS[label];
+  var lower=String(label).toLowerCase();
+  for(var k in META_LABELS){ if(k.toLowerCase()===lower) return META_LABELS[k]; }
+  return label;
+}
+// Normalize any IIIF metadata value shape to plain text
+// "x" | ["x", {@value}] | [{en:["x"]}, ...] | {en:["x"]} | {@value}
+function metaVal(v){
+  if(v==null) return '';
+  if(typeof v==='string') return v;
+  if(typeof v==='number'||typeof v==='boolean') return String(v);
+  if(Array.isArray(v)){
+    if(!v.length) return '';
+    // Array of multilingual alternatives for ONE value → pick preferred language
+    var allLangMaps=v.every(function(x){return x&&typeof x==='object'&&!Array.isArray(x);});
+    if(allLangMaps){
+      // IIIF v2 multilingual: [{@language:"en",@value:"..."}, ...] → pick preferred language
+      var isTranslated=v.some(function(x){return x['@language']!=null;});
+      if(v[0]['@value']!=null && isTranslated){
+        var plang=['en','fa','per','@en','@fa'];
+        for(var a=0;a<plang.length;a++){
+          for(var b=0;b<v.length;b++){
+            if(v[b]['@language']===plang[a] && v[b]['@value']!=null) return String(v[b]['@value']);
+          }
+        }
+        return String(v[0]['@value']||'');
+      }
+      // Language maps {en:["x"], de:["y"]} → pick preferred language
+      var pref=['en','@en','fa','@fa','per','@per'];
+      for(var i=0;i<v.length;i++){
+        for(var j=0;j<pref.length;j++){
+          if(v[i][pref[j]]!=null){ var p=metaVal(v[i][pref[j]]); if(p) return p; }
+        }
+      }
+      // Untagged array of {@value} → separate values, join them
+      if(v[0]['@value']!=null){
+        var uj=[];for(var u=0;u<v.length;u++){var uv=String(v[u]['@value']||'');if(uv&&uj.indexOf(uv)<0)uj.push(uv);}return uj.join('؛ ');
+      }
+      return metaVal(v[0])||'';
+    }
+    // Array of separate values (notes, identifiers) → join all
+    var parts=[];
+    for(var k=0;k<v.length;k++){ var q=metaVal(v[k]); if(q && parts.indexOf(q)<0) parts.push(q); }
+    return parts.join('؛ ');
+  }
+  if(v['@value']!=null) return String(v['@value']);
+  return iiifLabel(v)||'';
 }
 function extractIiifMetadata(data){
-  var meta=[];
+  var meta=[];var seen={};
   if(data.metadata && data.metadata.length){
     data.metadata.forEach(function(m){
       var label=m.label||'';
@@ -130,16 +230,14 @@ function extractIiifMetadata(data){
       }
       // Handle language-map label (IIIF v3: {en:["..."]})
       if(label && typeof label==='object') label=iiifLabel(label);
-      var val=m.value||'';
-      // Handle object value
-      if(typeof val==='object' && val!==null){
-        if(Array.isArray(val)) val=val.join(' ');
-        else if(val['@value']) val=val['@value'];
-        else { var lm=iiifLabel(val); val=lm||JSON.stringify(val); }
-      }
+      var val=metaVal(m.value);
       // Strip HTML tags for display
       if(typeof val==='string') val=val.replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&#?\w+;/g,'').trim();
-      if(label && val && val!=='') meta.push({label:translateMetaLabel(label),rawLabel:label,value:val});
+      if(!label || !val || val==='') return;
+      // Merge rows sharing the same label (notes/identifiers repeat)
+      var lk=String(label).toLowerCase();
+      if(seen[lk]!=null){ meta[seen[lk]].value+='؛ '+val; }
+      else { seen[lk]=meta.length; meta.push({label:translateMetaLabel(label),rawLabel:label,value:val}); }
     });
   }
   return meta;
@@ -168,10 +266,17 @@ function iiifLabel(v){
 function normalizeBook(data, slug){
   var entry=data._entry||null;
   // Handle both book.json (local) and manifest.json (IIIF)
-  var b={slug:slug, title:(entry&&entry.title)||iiifLabel(data.label)||iiifLabel(data.title)||slug, author:(entry&&entry.author)||'', pages:0, items:[], chapters:[], hasText:false, source:'local', iiifMeta:[]};
+  var b={slug:slug, title:(entry&&entry.title)||iiifLabel(data.label)||iiifLabel(data.title)||slug, author:(entry&&entry.author)||'', pages:0, items:[], chapters:[], hasText:false, source:'local', iiifMeta:[], isMuseum:!!(entry&&entry.source==='museum')};
   // Copy externalLinks from books-index entry
   if(entry && entry.externalLinks) b.externalLinks=entry.externalLinks;
   else if(entry && entry.manifestUrl) b.externalLinks={iiifManifest:entry.manifestUrl};
+  if(entry && entry.manifestUrl) b.manifestUrl=entry.manifestUrl;
+  // Reconstruct remote manifest URL from raw IIIF manifest @id (for cached books missing iiifManifest)
+  if(data && data['@id'] && /^https?:\/\//.test(data['@id']) && !b.externalLinks.iiifManifest){
+    b.externalLinks = b.externalLinks || {};
+    b.externalLinks.iiifManifest = data['@id'];
+    b.manifestUrl = data['@id'];
+  }
   // Detect IIIF manifest by presence of items/sequences/@context
   if(data['@context'] && data['@context'].indexOf('iiif')>=0){
     b.source='iiif';
@@ -193,7 +298,7 @@ function normalizeBook(data, slug){
     }
     // Use description as summary
     if(data.description && !b.summary){
-      b.summary=typeof data.description==='string'?data.description:(Array.isArray(data.description)?data.description.join(' '):'');
+      b.summary=typeof data.description==='string'?data.description:(Array.isArray(data.description)?data.description.join(' '):iiifLabel(data.description));
     }
     // Use thumbnail
     if(data.thumbnail){
@@ -205,51 +310,74 @@ function normalizeBook(data, slug){
   // IIIF manifest v3 (items)
   if(data.items && data.items.length){
     b.items=data.items.map(function(item,i){
-      var page={num:i+1, canvasId:item.id, images:[]};
+      // Handle both annotation-based and direct image items
+      var imgs = [];
       if(item.items){
         item.items.forEach(function(body){
           if(body.items){
             body.items.forEach(function(anno){
               if(anno.body){
-                var imgs=Array.isArray(anno.body)?anno.body:[anno.body];
-                imgs.forEach(function(img){
-                  if(img.type==='Image' || img.service) page.images.push(img);
+                var bdy = Array.isArray(anno.body) ? anno.body : [anno.body];
+                bdy.forEach(function(bodyItem){
+                  if(bodyItem.type === 'Image'){
+                    imgs.push(bodyItem);
+                  } else if(bodyItem['@type'] === 'Image'){
+                    imgs.push(bodyItem);
+                  } else if(bodyItem.resource && bodyItem.resource.type === 'Image'){
+                    imgs.push(bodyItem.resource);
+                  }
                 });
               }
             });
           }
         });
       }
-      return page;
+      // Also handle items[].images array (our simplified format)
+      if(item.images && item.images.length){
+        item.images.forEach(function(img){
+          imgs.push(img);
+        });
+      }
+      return {num: item.num || i+1, canvasId: item.id || item.canvasId || 'canvas'+i, images: imgs};
     });
     b.pages=b.items.length;
   }
   // IIIF manifest v2 (sequences[0].canvases)
-  else if(data.sequences && data.sequences[0] && data.sequences[0].canvases){
-    var canvases=data.sequences[0].canvases;
-    b.items=canvases.map(function(c,i){
-      var page={num:i+1, canvasId:c['@id']||c.id, images:[], label:c.label||''};
-      if(c.images){
-        c.images.forEach(function(anno){
-          var res=anno.resource||anno.body;
-          if(res){
-            var imgObj={id:res['@id']||res.id, service:res.service, width:res.width, height:res.height};
-            page.images.push(imgObj);
-          }
-        });
-      }
-      return page;
-    });
-    b.pages=b.items.length;
+  if(data.sequences && data.sequences[0] && data.sequences[0].canvases){
+      var canvases=data.sequences[0].canvases;
+      b.items=canvases.map(function(c,i){
+        var page={num:i+1, canvasId:c['@id']||c.id, images:[], label:c.label||''};
+        if(c.images){
+          c.images.forEach(function(anno){
+            var res=anno.resource||anno.body;
+            if(res){
+              var imgObj={id:res['@id']||res.id, service:res.service, width:res.width, height:res.height};
+              page.images.push(imgObj);
+            }
+          });
+        }
+        return page;
+      });
+      b.pages=b.items.length;
   }
   // Local book format
-  else if(data.pages && data.pages.length){
+  if(data.pages && data.pages.length){
     b.pages=data.pages.length;
     b.localPages=data.pages;
     b.hasText=true;
     // Generate tile source from pdf or simple image
     b.items=data.pages.map(function(p,i){
       return {num:p.page||i+1, localHtml:p.html||p.text||''};
+    });
+  }
+  // Simple direct-image format (single image)
+  else if(data.items && data.items.length && data.items[0].images && data.items[0].images[0].id){
+    b.pages = data.pages || data.items.length;
+    b.items = data.items.map(function(item, i){
+      var imgs = item.images.map(function(img){
+        return {id: img.id, width: img.width, height: img.height, service: img.service};
+      });
+      return {num: item.num || i+1, canvasId: item.canvasId || 'img'+i, images: imgs};
     });
   }
   // Chapters
@@ -288,15 +416,33 @@ function setupOsd(){
     osdOpts.tileSources=tileSource.infoUrl;
   } else if(tileSource.type==='image' && tileSource.width && tileSource.height){
     osdOpts.tileSources={type:'image', url:tileSource.url, width:tileSource.width, height:tileSource.height};
+  } else if(tileSource.type==='image'){
+    // Unknown dimensions — measure via Image() first, otherwise OSD
+    // guesses the tile source type and fails ("Unable to load TileSource").
+    var probe=new Image();
+    probe.onload=function(){
+      osdOpts.tileSources={type:'image', url:tileSource.url, width:probe.naturalWidth, height:probe.naturalHeight};
+      _osd=OpenSeadragon(osdOpts);
+    };
+    probe.onerror=function(){
+      container.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted)">تصویر قابل بارگذاری نیست</div>';
+    };
+    probe.src=tileSource.url;
+    return;
   } else {
     osdOpts.tileSources=tileSource.url;
   }
   _osd=OpenSeadragon(osdOpts);
 }
 
+
+
 function getTileSource(item){
   if(item.images && item.images.length){
     var img=item.images[0];
+    // Hosts that block cross-origin info.json (Cloudflare / no CORS):
+    // fall through to the direct image URL like QDL.
+    var BLOCKED_HOSTS=['nrs.harvard.edu','ids.lib.harvard.edu','mps.lib.harvard.edu','www.artic.edu','harvardartmuseums.org','metmuseum.org','ids.si.edu'];
     // Check service at top level or in resource
     var svc=img.service;
     if(!svc && img.resource) svc=img.resource.service;
@@ -304,7 +450,11 @@ function getTileSource(item){
       if(Array.isArray(svc)) svc=svc[0];
       var svcId=svc && (svc['@id']||svc.id);
       if(svcId){
-        return {type:'iiif', infoUrl:svcId+'/info.json', baseUrl:svcId};
+        var blocked=false;
+        try{blocked=BLOCKED_HOSTS.indexOf(new URL(svcId).hostname)>=0;}catch(e){}
+        if(!blocked){
+          return {type:'iiif', infoUrl:svcId.replace(/\/$/,'')+'/info.json', baseUrl:svcId};
+        }
       }
     }
     // Image URL: check item.images[0].id, or resource.@id
@@ -316,7 +466,9 @@ function getTileSource(item){
       h=h||img.resource.height;
     }
     if(imgUrl){
-      return {type:'image', url:imgUrl, width:w||null, height:h||null};
+      // For direct images without known dimensions, return without size info
+      // so setupOsd will probe via Image() element
+      return {type:'image', url:imgUrl, width:null, height:null};
     }
   }
   // Also check item.num for label
@@ -549,24 +701,50 @@ function renderMeta(){
   // Show all IIIF metadata
   if(BOOK.iiifMeta && BOOK.iiifMeta.length){
     rows+='<div style="margin-top:16px;border-top:1px solid var(--border);padding-top:12px">';
-    rows+='<h3 style="font-size:13px;color:var(--accent);margin-bottom:8px">اطلاعات نسخهٔ خطی</h3>';
+    rows+='<h3 style="font-size:13px;color:var(--accent);margin-bottom:8px">'+(BOOK.isMuseum?'اطلاعات شیء موزه‌ای':'اطلاعات نسخهٔ خطی')+'</h3>';
     BOOK.iiifMeta.forEach(function(m){
       if(m.rawLabel==='Title'||m.rawLabel==='Homepage'||m.rawLabel==='Catalogue Description') return;
       rows+='<div class="meta-row"><span class="label">'+m.label+':</span> <span class="value" style="font-size:12px">'+m.value+'</span></div>';
     });
     rows+='</div>';
   }
-  // External links section
-  if(BOOK.externalLinks){
-    var elinks=BOOK.externalLinks;
-    var hasLinks=elinks.digitalObject||elinks.mirador||elinks.universalViewer||elinks.iiifManifest;
+  // External links section — for IIIF books and museum objects
+  if(BOOK.externalLinks || BOOK.manifestUrl){
+    var elinks=BOOK.externalLinks||{};
+    var absManifest=BOOK.manifestUrl||'';
+    // Fallback: generate viewer links from a Bodleian manifest URL
+    var bodMu=String(absManifest).match(/manifest\/([a-f0-9-]+)\.json/);
+    if(!elinks.mirador && bodMu && /bodleian/.test(absManifest)){
+      elinks.mirador='https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content='+encodeURIComponent(absManifest);
+    }
+    if(!elinks.universalViewer && bodMu && /bodleian/.test(absManifest)){
+      elinks.universalViewer='https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content='+encodeURIComponent(absManifest);
+    }
+    // Resolve an absolute manifest URL for third-party viewers:
+    // local 'books/...' cache path → remote iiifManifest link when available
+    var remoteManifest=elinks.iiifManifest||'';
+    if(/^books\//.test(absManifest) && remoteManifest) absManifest=remoteManifest;
+    var hasLinks=elinks.digitalObject||elinks.mirador||elinks.universalViewer||elinks.iiifManifest||remoteManifest;
     if(hasLinks){
+      var isMuseum=(BOOK.source==='museum');
       rows+='<div style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px">';
-      rows+='<h3 style="font-size:13px;color:var(--accent);margin-bottom:8px">🔗 پیوندها</h3>';
-      if(elinks.digitalObject) rows+='<div class="meta-row"><a href="'+elinks.digitalObject+'" target="_blank" rel="noopener" style="font-size:12px">📷 شیء دیجیتال (Digital Object)</a></div>';
-      if(elinks.mirador) rows+='<div class="meta-row"><a href="'+elinks.mirador+'" target="_blank" rel="noopener" style="font-size:12px">🖥️ Mirador Viewer</a></div>';
-      if(elinks.universalViewer) rows+='<div class="meta-row"><a href="'+elinks.universalViewer+'" target="_blank" rel="noopener" style="font-size:12px">👁️ Universal Viewer</a></div>';
-      if(elinks.iiifManifest) rows+='<div class="meta-row"><a href="'+elinks.iiifManifest+'" target="_blank" rel="noopener" style="font-size:12px">📜 IIIF Manifest</a></div>';
+      rows+='<h3 style="font-size:13px;color:var(--accent);margin-bottom:8px">پیوندها</h3>';
+      if(elinks.digitalObject) rows+='<div class="meta-row"><a href="'+elinks.digitalObject+'" target="_blank" rel="noopener" style="font-size:12px">شیء دیجیتال (سایت مجموعه)</a></div>';
+      if(elinks.mirador) rows+='<div class="meta-row"><a href="'+elinks.mirador+'" target="_blank" rel="noopener" style="font-size:12px">نمایش در Mirador</a></div>';
+      if(elinks.universalViewer) rows+='<div class="meta-row"><a href="'+elinks.universalViewer+'" target="_blank" rel="noopener" style="font-size:12px">نمایش در Universal Viewer</a></div>';
+      if(absManifest && /^https?:\/\//.test(absManifest)){
+        var enc=encodeURIComponent(absManifest);
+        // Flipbook for books (hover flip on card uses this)
+        if(!isMuseum){
+          rows+='<div class="meta-row"><a href="https://hadro.github.io/flipbook/?manifest='+enc+'" target="_blank" rel="noopener" style="font-size:12px">مشاهده در Flipbook</a></div>';
+        }
+        // Triiiceratops — for all manuscripts and museum objects
+        rows+='<div class="meta-row"><a href="https://triiiceratops.org/viewer/?iiif-content='+enc+'" target="_blank" rel="noopener" style="font-size:12px">کتاب‌خوان با ظاهر شخصی Triiiceratops</a></div>';
+        rows+='<div class="meta-row"><a href="https://tify.rocks/?manifest='+enc+'" target="_blank" rel="noopener" style="font-size:12px">نمایش در TIFY</a></div>';
+        rows+='<div class="meta-row"><a href="https://samvera-labs.github.io/clover-iiif/docs/viewer/demo?iiif-content='+enc+'" target="_blank" rel="noopener" style="font-size:12px">نمایش در Clover</a></div>';
+      }
+      var manLink=remoteManifest||((/^https?:\/\//.test(absManifest))?absManifest:'');
+      if(manLink) rows+='<div class="meta-row"><a href="'+manLink+'" target="_blank" rel="noopener" style="font-size:12px">مانیفست IIIF (JSON)</a></div>';
       rows+='</div>';
     }
   }
