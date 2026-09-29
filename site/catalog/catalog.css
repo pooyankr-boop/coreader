@@ -122,6 +122,7 @@ header .subtitle{color:var(--muted);margin:0 0 16px;font-size:14px}
 /* ===== Responsive — Mobile First ===== */
 @media(max-width:640px){
   .grid{grid-template-columns:repeat(2,1fr);gap:8px}
+  .card-cover-wrap::after{height:50px}
   .card-cover-title{padding:20px 8px 8px}
   .card h2{font-size:12px}
   .filter-tab{padding:6px 10px;font-size:11px}
@@ -140,7 +141,7 @@ header .subtitle{color:var(--muted);margin:0 0 16px;font-size:14px}
   .card .author{font-size:11px}
   .card .meta{font-size:10px}
   .card-body{padding:10px 12px 12px}
-  .card-cover-title{font-size:11px;padding:30px 10px 10px}
+  .card-cover-wrap::after{height:40px}
   .add-fab{bottom:16px;left:16px;width:48px;height:48px;font-size:24px;border-radius:14px}
   .modal{padding:20px;border-radius:16px;margin:0 8px}
   .modal h2{font-size:18px}
