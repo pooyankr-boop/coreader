@@ -4,7 +4,7 @@ const https = require('https');
 const fs = require('fs');
 const path = require('path');
 
-const ROOT = path.join(__dirname, '..', '..', 'site');
+const ROOT = path.join(__dirname, '..', '..');
 const PORT = process.env.PORT || 8081;
 
 const MIME = {
