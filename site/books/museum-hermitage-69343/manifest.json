@@ -1,0 +1,63 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "https://www.hermitagemuseum.org/digital-collection/69343?lng=en",
+ "@type": "sc:Manifest",
+ "label": "کوزهٔ نقره‌ای",
+ "metadata": [
+  {
+   "label": "Place",
+   "value": "Northern Iran"
+  },
+  {
+   "label": "Date",
+   "value": "11th century"
+  },
+  {
+   "label": "Material",
+   "value": "silver"
+  },
+  {
+   "label": "Technique",
+   "value": "forging, gilding, engraving, niello"
+  },
+  {
+   "label": "Dimensions",
+   "value": "height: 19,4 cm; rim diameter: 10,5 cm"
+  },
+  {
+   "label": "Museum number",
+   "value": "VЗ-797"
+  },
+  {
+   "label": "Collection",
+   "value": "Oriental Art"
+  }
+ ],
+ "thumbnail": "../books/museum-hermitage-69343/cover.jpg",
+ "sequences": [
+  {
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@id": "https://www.hermitagemuseum.org/digital-collection/69343?lng=en#page1",
+     "@type": "sc:Canvas",
+     "label": "1",
+     "width": 1600,
+     "height": 1600,
+     "images": [
+      {
+       "@type": "sc:ImageAnnotation",
+       "resource": {
+        "@id": "cover.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1600,
+        "height": 1600
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

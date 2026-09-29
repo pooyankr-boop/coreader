@@ -1,0 +1,63 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "https://www.hermitagemuseum.org/digital-collection/192831?lng=en",
+ "@type": "sc:Manifest",
+ "label": "اسطرلاب",
+ "metadata": [
+  {
+   "label": "Place",
+   "value": "Iran"
+  },
+  {
+   "label": "Date",
+   "value": "late 17th – early 18th century"
+  },
+  {
+   "label": "Material",
+   "value": "copper alloy"
+  },
+  {
+   "label": "Technique",
+   "value": "casting, forging, engraving"
+  },
+  {
+   "label": "Dimensions",
+   "value": "length with ring: 17,6 cm; width: 12 cm"
+  },
+  {
+   "label": "Museum number",
+   "value": "VС-939"
+  },
+  {
+   "label": "Collection",
+   "value": "Oriental Art"
+  }
+ ],
+ "thumbnail": "../books/museum-hermitage-192831/cover.jpg",
+ "sequences": [
+  {
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@id": "https://www.hermitagemuseum.org/digital-collection/192831?lng=en#page1",
+     "@type": "sc:Canvas",
+     "label": "1",
+     "width": 1600,
+     "height": 1600,
+     "images": [
+      {
+       "@type": "sc:ImageAnnotation",
+       "resource": {
+        "@id": "cover.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1600,
+        "height": 1600
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
