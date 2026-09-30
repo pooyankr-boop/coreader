@@ -16,7 +16,7 @@ function init(){
       t.classList.toggle('on', t.dataset.filter===_filter);
     });
   }
-  fetch('books-index.json').then(function(r){return r.json()}).then(function(list){
+  fetch('../books-index.json').then(function(r){return r.json()}).then(function(list){
     // Merge custom books from localStorage, but only if slug not already in index (index has better metadata)
     var custom=JSON.parse(localStorage.getItem('coreader-custom-books')||'[]');
     var indexSlugs={};list.forEach(function(b){indexSlugs[b.slug]=1});
