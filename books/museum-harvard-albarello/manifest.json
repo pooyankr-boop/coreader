@@ -1,0 +1,172 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "https://iiif.harvardartmuseums.org/manifests/object/165382",
+ "@type": "sc:Manifest",
+ "attribution": "Harvard Art Museums",
+ "description": "The decoration on this tall albarello, or medicine jar, is carefully painted and harmoniously composed in horizontal registers. These bands vary in width, and the backgrounds alternate between black and turquoise. The wide neck bears an inscription in tall Kufic letters, repeating the Arabic word al-mulk (sovereignty). Scrolling, leafy tendrils run along three bands. Two others are occupied by figural motifs: just below the shoulder, seven haloed sphinxes, facing left, appear on a black ground, and, below them, five figures sit cross-legged among scrolling tendrils with kidney-shaped leaves. Some of the figures are bearded and others clean shaven, but all are haloed and wear black robes patterned in reserve.\r\nAlthough Calderwood acquired this albarello as a work of medieval Persian art,\r\nit is more likely the product of a revival of traditional styles and media that took place in Iran during the Pahlavi reign (1925–79). In form and decoration, it evokes without exactly replicating ceramics from the Seljuk-Atabeg period. Had the jar been intended as a forgery, the potter would have made it of white rather than plaster-covered pink fritware. The albarello is intact, but in many places the glaze has deteriorated to a matte surface. The ceramic body is fine grained but soft.\r\nThe plaster and turquoise glaze cover the jar inside and out, stopping short of the foot ring.",
+ "label": "Albarello with Inscription, Arabesques, and Figures",
+ "logo": {
+  "@id": "https://nrs.harvard.edu/urn-3:HUAM:logo2/full/!800,800/0/default.jpg",
+  "service": {
+   "@context": "http://iiif.io/api/image/2/context.json",
+   "@id": "https://nrs.harvard.edu/urn-3:HUAM:logo2",
+   "profile": "http://iiif.io/api/image/2/level2.json"
+  }
+ },
+ "metadata": [
+  {
+   "label": "Date",
+   "value": "20th century"
+  },
+  {
+   "label": "Classification",
+   "value": "Vessels"
+  },
+  {
+   "label": "Credit Line",
+   "value": "Harvard Art Museums/Arthur M. Sackler Museum, The Norma Jean Calderwood Collection of Islamic Art"
+  },
+  {
+   "label": "Object Number",
+   "value": "2002.50.55"
+  },
+  {
+   "label": "Medium",
+   "value": "Pink fritware covered in plaster and painted with black (chromium) under turquoise (copper) translucent lead alkali glaze"
+  },
+  {
+   "label": "Technique",
+   "value": "Underglazed, painted"
+  },
+  {
+   "label": "Dimensions",
+   "value": "25.8 cm x 12.6 cm (10 3/16 x 4 15/16 in.)"
+  },
+  {
+   "label": "Provenance",
+   "value": "[Mansour Gallery, London, 1972], sold; to Stanford and Norma Jean Calderwood, Belmont, MA (1972-2002), gift; to Harvard Art Museums, 2002."
+  }
+ ],
+ "rendering": {
+  "@id": "https://www.harvardartmuseums.org/collections/object/165382",
+  "format": "text/html",
+  "label": "Full record view"
+ },
+ "sequences": [
+  {
+   "@id": "https://iiif.harvardartmuseums.org/manifests/object/165382/sequence/normal",
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@id": "https://iiif.harvardartmuseums.org/manifests/object/165382/canvas/canvas-410298",
+     "@type": "sc:Canvas",
+     "height": 1024,
+     "images": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/165382/annotation/anno-410298",
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://iiif.harvardartmuseums.org/manifests/object/165382/canvas/canvas-410298",
+       "resource": {
+        "@id": "https://nrs.harvard.edu/urn-3:huam:DDC113835_dynmc/full/full/0/default.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "height": 1024,
+        "service": {
+         "@context": "http://iiif.io/api/image/2/context.json",
+         "@id": "https://nrs.harvard.edu/urn-3:huam:DDC113835_dynmc",
+         "profile": "http://iiif.io/api/image/2/level2.json"
+        },
+        "width": 603
+       }
+      }
+     ],
+     "label": "1",
+     "otherContent": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/165382/list/410298",
+       "@type": "sc:AnnotationList"
+      }
+     ],
+     "width": 603
+    },
+    {
+     "@id": "https://iiif.harvardartmuseums.org/manifests/object/165382/canvas/canvas-410307",
+     "@type": "sc:Canvas",
+     "height": 1024,
+     "images": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/165382/annotation/anno-410307",
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://iiif.harvardartmuseums.org/manifests/object/165382/canvas/canvas-410307",
+       "resource": {
+        "@id": "https://nrs.harvard.edu/urn-3:huam:DDC113834_dynmc/full/full/0/default.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "height": 1024,
+        "service": {
+         "@context": "http://iiif.io/api/image/2/context.json",
+         "@id": "https://nrs.harvard.edu/urn-3:huam:DDC113834_dynmc",
+         "profile": "http://iiif.io/api/image/2/level2.json"
+        },
+        "width": 1010
+       }
+      }
+     ],
+     "label": "2",
+     "otherContent": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/165382/list/410307",
+       "@type": "sc:AnnotationList"
+      }
+     ],
+     "width": 1010
+    },
+    {
+     "@id": "https://iiif.harvardartmuseums.org/manifests/object/165382/canvas/canvas-97470",
+     "@type": "sc:Canvas",
+     "height": 1024,
+     "images": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/165382/annotation/anno-97470",
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://iiif.harvardartmuseums.org/manifests/object/165382/canvas/canvas-97470",
+       "resource": {
+        "@id": "https://nrs.harvard.edu/urn-3:HUAM:CARP09873_dynmc/full/full/0/default.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "height": 1024,
+        "service": {
+         "@context": "http://iiif.io/api/image/2/context.json",
+         "@id": "https://nrs.harvard.edu/urn-3:HUAM:CARP09873_dynmc",
+         "profile": "http://iiif.io/api/image/2/level2.json"
+        },
+        "width": 685
+       }
+      }
+     ],
+     "label": "3",
+     "otherContent": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/165382/list/97470",
+       "@type": "sc:AnnotationList"
+      }
+     ],
+     "width": 685
+    }
+   ],
+   "viewingHint": "individuals"
+  }
+ ],
+ "thumbnail": {
+  "@id": "https://nrs.harvard.edu/urn-3:huam:DDC113835_dynmc/full/!170,170/0/default.jpg",
+  "service": {
+   "@context": "http://iiif.io/api/image/2/context.json",
+   "@id": "https://nrs.harvard.edu/urn-3:huam:DDC113835_dynmc",
+   "profile": "http://iiif.io/api/image/2/level2.json"
+  }
+ },
+ "within": "https://www.harvardartmuseums.org/collections"
+}

@@ -387,6 +387,40 @@ function normalizeBook(data, slug){
 }
 
 // === OpenSeadragon ===
+// QDL (iiif.qdl.qa, behind Cloudflare) intermittently refuses large CORS
+// image requests: measured 0/8 and 21/36 success at full/full (1.6 MB)
+// under load, but 8/8 and 35/36 at full/1200, and 12/12 with 3 retries.
+// So: percent-encode the raw space in the URL, fetch it ourselves with
+// retries, and hand OSD a same-origin blob URL. OSD never re-fetches, so
+// its CORS draw always succeeds. ponytail: the blob holds the whole page in
+// memory (a 4800x6900 jpeg ~1.6 MB) — switch to a size-capped IIIF request
+// (`/full/2400,`) if a 1208-page book ever opens many pages at once.
+function loadImageRetry(url, attempts, cb){
+  var n=0;
+  (function attempt(){
+    var im=new Image();
+    im.crossOrigin='anonymous';
+    im.onload=function(){
+      if(!im.naturalWidth){ return setTimeout(attempt, 400); }
+      cb(im);
+    };
+    im.onerror=function(){
+      if(++n>=attempts){ cb(null); return; }
+      setTimeout(attempt, 400*n);
+    };
+    im.src=url;
+  })();
+}
+function toBlobUrl(im, cb){
+  try{
+    var c=document.createElement('canvas');
+    c.width=im.naturalWidth; c.height=im.naturalHeight;
+    c.getContext('2d').drawImage(im,0,0);
+    if(c.toBlob){ c.toBlob(function(b){ cb(b?URL.createObjectURL(b):null); }, 'image/jpeg', 0.92); }
+    else cb(null);
+  }catch(e){ cb(null); }
+}
+
 function setupOsd(){
   var container=document.getElementById('osd-container');
   if(!BOOK.items.length){
@@ -414,6 +448,25 @@ function setupOsd(){
   // OpenSeadragon IIIF: pass info.json URL directly
   if(tileSource.type==='iiif'){
     osdOpts.tileSources=tileSource.infoUrl;
+  } else if(tileSource.type==='image' && tileSource.url && !/^data:/.test(tileSource.url)){
+    // Retry ourselves and hand OSD a blob: same-origin, so its canvas draw
+    // can never be blocked by the remote host's CORS headers.
+    loadImageRetry(tileSource.url, 3, function(im){
+      if(!im){
+        container.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted)">تصویر قابل بارگذاری نیست</div>';
+        return;
+      }
+      var w=im.naturalWidth, h=im.naturalHeight;
+      toBlobUrl(im, function(blobUrl){
+        if(!blobUrl){
+          osdOpts.tileSources={type:'image', url:tileSource.url, width:w, height:h};
+        } else {
+          osdOpts.tileSources={type:'image', url:blobUrl, width:w, height:h};
+        }
+        _osd=OpenSeadragon(osdOpts);
+      });
+    });
+    return;
   } else if(tileSource.type==='image' && tileSource.width && tileSource.height){
     osdOpts.tileSources={type:'image', url:tileSource.url, width:tileSource.width, height:tileSource.height};
   } else if(tileSource.type==='image'){
@@ -466,10 +519,16 @@ function getTileSource(item){
       h=h||img.resource.height;
     }
     if(imgUrl){
-      // For direct images without known dimensions, return without size info
-      // so setupOsd will probe via Image() element
-      return {type:'image', url:imgUrl, width:null, height:null};
-    }
+              // For direct images without known dimensions, return without size info
+              // so setupOsd will probe via Image() element
+              // QDL filenames contain a literal space ("Add MS 23570_0001.jp2");
+              // percent-encode it so the URL is well-formed for fetch()/OSD.
+              // Never encode our own /proxy-image?url=... — encodeURI escapes the
+              // '%' of an already-encoded query string, the proxy then receives a
+              // still-encoded URL, and new URL() throws and kills serve.js.
+              if(imgUrl.indexOf('/proxy-image?url=')<0) imgUrl=encodeURI(imgUrl);
+              return {type:'image', url:imgUrl, width:null, height:null};
+            }
   }
   // Also check item.num for label
   return {type:'image',url:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="600" fill="#f0ebe3"><text x="200" y="300" text-anchor="middle" font-family="sans-serif" font-size="24" fill="#8c8577">صفحه '+item.num+'</text></svg>')};

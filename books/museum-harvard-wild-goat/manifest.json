@@ -1,0 +1,271 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "https://iiif.harvardartmuseums.org/manifests/object/311128",
+ "@type": "sc:Manifest",
+ "attribution": "Harvard Art Museums",
+ "description": "",
+ "label": "Wild Goat",
+ "logo": {
+  "@id": "https://nrs.harvard.edu/urn-3:HUAM:logo2/full/!800,800/0/default.jpg",
+  "service": {
+   "@context": "http://iiif.io/api/image/2/context.json",
+   "@id": "https://nrs.harvard.edu/urn-3:HUAM:logo2",
+   "profile": "http://iiif.io/api/image/2/level2.json"
+  }
+ },
+ "metadata": [
+  {
+   "label": "Date",
+   "value": "7th-5th century BCE"
+  },
+  {
+   "label": "Classification",
+   "value": "Sculpture"
+  },
+  {
+   "label": "Credit Line",
+   "value": "Harvard Art Museums/Arthur M. Sackler Museum, Grace Nichols Strong Memorial Fund"
+  },
+  {
+   "label": "Object Number",
+   "value": "1949.92"
+  },
+  {
+   "label": "Medium",
+   "value": "Bronze"
+  },
+  {
+   "label": "Technique",
+   "value": "Cast, lost-wax process"
+  },
+  {
+   "label": "Dimensions",
+   "value": "10.5 x 8.1 x 2.5 cm (4 1/8 x 3 3/16 x 1 in.)"
+  },
+  {
+   "label": "Provenance",
+   "value": "M. Manoochehrian, April 11, 1940, sold; to Joseph Brummer collection, New York, NY, (by 1940, inv. no. N4549), sold; [through Parke-Bernet Galleries, Inc., New York, sale 1069, May 1949, lot 108] sold; to Fogg Art Museum, 1949."
+  }
+ ],
+ "rendering": {
+  "@id": "https://www.harvardartmuseums.org/collections/object/311128",
+  "format": "text/html",
+  "label": "Full record view"
+ },
+ "sequences": [
+  {
+   "@id": "https://iiif.harvardartmuseums.org/manifests/object/311128/sequence/normal",
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@id": "https://iiif.harvardartmuseums.org/manifests/object/311128/canvas/canvas-426907",
+     "@type": "sc:Canvas",
+     "height": 2431,
+     "images": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/311128/annotation/anno-426907",
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://iiif.harvardartmuseums.org/manifests/object/311128/canvas/canvas-426907",
+       "resource": {
+        "@id": "https://nrs.harvard.edu/urn-3:HUAM:DDC250041_dynmc/full/full/0/default.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "height": 2431,
+        "service": {
+         "@context": "http://iiif.io/api/image/2/context.json",
+         "@id": "https://nrs.harvard.edu/urn-3:HUAM:DDC250041_dynmc",
+         "profile": "http://iiif.io/api/image/2/level2.json"
+        },
+        "width": 2450
+       }
+      }
+     ],
+     "label": "1",
+     "otherContent": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/311128/list/426907",
+       "@type": "sc:AnnotationList"
+      }
+     ],
+     "width": 2450
+    },
+    {
+     "@id": "https://iiif.harvardartmuseums.org/manifests/object/311128/canvas/canvas-440496",
+     "@type": "sc:Canvas",
+     "height": 1640,
+     "images": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/311128/annotation/anno-440496",
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://iiif.harvardartmuseums.org/manifests/object/311128/canvas/canvas-440496",
+       "resource": {
+        "@id": "https://nrs.harvard.edu/urn-3:HUAM:STR017433/full/full/0/default.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "height": 1640,
+        "service": {
+         "@context": "http://iiif.io/api/image/2/context.json",
+         "@id": "https://nrs.harvard.edu/urn-3:HUAM:STR017433",
+         "profile": "http://iiif.io/api/image/2/level2.json"
+        },
+        "width": 2450
+       }
+      }
+     ],
+     "label": "right profile, slightly from above",
+     "otherContent": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/311128/list/440496",
+       "@type": "sc:AnnotationList"
+      }
+     ],
+     "width": 2450
+    },
+    {
+     "@id": "https://iiif.harvardartmuseums.org/manifests/object/311128/canvas/canvas-440497",
+     "@type": "sc:Canvas",
+     "height": 1640,
+     "images": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/311128/annotation/anno-440497",
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://iiif.harvardartmuseums.org/manifests/object/311128/canvas/canvas-440497",
+       "resource": {
+        "@id": "https://nrs.harvard.edu/urn-3:HUAM:STR017434/full/full/0/default.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "height": 1640,
+        "service": {
+         "@context": "http://iiif.io/api/image/2/context.json",
+         "@id": "https://nrs.harvard.edu/urn-3:HUAM:STR017434",
+         "profile": "http://iiif.io/api/image/2/level2.json"
+        },
+        "width": 2450
+       }
+      }
+     ],
+     "label": "Detail of surface decoration created in the wax model",
+     "otherContent": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/311128/list/440497",
+       "@type": "sc:AnnotationList"
+      }
+     ],
+     "width": 2450
+    },
+    {
+     "@id": "https://iiif.harvardartmuseums.org/manifests/object/311128/canvas/canvas-441500",
+     "@type": "sc:Canvas",
+     "height": 2450,
+     "images": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/311128/annotation/anno-441500",
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://iiif.harvardartmuseums.org/manifests/object/311128/canvas/canvas-441500",
+       "resource": {
+        "@id": "https://nrs.harvard.edu/urn-3:HUAM:STR017781/full/full/0/default.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "height": 2450,
+        "service": {
+         "@context": "http://iiif.io/api/image/2/context.json",
+         "@id": "https://nrs.harvard.edu/urn-3:HUAM:STR017781",
+         "profile": "http://iiif.io/api/image/2/level2.json"
+        },
+        "width": 2116
+       }
+      }
+     ],
+     "label": "4",
+     "otherContent": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/311128/list/441500",
+       "@type": "sc:AnnotationList"
+      }
+     ],
+     "width": 2116
+    },
+    {
+     "@id": "https://iiif.harvardartmuseums.org/manifests/object/311128/canvas/canvas-33145",
+     "@type": "sc:Canvas",
+     "height": 1024,
+     "images": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/311128/annotation/anno-33145",
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://iiif.harvardartmuseums.org/manifests/object/311128/canvas/canvas-33145",
+       "resource": {
+        "@id": "https://nrs.harvard.edu/urn-3:HUAM:46110_dynmc/full/full/0/default.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "height": 1024,
+        "service": {
+         "@context": "http://iiif.io/api/image/2/context.json",
+         "@id": "https://nrs.harvard.edu/urn-3:HUAM:46110_dynmc",
+         "profile": "http://iiif.io/api/image/2/level2.json"
+        },
+        "width": 1001
+       }
+      }
+     ],
+     "label": "5",
+     "otherContent": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/311128/list/33145",
+       "@type": "sc:AnnotationList"
+      }
+     ],
+     "width": 1001
+    },
+    {
+     "@id": "https://iiif.harvardartmuseums.org/manifests/object/311128/canvas/canvas-17645",
+     "@type": "sc:Canvas",
+     "height": 1024,
+     "images": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/311128/annotation/anno-17645",
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://iiif.harvardartmuseums.org/manifests/object/311128/canvas/canvas-17645",
+       "resource": {
+        "@id": "https://nrs.harvard.edu/urn-3:HUAM:46111_dynmc/full/full/0/default.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "height": 1024,
+        "service": {
+         "@context": "http://iiif.io/api/image/2/context.json",
+         "@id": "https://nrs.harvard.edu/urn-3:HUAM:46111_dynmc",
+         "profile": "http://iiif.io/api/image/2/level2.json"
+        },
+        "width": 604
+       }
+      }
+     ],
+     "label": "6",
+     "otherContent": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/311128/list/17645",
+       "@type": "sc:AnnotationList"
+      }
+     ],
+     "width": 604
+    }
+   ],
+   "viewingHint": "individuals"
+  }
+ ],
+ "thumbnail": {
+  "@id": "https://nrs.harvard.edu/urn-3:HUAM:DDC250041_dynmc/full/!170,170/0/default.jpg",
+  "service": {
+   "@context": "http://iiif.io/api/image/2/context.json",
+   "@id": "https://nrs.harvard.edu/urn-3:HUAM:DDC250041_dynmc",
+   "profile": "http://iiif.io/api/image/2/level2.json"
+  }
+ },
+ "within": "https://www.harvardartmuseums.org/collections"
+}

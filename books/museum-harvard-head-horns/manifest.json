@@ -1,0 +1,139 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "https://iiif.harvardartmuseums.org/manifests/object/304012",
+ "@type": "sc:Manifest",
+ "attribution": "Harvard Art Museums",
+ "description": "",
+ "label": "Anthropomorphic Head with Horns",
+ "logo": {
+  "@id": "https://nrs.harvard.edu/urn-3:HUAM:logo2/full/!800,800/0/default.jpg",
+  "service": {
+   "@context": "http://iiif.io/api/image/2/context.json",
+   "@id": "https://nrs.harvard.edu/urn-3:HUAM:logo2",
+   "profile": "http://iiif.io/api/image/2/level2.json"
+  }
+ },
+ "metadata": [
+  {
+   "label": "Date",
+   "value": "10th-8th century BCE"
+  },
+  {
+   "label": "Classification",
+   "value": "Sculpture"
+  },
+  {
+   "label": "Credit Line",
+   "value": "Harvard Art Museums/Arthur M. Sackler Museum, Bequest of Grenville L. Winthrop"
+  },
+  {
+   "label": "Object Number",
+   "value": "1943.1161"
+  },
+  {
+   "label": "Medium",
+   "value": "Bronze"
+  },
+  {
+   "label": "Technique",
+   "value": "Cast, lost-wax process"
+  },
+  {
+   "label": "Dimensions",
+   "value": "11 x 6.4 x 2.7 cm (4 5/16 x 2 1/2 x 1 1/16 in.)"
+  },
+  {
+   "label": "Provenance",
+   "value": "Grenville L. Winthrop, New York, NY, (by 1943), bequest; to Fogg Art Museum, 1943."
+  }
+ ],
+ "rendering": {
+  "@id": "https://www.harvardartmuseums.org/collections/object/304012",
+  "format": "text/html",
+  "label": "Full record view"
+ },
+ "sequences": [
+  {
+   "@id": "https://iiif.harvardartmuseums.org/manifests/object/304012/sequence/normal",
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@id": "https://iiif.harvardartmuseums.org/manifests/object/304012/canvas/canvas-426144",
+     "@type": "sc:Canvas",
+     "height": 2450,
+     "images": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/304012/annotation/anno-426144",
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://iiif.harvardartmuseums.org/manifests/object/304012/canvas/canvas-426144",
+       "resource": {
+        "@id": "https://nrs.harvard.edu/urn-3:HUAM:DDC249877_dynmc/full/full/0/default.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "height": 2450,
+        "service": {
+         "@context": "http://iiif.io/api/image/2/context.json",
+         "@id": "https://nrs.harvard.edu/urn-3:HUAM:DDC249877_dynmc",
+         "profile": "http://iiif.io/api/image/2/level2.json"
+        },
+        "width": 1618
+       }
+      }
+     ],
+     "label": "1",
+     "otherContent": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/304012/list/426144",
+       "@type": "sc:AnnotationList"
+      }
+     ],
+     "width": 1618
+    },
+    {
+     "@id": "https://iiif.harvardartmuseums.org/manifests/object/304012/canvas/canvas-130379",
+     "@type": "sc:Canvas",
+     "height": 1024,
+     "images": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/304012/annotation/anno-130379",
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://iiif.harvardartmuseums.org/manifests/object/304012/canvas/canvas-130379",
+       "resource": {
+        "@id": "https://nrs.harvard.edu/urn-3:HUAM:47448_dynmc/full/full/0/default.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "height": 1024,
+        "service": {
+         "@context": "http://iiif.io/api/image/2/context.json",
+         "@id": "https://nrs.harvard.edu/urn-3:HUAM:47448_dynmc",
+         "profile": "http://iiif.io/api/image/2/level2.json"
+        },
+        "width": 649
+       }
+      }
+     ],
+     "label": "2",
+     "otherContent": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/304012/list/130379",
+       "@type": "sc:AnnotationList"
+      }
+     ],
+     "width": 649
+    }
+   ],
+   "viewingHint": "individuals"
+  }
+ ],
+ "thumbnail": {
+  "@id": "https://nrs.harvard.edu/urn-3:HUAM:DDC249877_dynmc/full/!170,170/0/default.jpg",
+  "service": {
+   "@context": "http://iiif.io/api/image/2/context.json",
+   "@id": "https://nrs.harvard.edu/urn-3:HUAM:DDC249877_dynmc",
+   "profile": "http://iiif.io/api/image/2/level2.json"
+  }
+ },
+ "within": "https://www.harvardartmuseums.org/collections"
+}

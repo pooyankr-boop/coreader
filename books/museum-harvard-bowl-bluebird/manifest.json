@@ -1,0 +1,205 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "https://iiif.harvardartmuseums.org/manifests/object/165495",
+ "@type": "sc:Manifest",
+ "attribution": "Harvard Art Museums",
+ "description": "This bowl and a nearly identical one in shape (2002.50.79) have on their rims the same repeated words in stylized Kufic script— perhaps interpretable as the Arabic al-dawla (wealth). Similarly shaped and decorated bowls are attributed to late twelfth-or thirteenth-century Iran; although both of these bowls are reassembled from many fragments and show degradation of the glaze, the results of thermoluminescence analysis on one of them (2002.50.81) suggest that they are both of relatively recent manufacture.",
+ "label": "Bowl with Blue Bird and Rim Inscription",
+ "logo": {
+  "@id": "https://nrs.harvard.edu/urn-3:HUAM:logo2/full/!800,800/0/default.jpg",
+  "service": {
+   "@context": "http://iiif.io/api/image/2/context.json",
+   "@id": "https://nrs.harvard.edu/urn-3:HUAM:logo2",
+   "profile": "http://iiif.io/api/image/2/level2.json"
+  }
+ },
+ "metadata": [
+  {
+   "label": "Date",
+   "value": "19th-20th century"
+  },
+  {
+   "label": "Classification",
+   "value": "Vessels"
+  },
+  {
+   "label": "Credit Line",
+   "value": "Harvard Art Museums/Arthur M. Sackler Museum, The Norma Jean Calderwood Collection of Islamic Art"
+  },
+  {
+   "label": "Object Number",
+   "value": "2002.50.81"
+  },
+  {
+   "label": "Medium",
+   "value": "Fritware with underglaze painting"
+  },
+  {
+   "label": "Technique",
+   "value": "Underglazed, painted"
+  },
+  {
+   "label": "Dimensions",
+   "value": "9.2 x 20.2 cm (3 5/8 x 7 15/16 in.)"
+  },
+  {
+   "label": "Provenance",
+   "value": "[Hadji Baba Rabbi House of Antiquities, Teheran, before 1973], sold; to Stanford and Norma Jean Calderwood, Belmont, MA (by 1973-2002), gift; to Harvard Art Museums, 2002."
+  }
+ ],
+ "rendering": {
+  "@id": "https://www.harvardartmuseums.org/collections/object/165495",
+  "format": "text/html",
+  "label": "Full record view"
+ },
+ "sequences": [
+  {
+   "@id": "https://iiif.harvardartmuseums.org/manifests/object/165495/sequence/normal",
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@id": "https://iiif.harvardartmuseums.org/manifests/object/165495/canvas/canvas-409210",
+     "@type": "sc:Canvas",
+     "height": 930,
+     "images": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/165495/annotation/anno-409210",
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://iiif.harvardartmuseums.org/manifests/object/165495/canvas/canvas-409210",
+       "resource": {
+        "@id": "https://nrs.harvard.edu/urn-3:huam:DDC113721_dynmc/full/full/0/default.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "height": 930,
+        "service": {
+         "@context": "http://iiif.io/api/image/2/context.json",
+         "@id": "https://nrs.harvard.edu/urn-3:huam:DDC113721_dynmc",
+         "profile": "http://iiif.io/api/image/2/level2.json"
+        },
+        "width": 1024
+       }
+      }
+     ],
+     "label": "1",
+     "otherContent": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/165495/list/409210",
+       "@type": "sc:AnnotationList"
+      }
+     ],
+     "width": 1024
+    },
+    {
+     "@id": "https://iiif.harvardartmuseums.org/manifests/object/165495/canvas/canvas-409217",
+     "@type": "sc:Canvas",
+     "height": 656,
+     "images": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/165495/annotation/anno-409217",
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://iiif.harvardartmuseums.org/manifests/object/165495/canvas/canvas-409217",
+       "resource": {
+        "@id": "https://nrs.harvard.edu/urn-3:huam:DDC113707_dynmc/full/full/0/default.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "height": 656,
+        "service": {
+         "@context": "http://iiif.io/api/image/2/context.json",
+         "@id": "https://nrs.harvard.edu/urn-3:huam:DDC113707_dynmc",
+         "profile": "http://iiif.io/api/image/2/level2.json"
+        },
+        "width": 1024
+       }
+      }
+     ],
+     "label": "2",
+     "otherContent": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/165495/list/409217",
+       "@type": "sc:AnnotationList"
+      }
+     ],
+     "width": 1024
+    },
+    {
+     "@id": "https://iiif.harvardartmuseums.org/manifests/object/165495/canvas/canvas-139754",
+     "@type": "sc:Canvas",
+     "height": 752,
+     "images": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/165495/annotation/anno-139754",
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://iiif.harvardartmuseums.org/manifests/object/165495/canvas/canvas-139754",
+       "resource": {
+        "@id": "https://nrs.harvard.edu/urn-3:HUAM:CARP09390_dynmc/full/full/0/default.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "height": 752,
+        "service": {
+         "@context": "http://iiif.io/api/image/2/context.json",
+         "@id": "https://nrs.harvard.edu/urn-3:HUAM:CARP09390_dynmc",
+         "profile": "http://iiif.io/api/image/2/level2.json"
+        },
+        "width": 1024
+       }
+      }
+     ],
+     "label": "3",
+     "otherContent": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/165495/list/139754",
+       "@type": "sc:AnnotationList"
+      }
+     ],
+     "width": 1024
+    },
+    {
+     "@id": "https://iiif.harvardartmuseums.org/manifests/object/165495/canvas/canvas-33911",
+     "@type": "sc:Canvas",
+     "height": 719,
+     "images": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/165495/annotation/anno-33911",
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://iiif.harvardartmuseums.org/manifests/object/165495/canvas/canvas-33911",
+       "resource": {
+        "@id": "https://nrs.harvard.edu/urn-3:HUAM:CARP09391_dynmc/full/full/0/default.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "height": 719,
+        "service": {
+         "@context": "http://iiif.io/api/image/2/context.json",
+         "@id": "https://nrs.harvard.edu/urn-3:HUAM:CARP09391_dynmc",
+         "profile": "http://iiif.io/api/image/2/level2.json"
+        },
+        "width": 1024
+       }
+      }
+     ],
+     "label": "4",
+     "otherContent": [
+      {
+       "@id": "https://iiif.harvardartmuseums.org/manifests/object/165495/list/33911",
+       "@type": "sc:AnnotationList"
+      }
+     ],
+     "width": 1024
+    }
+   ],
+   "viewingHint": "individuals"
+  }
+ ],
+ "thumbnail": {
+  "@id": "https://nrs.harvard.edu/urn-3:huam:DDC113721_dynmc/full/!170,170/0/default.jpg",
+  "service": {
+   "@context": "http://iiif.io/api/image/2/context.json",
+   "@id": "https://nrs.harvard.edu/urn-3:huam:DDC113721_dynmc",
+   "profile": "http://iiif.io/api/image/2/level2.json"
+  }
+ },
+ "within": "https://www.harvardartmuseums.org/collections"
+}

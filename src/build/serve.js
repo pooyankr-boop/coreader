@@ -102,10 +102,20 @@ http.createServer((req, res) => {
 
   // Image proxy — fetch and relay binary images from external hosts
   if (urlPath === '/proxy-image') {
-    const params = new URL(req.url, 'http://localhost').searchParams;
-    const imgUrl = params.get('url');
-    if (!imgUrl) { res.writeHead(400); res.end('Missing url'); return; }
-    function proxyImg(targetUrl, depth) {
+      const params = new URL(req.url, 'http://localhost').searchParams;
+      // get() already percent-decodes once. If the client double-encoded the
+      // URL, decode again — the old code passed the encoded string to https.get()
+      // and the resulting Invalid URL throw killed the whole server process.
+      let imgUrl = params.get('url');
+      if (!imgUrl) { res.writeHead(400); res.end('Missing url'); return; }
+      if (/%3A%2F%2F/i.test(imgUrl)) { try { imgUrl = decodeURIComponent(imgUrl); } catch (e) {} }
+      let imgHost = '';
+      try { imgHost = new URL(imgUrl).hostname; }
+      catch (e) { res.writeHead(400, { 'Content-Type': 'text/plain' }); res.end('Bad url'); return; }
+      if (!PROXY_HOSTS.some(h => imgHost === h || imgHost.endsWith('.' + h))) {
+        res.writeHead(403, { 'Content-Type': 'text/plain' }); res.end('Host not allowed'); return;
+      }
+      function proxyImg(targetUrl, depth) {
       if (depth > 5) { res.writeHead(508); res.end('Too many redirects'); return; }
       const mod = targetUrl.startsWith('https') ? https : http;
       mod.get(targetUrl, {
