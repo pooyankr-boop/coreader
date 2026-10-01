@@ -1,0 +1,269 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "homepage": [
+    {
+      "id": "https://www.getty.edu/art/collection/object/103WJ3",
+      "type": "Text"
+    }
+  ],
+  "id": "https://media.getty.edu/iiif/manifest/91e33dc6-80ea-4065-9eda-19664c60f680",
+  "items": [
+    {
+      "height": 949,
+      "id": "https://media.getty.edu/iiif/manifest/canvas/8fbecc4c-3a3a-4c26-aadd-4a8d3644f907",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/annopage/p0",
+          "items": [
+            {
+              "body": {
+                "height": 949,
+                "id": "https://media.getty.edu/iiif/image/8fbecc4c-3a3a-4c26-aadd-4a8d3644f907/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://media.getty.edu/iiif/image/8fbecc4c-3a3a-4c26-aadd-4a8d3644f907",
+                    "profile": "level1",
+                    "sizes": [
+                      {
+                        "height": 59,
+                        "width": 188
+                      },
+                      {
+                        "height": 118,
+                        "width": 377
+                      },
+                      {
+                        "height": 237,
+                        "width": 754
+                      },
+                      {
+                        "height": 474,
+                        "width": 1509
+                      }
+                    ],
+                    "type": "ImageService3"
+                  }
+                ],
+                "type": "Image",
+                "width": 3018
+              },
+              "id": "https://media.getty.edu/iiif/manifest/anno-8fbecc4c-3a3a-4c26-aadd-4a8d3644f907",
+              "motivation": "painting",
+              "target": "https://media.getty.edu/iiif/manifest/canvas/8fbecc4c-3a3a-4c26-aadd-4a8d3644f907",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": [
+          "1. Side (old photography)"
+        ]
+      },
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Open Content Quality"
+            ]
+          },
+          "value": {
+            "en": [
+              "Yes"
+            ]
+          }
+        }
+      ],
+      "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "thumbnail": [
+        {
+          "id": "https://media.getty.edu/iiif/image/8fbecc4c-3a3a-4c26-aadd-4a8d3644f907/full/!600,600/0/default.jpg",
+          "service": [
+            {
+              "id": "https://media.getty.edu/iiif/image/8fbecc4c-3a3a-4c26-aadd-4a8d3644f907",
+              "profile": "level1",
+              "type": "ImageService3"
+            }
+          ],
+          "type": "Image"
+        }
+      ],
+      "type": "Canvas",
+      "width": 3018
+    }
+  ],
+  "label": {
+    "en": [
+      "Conical Cup"
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Artist/Maker"
+        ]
+      },
+      "value": {
+        "en": [
+          "Unknown"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Title"
+        ]
+      },
+      "value": {
+        "en": [
+          "Conical Cup"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Material"
+        ]
+      },
+      "value": {
+        "en": [
+          "Silver"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Dimensions"
+        ]
+      },
+      "value": {
+        "en": [
+          "Object: 8.4  19.4 cm, 0.5216 kg (3 5/16  7 5/8 in., 1 1/8 lb.)"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Accession Number"
+        ]
+      },
+      "value": {
+        "en": [
+          "81.AM.84.21"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Collection"
+        ]
+      },
+      "value": {
+        "en": [
+          "<a href=\"http://www.getty.edu/art/collection/\">The J. Paul Getty Museum</a>"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Rights Statement"
+        ]
+      },
+      "value": {
+        "en": [
+          "<p>Images provided here are believed to be in the public domain and     are available under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>     through Getty&rsquo;s <a href=\"http://www.getty.edu/about/opencontent.html\">Open Content Program</a>.     Texts provided here are &copy; J. Paul Getty Trust, licensed under     <a href=\"https://creativecommons.org/licenses/by/4.0/legalcode\">CC BY 4.0</a>.     Terms of use for the Getty logo can be found     <a href=\"http://www.getty.edu/legal/copyright.html#logo\"> here</a>.    </p>"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Date Modified"
+        ]
+      },
+      "value": {
+        "en": [
+          "2026-01-13T17:00:59.479109+00:00"
+        ]
+      }
+    }
+  ],
+  "provider": [
+    {
+      "id": "https://www.getty.edu/about/",
+      "label": {
+        "en": [
+          "J. Paul Getty Trust"
+        ]
+      },
+      "logo": [
+        {
+          "format": "image/png",
+          "height": 529,
+          "id": "https://www.getty.edu/global/images/getty_logo_primary_blk.png",
+          "type": "Image",
+          "width": 486
+        }
+      ],
+      "type": "Agent"
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "<p>Images provided here are believed to be in the public domain and     are available under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>     through Getty&rsquo;s <a href=\"http://www.getty.edu/about/opencontent.html\">Open Content Program</a>.     Texts provided here are &copy; J. Paul Getty Trust, licensed under     <a href=\"https://creativecommons.org/licenses/by/4.0/legalcode\">CC BY 4.0</a>.     Terms of use for the Getty logo can be found     <a href=\"http://www.getty.edu/legal/copyright.html#logo\"> here</a>.    </p>"
+      ]
+    }
+  },
+  "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+  "seeAlso": [
+    {
+      "id": "https://data.getty.edu/museum/collection/object/41e0917a-9517-49d0-944c-070949c57ac9",
+      "type": "Text"
+    }
+  ],
+  "structures": [
+    {
+      "id": "https://media.getty.edu/iiif//manifest/range/91e33dc6-80ea-4065-9eda-19664c60f680/default.json",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/canvas/8fbecc4c-3a3a-4c26-aadd-4a8d3644f907",
+          "type": "Canvas"
+        }
+      ],
+      "type": "Range"
+    }
+  ],
+  "summary": {
+    "en": [
+      "<p>Raised from a single sheet of silver, originally parcel-gilt. On the inside, traces of gilding on the molding. On the outside beneath the rim a Greek monogram (owner's mark?) and an indication of weight.</p>"
+    ]
+  },
+  "thumbnail": [
+    {
+      "id": "https://media.getty.edu/iiif/image/8fbecc4c-3a3a-4c26-aadd-4a8d3644f907/full/!600,600/0/default.jpg",
+      "service": [
+        {
+          "id": "https://media.getty.edu/iiif/image/8fbecc4c-3a3a-4c26-aadd-4a8d3644f907",
+          "profile": "level1",
+          "type": "ImageService3"
+        }
+      ],
+      "type": "Image"
+    }
+  ],
+  "type": "Manifest"
+}

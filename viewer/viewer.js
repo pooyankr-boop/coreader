@@ -494,8 +494,8 @@ function getTileSource(item){
   if(item.images && item.images.length){
     var img=item.images[0];
     // Hosts that block cross-origin info.json (Cloudflare / no CORS):
-    // fall through to the direct image URL like QDL.
-    var BLOCKED_HOSTS=['nrs.harvard.edu','ids.lib.harvard.edu','mps.lib.harvard.edu','www.artic.edu','harvardartmuseums.org','metmuseum.org','ids.si.edu'];
+        // fall through to the direct image URL.
+            var BLOCKED_HOSTS=['www.artic.edu','harvardartmuseums.org','metmuseum.org','ids.si.edu'];
     // Check service at top level or in resource
     var svc=img.service;
     if(!svc && img.resource) svc=img.resource.service;
@@ -519,21 +519,37 @@ function getTileSource(item){
       h=h||img.resource.height;
     }
     if(imgUrl){
-              // For direct images without known dimensions, return without size info
-              // so setupOsd will probe via Image() element
-              // QDL filenames contain a literal space ("Add MS 23570_0001.jp2");
-              // percent-encode it so the URL is well-formed for fetch()/OSD.
-              // Never encode our own /proxy-image?url=... — encodeURI escapes the
-              // '%' of an already-encoded query string, the proxy then receives a
-              // still-encoded URL, and new URL() throws and kills serve.js.
-              if(imgUrl.indexOf('/proxy-image?url=')<0) imgUrl=encodeURI(imgUrl);
-              return {type:'image', url:imgUrl, width:null, height:null};
+                  // For direct images without known dimensions, return without size info
+                  // so setupOsd will probe via Image() element
+                  // QDL filenames contain a literal space ("Add MS 23570_0001.jp2");
+                  // percent-encode it so the URL is well-formed for fetch()/OSD.
+                  // Never encode our own /proxy-image?url=... — encodeURI escapes the
+                  // '%' of an already-encoded query string, the proxy then receives a
+                  // still-encoded URL, and new URL() throws and kills serve.js.
+                                    if(imgUrl.indexOf('/proxy-image?url=')<0) imgUrl=encodeURI(imgUrl);
+                                    return {type:'image', url:imgUrl, width:null, height:null};
             }
   }
   // Also check item.num for label
   return {type:'image',url:'data:image/svg+xml,'+encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="400" height="600" fill="#f0ebe3"><text x="200" y="300" text-anchor="middle" font-family="sans-serif" font-size="24" fill="#8c8577">صفحه '+item.num+'</text></svg>')};
 }
 
+// Open a plain-image page the same way setupOsd does for page 1: fetch with
+// retries, hand OSD a same-origin blob. Going straight to _osd.open(url) left
+// QDL pages past page 1 fetched-but-never-painted, so the view froze on page 1.
+function openImagePage(ts, container){
+  loadImageRetry(ts.url, 3, function(im){
+    if(!im){
+      if(container) container.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted)">تصویر قابل بارگذاری نیست</div>';
+      return;
+    }
+    var w=im.naturalWidth, h=im.naturalHeight;
+    toBlobUrl(im, function(blobUrl){
+      _osd.open(blobUrl?{type:'image', url:blobUrl, width:w, height:h}
+                :{type:'image', url:ts.url, width:w, height:h});
+    });
+  });
+}
 function goToPageImage(pageIdx){
   if(!_osd || !BOOK.items[pageIdx]) return;
   var item=BOOK.items[pageIdx];
@@ -543,6 +559,8 @@ function goToPageImage(pageIdx){
   } else if(ts.type==='image' && ts.width && ts.height){
     // Pass tile source object with dimensions for OSD to render correctly
     _osd.open({type:'image', url:ts.url, width:ts.width, height:ts.height});
+  } else if(ts.type==='image' && !/^data:/.test(ts.url)){
+    openImagePage(ts, document.getElementById('osd-container'));
   } else {
     _osd.open(ts.url);
   }
@@ -772,25 +790,34 @@ function renderMeta(){
     var elinks=BOOK.externalLinks||{};
     var absManifest=BOOK.manifestUrl||'';
     // Fallback: generate viewer links from a Bodleian manifest URL
-    var bodMu=String(absManifest).match(/manifest\/([a-f0-9-]+)\.json/);
-    if(!elinks.mirador && bodMu && /bodleian/.test(absManifest)){
-      elinks.mirador='https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content='+encodeURIComponent(absManifest);
-    }
-    if(!elinks.universalViewer && bodMu && /bodleian/.test(absManifest)){
-      elinks.universalViewer='https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content='+encodeURIComponent(absManifest);
-    }
-    // Resolve an absolute manifest URL for third-party viewers:
-    // local 'books/...' cache path → remote iiifManifest link when available
-    var remoteManifest=elinks.iiifManifest||'';
-    if(/^books\//.test(absManifest) && remoteManifest) absManifest=remoteManifest;
-    var hasLinks=elinks.digitalObject||elinks.mirador||elinks.universalViewer||elinks.iiifManifest||remoteManifest;
-    if(hasLinks){
-      var isMuseum=(BOOK.source==='museum');
-      rows+='<div style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px">';
-      rows+='<h3 style="font-size:13px;color:var(--accent);margin-bottom:8px">پیوندها</h3>';
-      if(elinks.digitalObject) rows+='<div class="meta-row"><a href="'+elinks.digitalObject+'" target="_blank" rel="noopener" style="font-size:12px">شیء دیجیتال (سایت مجموعه)</a></div>';
-      if(elinks.mirador) rows+='<div class="meta-row"><a href="'+elinks.mirador+'" target="_blank" rel="noopener" style="font-size:12px">نمایش در Mirador</a></div>';
-      if(elinks.universalViewer) rows+='<div class="meta-row"><a href="'+elinks.universalViewer+'" target="_blank" rel="noopener" style="font-size:12px">نمایش در Universal Viewer</a></div>';
+        var bodMu=String(absManifest).match(/manifest\/([a-f0-9-]+)\.json/);
+        if(!elinks.mirador && bodMu && /bodleian/.test(absManifest)){
+          elinks.mirador='https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content='+encodeURIComponent(absManifest);
+        }
+        if(!elinks.universalViewer && bodMu && /bodleian/.test(absManifest)){
+          elinks.universalViewer='https://iiif.bodleian.ox.ac.uk/iiif/viewer/?iiif-content='+encodeURIComponent(absManifest);
+        }
+        // Resolve an absolute manifest URL for third-party viewers:
+        // local 'books/...' cache path → remote iiifManifest link when available
+        var remoteManifest=elinks.iiifManifest||'';
+        if(/^books\//.test(absManifest) && remoteManifest) absManifest=remoteManifest;
+        var hasLinks=elinks.digitalObject||elinks.mirador||elinks.universalViewer||elinks.iiifManifest||remoteManifest;
+        if(hasLinks){
+          var isMuseum=(BOOK.source==='museum');
+          rows+='<div style="margin-top:14px;border-top:1px solid var(--border);padding-top:12px">';
+          rows+='<h3 style="font-size:13px;color:var(--accent);margin-bottom:8px">پیوندها</h3>';
+          if(elinks.digitalObject) rows+='<div class="meta-row"><a href="'+elinks.digitalObject+'" target="_blank" rel="noopener" style="font-size:12px">شیء دیجیتال (سایت مجموعه)</a></div>';
+          // Mirador + Universal Viewer accept any absolute IIIF manifest URL, not just
+          // Bodleian ones. These were previously gated on /bodleian/ so every other
+          // book silently lost them.
+          if(!elinks.mirador && /^https?:\/\//.test(absManifest)){
+            elinks.mirador='https://projectmirador.org/manifests/'+encodeURIComponent(absManifest);
+          }
+          if(!elinks.universalViewer && /^https?:\/\//.test(absManifest)){
+            elinks.universalViewer='https://universalviewer.io/manifests/'+encodeURIComponent(absManifest);
+          }
+          if(elinks.mirador) rows+='<div class="meta-row"><a href="'+elinks.mirador+'" target="_blank" rel="noopener" style="font-size:12px">نمایش در Mirador</a></div>';
+          if(elinks.universalViewer) rows+='<div class="meta-row"><a href="'+elinks.universalViewer+'" target="_blank" rel="noopener" style="font-size:12px">نمایش در Universal Viewer</a></div>';
       if(absManifest && /^https?:\/\//.test(absManifest)){
         var enc=encodeURIComponent(absManifest);
         // Flipbook for books (hover flip on card uses this)
@@ -1170,11 +1197,21 @@ window.applyTextSize=function(v){
 };
 
 // === Progress ===
+// Wrapped: localStorage throws QuotaExceededError once progress/notes/text
+// caches fill up, and an uncaught throw here aborted page navigation.
+function _lsSet(k,v){try{localStorage.setItem(k,v);return true;}catch(e){return false;}}
 function updateProgress(){
   var progress={};
   try{progress=JSON.parse(localStorage.getItem('coreader-progress')||'{}')}catch(e){}
   progress[BOOK.slug]=_curPage;
-  localStorage.setItem('coreader-progress',JSON.stringify(progress));
+  if(!_lsSet('coreader-progress',JSON.stringify(progress))){
+    // Drop this book's entry and retry once — the blob grows one key per book
+    // opened, so a single stale entry usually frees enough room.
+    try{
+      delete progress[BOOK.slug];
+      _lsSet('coreader-progress',JSON.stringify(progress));
+    }catch(e){}
+  }
 }
 
 // === Theme ===

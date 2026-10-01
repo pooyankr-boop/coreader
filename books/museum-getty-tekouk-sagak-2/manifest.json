@@ -1,0 +1,745 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "homepage": [
+    {
+      "id": "https://www.getty.edu/art/collection/object/103WEX",
+      "type": "Text"
+    }
+  ],
+  "id": "https://media.getty.edu/iiif/manifest/f7650ba6-2872-4203-b496-41826ee18c30",
+  "items": [
+    {
+      "height": 10053,
+      "id": "https://media.getty.edu/iiif/manifest/canvas/c171650d-c30a-4831-ac91-4a0450c77ab3",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/annopage/p0",
+          "items": [
+            {
+              "body": {
+                "height": 10053,
+                "id": "https://media.getty.edu/iiif/image/c171650d-c30a-4831-ac91-4a0450c77ab3/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://media.getty.edu/iiif/image/c171650d-c30a-4831-ac91-4a0450c77ab3",
+                    "profile": "level1",
+                    "sizes": [
+                      {
+                        "height": 157,
+                        "width": 130
+                      },
+                      {
+                        "height": 314,
+                        "width": 261
+                      },
+                      {
+                        "height": 628,
+                        "width": 523
+                      },
+                      {
+                        "height": 1256,
+                        "width": 1046
+                      },
+                      {
+                        "height": 2513,
+                        "width": 2093
+                      },
+                      {
+                        "height": 5026,
+                        "width": 4187
+                      }
+                    ],
+                    "type": "ImageService3"
+                  }
+                ],
+                "type": "Image",
+                "width": 8374
+              },
+              "id": "https://media.getty.edu/iiif/manifest/anno-c171650d-c30a-4831-ac91-4a0450c77ab3",
+              "motivation": "painting",
+              "target": "https://media.getty.edu/iiif/manifest/canvas/c171650d-c30a-4831-ac91-4a0450c77ab3",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": [
+          "1. Main View, 3/4 left at front"
+        ]
+      },
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Open Content Quality"
+            ]
+          },
+          "value": {
+            "en": [
+              "Yes"
+            ]
+          }
+        }
+      ],
+      "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "thumbnail": [
+        {
+          "id": "https://media.getty.edu/iiif/image/c171650d-c30a-4831-ac91-4a0450c77ab3/full/!600,600/0/default.jpg",
+          "service": [
+            {
+              "id": "https://media.getty.edu/iiif/image/c171650d-c30a-4831-ac91-4a0450c77ab3",
+              "profile": "level1",
+              "type": "ImageService3"
+            }
+          ],
+          "type": "Image"
+        }
+      ],
+      "type": "Canvas",
+      "width": 8374
+    },
+    {
+      "height": 10053,
+      "id": "https://media.getty.edu/iiif/manifest/canvas/5ebbf91a-c3fc-4898-9a1d-b13a131ae628",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/annopage/p1",
+          "items": [
+            {
+              "body": {
+                "height": 10053,
+                "id": "https://media.getty.edu/iiif/image/5ebbf91a-c3fc-4898-9a1d-b13a131ae628/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://media.getty.edu/iiif/image/5ebbf91a-c3fc-4898-9a1d-b13a131ae628",
+                    "profile": "level1",
+                    "sizes": [
+                      {
+                        "height": 157,
+                        "width": 130
+                      },
+                      {
+                        "height": 314,
+                        "width": 261
+                      },
+                      {
+                        "height": 628,
+                        "width": 523
+                      },
+                      {
+                        "height": 1256,
+                        "width": 1046
+                      },
+                      {
+                        "height": 2513,
+                        "width": 2093
+                      },
+                      {
+                        "height": 5026,
+                        "width": 4187
+                      }
+                    ],
+                    "type": "ImageService3"
+                  }
+                ],
+                "type": "Image",
+                "width": 8374
+              },
+              "id": "https://media.getty.edu/iiif/manifest/anno-5ebbf91a-c3fc-4898-9a1d-b13a131ae628",
+              "motivation": "painting",
+              "target": "https://media.getty.edu/iiif/manifest/canvas/5ebbf91a-c3fc-4898-9a1d-b13a131ae628",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": [
+          "2. 3/4 right at front"
+        ]
+      },
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Open Content Quality"
+            ]
+          },
+          "value": {
+            "en": [
+              "Yes"
+            ]
+          }
+        }
+      ],
+      "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "thumbnail": [
+        {
+          "id": "https://media.getty.edu/iiif/image/5ebbf91a-c3fc-4898-9a1d-b13a131ae628/full/!600,600/0/default.jpg",
+          "service": [
+            {
+              "id": "https://media.getty.edu/iiif/image/5ebbf91a-c3fc-4898-9a1d-b13a131ae628",
+              "profile": "level1",
+              "type": "ImageService3"
+            }
+          ],
+          "type": "Image"
+        }
+      ],
+      "type": "Canvas",
+      "width": 8374
+    },
+    {
+      "height": 10053,
+      "id": "https://media.getty.edu/iiif/manifest/canvas/81816d71-eeef-4c51-aa25-3217290febcf",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/annopage/p2",
+          "items": [
+            {
+              "body": {
+                "height": 10053,
+                "id": "https://media.getty.edu/iiif/image/81816d71-eeef-4c51-aa25-3217290febcf/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://media.getty.edu/iiif/image/81816d71-eeef-4c51-aa25-3217290febcf",
+                    "profile": "level1",
+                    "sizes": [
+                      {
+                        "height": 157,
+                        "width": 130
+                      },
+                      {
+                        "height": 314,
+                        "width": 261
+                      },
+                      {
+                        "height": 628,
+                        "width": 523
+                      },
+                      {
+                        "height": 1256,
+                        "width": 1046
+                      },
+                      {
+                        "height": 2513,
+                        "width": 2093
+                      },
+                      {
+                        "height": 5026,
+                        "width": 4187
+                      }
+                    ],
+                    "type": "ImageService3"
+                  }
+                ],
+                "type": "Image",
+                "width": 8374
+              },
+              "id": "https://media.getty.edu/iiif/manifest/anno-81816d71-eeef-4c51-aa25-3217290febcf",
+              "motivation": "painting",
+              "target": "https://media.getty.edu/iiif/manifest/canvas/81816d71-eeef-4c51-aa25-3217290febcf",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": [
+          "3. Front"
+        ]
+      },
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Open Content Quality"
+            ]
+          },
+          "value": {
+            "en": [
+              "Yes"
+            ]
+          }
+        }
+      ],
+      "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "thumbnail": [
+        {
+          "id": "https://media.getty.edu/iiif/image/81816d71-eeef-4c51-aa25-3217290febcf/full/!600,600/0/default.jpg",
+          "service": [
+            {
+              "id": "https://media.getty.edu/iiif/image/81816d71-eeef-4c51-aa25-3217290febcf",
+              "profile": "level1",
+              "type": "ImageService3"
+            }
+          ],
+          "type": "Image"
+        }
+      ],
+      "type": "Canvas",
+      "width": 8374
+    },
+    {
+      "height": 9332,
+      "id": "https://media.getty.edu/iiif/manifest/canvas/886da371-1262-4d3e-b55a-1688080a8d88",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/annopage/p3",
+          "items": [
+            {
+              "body": {
+                "height": 9332,
+                "id": "https://media.getty.edu/iiif/image/886da371-1262-4d3e-b55a-1688080a8d88/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://media.getty.edu/iiif/image/886da371-1262-4d3e-b55a-1688080a8d88",
+                    "profile": "level1",
+                    "sizes": [
+                      {
+                        "height": 145,
+                        "width": 149
+                      },
+                      {
+                        "height": 291,
+                        "width": 298
+                      },
+                      {
+                        "height": 583,
+                        "width": 597
+                      },
+                      {
+                        "height": 1166,
+                        "width": 1194
+                      },
+                      {
+                        "height": 2333,
+                        "width": 2388
+                      },
+                      {
+                        "height": 4666,
+                        "width": 4777
+                      }
+                    ],
+                    "type": "ImageService3"
+                  }
+                ],
+                "type": "Image",
+                "width": 9555
+              },
+              "id": "https://media.getty.edu/iiif/manifest/anno-886da371-1262-4d3e-b55a-1688080a8d88",
+              "motivation": "painting",
+              "target": "https://media.getty.edu/iiif/manifest/canvas/886da371-1262-4d3e-b55a-1688080a8d88",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": [
+          "4. Right profile"
+        ]
+      },
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Open Content Quality"
+            ]
+          },
+          "value": {
+            "en": [
+              "Yes"
+            ]
+          }
+        }
+      ],
+      "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "thumbnail": [
+        {
+          "id": "https://media.getty.edu/iiif/image/886da371-1262-4d3e-b55a-1688080a8d88/full/!600,600/0/default.jpg",
+          "service": [
+            {
+              "id": "https://media.getty.edu/iiif/image/886da371-1262-4d3e-b55a-1688080a8d88",
+              "profile": "level1",
+              "type": "ImageService3"
+            }
+          ],
+          "type": "Image"
+        }
+      ],
+      "type": "Canvas",
+      "width": 9555
+    },
+    {
+      "height": 9332,
+      "id": "https://media.getty.edu/iiif/manifest/canvas/c1765e43-4a9c-4020-ba6a-39839cfc5832",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/annopage/p4",
+          "items": [
+            {
+              "body": {
+                "height": 9332,
+                "id": "https://media.getty.edu/iiif/image/c1765e43-4a9c-4020-ba6a-39839cfc5832/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://media.getty.edu/iiif/image/c1765e43-4a9c-4020-ba6a-39839cfc5832",
+                    "profile": "level1",
+                    "sizes": [
+                      {
+                        "height": 145,
+                        "width": 149
+                      },
+                      {
+                        "height": 291,
+                        "width": 298
+                      },
+                      {
+                        "height": 583,
+                        "width": 597
+                      },
+                      {
+                        "height": 1166,
+                        "width": 1194
+                      },
+                      {
+                        "height": 2333,
+                        "width": 2388
+                      },
+                      {
+                        "height": 4666,
+                        "width": 4777
+                      }
+                    ],
+                    "type": "ImageService3"
+                  }
+                ],
+                "type": "Image",
+                "width": 9555
+              },
+              "id": "https://media.getty.edu/iiif/manifest/anno-c1765e43-4a9c-4020-ba6a-39839cfc5832",
+              "motivation": "painting",
+              "target": "https://media.getty.edu/iiif/manifest/canvas/c1765e43-4a9c-4020-ba6a-39839cfc5832",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": [
+          "5. Left profile"
+        ]
+      },
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Open Content Quality"
+            ]
+          },
+          "value": {
+            "en": [
+              "Yes"
+            ]
+          }
+        }
+      ],
+      "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "thumbnail": [
+        {
+          "id": "https://media.getty.edu/iiif/image/c1765e43-4a9c-4020-ba6a-39839cfc5832/full/!600,600/0/default.jpg",
+          "service": [
+            {
+              "id": "https://media.getty.edu/iiif/image/c1765e43-4a9c-4020-ba6a-39839cfc5832",
+              "profile": "level1",
+              "type": "ImageService3"
+            }
+          ],
+          "type": "Image"
+        }
+      ],
+      "type": "Canvas",
+      "width": 9555
+    },
+    {
+      "height": 441,
+      "id": "https://media.getty.edu/iiif/manifest/canvas/72193254-0d3c-405c-98cd-81cc67073a0f",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/annopage/p5",
+          "items": [
+            {
+              "body": {
+                "height": 441,
+                "id": "https://media.getty.edu/iiif/image/72193254-0d3c-405c-98cd-81cc67073a0f/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://media.getty.edu/iiif/image/72193254-0d3c-405c-98cd-81cc67073a0f",
+                    "profile": "level1",
+                    "sizes": [
+                      {
+                        "height": 55,
+                        "width": 137
+                      },
+                      {
+                        "height": 110,
+                        "width": 275
+                      },
+                      {
+                        "height": 220,
+                        "width": 551
+                      }
+                    ],
+                    "type": "ImageService3"
+                  }
+                ],
+                "type": "Image",
+                "width": 1102
+              },
+              "id": "https://media.getty.edu/iiif/manifest/anno-72193254-0d3c-405c-98cd-81cc67073a0f",
+              "motivation": "painting",
+              "target": "https://media.getty.edu/iiif/manifest/canvas/72193254-0d3c-405c-98cd-81cc67073a0f",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": [
+          "6. Inscription on rim"
+        ]
+      },
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Open Content Quality"
+            ]
+          },
+          "value": {
+            "en": [
+              "Yes"
+            ]
+          }
+        }
+      ],
+      "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "thumbnail": [
+        {
+          "id": "https://media.getty.edu/iiif/image/72193254-0d3c-405c-98cd-81cc67073a0f/full/!600,600/0/default.jpg",
+          "service": [
+            {
+              "id": "https://media.getty.edu/iiif/image/72193254-0d3c-405c-98cd-81cc67073a0f",
+              "profile": "level1",
+              "type": "ImageService3"
+            }
+          ],
+          "type": "Image"
+        }
+      ],
+      "type": "Canvas",
+      "width": 1102
+    }
+  ],
+  "label": {
+    "en": [
+      "Lynx Rhyton"
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Artist/Maker"
+        ]
+      },
+      "value": {
+        "en": [
+          "Unknown"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Title"
+        ]
+      },
+      "value": {
+        "en": [
+          "Lynx Rhyton"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Material"
+        ]
+      },
+      "value": {
+        "en": [
+          "Gilt silver"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Dimensions"
+        ]
+      },
+      "value": {
+        "en": [
+          "Object: 24.5  41.9  12.2 cm, 0.7778 kg (9 5/8  16 1/2  4 13/16 in., 1.7146 lb.)"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Accession Number"
+        ]
+      },
+      "value": {
+        "en": [
+          "86.AM.752.2"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Collection"
+        ]
+      },
+      "value": {
+        "en": [
+          "<a href=\"http://www.getty.edu/art/collection/\">The J. Paul Getty Museum</a>"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Rights Statement"
+        ]
+      },
+      "value": {
+        "en": [
+          "<p>Images provided here are believed to be in the public domain and     are available under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>     through Getty&rsquo;s <a href=\"http://www.getty.edu/about/opencontent.html\">Open Content Program</a>.     Texts provided here are &copy; J. Paul Getty Trust, licensed under     <a href=\"https://creativecommons.org/licenses/by/4.0/legalcode\">CC BY 4.0</a>.     Terms of use for the Getty logo can be found     <a href=\"http://www.getty.edu/legal/copyright.html#logo\"> here</a>.    </p>"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Date Modified"
+        ]
+      },
+      "value": {
+        "en": [
+          "2026-04-08T08:11:34.116266+00:00"
+        ]
+      }
+    }
+  ],
+  "provider": [
+    {
+      "id": "https://www.getty.edu/about/",
+      "label": {
+        "en": [
+          "J. Paul Getty Trust"
+        ]
+      },
+      "logo": [
+        {
+          "format": "image/png",
+          "height": 529,
+          "id": "https://www.getty.edu/global/images/getty_logo_primary_blk.png",
+          "type": "Image",
+          "width": 486
+        }
+      ],
+      "type": "Agent"
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "<p>Images provided here are believed to be in the public domain and     are available under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>     through Getty&rsquo;s <a href=\"http://www.getty.edu/about/opencontent.html\">Open Content Program</a>.     Texts provided here are &copy; J. Paul Getty Trust, licensed under     <a href=\"https://creativecommons.org/licenses/by/4.0/legalcode\">CC BY 4.0</a>.     Terms of use for the Getty logo can be found     <a href=\"http://www.getty.edu/legal/copyright.html#logo\"> here</a>.    </p>"
+      ]
+    }
+  },
+  "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+  "seeAlso": [
+    {
+      "id": "https://data.getty.edu/museum/collection/object/0cd31889-672e-47dd-947a-1b8099af7fdb",
+      "type": "Text"
+    }
+  ],
+  "structures": [
+    {
+      "id": "https://media.getty.edu/iiif//manifest/range/f7650ba6-2872-4203-b496-41826ee18c30/default.json",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/canvas/c171650d-c30a-4831-ac91-4a0450c77ab3",
+          "type": "Canvas"
+        },
+        {
+          "id": "https://media.getty.edu/iiif/manifest/canvas/5ebbf91a-c3fc-4898-9a1d-b13a131ae628",
+          "type": "Canvas"
+        },
+        {
+          "id": "https://media.getty.edu/iiif/manifest/canvas/81816d71-eeef-4c51-aa25-3217290febcf",
+          "type": "Canvas"
+        },
+        {
+          "id": "https://media.getty.edu/iiif/manifest/canvas/886da371-1262-4d3e-b55a-1688080a8d88",
+          "type": "Canvas"
+        },
+        {
+          "id": "https://media.getty.edu/iiif/manifest/canvas/c1765e43-4a9c-4020-ba6a-39839cfc5832",
+          "type": "Canvas"
+        },
+        {
+          "id": "https://media.getty.edu/iiif/manifest/canvas/72193254-0d3c-405c-98cd-81cc67073a0f",
+          "type": "Canvas"
+        }
+      ],
+      "type": "Range"
+    }
+  ],
+  "summary": {
+    "en": [
+      "<p>With fangs bared and ears laid back, the forepart of an attacking lynx leaps from the curving body of this gilt silver rhyton. The animal is modeled in vigorous detail, with outstretched paws and hair locks accentuated with triangular engravings. The animals collar may indicate that it was sacred to the wine-god Dionysos, and this type of vessel was designed for drinking. Wine poured into the top came out of the spout between the animal''s legs, and flowed directly into the drinkers mouth or another vessel.</p>\n<p>Stylistic features suggest that this rhyton was made in northwest Iran in the first century B.C. Iran had been part of the Achaemenid Persian Empire until conquered by Alexander the Great. After his death in 323 B.C., the Hellenistic Greek Seleucid dynasty, whose kingdom stretched from Turkey to Afghanistan, ruled the area. In the later third century B.C., however, a group of semi-nomadic people from the steppes of south central Asia called the Parthians began challenging the weakened Seleucid authority in the eastern part of their territory. By the first century B.C., the Parthians ruled the area. This complicated political history left its legacy in the art and material culture of the area. This rhyton''s form, with its slender horn, is Persian, but the lynx is Greek, and the Aramaic inscription on the lip suggests a Parthian owner.</p>"
+    ]
+  },
+  "thumbnail": [
+    {
+      "id": "https://media.getty.edu/iiif/image/c171650d-c30a-4831-ac91-4a0450c77ab3/full/!600,600/0/default.jpg",
+      "service": [
+        {
+          "id": "https://media.getty.edu/iiif/image/c171650d-c30a-4831-ac91-4a0450c77ab3",
+          "profile": "level1",
+          "type": "ImageService3"
+        }
+      ],
+      "type": "Image"
+    }
+  ],
+  "type": "Manifest"
+}

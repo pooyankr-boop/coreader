@@ -1,0 +1,360 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "homepage": [
+    {
+      "id": "https://www.getty.edu/art/collection/object/10649B",
+      "type": "Text"
+    }
+  ],
+  "id": "https://media.getty.edu/iiif/manifest/38fde621-5354-48a7-ab53-aae4d57663e8",
+  "items": [
+    {
+      "height": 5801,
+      "id": "https://media.getty.edu/iiif/manifest/canvas/2c644ef1-f587-4535-a6ec-257367109036",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/annopage/p0",
+          "items": [
+            {
+              "body": {
+                "height": 5801,
+                "id": "https://media.getty.edu/iiif/image/2c644ef1-f587-4535-a6ec-257367109036/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://media.getty.edu/iiif/image/2c644ef1-f587-4535-a6ec-257367109036",
+                    "profile": "level1",
+                    "sizes": [
+                      {
+                        "height": 181,
+                        "width": 181
+                      },
+                      {
+                        "height": 362,
+                        "width": 362
+                      },
+                      {
+                        "height": 725,
+                        "width": 725
+                      },
+                      {
+                        "height": 1450,
+                        "width": 1450
+                      },
+                      {
+                        "height": 2900,
+                        "width": 2900
+                      }
+                    ],
+                    "type": "ImageService3"
+                  }
+                ],
+                "type": "Image",
+                "width": 5801
+              },
+              "id": "https://media.getty.edu/iiif/manifest/anno-2c644ef1-f587-4535-a6ec-257367109036",
+              "motivation": "painting",
+              "target": "https://media.getty.edu/iiif/manifest/canvas/2c644ef1-f587-4535-a6ec-257367109036",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": [
+          "1. Front"
+        ]
+      },
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Open Content Quality"
+            ]
+          },
+          "value": {
+            "en": [
+              "Yes"
+            ]
+          }
+        }
+      ],
+      "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "thumbnail": [
+        {
+          "id": "https://media.getty.edu/iiif/image/2c644ef1-f587-4535-a6ec-257367109036/full/!600,600/0/default.jpg",
+          "service": [
+            {
+              "id": "https://media.getty.edu/iiif/image/2c644ef1-f587-4535-a6ec-257367109036",
+              "profile": "level1",
+              "type": "ImageService3"
+            }
+          ],
+          "type": "Image"
+        }
+      ],
+      "type": "Canvas",
+      "width": 5801
+    },
+    {
+      "height": 5799,
+      "id": "https://media.getty.edu/iiif/manifest/canvas/72b9c504-8286-4962-825e-e43d4d58ffb4",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/annopage/p1",
+          "items": [
+            {
+              "body": {
+                "height": 5799,
+                "id": "https://media.getty.edu/iiif/image/72b9c504-8286-4962-825e-e43d4d58ffb4/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://media.getty.edu/iiif/image/72b9c504-8286-4962-825e-e43d4d58ffb4",
+                    "profile": "level1",
+                    "sizes": [
+                      {
+                        "height": 181,
+                        "width": 181
+                      },
+                      {
+                        "height": 362,
+                        "width": 362
+                      },
+                      {
+                        "height": 724,
+                        "width": 725
+                      },
+                      {
+                        "height": 1449,
+                        "width": 1450
+                      },
+                      {
+                        "height": 2899,
+                        "width": 2900
+                      }
+                    ],
+                    "type": "ImageService3"
+                  }
+                ],
+                "type": "Image",
+                "width": 5801
+              },
+              "id": "https://media.getty.edu/iiif/manifest/anno-72b9c504-8286-4962-825e-e43d4d58ffb4",
+              "motivation": "painting",
+              "target": "https://media.getty.edu/iiif/manifest/canvas/72b9c504-8286-4962-825e-e43d4d58ffb4",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": [
+          "2. Back"
+        ]
+      },
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Open Content Quality"
+            ]
+          },
+          "value": {
+            "en": [
+              "Yes"
+            ]
+          }
+        }
+      ],
+      "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "thumbnail": [
+        {
+          "id": "https://media.getty.edu/iiif/image/72b9c504-8286-4962-825e-e43d4d58ffb4/full/!600,600/0/default.jpg",
+          "service": [
+            {
+              "id": "https://media.getty.edu/iiif/image/72b9c504-8286-4962-825e-e43d4d58ffb4",
+              "profile": "level1",
+              "type": "ImageService3"
+            }
+          ],
+          "type": "Image"
+        }
+      ],
+      "type": "Canvas",
+      "width": 5801
+    }
+  ],
+  "label": {
+    "en": [
+      "Drachm of Kavad I"
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Artist/Maker"
+        ]
+      },
+      "value": {
+        "en": [
+          "Unknown"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Title"
+        ]
+      },
+      "value": {
+        "en": [
+          "Drachm of Kavad I"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Date"
+        ]
+      },
+      "value": {
+        "en": [
+          "A.D. 499531"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Material"
+        ]
+      },
+      "value": {
+        "en": [
+          "Silver"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Accession Number"
+        ]
+      },
+      "value": {
+        "en": [
+          "80.NH.152.108"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Collection"
+        ]
+      },
+      "value": {
+        "en": [
+          "<a href=\"http://www.getty.edu/art/collection/\">The J. Paul Getty Museum</a>"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Rights Statement"
+        ]
+      },
+      "value": {
+        "en": [
+          "<p>Images provided here are believed to be in the public domain and     are available under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>     through Getty&rsquo;s <a href=\"http://www.getty.edu/about/opencontent.html\">Open Content Program</a>.     Texts provided here are &copy; J. Paul Getty Trust, licensed under     <a href=\"https://creativecommons.org/licenses/by/4.0/legalcode\">CC BY 4.0</a>.     Terms of use for the Getty logo can be found     <a href=\"http://www.getty.edu/legal/copyright.html#logo\"> here</a>.    </p>"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Date Modified"
+        ]
+      },
+      "value": {
+        "en": [
+          "2026-01-13T17:01:03.078714+00:00"
+        ]
+      }
+    }
+  ],
+  "provider": [
+    {
+      "id": "https://www.getty.edu/about/",
+      "label": {
+        "en": [
+          "J. Paul Getty Trust"
+        ]
+      },
+      "logo": [
+        {
+          "format": "image/png",
+          "height": 529,
+          "id": "https://www.getty.edu/global/images/getty_logo_primary_blk.png",
+          "type": "Image",
+          "width": 486
+        }
+      ],
+      "type": "Agent"
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "<p>Images provided here are believed to be in the public domain and     are available under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>     through Getty&rsquo;s <a href=\"http://www.getty.edu/about/opencontent.html\">Open Content Program</a>.     Texts provided here are &copy; J. Paul Getty Trust, licensed under     <a href=\"https://creativecommons.org/licenses/by/4.0/legalcode\">CC BY 4.0</a>.     Terms of use for the Getty logo can be found     <a href=\"http://www.getty.edu/legal/copyright.html#logo\"> here</a>.    </p>"
+      ]
+    }
+  },
+  "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+  "seeAlso": [
+    {
+      "id": "https://data.getty.edu/museum/collection/object/63131e5e-532b-4497-a1c6-78f6399680f0",
+      "type": "Text"
+    }
+  ],
+  "structures": [
+    {
+      "id": "https://media.getty.edu/iiif//manifest/range/38fde621-5354-48a7-ab53-aae4d57663e8/default.json",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/canvas/2c644ef1-f587-4535-a6ec-257367109036",
+          "type": "Canvas"
+        },
+        {
+          "id": "https://media.getty.edu/iiif/manifest/canvas/72b9c504-8286-4962-825e-e43d4d58ffb4",
+          "type": "Canvas"
+        }
+      ],
+      "type": "Range"
+    }
+  ],
+  "thumbnail": [
+    {
+      "id": "https://media.getty.edu/iiif/image/2c644ef1-f587-4535-a6ec-257367109036/full/!600,600/0/default.jpg",
+      "service": [
+        {
+          "id": "https://media.getty.edu/iiif/image/2c644ef1-f587-4535-a6ec-257367109036",
+          "profile": "level1",
+          "type": "ImageService3"
+        }
+      ],
+      "type": "Image"
+    }
+  ],
+  "type": "Manifest"
+}

@@ -1,0 +1,371 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "homepage": [
+    {
+      "id": "https://www.getty.edu/art/collection/object/103VW4",
+      "type": "Text"
+    }
+  ],
+  "id": "https://media.getty.edu/iiif/manifest/5d2220d9-dca6-4d07-8864-3c4cf7cac860",
+  "items": [
+    {
+      "height": 4813,
+      "id": "https://media.getty.edu/iiif/manifest/canvas/59c92e33-f505-4dd6-9a37-ed85395d68bb",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/annopage/p0",
+          "items": [
+            {
+              "body": {
+                "height": 4813,
+                "id": "https://media.getty.edu/iiif/image/59c92e33-f505-4dd6-9a37-ed85395d68bb/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://media.getty.edu/iiif/image/59c92e33-f505-4dd6-9a37-ed85395d68bb",
+                    "profile": "level1",
+                    "sizes": [
+                      {
+                        "height": 150,
+                        "width": 137
+                      },
+                      {
+                        "height": 300,
+                        "width": 275
+                      },
+                      {
+                        "height": 601,
+                        "width": 551
+                      },
+                      {
+                        "height": 1203,
+                        "width": 1102
+                      },
+                      {
+                        "height": 2406,
+                        "width": 2205
+                      }
+                    ],
+                    "type": "ImageService3"
+                  }
+                ],
+                "type": "Image",
+                "width": 4410
+              },
+              "id": "https://media.getty.edu/iiif/manifest/anno-59c92e33-f505-4dd6-9a37-ed85395d68bb",
+              "motivation": "painting",
+              "target": "https://media.getty.edu/iiif/manifest/canvas/59c92e33-f505-4dd6-9a37-ed85395d68bb",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": [
+          "1. 5/95"
+        ]
+      },
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Open Content Quality"
+            ]
+          },
+          "value": {
+            "en": [
+              "Yes"
+            ]
+          }
+        }
+      ],
+      "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "thumbnail": [
+        {
+          "id": "https://media.getty.edu/iiif/image/59c92e33-f505-4dd6-9a37-ed85395d68bb/full/!600,600/0/default.jpg",
+          "service": [
+            {
+              "id": "https://media.getty.edu/iiif/image/59c92e33-f505-4dd6-9a37-ed85395d68bb",
+              "profile": "level1",
+              "type": "ImageService3"
+            }
+          ],
+          "type": "Image"
+        }
+      ],
+      "type": "Canvas",
+      "width": 4410
+    },
+    {
+      "height": 5176,
+      "id": "https://media.getty.edu/iiif/manifest/canvas/aaa19a63-8f6b-4889-a2d4-ae1e6a6db0c2",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/annopage/p1",
+          "items": [
+            {
+              "body": {
+                "height": 5176,
+                "id": "https://media.getty.edu/iiif/image/aaa19a63-8f6b-4889-a2d4-ae1e6a6db0c2/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://media.getty.edu/iiif/image/aaa19a63-8f6b-4889-a2d4-ae1e6a6db0c2",
+                    "profile": "level1",
+                    "sizes": [
+                      {
+                        "height": 161,
+                        "width": 163
+                      },
+                      {
+                        "height": 323,
+                        "width": 326
+                      },
+                      {
+                        "height": 647,
+                        "width": 653
+                      },
+                      {
+                        "height": 1294,
+                        "width": 1307
+                      },
+                      {
+                        "height": 2588,
+                        "width": 2614
+                      }
+                    ],
+                    "type": "ImageService3"
+                  }
+                ],
+                "type": "Image",
+                "width": 5228
+              },
+              "id": "https://media.getty.edu/iiif/manifest/anno-aaa19a63-8f6b-4889-a2d4-ae1e6a6db0c2",
+              "motivation": "painting",
+              "target": "https://media.getty.edu/iiif/manifest/canvas/aaa19a63-8f6b-4889-a2d4-ae1e6a6db0c2",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": [
+          "2. Impression 5/95"
+        ]
+      },
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Open Content Quality"
+            ]
+          },
+          "value": {
+            "en": [
+              "Yes"
+            ]
+          }
+        }
+      ],
+      "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "thumbnail": [
+        {
+          "id": "https://media.getty.edu/iiif/image/aaa19a63-8f6b-4889-a2d4-ae1e6a6db0c2/full/!600,600/0/default.jpg",
+          "service": [
+            {
+              "id": "https://media.getty.edu/iiif/image/aaa19a63-8f6b-4889-a2d4-ae1e6a6db0c2",
+              "profile": "level1",
+              "type": "ImageService3"
+            }
+          ],
+          "type": "Image"
+        }
+      ],
+      "type": "Canvas",
+      "width": 5228
+    }
+  ],
+  "label": {
+    "en": [
+      "Fragmentary Ring"
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Artist/Maker"
+        ]
+      },
+      "value": {
+        "en": [
+          "Unknown"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Title"
+        ]
+      },
+      "value": {
+        "en": [
+          "Fragmentary Ring"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Material"
+        ]
+      },
+      "value": {
+        "en": [
+          "Bronze"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Dimensions"
+        ]
+      },
+      "value": {
+        "en": [
+          "Object: 1.6  1 cm (5/8  3/8 in.)"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Accession Number"
+        ]
+      },
+      "value": {
+        "en": [
+          "85.AN.444.31"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Collection"
+        ]
+      },
+      "value": {
+        "en": [
+          "<a href=\"http://www.getty.edu/art/collection/\">The J. Paul Getty Museum</a>"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Rights Statement"
+        ]
+      },
+      "value": {
+        "en": [
+          "<p>Images provided here are believed to be in the public domain and     are available under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>     through Getty&rsquo;s <a href=\"http://www.getty.edu/about/opencontent.html\">Open Content Program</a>.     Texts provided here are &copy; J. Paul Getty Trust, licensed under     <a href=\"https://creativecommons.org/licenses/by/4.0/legalcode\">CC BY 4.0</a>.     Terms of use for the Getty logo can be found     <a href=\"http://www.getty.edu/legal/copyright.html#logo\"> here</a>.    </p>"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Date Modified"
+        ]
+      },
+      "value": {
+        "en": [
+          "2026-01-13T16:59:24.134586+00:00"
+        ]
+      }
+    }
+  ],
+  "partOf": [
+    {
+      "id": "https://media.getty.edu/iiif/manifest/27880229-2d04-412b-b96f-3faa2631fde6",
+      "type": "Manifest"
+    }
+  ],
+  "provider": [
+    {
+      "id": "https://www.getty.edu/about/",
+      "label": {
+        "en": [
+          "J. Paul Getty Trust"
+        ]
+      },
+      "logo": [
+        {
+          "format": "image/png",
+          "height": 529,
+          "id": "https://www.getty.edu/global/images/getty_logo_primary_blk.png",
+          "type": "Image",
+          "width": 486
+        }
+      ],
+      "type": "Agent"
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "<p>Images provided here are believed to be in the public domain and     are available under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>     through Getty&rsquo;s <a href=\"http://www.getty.edu/about/opencontent.html\">Open Content Program</a>.     Texts provided here are &copy; J. Paul Getty Trust, licensed under     <a href=\"https://creativecommons.org/licenses/by/4.0/legalcode\">CC BY 4.0</a>.     Terms of use for the Getty logo can be found     <a href=\"http://www.getty.edu/legal/copyright.html#logo\"> here</a>.    </p>"
+      ]
+    }
+  },
+  "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+  "seeAlso": [
+    {
+      "id": "https://data.getty.edu/museum/collection/object/a4f33974-024d-424d-83f5-52cac2bd3d0b",
+      "type": "Text"
+    }
+  ],
+  "structures": [
+    {
+      "id": "https://media.getty.edu/iiif//manifest/range/5d2220d9-dca6-4d07-8864-3c4cf7cac860/default.json",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/canvas/59c92e33-f505-4dd6-9a37-ed85395d68bb",
+          "type": "Canvas"
+        },
+        {
+          "id": "https://media.getty.edu/iiif/manifest/canvas/aaa19a63-8f6b-4889-a2d4-ae1e6a6db0c2",
+          "type": "Canvas"
+        }
+      ],
+      "type": "Range"
+    }
+  ],
+  "summary": {
+    "en": [
+      "<p>Engraved on the bezel: a bearded male figure seated right before a thymiaterion. Only the bezel of the ring is preserved along with traces of the hoop.</p>"
+    ]
+  },
+  "thumbnail": [
+    {
+      "id": "https://media.getty.edu/iiif/image/59c92e33-f505-4dd6-9a37-ed85395d68bb/full/!600,600/0/default.jpg",
+      "service": [
+        {
+          "id": "https://media.getty.edu/iiif/image/59c92e33-f505-4dd6-9a37-ed85395d68bb",
+          "profile": "level1",
+          "type": "ImageService3"
+        }
+      ],
+      "type": "Image"
+    }
+  ],
+  "type": "Manifest"
+}

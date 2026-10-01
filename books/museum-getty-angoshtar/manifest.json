@@ -1,0 +1,372 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "homepage": [
+    {
+      "id": "https://www.getty.edu/art/collection/object/103VRS",
+      "type": "Text"
+    }
+  ],
+  "id": "https://media.getty.edu/iiif/manifest/755103f6-fa7b-447b-a3bc-6e5fd6941332",
+  "items": [
+    {
+      "height": 4390,
+      "id": "https://media.getty.edu/iiif/manifest/canvas/5e8706e3-84ba-49bb-ab0b-ac9b2c17cd46",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/annopage/p0",
+          "items": [
+            {
+              "body": {
+                "height": 4390,
+                "id": "https://media.getty.edu/iiif/image/5e8706e3-84ba-49bb-ab0b-ac9b2c17cd46/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://media.getty.edu/iiif/image/5e8706e3-84ba-49bb-ab0b-ac9b2c17cd46",
+                    "profile": "level1",
+                    "sizes": [
+                      {
+                        "height": 137,
+                        "width": 146
+                      },
+                      {
+                        "height": 274,
+                        "width": 292
+                      },
+                      {
+                        "height": 548,
+                        "width": 584
+                      },
+                      {
+                        "height": 1097,
+                        "width": 1168
+                      },
+                      {
+                        "height": 2195,
+                        "width": 2336
+                      }
+                    ],
+                    "type": "ImageService3"
+                  }
+                ],
+                "type": "Image",
+                "width": 4672
+              },
+              "id": "https://media.getty.edu/iiif/manifest/anno-5e8706e3-84ba-49bb-ab0b-ac9b2c17cd46",
+              "motivation": "painting",
+              "target": "https://media.getty.edu/iiif/manifest/canvas/5e8706e3-84ba-49bb-ab0b-ac9b2c17cd46",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": [
+          "1. Main View"
+        ]
+      },
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Open Content Quality"
+            ]
+          },
+          "value": {
+            "en": [
+              "Yes"
+            ]
+          }
+        }
+      ],
+      "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "thumbnail": [
+        {
+          "id": "https://media.getty.edu/iiif/image/5e8706e3-84ba-49bb-ab0b-ac9b2c17cd46/full/!600,600/0/default.jpg",
+          "service": [
+            {
+              "id": "https://media.getty.edu/iiif/image/5e8706e3-84ba-49bb-ab0b-ac9b2c17cd46",
+              "profile": "level1",
+              "type": "ImageService3"
+            }
+          ],
+          "type": "Image"
+        }
+      ],
+      "type": "Canvas",
+      "width": 4672
+    },
+    {
+      "height": 5656,
+      "id": "https://media.getty.edu/iiif/manifest/canvas/fe069ec5-9e2c-4d70-bac1-e77094a2a0fa",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/annopage/p1",
+          "items": [
+            {
+              "body": {
+                "height": 5656,
+                "id": "https://media.getty.edu/iiif/image/fe069ec5-9e2c-4d70-bac1-e77094a2a0fa/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://media.getty.edu/iiif/image/fe069ec5-9e2c-4d70-bac1-e77094a2a0fa",
+                    "profile": "level1",
+                    "sizes": [
+                      {
+                        "height": 176,
+                        "width": 176
+                      },
+                      {
+                        "height": 353,
+                        "width": 353
+                      },
+                      {
+                        "height": 707,
+                        "width": 706
+                      },
+                      {
+                        "height": 1414,
+                        "width": 1412
+                      },
+                      {
+                        "height": 2828,
+                        "width": 2825
+                      }
+                    ],
+                    "type": "ImageService3"
+                  }
+                ],
+                "type": "Image",
+                "width": 5650
+              },
+              "id": "https://media.getty.edu/iiif/manifest/anno-fe069ec5-9e2c-4d70-bac1-e77094a2a0fa",
+              "motivation": "painting",
+              "target": "https://media.getty.edu/iiif/manifest/canvas/fe069ec5-9e2c-4d70-bac1-e77094a2a0fa",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": [
+          "2. Impression"
+        ]
+      },
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Open Content Quality"
+            ]
+          },
+          "value": {
+            "en": [
+              "Yes"
+            ]
+          }
+        }
+      ],
+      "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "thumbnail": [
+        {
+          "id": "https://media.getty.edu/iiif/image/fe069ec5-9e2c-4d70-bac1-e77094a2a0fa/full/!600,600/0/default.jpg",
+          "service": [
+            {
+              "id": "https://media.getty.edu/iiif/image/fe069ec5-9e2c-4d70-bac1-e77094a2a0fa",
+              "profile": "level1",
+              "type": "ImageService3"
+            }
+          ],
+          "type": "Image"
+        }
+      ],
+      "type": "Canvas",
+      "width": 5650
+    }
+  ],
+  "label": {
+    "en": [
+      "Ring"
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Artist/Maker"
+        ]
+      },
+      "value": {
+        "en": [
+          "Unknown"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Title"
+        ]
+      },
+      "value": {
+        "en": [
+          "Ring"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Material"
+        ]
+      },
+      "value": {
+        "en": [
+          "Bronze"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Dimensions"
+        ]
+      },
+      "value": {
+        "en": [
+          "Object (Hoop, Greatest Extent): 2.1 cm (13/16 in.)",
+          "Object (Bezel): 2  1.8 cm (13/16  11/16 in.)"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Accession Number"
+        ]
+      },
+      "value": {
+        "en": [
+          "85.AN.370.17"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Collection"
+        ]
+      },
+      "value": {
+        "en": [
+          "<a href=\"http://www.getty.edu/art/collection/\">The J. Paul Getty Museum</a>"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Rights Statement"
+        ]
+      },
+      "value": {
+        "en": [
+          "<p>Images provided here are believed to be in the public domain and     are available under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>     through Getty&rsquo;s <a href=\"http://www.getty.edu/about/opencontent.html\">Open Content Program</a>.     Texts provided here are &copy; J. Paul Getty Trust, licensed under     <a href=\"https://creativecommons.org/licenses/by/4.0/legalcode\">CC BY 4.0</a>.     Terms of use for the Getty logo can be found     <a href=\"http://www.getty.edu/legal/copyright.html#logo\"> here</a>.    </p>"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Date Modified"
+        ]
+      },
+      "value": {
+        "en": [
+          "2026-01-13T17:00:28.228735+00:00"
+        ]
+      }
+    }
+  ],
+  "partOf": [
+    {
+      "id": "https://media.getty.edu/iiif/manifest/e7fae1e2-ef07-4eaf-b13b-62ed43b025ea",
+      "type": "Manifest"
+    }
+  ],
+  "provider": [
+    {
+      "id": "https://www.getty.edu/about/",
+      "label": {
+        "en": [
+          "J. Paul Getty Trust"
+        ]
+      },
+      "logo": [
+        {
+          "format": "image/png",
+          "height": 529,
+          "id": "https://www.getty.edu/global/images/getty_logo_primary_blk.png",
+          "type": "Image",
+          "width": 486
+        }
+      ],
+      "type": "Agent"
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "<p>Images provided here are believed to be in the public domain and     are available under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>     through Getty&rsquo;s <a href=\"http://www.getty.edu/about/opencontent.html\">Open Content Program</a>.     Texts provided here are &copy; J. Paul Getty Trust, licensed under     <a href=\"https://creativecommons.org/licenses/by/4.0/legalcode\">CC BY 4.0</a>.     Terms of use for the Getty logo can be found     <a href=\"http://www.getty.edu/legal/copyright.html#logo\"> here</a>.    </p>"
+      ]
+    }
+  },
+  "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+  "seeAlso": [
+    {
+      "id": "https://data.getty.edu/museum/collection/object/f53db08a-9278-4049-bbe2-3fa57d072039",
+      "type": "Text"
+    }
+  ],
+  "structures": [
+    {
+      "id": "https://media.getty.edu/iiif//manifest/range/755103f6-fa7b-447b-a3bc-6e5fd6941332/default.json",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/canvas/5e8706e3-84ba-49bb-ab0b-ac9b2c17cd46",
+          "type": "Canvas"
+        },
+        {
+          "id": "https://media.getty.edu/iiif/manifest/canvas/fe069ec5-9e2c-4d70-bac1-e77094a2a0fa",
+          "type": "Canvas"
+        }
+      ],
+      "type": "Range"
+    }
+  ],
+  "summary": {
+    "en": [
+      "<p>On the large oval bezel, two lions confronted with their heads turned back. The ring has a brown patina with some corrosion and scratches in the field.</p>"
+    ]
+  },
+  "thumbnail": [
+    {
+      "id": "https://media.getty.edu/iiif/image/5e8706e3-84ba-49bb-ab0b-ac9b2c17cd46/full/!600,600/0/default.jpg",
+      "service": [
+        {
+          "id": "https://media.getty.edu/iiif/image/5e8706e3-84ba-49bb-ab0b-ac9b2c17cd46",
+          "profile": "level1",
+          "type": "ImageService3"
+        }
+      ],
+      "type": "Image"
+    }
+  ],
+  "type": "Manifest"
+}

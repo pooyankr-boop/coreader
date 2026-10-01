@@ -1,0 +1,365 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "homepage": [
+    {
+      "id": "https://www.getty.edu/art/collection/object/103V1P",
+      "type": "Text"
+    }
+  ],
+  "id": "https://media.getty.edu/iiif/manifest/a39599e1-ef02-4709-aaab-621670f1a242",
+  "items": [
+    {
+      "height": 4702,
+      "id": "https://media.getty.edu/iiif/manifest/canvas/69678845-8aba-4b67-a3e6-2ef45d97f43e",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/annopage/p0",
+          "items": [
+            {
+              "body": {
+                "height": 4702,
+                "id": "https://media.getty.edu/iiif/image/69678845-8aba-4b67-a3e6-2ef45d97f43e/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://media.getty.edu/iiif/image/69678845-8aba-4b67-a3e6-2ef45d97f43e",
+                    "profile": "level1",
+                    "sizes": [
+                      {
+                        "height": 146,
+                        "width": 162
+                      },
+                      {
+                        "height": 293,
+                        "width": 324
+                      },
+                      {
+                        "height": 587,
+                        "width": 648
+                      },
+                      {
+                        "height": 1175,
+                        "width": 1297
+                      },
+                      {
+                        "height": 2351,
+                        "width": 2594
+                      }
+                    ],
+                    "type": "ImageService3"
+                  }
+                ],
+                "type": "Image",
+                "width": 5188
+              },
+              "id": "https://media.getty.edu/iiif/manifest/anno-69678845-8aba-4b67-a3e6-2ef45d97f43e",
+              "motivation": "painting",
+              "target": "https://media.getty.edu/iiif/manifest/canvas/69678845-8aba-4b67-a3e6-2ef45d97f43e",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": [
+          "1. Main View, top"
+        ]
+      },
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Open Content Quality"
+            ]
+          },
+          "value": {
+            "en": [
+              "Yes"
+            ]
+          }
+        }
+      ],
+      "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "thumbnail": [
+        {
+          "id": "https://media.getty.edu/iiif/image/69678845-8aba-4b67-a3e6-2ef45d97f43e/full/!600,600/0/default.jpg",
+          "service": [
+            {
+              "id": "https://media.getty.edu/iiif/image/69678845-8aba-4b67-a3e6-2ef45d97f43e",
+              "profile": "level1",
+              "type": "ImageService3"
+            }
+          ],
+          "type": "Image"
+        }
+      ],
+      "type": "Canvas",
+      "width": 5188
+    },
+    {
+      "height": 4702,
+      "id": "https://media.getty.edu/iiif/manifest/canvas/b99146cd-1041-45c1-873c-04d01b8918c2",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/annopage/p1",
+          "items": [
+            {
+              "body": {
+                "height": 4702,
+                "id": "https://media.getty.edu/iiif/image/b99146cd-1041-45c1-873c-04d01b8918c2/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://media.getty.edu/iiif/image/b99146cd-1041-45c1-873c-04d01b8918c2",
+                    "profile": "level1",
+                    "sizes": [
+                      {
+                        "height": 146,
+                        "width": 162
+                      },
+                      {
+                        "height": 293,
+                        "width": 324
+                      },
+                      {
+                        "height": 587,
+                        "width": 648
+                      },
+                      {
+                        "height": 1175,
+                        "width": 1297
+                      },
+                      {
+                        "height": 2351,
+                        "width": 2594
+                      }
+                    ],
+                    "type": "ImageService3"
+                  }
+                ],
+                "type": "Image",
+                "width": 5188
+              },
+              "id": "https://media.getty.edu/iiif/manifest/anno-b99146cd-1041-45c1-873c-04d01b8918c2",
+              "motivation": "painting",
+              "target": "https://media.getty.edu/iiif/manifest/canvas/b99146cd-1041-45c1-873c-04d01b8918c2",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": [
+          "2. Bottom"
+        ]
+      },
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Open Content Quality"
+            ]
+          },
+          "value": {
+            "en": [
+              "Yes"
+            ]
+          }
+        }
+      ],
+      "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "thumbnail": [
+        {
+          "id": "https://media.getty.edu/iiif/image/b99146cd-1041-45c1-873c-04d01b8918c2/full/!600,600/0/default.jpg",
+          "service": [
+            {
+              "id": "https://media.getty.edu/iiif/image/b99146cd-1041-45c1-873c-04d01b8918c2",
+              "profile": "level1",
+              "type": "ImageService3"
+            }
+          ],
+          "type": "Image"
+        }
+      ],
+      "type": "Canvas",
+      "width": 5188
+    }
+  ],
+  "label": {
+    "en": [
+      "Phalera with Relief of Lion Attacking a Stag"
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Artist/Maker"
+        ]
+      },
+      "value": {
+        "en": [
+          "Unknown"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Title"
+        ]
+      },
+      "value": {
+        "en": [
+          "Phalera with Relief of Lion Attacking a Stag"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Material"
+        ]
+      },
+      "value": {
+        "en": [
+          "Silver with gilding"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Dimensions"
+        ]
+      },
+      "value": {
+        "en": [
+          "Object: 9  12.6 cm (3 9/16  4 15/16 in.)"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Accession Number"
+        ]
+      },
+      "value": {
+        "en": [
+          "81.AM.87.2"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Collection"
+        ]
+      },
+      "value": {
+        "en": [
+          "<a href=\"http://www.getty.edu/art/collection/\">The J. Paul Getty Museum</a>"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Rights Statement"
+        ]
+      },
+      "value": {
+        "en": [
+          "<p>Images provided here are believed to be in the public domain and     are available under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>     through Getty&rsquo;s <a href=\"http://www.getty.edu/about/opencontent.html\">Open Content Program</a>.     Texts provided here are &copy; J. Paul Getty Trust, licensed under     <a href=\"https://creativecommons.org/licenses/by/4.0/legalcode\">CC BY 4.0</a>.     Terms of use for the Getty logo can be found     <a href=\"http://www.getty.edu/legal/copyright.html#logo\"> here</a>.    </p>"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Date Modified"
+        ]
+      },
+      "value": {
+        "en": [
+          "2026-04-17T09:57:46.468533+00:00"
+        ]
+      }
+    }
+  ],
+  "provider": [
+    {
+      "id": "https://www.getty.edu/about/",
+      "label": {
+        "en": [
+          "J. Paul Getty Trust"
+        ]
+      },
+      "logo": [
+        {
+          "format": "image/png",
+          "height": 529,
+          "id": "https://www.getty.edu/global/images/getty_logo_primary_blk.png",
+          "type": "Image",
+          "width": 486
+        }
+      ],
+      "type": "Agent"
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "<p>Images provided here are believed to be in the public domain and     are available under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>     through Getty&rsquo;s <a href=\"http://www.getty.edu/about/opencontent.html\">Open Content Program</a>.     Texts provided here are &copy; J. Paul Getty Trust, licensed under     <a href=\"https://creativecommons.org/licenses/by/4.0/legalcode\">CC BY 4.0</a>.     Terms of use for the Getty logo can be found     <a href=\"http://www.getty.edu/legal/copyright.html#logo\"> here</a>.    </p>"
+      ]
+    }
+  },
+  "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+  "seeAlso": [
+    {
+      "id": "https://data.getty.edu/museum/collection/object/620edd5f-6c42-44a9-b1b6-cd0d80c235ec",
+      "type": "Text"
+    }
+  ],
+  "structures": [
+    {
+      "id": "https://media.getty.edu/iiif//manifest/range/a39599e1-ef02-4709-aaab-621670f1a242/default.json",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/canvas/69678845-8aba-4b67-a3e6-2ef45d97f43e",
+          "type": "Canvas"
+        },
+        {
+          "id": "https://media.getty.edu/iiif/manifest/canvas/b99146cd-1041-45c1-873c-04d01b8918c2",
+          "type": "Canvas"
+        }
+      ],
+      "type": "Range"
+    }
+  ],
+  "summary": {
+    "en": [
+      "<p>Raised from a single sheet of silver, front side gilded. On the back there were originally three loops for the straps of the harness. Decorated by lion attacking a stag.</p>"
+    ]
+  },
+  "thumbnail": [
+    {
+      "id": "https://media.getty.edu/iiif/image/69678845-8aba-4b67-a3e6-2ef45d97f43e/full/!600,600/0/default.jpg",
+      "service": [
+        {
+          "id": "https://media.getty.edu/iiif/image/69678845-8aba-4b67-a3e6-2ef45d97f43e",
+          "profile": "level1",
+          "type": "ImageService3"
+        }
+      ],
+      "type": "Image"
+    }
+  ],
+  "type": "Manifest"
+}

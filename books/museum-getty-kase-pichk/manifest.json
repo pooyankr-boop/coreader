@@ -1,0 +1,350 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "homepage": [
+    {
+      "id": "https://www.getty.edu/art/collection/object/103V1J",
+      "type": "Text"
+    }
+  ],
+  "id": "https://media.getty.edu/iiif/manifest/bab6853d-b720-4b18-a5cd-2f9a6b88635a",
+  "items": [
+    {
+      "height": 3675,
+      "id": "https://media.getty.edu/iiif/manifest/canvas/cc4e72e2-c40c-4bc8-8b5b-995933fed5cb",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/annopage/p0",
+          "items": [
+            {
+              "body": {
+                "height": 3675,
+                "id": "https://media.getty.edu/iiif/image/cc4e72e2-c40c-4bc8-8b5b-995933fed5cb/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://media.getty.edu/iiif/image/cc4e72e2-c40c-4bc8-8b5b-995933fed5cb",
+                    "profile": "level1",
+                    "sizes": [
+                      {
+                        "height": 229,
+                        "width": 238
+                      },
+                      {
+                        "height": 459,
+                        "width": 476
+                      },
+                      {
+                        "height": 918,
+                        "width": 952
+                      },
+                      {
+                        "height": 1837,
+                        "width": 1905
+                      }
+                    ],
+                    "type": "ImageService3"
+                  }
+                ],
+                "type": "Image",
+                "width": 3810
+              },
+              "id": "https://media.getty.edu/iiif/manifest/anno-cc4e72e2-c40c-4bc8-8b5b-995933fed5cb",
+              "motivation": "painting",
+              "target": "https://media.getty.edu/iiif/manifest/canvas/cc4e72e2-c40c-4bc8-8b5b-995933fed5cb",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": [
+          "1. Interior 3/4 angle (old photography)"
+        ]
+      },
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Open Content Quality"
+            ]
+          },
+          "value": {
+            "en": [
+              "Yes"
+            ]
+          }
+        }
+      ],
+      "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "thumbnail": [
+        {
+          "id": "https://media.getty.edu/iiif/image/cc4e72e2-c40c-4bc8-8b5b-995933fed5cb/full/!600,600/0/default.jpg",
+          "service": [
+            {
+              "id": "https://media.getty.edu/iiif/image/cc4e72e2-c40c-4bc8-8b5b-995933fed5cb",
+              "profile": "level1",
+              "type": "ImageService3"
+            }
+          ],
+          "type": "Image"
+        }
+      ],
+      "type": "Canvas",
+      "width": 3810
+    },
+    {
+      "height": 268,
+      "id": "https://media.getty.edu/iiif/manifest/canvas/82491da4-b1fe-4b41-a121-d4d0c1cb77e8",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/annopage/p1",
+          "items": [
+            {
+              "body": {
+                "height": 268,
+                "id": "https://media.getty.edu/iiif/image/82491da4-b1fe-4b41-a121-d4d0c1cb77e8/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://media.getty.edu/iiif/image/82491da4-b1fe-4b41-a121-d4d0c1cb77e8",
+                    "profile": "level1",
+                    "sizes": [
+                      {
+                        "height": 67,
+                        "width": 256
+                      },
+                      {
+                        "height": 134,
+                        "width": 512
+                      }
+                    ],
+                    "type": "ImageService3"
+                  }
+                ],
+                "type": "Image",
+                "width": 1024
+              },
+              "id": "https://media.getty.edu/iiif/manifest/anno-82491da4-b1fe-4b41-a121-d4d0c1cb77e8",
+              "motivation": "painting",
+              "target": "https://media.getty.edu/iiif/manifest/canvas/82491da4-b1fe-4b41-a121-d4d0c1cb77e8",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": [
+          "2. Inscription 6/90"
+        ]
+      },
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Open Content Quality"
+            ]
+          },
+          "value": {
+            "en": [
+              "No"
+            ]
+          }
+        }
+      ],
+      "rights": "https://rightsstatements.org/vocab/NoC-US/1.0/",
+      "thumbnail": [
+        {
+          "id": "https://media.getty.edu/iiif/image/82491da4-b1fe-4b41-a121-d4d0c1cb77e8/full/!600,600/0/default.jpg",
+          "service": [
+            {
+              "id": "https://media.getty.edu/iiif/image/82491da4-b1fe-4b41-a121-d4d0c1cb77e8",
+              "profile": "level1",
+              "type": "ImageService3"
+            }
+          ],
+          "type": "Image"
+        }
+      ],
+      "type": "Canvas",
+      "width": 1024
+    }
+  ],
+  "label": {
+    "en": [
+      "Bowl with Tendril Frieze"
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Artist/Maker"
+        ]
+      },
+      "value": {
+        "en": [
+          "Unknown"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Title"
+        ]
+      },
+      "value": {
+        "en": [
+          "Bowl with Tendril Frieze"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Material"
+        ]
+      },
+      "value": {
+        "en": [
+          "Silver with gilding"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Dimensions"
+        ]
+      },
+      "value": {
+        "en": [
+          "Object: 7.9  22.5 cm, 0.6807 kg (3 1/8  8 7/8 in., 1.5007 lb.)",
+          "Object (To): 25.8 cm (10 3/16 in.)"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Accession Number"
+        ]
+      },
+      "value": {
+        "en": [
+          "81.AM.84.14"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Collection"
+        ]
+      },
+      "value": {
+        "en": [
+          "<a href=\"http://www.getty.edu/art/collection/\">The J. Paul Getty Museum</a>"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Rights Statement"
+        ]
+      },
+      "value": {
+        "en": [
+          "<p>Images provided here marked Yes under the Open Content Quality field are believed to be in the public domain and     are available under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>     through Getty&rsquo;s <a href=\"http://www.getty.edu/about/opencontent.html\">Open Content Program</a>.     Images marked No remain under copyright. Texts provided here are &copy; J. Paul Getty Trust, licensed under     <a href=\"https://creativecommons.org/licenses/by/4.0/legalcode\">CC BY 4.0</a>.     Terms of use for the Getty logo can be found     <a href=\"http://www.getty.edu/legal/copyright.html#logo\"> here</a>.    </p>"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Date Modified"
+        ]
+      },
+      "value": {
+        "en": [
+          "2025-08-20T19:55:25.027711+00:00"
+        ]
+      }
+    }
+  ],
+  "provider": [
+    {
+      "id": "https://www.getty.edu/about/",
+      "label": {
+        "en": [
+          "J. Paul Getty Trust"
+        ]
+      },
+      "logo": [
+        {
+          "format": "image/png",
+          "height": 529,
+          "id": "https://www.getty.edu/global/images/getty_logo_primary_blk.png",
+          "type": "Image",
+          "width": 486
+        }
+      ],
+      "type": "Agent"
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "<p>Images provided here marked Yes under the Open Content Quality field are believed to be in the public domain and     are available under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>     through Getty&rsquo;s <a href=\"http://www.getty.edu/about/opencontent.html\">Open Content Program</a>.     Images marked No remain under copyright. Texts provided here are &copy; J. Paul Getty Trust, licensed under     <a href=\"https://creativecommons.org/licenses/by/4.0/legalcode\">CC BY 4.0</a>.     Terms of use for the Getty logo can be found     <a href=\"http://www.getty.edu/legal/copyright.html#logo\"> here</a>.    </p>"
+      ]
+    }
+  },
+  "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+  "seeAlso": [
+    {
+      "id": "https://data.getty.edu/museum/collection/object/b5f9ad02-55a6-4c45-ae9b-53aa5b43a534",
+      "type": "Text"
+    }
+  ],
+  "structures": [
+    {
+      "id": "https://media.getty.edu/iiif//manifest/range/bab6853d-b720-4b18-a5cd-2f9a6b88635a/default.json",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/canvas/cc4e72e2-c40c-4bc8-8b5b-995933fed5cb",
+          "type": "Canvas"
+        },
+        {
+          "id": "https://media.getty.edu/iiif/manifest/canvas/82491da4-b1fe-4b41-a121-d4d0c1cb77e8",
+          "type": "Canvas"
+        }
+      ],
+      "type": "Range"
+    }
+  ],
+  "summary": {
+    "en": [
+      "<p>A ring of gilt floral tendrils enclosed by a wave pattern decorates the interior of this silver bowl. The delicate floral tendrils and an inscription on the bowl's rim offer clues to its origins.</p>\\n<p>The bowl was made in Parthia, located in present-day northeastern Iran. This region had been part of the Achaemenid Persian Empire until it was conquered by Alexander the Great. After his death in 323 B.C., the Hellenistic Greek Seleucid dynasty, whose kingdom stretched from Turkey to Afghanistan, ruled the area. In the later third century B.C., however, a group of semi-nomadic people from the steppes of south central Asia called the Parthians began challenging the weakened Seleucid authority in the eastern part of their territory. By the first century B.C., the Parthians ruled the area.</p>\\n<p>The period's complicated political history left its legacy on the local art and material culture. Although this bowl's floral tendril decoration has its roots in Seleucid art, the inscription on the rim probably indicates that the owner of the bowl was Parthian. It includes the as-yet undeciphered name of the silversmith and the weight of the vessel in a Parthian unit of measurement.</p>"
+    ]
+  },
+  "thumbnail": [
+    {
+      "id": "https://media.getty.edu/iiif/image/cc4e72e2-c40c-4bc8-8b5b-995933fed5cb/full/!600,600/0/default.jpg",
+      "service": [
+        {
+          "id": "https://media.getty.edu/iiif/image/cc4e72e2-c40c-4bc8-8b5b-995933fed5cb",
+          "profile": "level1",
+          "type": "ImageService3"
+        }
+      ],
+      "type": "Image"
+    }
+  ],
+  "type": "Manifest"
+}

@@ -1,0 +1,365 @@
+{
+  "@context": "http://iiif.io/api/presentation/3/context.json",
+  "homepage": [
+    {
+      "id": "https://www.getty.edu/art/collection/object/103WEW",
+      "type": "Text"
+    }
+  ],
+  "id": "https://media.getty.edu/iiif/manifest/0a6de5f2-2a84-4365-ab64-0e5d42d6b97c",
+  "items": [
+    {
+      "height": 4051,
+      "id": "https://media.getty.edu/iiif/manifest/canvas/57543e39-090f-438b-afed-9f6bfe989e8c",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/annopage/p0",
+          "items": [
+            {
+              "body": {
+                "height": 4051,
+                "id": "https://media.getty.edu/iiif/image/57543e39-090f-438b-afed-9f6bfe989e8c/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://media.getty.edu/iiif/image/57543e39-090f-438b-afed-9f6bfe989e8c",
+                    "profile": "level1",
+                    "sizes": [
+                      {
+                        "height": 126,
+                        "width": 150
+                      },
+                      {
+                        "height": 253,
+                        "width": 300
+                      },
+                      {
+                        "height": 506,
+                        "width": 600
+                      },
+                      {
+                        "height": 1012,
+                        "width": 1200
+                      },
+                      {
+                        "height": 2025,
+                        "width": 2400
+                      }
+                    ],
+                    "type": "ImageService3"
+                  }
+                ],
+                "type": "Image",
+                "width": 4800
+              },
+              "id": "https://media.getty.edu/iiif/manifest/anno-57543e39-090f-438b-afed-9f6bfe989e8c",
+              "motivation": "painting",
+              "target": "https://media.getty.edu/iiif/manifest/canvas/57543e39-090f-438b-afed-9f6bfe989e8c",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": [
+          "1. Inside, slight tilt"
+        ]
+      },
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Open Content Quality"
+            ]
+          },
+          "value": {
+            "en": [
+              "Yes"
+            ]
+          }
+        }
+      ],
+      "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "thumbnail": [
+        {
+          "id": "https://media.getty.edu/iiif/image/57543e39-090f-438b-afed-9f6bfe989e8c/full/!600,600/0/default.jpg",
+          "service": [
+            {
+              "id": "https://media.getty.edu/iiif/image/57543e39-090f-438b-afed-9f6bfe989e8c",
+              "profile": "level1",
+              "type": "ImageService3"
+            }
+          ],
+          "type": "Image"
+        }
+      ],
+      "type": "Canvas",
+      "width": 4800
+    },
+    {
+      "height": 5993,
+      "id": "https://media.getty.edu/iiif/manifest/canvas/cf67c602-1b16-475e-819d-54064dc1adf8",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/annopage/p1",
+          "items": [
+            {
+              "body": {
+                "height": 5993,
+                "id": "https://media.getty.edu/iiif/image/cf67c602-1b16-475e-819d-54064dc1adf8/full/max/0/default.jpg",
+                "service": [
+                  {
+                    "id": "https://media.getty.edu/iiif/image/cf67c602-1b16-475e-819d-54064dc1adf8",
+                    "profile": "level1",
+                    "sizes": [
+                      {
+                        "height": 187,
+                        "width": 187
+                      },
+                      {
+                        "height": 374,
+                        "width": 374
+                      },
+                      {
+                        "height": 749,
+                        "width": 749
+                      },
+                      {
+                        "height": 1498,
+                        "width": 1498
+                      },
+                      {
+                        "height": 2996,
+                        "width": 2996
+                      }
+                    ],
+                    "type": "ImageService3"
+                  }
+                ],
+                "type": "Image",
+                "width": 5993
+              },
+              "id": "https://media.getty.edu/iiif/manifest/anno-cf67c602-1b16-475e-819d-54064dc1adf8",
+              "motivation": "painting",
+              "target": "https://media.getty.edu/iiif/manifest/canvas/cf67c602-1b16-475e-819d-54064dc1adf8",
+              "type": "Annotation"
+            }
+          ],
+          "type": "AnnotationPage"
+        }
+      ],
+      "label": {
+        "en": [
+          "2. Inside"
+        ]
+      },
+      "metadata": [
+        {
+          "label": {
+            "en": [
+              "Open Content Quality"
+            ]
+          },
+          "value": {
+            "en": [
+              "Yes"
+            ]
+          }
+        }
+      ],
+      "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+      "thumbnail": [
+        {
+          "id": "https://media.getty.edu/iiif/image/cf67c602-1b16-475e-819d-54064dc1adf8/full/!600,600/0/default.jpg",
+          "service": [
+            {
+              "id": "https://media.getty.edu/iiif/image/cf67c602-1b16-475e-819d-54064dc1adf8",
+              "profile": "level1",
+              "type": "ImageService3"
+            }
+          ],
+          "type": "Image"
+        }
+      ],
+      "type": "Canvas",
+      "width": 5993
+    }
+  ],
+  "label": {
+    "en": [
+      "Net Pattern Bowl"
+    ]
+  },
+  "metadata": [
+    {
+      "label": {
+        "en": [
+          "Artist/Maker"
+        ]
+      },
+      "value": {
+        "en": [
+          "Unknown"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Title"
+        ]
+      },
+      "value": {
+        "en": [
+          "Net Pattern Bowl"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Material"
+        ]
+      },
+      "value": {
+        "en": [
+          "Gilt silver and garnets"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Dimensions"
+        ]
+      },
+      "value": {
+        "en": [
+          "Object: 20  6 cm (7 7/8  2 3/8 in.)"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Accession Number"
+        ]
+      },
+      "value": {
+        "en": [
+          "86.AM.752.3"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Collection"
+        ]
+      },
+      "value": {
+        "en": [
+          "<a href=\"http://www.getty.edu/art/collection/\">The J. Paul Getty Museum</a>"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Rights Statement"
+        ]
+      },
+      "value": {
+        "en": [
+          "<p>Images provided here are believed to be in the public domain and     are available under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>     through Getty&rsquo;s <a href=\"http://www.getty.edu/about/opencontent.html\">Open Content Program</a>.     Texts provided here are &copy; J. Paul Getty Trust, licensed under     <a href=\"https://creativecommons.org/licenses/by/4.0/legalcode\">CC BY 4.0</a>.     Terms of use for the Getty logo can be found     <a href=\"http://www.getty.edu/legal/copyright.html#logo\"> here</a>.    </p>"
+        ]
+      }
+    },
+    {
+      "label": {
+        "en": [
+          "Date Modified"
+        ]
+      },
+      "value": {
+        "en": [
+          "2026-04-08T08:12:09.725995+00:00"
+        ]
+      }
+    }
+  ],
+  "provider": [
+    {
+      "id": "https://www.getty.edu/about/",
+      "label": {
+        "en": [
+          "J. Paul Getty Trust"
+        ]
+      },
+      "logo": [
+        {
+          "format": "image/png",
+          "height": 529,
+          "id": "https://www.getty.edu/global/images/getty_logo_primary_blk.png",
+          "type": "Image",
+          "width": 486
+        }
+      ],
+      "type": "Agent"
+    }
+  ],
+  "requiredStatement": {
+    "label": {
+      "en": [
+        "attribution"
+      ]
+    },
+    "value": {
+      "en": [
+        "<p>Images provided here are believed to be in the public domain and     are available under <a href=\"https://creativecommons.org/publicdomain/zero/1.0/\">CC0</a>     through Getty&rsquo;s <a href=\"http://www.getty.edu/about/opencontent.html\">Open Content Program</a>.     Texts provided here are &copy; J. Paul Getty Trust, licensed under     <a href=\"https://creativecommons.org/licenses/by/4.0/legalcode\">CC BY 4.0</a>.     Terms of use for the Getty logo can be found     <a href=\"http://www.getty.edu/legal/copyright.html#logo\"> here</a>.    </p>"
+      ]
+    }
+  },
+  "rights": "http://creativecommons.org/publicdomain/zero/1.0/",
+  "seeAlso": [
+    {
+      "id": "https://data.getty.edu/museum/collection/object/92ab5f6d-d635-4c1c-b3e5-863367255364",
+      "type": "Text"
+    }
+  ],
+  "structures": [
+    {
+      "id": "https://media.getty.edu/iiif//manifest/range/0a6de5f2-2a84-4365-ab64-0e5d42d6b97c/default.json",
+      "items": [
+        {
+          "id": "https://media.getty.edu/iiif/manifest/canvas/57543e39-090f-438b-afed-9f6bfe989e8c",
+          "type": "Canvas"
+        },
+        {
+          "id": "https://media.getty.edu/iiif/manifest/canvas/cf67c602-1b16-475e-819d-54064dc1adf8",
+          "type": "Canvas"
+        }
+      ],
+      "type": "Range"
+    }
+  ],
+  "summary": {
+    "en": [
+      "<p>Gilded and inlaid with gems, this small silver bowl demonstrates how artistic styles coalesced in the ancient Near East in the first century B.C. Flowers with garnets at their centers cover the interior. Each flower is placed in a pentagonal area, and this creates a net pattern in the bowl. Much of the interior surface is gilded, but the bands separating the pentagons and four leaves of the central calyx retain their natural silver color for contrast.</p>\n<p>Stylistic features suggest that the bowl was made in what is today northeastern Iran, The area had been part of the Achaemenid Persian Empire until it was conquered by Alexander the Great. After his death in 323 B.C., the Hellenistic Greek Seleucid dynasty, whose kingdom stretched from Turkey to Afghanistan, ruled the region. In the later third century B.C., however, a group of semi-nomadic people from the steppes of south central Asia called the Parthians began challenging the weakened Seleucid authority in the eastern part of their territory. By the first century B.C., the Parthians ruled the area.</p>\n<p>This complicated political history left its legacy in the local art and material culture. Parthia was a prosperous and wealthy area, and its silversmiths incorporated Greek elements with Near Eastern ones in their work. On this bowl, the central calyx is Near Eastern, but the net pattern is Greek.</p>"
+    ]
+  },
+  "thumbnail": [
+    {
+      "id": "https://media.getty.edu/iiif/image/57543e39-090f-438b-afed-9f6bfe989e8c/full/!600,600/0/default.jpg",
+      "service": [
+        {
+          "id": "https://media.getty.edu/iiif/image/57543e39-090f-438b-afed-9f6bfe989e8c",
+          "profile": "level1",
+          "type": "ImageService3"
+        }
+      ],
+      "type": "Image"
+    }
+  ],
+  "type": "Manifest"
+}

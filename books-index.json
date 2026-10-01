@@ -1590,21 +1590,6 @@
   "cover": "cover.jpg"
  },
  {
-  "slug": "museum-harvard-bowl",
-  "title": "کاسه ایرانی با نقش گیاهی و هندسی",
-  "author": "ناشناس",
-  "source": "museum",
-  "provider": "Harvard Art Museums",
-  "manifestUrl": "books/museum-harvard-bowl/manifest.json",
-  "pages": 3,
-  "thumbnail": "books/museum-harvard-bowl/cover.jpg",
-  "externalLinks": {
-   "digitalObject": "https://harvardartmuseums.org/collections/object/217052",
-   "iiifManifest": "https://iiif.harvardartmuseums.org/manifests/object/217052"
-  },
-  "cover": "cover.jpg"
- },
- {
   "slug": "museum-vam-ardabil-carpet",
   "title": "فرش اردبیل",
   "author": "ناشناس",
@@ -1712,36 +1697,6 @@
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O86073/tile-isfahani-ali-muhammad/",
    "iiifManifest": "https://iiif.vam.ac.uk/collections/O86073/manifest.json"
-  },
-  "cover": "cover.jpg"
- },
- {
-  "slug": "museum-harvard-lamp-bird",
-  "title": "چراغ پرنده-shaped lamp",
-  "author": "علاقه‌مندان به هنر اسلامی",
-  "source": "museum",
-  "pages": 1,
-  "thumbnail": "books/museum-harvard-lamp-bird/cover.jpg",
-  "manifestUrl": "books/museum-harvard-lamp-bird/manifest.json",
-  "provider": "Harvard Art Museums",
-  "externalLinks": {
-   "digitalObject": "https://harvardartmuseums.org/collections/object/216521",
-   "iiifManifest": "https://iiif.harvardartmuseums.org/manifests/object/216521"
-  },
-  "cover": "cover.jpg"
- },
- {
-  "slug": "museum-harvard-ewer-peacock",
-  "title": "آب‌پر (کوزه) با سر طاووس",
-  "author": "مhrtzb brghr shafii",
-  "source": "museum",
-  "pages": 1,
-  "thumbnail": "books/museum-harvard-ewer-peacock/cover.jpg",
-  "manifestUrl": "books/museum-harvard-ewer-peacock/manifest.json",
-  "provider": "Harvard Art Museums",
-  "externalLinks": {
-   "digitalObject": "https://harvardartmuseums.org/collections/object/165472",
-   "iiifManifest": "https://iiif.harvardartmuseums.org/manifests/object/165472"
   },
   "cover": "cover.jpg"
  },
@@ -4726,355 +4681,483 @@
   }
  },
  {
-  "slug": "museum-harvard-goat-finial",
-  "title": "سر بز برنزی (لورستان)",
+  "slug": "museum-getty-zarf-kohol-2",
+  "title": "ظرف کحل",
   "author": "ناشناس",
   "source": "museum",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-zarf-kohol-2/manifest.json",
   "pages": 1,
-  "provider": "Harvard Art Museums",
-  "manifestUrl": "books/museum-harvard-goat-finial/manifest.json",
-  "thumbnail": "books/museum-harvard-goat-finial/cover.jpg",
   "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-zarf-kohol-2/cover.jpg",
   "externalLinks": {
-   "digitalObject": "https://harvardartmuseums.org/collections/object/369983",
-   "iiifManifest": "https://iiif.harvardartmuseums.org/manifests/object/369983"
-  },
-  "museumMeta": {
-   "date": "9th century BCE",
-   "medium": "Bronze",
-   "objnum": "2022.245",
-   "credit": "Harvard Art Museums/Arthur M. Sackler Museum, Bequest of Nanette B. Kelekian",
-   "description": "Representations of rampant, confronted goats or ibexes are frequent among the so-called finials from Iron Age Luristan in western Iran. The function of the objects of which these finials formed part remains enigmatic, but likely was largely symbolic. A vertical support would have been inserted through the two rings that join the animal’s front and back legs (here, the diameter of the opening at th"
+   "digitalObject": "https://www.getty.edu/art/collection/object/109631",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/53d454cb-5609-4a25-9fda-6f8273662d3b"
   }
  },
  {
-  "slug": "museum-harvard-attendant-bowl",
-  "title": "پیکرهٔ خدمتکار با کاسهٔ سپرده",
+  "slug": "museum-getty-zarf-kohol-1",
+  "title": "ظرف کحل",
   "author": "ناشناس",
   "source": "museum",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-zarf-kohol-1/manifest.json",
   "pages": 1,
-  "provider": "Harvard Art Museums",
-  "manifestUrl": "books/museum-harvard-attendant-bowl/manifest.json",
-  "thumbnail": "books/museum-harvard-attendant-bowl/cover.jpg",
   "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-zarf-kohol-1/cover.jpg",
   "externalLinks": {
-   "digitalObject": "https://harvardartmuseums.org/collections/object/291723",
-   "iiifManifest": "https://iiif.harvardartmuseums.org/manifests/object/291723"
-  },
-  "museumMeta": {
-   "date": "359-338 BCE",
-   "medium": "Limestone",
-   "objnum": "1943.1311",
-   "credit": "Harvard Art Museums/Arthur M. Sackler Museum, Bequest of Grenville L. Winthrop",
-   "description": ""
+   "digitalObject": "https://www.getty.edu/art/collection/object/109632",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/54832b31-0b85-40d2-8d2b-2bb57302a25e"
   }
  },
  {
-  "slug": "museum-harvard-albarello",
-  "title": "داروخانهٔ بلند با کتیبه و نقوش اسلیمی",
+  "slug": "museum-getty-kase-lengr-dolfin",
+  "title": "کاسه با مدال لنگر و دلفین",
   "author": "ناشناس",
   "source": "museum",
-  "pages": 1,
-  "provider": "Harvard Art Museums",
-  "manifestUrl": "books/museum-harvard-albarello/manifest.json",
-  "thumbnail": "books/museum-harvard-albarello/cover.jpg",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-kase-lengr-dolfin/manifest.json",
+  "pages": 4,
   "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-kase-lengr-dolfin/cover.jpg",
   "externalLinks": {
-   "digitalObject": "https://harvardartmuseums.org/collections/object/165382",
-   "iiifManifest": "https://iiif.harvardartmuseums.org/manifests/object/165382"
-  },
-  "museumMeta": {
-   "date": "20th century",
-   "medium": "Pink fritware covered in plaster and painted with black (chromium) under turquoise (copper) translucent lead alkali glaze",
-   "objnum": "2002.50.55",
-   "credit": "Harvard Art Museums/Arthur M. Sackler Museum, The Norma Jean Calderwood Collection of Islamic Art",
-   "description": "The decoration on this tall albarello, or medicine jar, is carefully painted and harmoniously composed in horizontal registers. These bands vary in width, and the backgrounds alternate between black and turquoise. The wide neck bears an inscription in tall Kufic letters, repeating the Arabic word al-mulk (sovereignty). Scrolling, leafy tendrils run along three bands. Two others are occupied by fig"
+   "digitalObject": "https://www.getty.edu/art/collection/object/103V15",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/14893506-2333-4927-bb89-cafa21bfe6d1"
   }
  },
  {
-  "slug": "museum-harvard-dish-horseman",
-  "title": "بشقاب با سوار و نقش گیاهی",
+  "slug": "museum-getty-tekouk-gozn",
+  "title": "تکوک گوزن",
   "author": "ناشناس",
   "source": "museum",
-  "pages": 1,
-  "provider": "Harvard Art Museums",
-  "manifestUrl": "books/museum-harvard-dish-horseman/manifest.json",
-  "thumbnail": "books/museum-harvard-dish-horseman/cover.jpg",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-tekouk-gozn/manifest.json",
+  "pages": 5,
   "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-tekouk-gozn/cover.jpg",
   "externalLinks": {
-   "digitalObject": "https://harvardartmuseums.org/collections/object/165393",
-   "iiifManifest": "https://iiif.harvardartmuseums.org/manifests/object/165393"
-  },
-  "museumMeta": {
-   "date": "20th century",
-   "medium": "Reddish earthenware covered in white slip, carved, and painted with green (copper), yellow (iron), and dark brown (manganese) under clear lead glaze (with zinc and barium)",
-   "objnum": "2002.50.62",
-   "credit": "Harvard Art Museums/Arthur M. Sackler Museum, The Norma Jean Calderwood Collection of Islamic Art",
-   "description": "The off-white slip that covers this dish has been incised with a complicated design further elaborated in green, yellow, and purplish brown. An equestrian image fills the center of the dish: a crowned horseman wears a garment decorated with vertical stripes and an overlying arabesque, and his yellow horse is embellished with scribbled lines. A vigorous arabesque fills the background behind horse a"
+   "digitalObject": "https://www.getty.edu/art/collection/object/103WEZ",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/239b4021-1fdb-471e-8cb5-e684d514907d"
   }
  },
  {
-  "slug": "museum-harvard-bowl-bird",
-  "title": "کاسهٔ لبه‌گرد با پرنده در پوشش گیاهی (قرن ۱۴)",
+  "slug": "museum-getty-kase-pichk",
+  "title": "کاسه با نوار پیچک",
   "author": "ناشناس",
   "source": "museum",
-  "pages": 1,
-  "provider": "Harvard Art Museums",
-  "manifestUrl": "books/museum-harvard-bowl-bird/manifest.json",
-  "thumbnail": "books/museum-harvard-bowl-bird/cover.jpg",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-kase-pichk/manifest.json",
+  "pages": 2,
   "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-kase-pichk/cover.jpg",
   "externalLinks": {
-   "digitalObject": "https://harvardartmuseums.org/collections/object/165477",
-   "iiifManifest": "https://iiif.harvardartmuseums.org/manifests/object/165477"
-  },
-  "museumMeta": {
-   "date": "early 14th century",
-   "medium": "Fritware painted with white slip, blue (cobalt), and black (chromium) under clear alkali glaze",
-   "objnum": "2002.50.58",
-   "credit": "Harvard Art Museums/Arthur M. Sackler Museum, The Norma Jean Calderwood Collection of Islamic Art",
-   "description": "A large crane-like bird with bent neck and raised leg dominates the interior of this bowl. The dense foliage around the bird includes lotus blossoms, trademark motifs of Ilkhanid wares. Encircling the exterior beneath the rim is a band of vertical white stripes outlined in black; more widely spaced white stripes decorate the lower portion. The white slip decoration stands slightly in relief; the i"
+   "digitalObject": "https://www.getty.edu/art/collection/object/103V1J",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/bab6853d-b720-4b18-a5cd-2f9a6b88635a"
   }
  },
  {
-  "slug": "museum-harvard-bowl-bluebird",
-  "title": "کاسه با پرندهٔ آبی و کتیبهٔ لبه",
+  "slug": "museum-getty-sinapush-shir-gozn",
+  "title": "سینه‌پوش با نقش برجستهٔ شیر مهاجِم به گوزن",
   "author": "ناشناس",
   "source": "museum",
-  "pages": 1,
-  "provider": "Harvard Art Museums",
-  "manifestUrl": "books/museum-harvard-bowl-bluebird/manifest.json",
-  "thumbnail": "books/museum-harvard-bowl-bluebird/cover.jpg",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-sinapush-shir-gozn/manifest.json",
+  "pages": 2,
   "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-sinapush-shir-gozn/cover.jpg",
   "externalLinks": {
-   "digitalObject": "https://harvardartmuseums.org/collections/object/165495",
-   "iiifManifest": "https://iiif.harvardartmuseums.org/manifests/object/165495"
-  },
-  "museumMeta": {
-   "date": "19th-20th century",
-   "medium": "Fritware with underglaze painting",
-   "objnum": "2002.50.81",
-   "credit": "Harvard Art Museums/Arthur M. Sackler Museum, The Norma Jean Calderwood Collection of Islamic Art",
-   "description": "This bowl and a nearly identical one in shape (2002.50.79) have on their rims the same repeated words in stylized Kufic script— perhaps interpretable as the Arabic al-dawla (wealth). Similarly shaped and decorated bowls are attributed to late twelfth-or thirteenth-century Iran; although both of these bowls are reassembled from many fragments and show degradation of the glaze, the results of thermo"
+   "digitalObject": "https://www.getty.edu/art/collection/object/103V1S",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/5cb5bf16-f154-4a89-b593-44a757e5c2ea"
   }
  },
  {
-  "slug": "museum-harvard-lobed-cup",
-  "title": "جام شِش‌پر با دسته (سدهٔ ۸)",
+  "slug": "museum-getty-gardanband-zarrin",
+  "title": "گردنبند",
   "author": "ناشناس",
   "source": "museum",
-  "pages": 1,
-  "provider": "Harvard Art Museums",
-  "manifestUrl": "books/museum-harvard-lobed-cup/manifest.json",
-  "thumbnail": "books/museum-harvard-lobed-cup/cover.jpg",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-gardanband-zarrin/manifest.json",
+  "pages": 3,
   "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-gardanband-zarrin/cover.jpg",
   "externalLinks": {
-   "digitalObject": "https://harvardartmuseums.org/collections/object/322953",
-   "iiifManifest": "https://iiif.harvardartmuseums.org/manifests/object/322953"
-  },
-  "museumMeta": {
-   "date": "8th century",
-   "medium": "Earthenware, molded under monochrome lead glaze",
-   "objnum": "2007.264",
-   "credit": "Harvard Art Museums/Arthur M. Sackler Museum, Gift of John J. Herrmann, Jr. and Annewies van den Hoek in memory of Richard Ettinghausen",
-   "description": "Early Islamic period, probably Iraq or Iran. The lobes of the cup bear well-defined palmettes and foliate scrolls, and are outlined with beaded borders."
+   "digitalObject": "https://www.getty.edu/art/collection/object/103V1V",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/9cb4afc8-ca2e-4903-945e-ea4c18d3dc3c"
   }
  },
  {
-  "slug": "museum-harvard-pin-demons",
-  "title": "سوزن بزرگ با نقش دیو و شیر",
+  "slug": "museum-getty-tekouk-sagak-1",
+  "title": "تکوک سگک",
   "author": "ناشناس",
   "source": "museum",
-  "pages": 1,
-  "provider": "Harvard Art Museums",
-  "manifestUrl": "books/museum-harvard-pin-demons/manifest.json",
-  "thumbnail": "books/museum-harvard-pin-demons/cover.jpg",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-tekouk-sagak-1/manifest.json",
+  "pages": 6,
   "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-tekouk-sagak-1/cover.jpg",
   "externalLinks": {
-   "digitalObject": "https://harvardartmuseums.org/collections/object/304013",
-   "iiifManifest": "https://iiif.harvardartmuseums.org/manifests/object/304013"
-  },
-  "museumMeta": {
-   "date": "10th-8th century BCE",
-   "medium": "Leaded bronze",
-   "objnum": "1943.1162",
-   "credit": "Harvard Art Museums/Arthur M. Sackler Museum, Bequest of Grenville L. Winthrop",
-   "description": ""
+   "digitalObject": "https://www.getty.edu/art/collection/object/103WET",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/0027eeee-8db7-4ccf-8b0b-87ee8a75925e"
   }
  },
  {
-  "slug": "museum-harvard-head-horns",
-  "title": "سر انسان‌نما با شاخ",
+  "slug": "museum-getty-tekouk-sagak-2",
+  "title": "تکوک سگک",
   "author": "ناشناس",
   "source": "museum",
-  "pages": 1,
-  "provider": "Harvard Art Museums",
-  "manifestUrl": "books/museum-harvard-head-horns/manifest.json",
-  "thumbnail": "books/museum-harvard-head-horns/cover.jpg",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-tekouk-sagak-2/manifest.json",
+  "pages": 6,
   "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-tekouk-sagak-2/cover.jpg",
   "externalLinks": {
-   "digitalObject": "https://harvardartmuseums.org/collections/object/304012",
-   "iiifManifest": "https://iiif.harvardartmuseums.org/manifests/object/304012"
-  },
-  "museumMeta": {
-   "date": "10th-8th century BCE",
-   "medium": "Bronze",
-   "objnum": "1943.1161",
-   "credit": "Harvard Art Museums/Arthur M. Sackler Museum, Bequest of Grenville L. Winthrop",
-   "description": ""
+   "digitalObject": "https://www.getty.edu/art/collection/object/103WEX",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/f7650ba6-2872-4203-b496-41826ee18c30"
   }
  },
  {
-  "slug": "museum-harvard-bridle-cheek",
-  "title": "گونه‌بند افسار با نقش قوچ مروان",
+  "slug": "museum-getty-kase-gol-sorkhi",
+  "title": "کاسهٔ کم‌عمق با سه نوار گل شمسی",
   "author": "ناشناس",
   "source": "museum",
-  "pages": 1,
-  "provider": "Harvard Art Museums",
-  "manifestUrl": "books/museum-harvard-bridle-cheek/manifest.json",
-  "thumbnail": "books/museum-harvard-bridle-cheek/cover.jpg",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-kase-gol-sorkhi/manifest.json",
+  "pages": 7,
   "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-kase-gol-sorkhi/cover.jpg",
   "externalLinks": {
-   "digitalObject": "https://harvardartmuseums.org/collections/object/304373",
-   "iiifManifest": "https://iiif.harvardartmuseums.org/manifests/object/304373"
-  },
-  "museumMeta": {
-   "date": "10th-8th century BCE",
-   "medium": "Bronze",
-   "objnum": "50.1965.1",
-   "credit": "Harvard Art Museums/Arthur M. Sackler Museum, Loan from the Collection of Edouard Sandoz",
-   "description": ""
+   "digitalObject": "https://www.getty.edu/art/collection/object/103WF4",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/a1c28ffd-6440-4d4e-8193-49474cd03bf3"
   }
  },
  {
-  "slug": "museum-harvard-arrowhead",
-  "title": "سر پیکان برنزی",
+  "slug": "museum-getty-panzarf",
+  "title": "گروه پنج ظرف",
   "author": "ناشناس",
   "source": "museum",
-  "pages": 1,
-  "provider": "Harvard Art Museums",
-  "manifestUrl": "books/museum-harvard-arrowhead/manifest.json",
-  "thumbnail": "books/museum-harvard-arrowhead/cover.jpg",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-panzarf/manifest.json",
+  "pages": 30,
   "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-panzarf/cover.jpg",
   "externalLinks": {
-   "digitalObject": "https://harvardartmuseums.org/collections/object/303860",
-   "iiifManifest": "https://iiif.harvardartmuseums.org/manifests/object/303860"
-  },
-  "museumMeta": {
-   "date": "10th-8th century BCE",
-   "medium": "Bronze",
-   "objnum": "2023.501.19",
-   "credit": "Harvard Art Museums/Arthur M. Sackler Museum, Gift of Professor Kathleen Weil-Garris Brandt",
-   "description": ""
+   "digitalObject": "https://www.getty.edu/art/collection/object/103WEY",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/b9ae2a71-a789-45a8-b297-8e31d91fdee9"
   }
  },
  {
-  "slug": "museum-harvard-phiale",
-  "title": "پیالهٔ برنزی",
+  "slug": "museum-getty-kase-fals-nama",
+  "title": "کاسه با مدال مقیاسی و نوار پیچک",
   "author": "ناشناس",
   "source": "museum",
-  "pages": 1,
-  "provider": "Harvard Art Museums",
-  "manifestUrl": "books/museum-harvard-phiale/manifest.json",
-  "thumbnail": "books/museum-harvard-phiale/cover.jpg",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-kase-fals-nama/manifest.json",
+  "pages": 4,
   "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-kase-fals-nama/cover.jpg",
   "externalLinks": {
-   "digitalObject": "https://harvardartmuseums.org/collections/object/281912",
-   "iiifManifest": "https://iiif.harvardartmuseums.org/manifests/object/281912"
-  },
-  "museumMeta": {
-   "date": "mid 6th-mid 4th century BCE",
-   "medium": "Bronze",
-   "objnum": "1969.177.23",
-   "credit": "Harvard Art Museums/Arthur M. Sackler Museum, Gift of Harry J. Denberg",
-   "description": ""
+   "digitalObject": "https://www.getty.edu/art/collection/object/103V1D",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/b8cc5bd1-bb38-48a9-b92c-ac1943375319"
   }
  },
  {
-  "slug": "museum-harvard-fibula-arm",
-  "title": "فیبولا به شکل بازوی انسان",
+  "slug": "museum-getty-jam-nangin-sangi",
+  "title": "جام نیم‌کره با نگین‌کاری سنگی",
   "author": "ناشناس",
   "source": "museum",
-  "pages": 1,
-  "provider": "Harvard Art Museums",
-  "manifestUrl": "books/museum-harvard-fibula-arm/manifest.json",
-  "thumbnail": "books/museum-harvard-fibula-arm/cover.jpg",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-jam-nangin-sangi/manifest.json",
+  "pages": 6,
   "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-jam-nangin-sangi/cover.jpg",
   "externalLinks": {
-   "digitalObject": "https://harvardartmuseums.org/collections/object/287668",
-   "iiifManifest": "https://iiif.harvardartmuseums.org/manifests/object/287668"
-  },
-  "museumMeta": {
-   "date": "8th-4th century BCE",
-   "medium": "Bronze",
-   "objnum": "1968.89",
-   "credit": "Harvard Art Museums/Arthur M. Sackler Museum, Gift of Richard R. Wagner",
-   "description": ""
+   "digitalObject": "https://www.getty.edu/art/collection/object/103WF2",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/5480b3e1-6bcd-4f6c-a604-47b90b64df5a"
   }
  },
  {
-  "slug": "museum-harvard-wild-goat",
-  "title": "بز وحشی برنزی",
+  "slug": "museum-getty-aviz-zanjir",
+  "title": "آویز زنجیر",
   "author": "ناشناس",
   "source": "museum",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-aviz-zanjir/manifest.json",
   "pages": 1,
-  "provider": "Harvard Art Museums",
-  "manifestUrl": "books/museum-harvard-wild-goat/manifest.json",
-  "thumbnail": "books/museum-harvard-wild-goat/cover.jpg",
   "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-aviz-zanjir/cover.jpg",
   "externalLinks": {
-   "digitalObject": "https://harvardartmuseums.org/collections/object/311128",
-   "iiifManifest": "https://iiif.harvardartmuseums.org/manifests/object/311128"
-  },
-  "museumMeta": {
-   "date": "7th-5th century BCE",
-   "medium": "Bronze",
-   "objnum": "1949.92",
-   "credit": "Harvard Art Museums/Arthur M. Sackler Museum, Grace Nichols Strong Memorial Fund",
-   "description": ""
+   "digitalObject": "https://www.getty.edu/art/collection/object/1061BT",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/f650ca3c-18ec-4032-a6ba-45e24d6718c8"
   }
  },
  {
-  "slug": "museum-harvard-phiale-2",
-  "title": "پیالهٔ برنزی دیگر",
+  "slug": "museum-getty-tekouk-shir",
+  "title": "تکوک شیر",
   "author": "ناشناس",
   "source": "museum",
-  "pages": 1,
-  "provider": "Harvard Art Museums",
-  "manifestUrl": "books/museum-harvard-phiale-2/manifest.json",
-  "thumbnail": "books/museum-harvard-phiale-2/cover.jpg",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-tekouk-shir/manifest.json",
+  "pages": 2,
   "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-tekouk-shir/cover.jpg",
   "externalLinks": {
-   "digitalObject": "https://harvardartmuseums.org/collections/object/304249",
-   "iiifManifest": "https://iiif.harvardartmuseums.org/manifests/object/304249"
-  },
-  "museumMeta": {
-   "date": "second half 6th-first half 4th century BCE",
-   "medium": "Bronze",
-   "objnum": "1969.177.77",
-   "credit": "Harvard Art Museums/Arthur M. Sackler Museum, Gift of Harry J. Denberg",
-   "description": ""
+   "digitalObject": "https://www.getty.edu/art/collection/object/103WF0",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/adb24f7a-7f2c-4cef-a51d-a81495e5590a"
   }
  },
  {
-  "slug": "museum-harvard-hafiz-divan",
-  "title": "دیوان حافظ با مصورسازی و جلد لاکی",
+  "slug": "museum-getty-tekouk-amfor-grifin",
+  "title": "تکوک آمفورا با دستهٔ شیر-گریفین",
   "author": "ناشناس",
-  "source": "iiif",
-  "pages": 341,
-  "provider": "Harvard Art Museums",
-  "manifestUrl": "books/museum-harvard-hafiz-divan/manifest.json",
-  "thumbnail": "books/museum-harvard-hafiz-divan/cover.jpg",
+  "source": "museum",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-tekouk-amfor-grifin/manifest.json",
+  "pages": 9,
   "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-tekouk-amfor-grifin/cover.jpg",
   "externalLinks": {
-   "digitalObject": "https://harvardartmuseums.org/collections/object/216248",
-   "iiifManifest": "https://iiif.harvardartmuseums.org/manifests/object/216248"
-  },
-  "museumMeta": {
-   "date": "c. 1530",
-   "medium": "Ink, opaque watercolor and gold on paper; binding: lacquer on paper with leather",
-   "objnum": "1964.149",
-   "credit": "Harvard Art Museums/Arthur M. Sackler Museum, Gift of Mr. and Mrs. Stuart C. Welch, Jr.",
-   "description": "The enormous wealth and attention directed to the arts of the book in sixteenth-century Iran can be seen in this elaborate book binding and the elaborate illustrated pages, which were removed long ago from its text block. A heightened interest in illustrations, particularly of poetic texts, drove the development of a distinctive art form popularly known as Persian miniature painting. In Islamic bo"
+   "digitalObject": "https://www.getty.edu/art/collection/object/103WEV",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/e80be548-124c-407e-9683-c15b29fd3e7b"
+  }
+ },
+ {
+  "slug": "museum-getty-jam-mokhoti",
+  "title": "جام مخروطی",
+  "author": "ناشناس",
+  "source": "museum",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-jam-mokhoti/manifest.json",
+  "pages": 1,
+  "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-jam-mokhoti/cover.jpg",
+  "externalLinks": {
+   "digitalObject": "https://www.getty.edu/art/collection/object/103WJ3",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/91e33dc6-80ea-4065-9eda-19664c60f680"
+  }
+ },
+ {
+  "slug": "museum-getty-derakhm-yazdgard-2",
+  "title": "دراخم یزدگرد دوم",
+  "author": "یزدگرد دوم",
+  "source": "museum",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-derakhm-yazdgard-2/manifest.json",
+  "pages": 2,
+  "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-derakhm-yazdgard-2/cover.jpg",
+  "externalLinks": {
+   "digitalObject": "https://www.getty.edu/art/collection/object/103Z1T",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/9c242a0c-b1ce-46f7-adf4-f0a9c2a647c1"
+  }
+ },
+ {
+  "slug": "museum-getty-kase-sheshi",
+  "title": "کاسه",
+  "author": "ناشناس",
+  "source": "museum",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-kase-sheshi/manifest.json",
+  "pages": 3,
+  "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-kase-sheshi/cover.jpg",
+  "externalLinks": {
+   "digitalObject": "https://www.getty.edu/art/collection/object/1098QT",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/c721f18b-6d36-4885-9b2a-319adf4bfef1"
+  }
+ },
+ {
+  "slug": "museum-getty-kase-shabaka",
+  "title": "کاسه با نقش شبکه‌ای",
+  "author": "ناشناس",
+  "source": "museum",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-kase-shabaka/manifest.json",
+  "pages": 2,
+  "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-kase-shabaka/cover.jpg",
+  "externalLinks": {
+   "digitalObject": "https://www.getty.edu/art/collection/object/103WEW",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/0a6de5f2-2a84-4365-ab64-0e5d42d6b97c"
+  }
+ },
+ {
+  "slug": "museum-getty-pialeh-naghsh-dar",
+  "title": "پیاله",
+  "author": "ناشناس",
+  "source": "museum",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-pialeh-naghsh-dar/manifest.json",
+  "pages": 5,
+  "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-pialeh-naghsh-dar/cover.jpg",
+  "externalLinks": {
+   "digitalObject": "https://www.getty.edu/art/collection/object/103TPC",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/ace146bf-091a-4974-b71b-cef2d19ed97b"
+  }
+ },
+ {
+  "slug": "museum-getty-derakhm-kave-1",
+  "title": "دراخم کاوهٔ یک",
+  "author": "کاوهٔ یک",
+  "source": "museum",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-derakhm-kave-1/manifest.json",
+  "pages": 2,
+  "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-derakhm-kave-1/cover.jpg",
+  "externalLinks": {
+   "digitalObject": "https://www.getty.edu/art/collection/object/10649B",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/38fde621-5354-48a7-ab53-aae4d57663e8"
+  }
+ },
+ {
+  "slug": "museum-getty-sinapush-shir-gozn-2",
+  "title": "سینه‌پوش با نقش برجستهٔ شیر مهاجِم به گوزن",
+  "author": "ناشناس",
+  "source": "museum",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-sinapush-shir-gozn-2/manifest.json",
+  "pages": 2,
+  "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-sinapush-shir-gozn-2/cover.jpg",
+  "externalLinks": {
+   "digitalObject": "https://www.getty.edu/art/collection/object/103V1P",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/a39599e1-ef02-4709-aaab-621670f1a242"
+  }
+ },
+ {
+  "slug": "museum-getty-jam-aqiqi",
+  "title": "جام عقیقی",
+  "author": "ناشناس",
+  "source": "museum",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-jam-aqiqi/manifest.json",
+  "pages": 5,
+  "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-jam-aqiqi/cover.jpg",
+  "externalLinks": {
+   "digitalObject": "https://www.getty.edu/art/collection/object/105YY2",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/fd80513a-9d9e-46dd-8af0-bbb80ed9fefb"
+  }
+ },
+ {
+  "slug": "museum-getty-jam-nim-kore",
+  "title": "جام نیم‌کره",
+  "author": "ناشناس",
+  "source": "museum",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-jam-nim-kore/manifest.json",
+  "pages": 6,
+  "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-jam-nim-kore/cover.jpg",
+  "externalLinks": {
+   "digitalObject": "https://www.getty.edu/art/collection/object/103WF1",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/66c95c18-3a1d-4bdc-9372-671a25bdc621"
+  }
+ },
+ {
+  "slug": "museum-getty-nagin-hakkaki",
+  "title": "گوهر حکاکی‌شده",
+  "author": "ناشناس",
+  "source": "museum",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-nagin-hakkaki/manifest.json",
+  "pages": 2,
+  "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-nagin-hakkaki/cover.jpg",
+  "externalLinks": {
+   "digitalObject": "https://www.getty.edu/art/collection/object/103XYP",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/95fe57c3-8db4-47f9-aef4-ffa68fab7563"
+  }
+ },
+ {
+  "slug": "museum-getty-darik",
+  "title": "داریک",
+  "author": "ناشناس",
+  "source": "museum",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-darik/manifest.json",
+  "pages": 7,
+  "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-darik/cover.jpg",
+  "externalLinks": {
+   "digitalObject": "https://www.getty.edu/art/collection/object/103Z3N",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/3a618e0f-cc1a-4c70-b60e-b12923e82400"
+  }
+ },
+ {
+  "slug": "museum-getty-bakhsh-angoshtar",
+  "title": "بخش انگشتر",
+  "author": "ناشناس",
+  "source": "museum",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-bakhsh-angoshtar/manifest.json",
+  "pages": 2,
+  "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-bakhsh-angoshtar/cover.jpg",
+  "externalLinks": {
+   "digitalObject": "https://www.getty.edu/art/collection/object/103VW4",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/5d2220d9-dca6-4d07-8864-3c4cf7cac860"
+  }
+ },
+ {
+  "slug": "museum-getty-mohre-hashkani",
+  "title": "گروه مهره‌های اشکانی (۲۰ عدد)",
+  "author": "ناشناس",
+  "source": "museum",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-mohre-hashkani/manifest.json",
+  "pages": 1,
+  "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-mohre-hashkani/cover.jpg",
+  "externalLinks": {
+   "digitalObject": "https://www.getty.edu/art/collection/object/103XHV",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/a16d8456-703b-4c0a-9675-f645a2851c5c"
+  }
+ },
+ {
+  "slug": "museum-getty-mohr-hormi",
+  "title": "مهر هرمی هشت‌پر",
+  "author": "ناشناس",
+  "source": "museum",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-mohr-hormi/manifest.json",
+  "pages": 4,
+  "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-mohr-hormi/cover.jpg",
+  "externalLinks": {
+   "digitalObject": "https://www.getty.edu/art/collection/object/103V06",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/06337f94-ce72-477f-9b69-337c496979d9"
+  }
+ },
+ {
+  "slug": "museum-getty-angoshtar",
+  "title": "انگشتر",
+  "author": "ناشناس",
+  "source": "museum",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-angoshtar/manifest.json",
+  "pages": 2,
+  "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-angoshtar/cover.jpg",
+  "externalLinks": {
+   "digitalObject": "https://www.getty.edu/art/collection/object/103VRS",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/755103f6-fa7b-447b-a3bc-6e5fd6941332"
+  }
+ },
+ {
+  "slug": "museum-getty-kase-safali-hendasi",
+  "title": "کاسه با نقش هندسی",
+  "author": "ناشناس",
+  "source": "museum",
+  "provider": "The J. Paul Getty Museum",
+  "manifestUrl": "books/museum-getty-kase-safali-hendasi/manifest.json",
+  "pages": 8,
+  "cover": "cover.jpg",
+  "thumbnail": "books/museum-getty-kase-safali-hendasi/cover.jpg",
+  "externalLinks": {
+   "digitalObject": "https://www.getty.edu/art/collection/object/103TPE",
+   "iiifManifest": "https://media.getty.edu/iiif/manifest/3/abf50366-3245-485c-b42e-d8bba8611576"
   }
  }
 ]
