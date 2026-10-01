@@ -1647,7 +1647,7 @@
   "thumbnail": [
    "https://images.metmuseum.org/CRDImages/an/original/DP-19135-003.jpg"
   ],
-  "manifestUrl": "https://images.metmuseum.org/CRDImages/an/original/DP-19135-003.jpg",
+  "manifestUrl": "books/museum-met-gold-vessel/manifest.json",
   "provider": "The Metropolitan Museum of Art",
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/324291",
@@ -1663,7 +1663,7 @@
   "thumbnail": [
    "https://images.metmuseum.org/CRDImages/is/original/DP220849.jpg"
   ],
-  "manifestUrl": "https://images.metmuseum.org/CRDImages/is/original/DP220849.jpg",
+  "manifestUrl": "books/museum-met-polonaise-carpet/manifest.json",
   "provider": "The Metropolitan Museum of Art",
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/451027",
