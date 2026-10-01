@@ -1,0 +1,37 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "books/museum-cleveland-ewer-sphinx/manifest.json",
+ "label": "\u06a9\u0627\u0633\u0647 \u062f\u0648\u0627\u0632\u062f\u0647\u200c\u0636\u0644\u0639\u06cc \u0628\u0627aring sphinxes",
+ "metadata": [
+  {
+   "label": "\u0646\u0627\u0645\u0645\u0627\u06cc\u0634\u06af\u0627\u0647",
+   "value": "Cleveland Museum of Art"
+  }
+ ],
+ "sequences": [
+  {
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@id": "books/museum-cleveland-ewer-sphinx/canvas/1",
+     "@type": "sc:Canvas",
+     "label": "1",
+     "width": 2000,
+     "height": 2000,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "resource": {
+        "@id": "cover.jpg",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 2000,
+        "height": 2000
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

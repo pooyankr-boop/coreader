@@ -68,17 +68,10 @@ function loadBook(slug){
         if(/^books\//.test(manifestUrl)) manifestUrl = '../' + manifestUrl;
         // Check if it's a direct image URL (jpg, png, etc.) — handle as single-image book
         var isDirectImage = /\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(manifestUrl);
-        var needsProxy = /qdl\.qa|digirati\.io|loc\.gov|ids\.si\.edu|harvardartmuseums\.org|harvard\.edu|artic\.edu|collections\.yale\.edu|vam\.ac\.uk|images\.metmuseum\.org|metmuseum\.org/.test(manifestUrl);
-        // Also proxy for direct images from blocked hosts
-        if(isDirectImage){
-          var directHosts=['harvardartmuseums.org','metmuseum.org','images.metmuseum.org','si.edu','artic.edu','qdl.qa','vam.ac.uk','ids.si.edu'];
-          for(var i=0;i<directHosts.length;i++){
-            if(manifestUrl.indexOf(directHosts[i])>=0){
-              needsProxy=true;
-              break;
-            }
-          }
-        }
+        // vam.ac.uk, framemark.vam.ac.uk and images.metmuseum.org all answer with
+        // Access-Control-Allow-Origin: * (verified), so they fetch fine straight
+        // from GitHub Pages — proxying them only produced 404s there.
+        var needsProxy = /qdl\.qa|digirati\.io|loc\.gov|ids\.si\.edu|harvardartmuseums\.org|harvard\.edu|artic\.edu|collections\.yale\.edu/.test(manifestUrl);
         if(isDirectImage){
           // Route through proxy when the host blocks cross-origin fetch
           var imgSrc = needsProxy ? '/proxy-image?url=' + encodeURIComponent(manifestUrl) : manifestUrl;
@@ -111,7 +104,10 @@ function loadBook(slug){
     window.BOOK=BOOK; // export for ganjoor-text.js
     // Rewrite remote image URLs from WAF-blocked museum image servers
     // through the local proxy so <img>/OSD can load them.
-    var IMG_PROXY_HOSTS=['si.edu','ids.lib.harvard.edu','nrs.harvard.edu','harvardartmuseums.org','images.metmuseum.org','www.artic.edu','artic.edu','openaccess-cdn.clevelandart.org','framemark.vam.ac.uk','images.collections.yale.edu','worldhistory.org','commons.wikimedia.org','upload.wikimedia.org'];
+    // Only hosts that actually refuse cross-origin reads belong here. vam.ac.uk,
+    // framemark.vam.ac.uk and images.metmuseum.org send ACAO:*, and plain <img>
+    // never needs CORS at all, so proxying them broke GitHub Pages for no gain.
+    var IMG_PROXY_HOSTS=['si.edu','ids.lib.harvard.edu','nrs.harvard.edu','harvardartmuseums.org','www.artic.edu','images.collections.yale.edu'];
 var IMAGE_PROXY_PATTERN=/https?:\/\/(?!localhost)/i;
     (BOOK.items||[]).forEach(function(it){
       (it.images||[]).forEach(function(im){

@@ -1707,7 +1707,7 @@
   "source": "museum",
   "pages": 1,
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1945.27/1945.27_web.jpg",
-  "manifestUrl": "https://openaccess-cdn.clevelandart.org/1945.27/1945.27_web.jpg",
+  "manifestUrl": "books/museum-cleveland-ewer-sphinx/manifest.json",
   "provider": "Cleveland Museum of Art",
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1945.27"
@@ -1720,7 +1720,7 @@
   "source": "museum",
   "pages": 1,
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1956.11/1956.11_web.jpg",
-  "manifestUrl": "https://openaccess-cdn.clevelandart.org/1956.11/1956.11_web.jpg",
+  "manifestUrl": "books/museum-cleveland-luxury-ewer/manifest.json",
   "provider": "Cleveland Museum of Art",
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/print/art/1956.11"
@@ -1733,7 +1733,7 @@
   "source": "museum",
   "pages": 1,
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1915.548/1915.548_web.jpg",
-  "manifestUrl": "https://openaccess-cdn.clevelandart.org/1915.548/1915.548_web.jpg",
+  "manifestUrl": "books/museum-cleveland-glass-bottle/manifest.json",
   "provider": "Cleveland Museum of Art",
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1915.548"
@@ -1746,7 +1746,7 @@
   "source": "museum",
   "pages": 1,
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1951.535/1951.535_web.jpg",
-  "manifestUrl": "https://openaccess-cdn.clevelandart.org/1951.535/1951.535_web.jpg",
+  "manifestUrl": "books/museum-cleveland-silk-palmettes/manifest.json",
   "provider": "Cleveland Museum of Art",
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1951.535"
@@ -1759,7 +1759,7 @@
   "source": "museum",
   "pages": 1,
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1982.83/1982.83_web.jpg",
-  "manifestUrl": "https://openaccess-cdn.clevelandart.org/1982.83/1982.83_web.jpg",
+  "manifestUrl": "books/museum-cleveland-silk-lions/manifest.json",
   "provider": "Cleveland Museum of Art",
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1982.83"
@@ -1772,7 +1772,7 @@
   "source": "museum",
   "pages": 1,
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1982.102/1982.102_web.jpg",
-  "manifestUrl": "https://openaccess-cdn.clevelandart.org/1982.102/1982.102_web.jpg",
+  "manifestUrl": "books/museum-cleveland-silk-hunters/manifest.json",
   "provider": "Cleveland Museum of Art",
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1982.102"
@@ -1785,7 +1785,7 @@
   "source": "museum",
   "pages": 1,
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1981.10/1981.10_web.jpg",
-  "manifestUrl": "https://openaccess-cdn.clevelandart.org/1981.10/1981.10_web.jpg",
+  "manifestUrl": "books/museum-cleveland-mosque-lamp/manifest.json",
   "provider": "Cleveland Museum of Art",
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1981.10"
@@ -1798,7 +1798,7 @@
   "source": "museum",
   "pages": 1,
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1982.272/1982.272_web.jpg",
-  "manifestUrl": "https://openaccess-cdn.clevelandart.org/1982.272/1982.272_web.jpg",
+  "manifestUrl": "books/museum-cleveland-silk-1982-272/manifest.json",
   "provider": "Cleveland Museum of Art",
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1982.272"
@@ -1811,7 +1811,7 @@
   "source": "museum",
   "pages": 1,
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1960.275/1960.275_web.jpg",
-  "manifestUrl": "https://openaccess-cdn.clevelandart.org/1960.275/1960.275_web.jpg",
+  "manifestUrl": "books/museum-cleveland-silk-1960-275/manifest.json",
   "provider": "Cleveland Museum of Art",
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1960.275"
@@ -1824,7 +1824,7 @@
   "source": "museum",
   "pages": 1,
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1977.17/1977.17_web.jpg",
-  "manifestUrl": "https://openaccess-cdn.clevelandart.org/1977.17/1977.17_web.jpg",
+  "manifestUrl": "books/museum-cleveland-silk-1977-17/manifest.json",
   "provider": "Cleveland Museum of Art",
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1977.17"
@@ -1837,7 +1837,7 @@
   "source": "museum",
   "pages": 1,
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1939.36/1939.36_web.jpg",
-  "manifestUrl": "https://openaccess-cdn.clevelandart.org/1939.36/1939.36_web.jpg",
+  "manifestUrl": "books/museum-cleveland-silk-1939-36/manifest.json",
   "provider": "Cleveland Museum of Art",
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1939.36"
@@ -1850,7 +1850,7 @@
   "source": "museum",
   "pages": 1,
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1982.102/1982.102_web.jpg",
-  "manifestUrl": "https://openaccess-cdn.clevelandart.org/1982.102/1982.102_web.jpg",
+  "manifestUrl": "books/museum-cleveland-silk-1982-102/manifest.json",
   "provider": "Cleveland Museum of Art",
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1982.102"
@@ -1863,7 +1863,7 @@
   "source": "museum",
   "pages": 1,
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1961.352/1961.352_web.jpg",
-  "manifestUrl": "https://openaccess-cdn.clevelandart.org/1961.352/1961.352_web.jpg",
+  "manifestUrl": "books/museum-cleveland-1961-352/manifest.json",
   "provider": "Cleveland Museum of Art",
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1961.352"
@@ -1876,7 +1876,7 @@
   "source": "museum",
   "pages": 1,
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1961.374/1961.374_web.jpg",
-  "manifestUrl": "https://openaccess-cdn.clevelandart.org/1961.374/1961.374_web.jpg",
+  "manifestUrl": "books/museum-cleveland-1961-374/manifest.json",
   "provider": "Cleveland Museum of Art",
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1961.374"
@@ -1889,7 +1889,7 @@
   "source": "museum",
   "pages": 1,
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1962.346/1962.346_web.jpg",
-  "manifestUrl": "https://openaccess-cdn.clevelandart.org/1962.346/1962.346_web.jpg",
+  "manifestUrl": "books/museum-cleveland-1962-346/manifest.json",
   "provider": "Cleveland Museum of Art",
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1962.346"
@@ -1902,7 +1902,7 @@
   "source": "museum",
   "pages": 1,
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1963.650/1963.650_web.jpg",
-  "manifestUrl": "https://openaccess-cdn.clevelandart.org/1963.650/1963.650_web.jpg",
+  "manifestUrl": "books/museum-cleveland-1963-650/manifest.json",
   "provider": "Cleveland Museum of Art",
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1963.650"
