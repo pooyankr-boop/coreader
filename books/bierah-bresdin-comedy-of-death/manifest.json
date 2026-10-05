@@ -1,0 +1,68 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "books/bierah-bresdin-comedy-of-death/manifest.json",
+ "@type": "sc:Manifest",
+ "label": "The Comedy of Death (La comédie de la mort)",
+ "description": [
+  {
+   "value": "",
+   "language": "en"
+  }
+ ],
+ "metadata": [
+  {
+   "label": "Artist / Maker",
+   "value": "Rodolphe Bresdin\nFrench, 1825-1885"
+  },
+  {
+   "label": "Medium",
+   "value": "Lithograph on cream China paper laid down on white wove paper"
+  },
+  {
+   "label": "Dimensions",
+   "value": "Image: 21.7 × 15 cm (8 9/16 × 5 15/16 in.); Sheet: 28.4 × 19.5 cm (11 3/16 × 7 11/16 in.)"
+  },
+  {
+   "label": "Object Number",
+   "value": "1923.189"
+  },
+  {
+   "label": "Collection",
+   "value": "<a href='http://www.artic.edu/collection' target='_blank'>Art Institute of Chicago</a>"
+  }
+ ],
+ "attribution": "Digital image courtesy of the Art Institute of Chicago.",
+ "logo": "https://raw.githubusercontent.com/Art-Institute-of-Chicago/template/main/aic-logo.gif",
+ "within": "http://www.artic.edu/collection",
+ "rendering": {
+  "@id": "http://www.artic.edu/artworks/8099",
+  "format": "text/html",
+  "label": "Full record"
+ },
+ "sequences": [
+  {
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@type": "sc:Canvas",
+     "@id": "https://www.artic.edu/iiif/2/a66c8156-2399-bb4e-ea45-7fbfeff9f686",
+     "label": "The Comedy of Death (La comédie de la mort), 1854. Rodolphe Bresdin, French, 1825-1885",
+     "width": 843,
+     "height": 1233,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://www.artic.edu/iiif/2/a66c8156-2399-bb4e-ea45-7fbfeff9f686",
+       "resource": {
+        "@type": "dctypes:Image",
+        "@id": "cover.jpg"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "thumbnail": "cover.jpg"
+}

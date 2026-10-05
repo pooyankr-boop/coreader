@@ -112,8 +112,12 @@ var IMAGE_PROXY_PATTERN=/https?:\/\/(?!localhost)/i;
     (BOOK.items||[]).forEach(function(it){
       (it.images||[]).forEach(function(im){
         if(!im.id) return;
-        // Cached manifests may use relative image paths — resolve against books/<slug>/
-        if(!/^https?:|^\/|^data:/.test(im.id)){
+        // Cached manifests may use relative image paths — resolve against
+        // books/<slug>/.  '../' counts as already resolved: the direct-image
+        // branch above rewrote manifestUrl to '../books/<file>.jpg', this test
+        // did not recognise that as a path, a second '../books/<slug>/' got
+        // prepended, and every library book came back 404.
+        if(!/^https?:|^\/|^data:|^\.\.\//.test(im.id)){
           im.id='../books/'+encodeURIComponent(slug)+'/'+im.id;
         }
         for(var k=0;k<IMG_PROXY_HOSTS.length;k++){

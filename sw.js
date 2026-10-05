@@ -1,5 +1,5 @@
 // coreader service worker — cache-first for static assets, network-first for data
-var CACHE = 'coreader-v3';
+var CACHE = 'coreader-v7';
 
 self.addEventListener('install', function(e) {
   // Don't fail install on missing assets — use individual puts

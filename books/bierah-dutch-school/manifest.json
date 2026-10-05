@@ -1,0 +1,68 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "books/bierah-dutch-school/manifest.json",
+ "@type": "sc:Manifest",
+ "label": "The Guardhouse",
+ "description": [
+  {
+   "value": "The versatile Flemish painter David Teniers turned to military paraphernalia as the subject of his still lifes in the mid-1640s, as the long conflict of the Thirty Years’ War was drawing to a close. Here soldiers play cards in the dim interior of a guardhouse, while a page carries the officers’ cloaks. However, the chief subject of the work is the pile of discarded armor, weaponry, and parade gear—a saddle, musket, powder horn, charging spanner, and gauntlets—in the immediate foreground. In treating armor as a still-life subject, Teniers followed the precedent of Jan Breughel the Elder, whose daughter he had married.\n",
+   "language": "en"
+  }
+ ],
+ "metadata": [
+  {
+   "label": "Artist / Maker",
+   "value": "David Teniers the Younger (Flemish, 1610-1690)"
+  },
+  {
+   "label": "Medium",
+   "value": "Oil on canvas"
+  },
+  {
+   "label": "Dimensions",
+   "value": "72.6 × 55.4 cm (28 9/16 × 21 13/16 in.); Framed: 87 × 69.9 × 5.1 cm (34 1/4 × 27 1/2 × 2 in.)"
+  },
+  {
+   "label": "Object Number",
+   "value": "1894.1029"
+  },
+  {
+   "label": "Collection",
+   "value": "<a href='http://www.artic.edu/collection' target='_blank'>Art Institute of Chicago</a>"
+  }
+ ],
+ "attribution": "Digital image courtesy of the Art Institute of Chicago.",
+ "logo": "https://raw.githubusercontent.com/Art-Institute-of-Chicago/template/main/aic-logo.gif",
+ "within": "http://www.artic.edu/collection",
+ "rendering": {
+  "@id": "http://www.artic.edu/artworks/867",
+  "format": "text/html",
+  "label": "Full record"
+ },
+ "sequences": [
+  {
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@type": "sc:Canvas",
+     "@id": "https://www.artic.edu/iiif/2/18adfd19-6c76-989e-36ae-1343aa15701b",
+     "label": "The Guardhouse, c. 1645. David Teniers the Younger (Flemish, 1610-1690)",
+     "width": 843,
+     "height": 1103,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://www.artic.edu/iiif/2/18adfd19-6c76-989e-36ae-1343aa15701b",
+       "resource": {
+        "@type": "dctypes:Image",
+        "@id": "cover.jpg"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "thumbnail": "cover.jpg"
+}

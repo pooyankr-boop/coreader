@@ -1,0 +1,68 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "books/bierah-luyken-persecutions/manifest.json",
+ "@type": "sc:Manifest",
+ "label": "Battle Scene",
+ "description": [
+  {
+   "value": "",
+   "language": "en"
+  }
+ ],
+ "metadata": [
+  {
+   "label": "Artist / Maker",
+   "value": "Attributed to Jan Luyken (Dutch, 1649-1712)\nor Jacques Callot (French, 1592-1635)\nor Caspar Luyken (Dutch, 1672-1708)\nor the circle of Abraham Jansz. van Diepenbeeck (Flemish, 1596-1675)\nor a follower of Hendrick Goltzius (Dutch, 1558-1617)"
+  },
+  {
+   "label": "Medium",
+   "value": "Pen and black and brown ink, with brush and gray wash, on ivory laid paper"
+  },
+  {
+   "label": "Dimensions",
+   "value": "12.5 × 7.2 cm (4 15/16 × 2 7/8 in.)"
+  },
+  {
+   "label": "Object Number",
+   "value": "1922.157"
+  },
+  {
+   "label": "Collection",
+   "value": "<a href='http://www.artic.edu/collection' target='_blank'>Art Institute of Chicago</a>"
+  }
+ ],
+ "attribution": "Digital image courtesy of the Art Institute of Chicago.",
+ "logo": "https://raw.githubusercontent.com/Art-Institute-of-Chicago/template/main/aic-logo.gif",
+ "within": "http://www.artic.edu/collection",
+ "rendering": {
+  "@id": "http://www.artic.edu/artworks/81168",
+  "format": "text/html",
+  "label": "Full record"
+ },
+ "sequences": [
+  {
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@type": "sc:Canvas",
+     "@id": "https://www.artic.edu/iiif/2/7e10cc8a-ea19-e737-08ec-88af493f7410",
+     "label": "Battle Scene, n.d.. Attributed to Jan Luyken (Dutch, 1649-1712), or Jacques Callot (French, 1592-1635), or Caspar Luyken (Dutch, 1672-1708), or the circle of Abraham Jansz. van Diepenbeeck (Flemish, 1596-1675), or a follower of Hendrick Goltzius (Dutch, 1558-1617)",
+     "width": 843,
+     "height": 616,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://www.artic.edu/iiif/2/7e10cc8a-ea19-e737-08ec-88af493f7410",
+       "resource": {
+        "@type": "dctypes:Image",
+        "@id": "cover.jpg"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "thumbnail": "cover.jpg"
+}

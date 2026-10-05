@@ -1,0 +1,616 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../assets/fonts.css">
+<title>درون‌سویی — تور مجازی خانهٔ دِزِ اِسِنت</title>
+<style>
+/* Self-contained: touches neither viewer.css nor reader.css, so the reader and
+ * the museum section are unaffected.  The palette is the old one, unchanged. */
+:root{
+  --ink:#e8ddc9; --dim:#9b8b74; --ember:#c9702f;
+  --indigo:#2b3d63; --bg:#14100c; --line:#3a2f24; --card:#1d1710;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
+  font-family:Vazirmatn,'Noto Naskh Arabic',Tahoma,serif;overflow:hidden}
+a{color:var(--ember)}
+
+/* ---- top bar ----
+   Kept as a 30px strip, not a menu: it holds nothing but the invisible
+   "all rooms" target and the caret.  Every written control was removed. */
+.bar{position:fixed;inset:0 0 auto 0;height:30px;display:flex;align-items:center;
+  padding:0;z-index:40;pointer-events:none}
+.bar a{pointer-events:auto;display:block;width:44px;height:30px;
+  text-decoration:none}
+
+
+/* ---- stage ---- */
+.stage{position:fixed;inset:0 0 0 0}
+
+/* ---- the entrance view: the whole house seen from the front door ----
+ *
+ * This is the first thing the tour shows and it replaces the list of rooms.
+ * A hotspot on the plan is a room; hover it and the room's own photograph
+ * rises out of the opening, small to large, and drifts right to left.  Click
+ * and you are in it.  Nothing here is written.
+ */
+.plan{position:absolute;inset:0;opacity:0;visibility:hidden;z-index:12;
+  transition:opacity .5s ease}
+.plan.on{opacity:1;visibility:visible}
+.plan .pimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* A ring is placed by percentage, so it must be taken out of the flow: without
+ * this the four buttons stack in the top-left corner of the photograph and
+ * every coordinate is a lie. */
+/* No ring, no rim: a highlight is now a patch of light ON the photograph, not a
+ * shape drawn over it.
+ *
+ * The old version was a 1px circle - a drawn object sitting on top of the
+ * picture, and at the small sizes (2.4% of the short side) the rim was most of
+ * the mark, so what the eye read was a row of little hoops rather than a light
+ * in a doorway.
+ *
+ * A radial gradient does what a border cannot: the centre is opaque and the
+ * edge has already faded to nothing, so the mark has no outline at all and the
+ * photograph shows through its rim.  Doubling the element past the mark makes
+ * room for the falloff to happen INSIDE the element rather than being clipped
+ * at its edge. */
+/* A halo, not a blob.
+ *
+ * The previous version was brightest at the centre and faded outward, which
+ * put an opaque patch of light over the middle of every doorway - the one part
+ * of the mark the eye lands on first, and the part that hid the room behind
+ * it.  Reversed: the centre is nearly clear, a soft luminous band sits at
+ * about a third of the radius, and the rim fades to nothing.  You see the
+ * photograph THROUGH the middle of the highlight, and the highlight reads as
+ * a ring of light rather than a daub of paint.
+ *
+ * Everything is whiter and much fainter than the amber it replaces: at full
+ * strength the peak here is 0.34, where the old centre was 0.95. */
+.plan .ph{position:absolute;transform:translate(-50%,-50%);padding:0;
+  border:0;border-radius:50%;cursor:pointer;
+  /* --k is the mark radius in vh; the box is double it, so the falloff has
+   * room to fade to nothing before the element ends */
+  width:calc(var(--k) * 4);height:calc(var(--k) * 4);
+  background:radial-gradient(closest-side,
+    #fffaee05 0%,#fffaee14 13%,#fff3dc57 33%,#ffecd040 52%,#ffe4bd1a 72%,#ffdfb000 100%);
+  transition:filter .24s ease,opacity .24s ease}
+.plan .ph:hover,.plan .ph:focus-visible{filter:brightness(1.28) saturate(1.1)}
+.plan .ph:focus-visible{outline:2px solid #ffd27f;outline-offset:6px}
+/* a spot whose view and link are still to be built: drawn, so the plan shows
+ * that something belongs there, but it neither answers the hover nor navigates */
+.plan .ph.off{cursor:default;
+  background:radial-gradient(closest-side,
+    #cfe0ea06 0%,#cfe0ea15 14%,#bcd2e04d 34%,#adc4d438 53%,#a2bace14 73%,#a2bace00 100%)}
+.plan .ph.off:hover{filter:none}
+/* an opening with no room behind it yet: visible, but not a promise */
+.plan .ph.dim{cursor:default;
+  background:radial-gradient(closest-side,
+    #e0d8c406 0%,#e0d8c415 14%,#cfc0a04d 34%,#c2b28f38 53%,#b6a67f14 73%,#b6a67f00 100%)}
+.plan .ph.dim:hover{filter:none}
+/* the hover card: a frame that beats like a pulse while the hover lasts.
+ * Centring uses margins, not transform, because transform belongs to the
+ * pulse - one property cannot carry both.
+ *
+ * The photograph inside is 2.4x the card's width and gets WALKED across the
+ * frame by plan.js - zoom in, pan across, zoom out, and start again in a
+ * random direction.  There is no CSS animation on it any more, and that is the
+ * fix rather than a downgrade: a translateX keyframe always begins at 0, so a
+ * hover that started mid-cycle showed the user the far edge of the picture
+ * parked outside the frame.  A CSS animation cannot begin "from wherever it
+ * already is"; a requestAnimationFrame loop can, and it can also reverse. */
+.plan .thumb{position:absolute;z-index:3;pointer-events:none;
+  border:0;padding:0;opacity:0;transform-origin:50% 50%;
+  margin-left:0;margin-top:0;overflow:hidden;transition:opacity .28s ease;
+  /* an ellipse, and no border at all.  The rim was a 1px amber line that read
+   * as a picture frame hung over the room; a mask fades the photograph's own
+   * edge out instead, so the card has no outline and no corner. */
+  border-radius:50%/50%;
+  -webkit-mask-image:radial-gradient(closest-side,#000 52%,#0008f0 76%,transparent 99%);
+  mask-image:radial-gradient(closest-side,#000 52%,#0008f0 76%,transparent 99%)}
+.plan .thumb.on{opacity:1;animation:beat 2.6s ease-in-out infinite}
+.plan .thumb .timg{display:block;height:100%;width:340%;object-fit:cover;
+  object-position:78% 50%;transform-origin:50% 50%;will-change:transform}
+@keyframes beat{
+  /* one breath in 2.6s, and only a few percent: on an oval a larger scale
+   * would drag the masked edge in and out and the falloff would visibly pump */
+  0%,100%{transform:scale(.965)}
+  50%{transform:scale(1.015)}
+}
+@media(prefers-reduced-motion:reduce){
+  .plan .thumb.on{animation:none;transform:scale(.94)}
+  /* no transform at all: the scan loop checks this itself and parks the
+   * photograph at its centre frame */
+}
+/* the halo that answers the hover under the card */
+.plan .glow{position:absolute;z-index:2;pointer-events:none;border-radius:50%;
+  opacity:0;transition:opacity .28s ease;mix-blend-mode:screen;
+  background:radial-gradient(closest-side,#ffeccf4d,#ffeccf00 72%)}
+.plan .glow.on{opacity:1}
+
+/* ---- the control dock ----
+ *
+ * Auto-hide: it slides out when the pointer leaves and comes back when it
+ * returns, because a panel of furniture over a photograph is what the tour is
+ * trying not to be.  Pin it and it stays.  Three shapes, no words: the caret is
+ * "all rooms", the bar is "show/hide", the pin is "stay".
+ */
+.dock{position:fixed;bottom:0;inset-inline-end:0;z-index:44;display:flex;
+  align-items:flex-end;gap:0;padding:0 6px 6px;
+  transition:transform .34s ease,opacity .34s ease}
+.dock.hide{transform:translateY(120%);opacity:0;pointer-events:none}
+.dock.pin{transform:none;opacity:1}
+/* NOTE: `button`, not `b`.  A bare `b` tag selector matches the <b> inside
+ * #dkToggle and leaves the three real buttons unstyled - they render at the
+ * browser's default 25px and the dock measures 85x25 instead of 114x38. */
+.dock button{position:relative;display:grid;place-items:center;
+  width:38px;height:38px;padding:0;
+  background:#1d1710e8;border:1px solid var(--line);border-bottom:0;
+  cursor:pointer;color:var(--ink);border-radius:4px 4px 0 0;margin-inline-start:1px}
+.dock button:hover{background:#241c13;border-color:var(--ember)}
+.dock button:focus-visible{outline:2px solid var(--ember);outline-offset:2px}
+/* the caret: back to the plan, i.e. every room at once */
+.dock #dkHome::after{content:'';width:0;height:0;
+  border:7px solid transparent;border-bottom-color:var(--ember);
+  transform:translateY(-2px)}
+.dock #dkHome:hover::after{border-bottom-color:var(--ink)}
+/* the bar: show or hide the dock.  Two bars become one when it is open.
+ * The parent must be position:relative or this ::after anchors to the dock
+ * instead of to the button. */
+.dock #dkToggle{position:relative}
+.dock #dkToggle b{display:block;width:16px;height:2px;background:var(--ink);
+  border-radius:1px}
+.dock #dkToggle::after{content:'';position:absolute;top:21px;left:50%;
+  transform:translateX(-50%);width:16px;height:2px;background:var(--ink);
+  border-radius:1px;opacity:.45}
+.dock #dkToggle.on::after{opacity:0}
+/* the pin */
+.dock #dkPin::after{content:'';width:11px;height:11px;border:1.5px solid var(--ember);
+  border-radius:50%}
+.dock #dkPin::before{content:'';position:absolute;width:1.5px;height:7px;
+  background:var(--ember);transform:translateY(-7px);opacity:.6}
+.dock #dkPin.on{border-color:var(--ember);background:#2a2015}
+.dock #dkPin.on::after{background:var(--ember)}
+@media(prefers-reduced-motion:reduce){.dock{transition:none}}
+@media(prefers-reduced-motion:reduce){
+  .plan .thumb.on{animation:none;transform:scale(.94)}
+}
+.list{position:absolute;inset:0;overflow-y:auto;padding:18px;
+  display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));
+  align-content:start}
+.list.off{display:none}
+@media(max-width:560px){.list{grid-template-columns:1fr 1fr;padding:11px;gap:9px}}
+.rb{background:var(--card);border:1px solid var(--line);border-radius:3px;
+  overflow:hidden;cursor:pointer;text-align:right;padding:0;color:inherit;
+  font:inherit;transition:.18s}
+.rb:hover{border-color:var(--ember);transform:translateY(-2px)}
+.rb img{display:block;width:100%;aspect-ratio:21/9;object-fit:cover;
+  background:#0d0a07;border-bottom:1px solid var(--line)}
+.rb .t{display:block;padding:8px 11px 1px;font-size:1rem}
+.rb .e{display:block;padding:0 11px;font-size:.73rem;color:var(--dim);font-style:italic}
+.rb .c{display:block;padding:3px 11px 9px;font-size:.73rem;color:var(--ember)}
+
+/* ---- the room ---- */
+.room{position:absolute;inset:0;display:none}
+.room.on{display:block}
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;
+  transition:opacity .5s ease;background:#0d0a07}
+.bg.on{opacity:1}
+.scrim{position:absolute;inset:0;z-index:20}
+
+/* ---------- the atmosphere: one SVG, no images, no libraries ----------
+ *
+ * Everything here is an SVG primitive drawn once and moved by SMIL or CSS, so
+ * the whole layer costs one element and no request.  All of it is very faint:
+ * it must read as dust in a beam of light, never as an effect.
+ *
+ * Reduced-motion kills it, rather than hiding it, because an animation that
+ * keeps running while the user asked for stillness is worse than no art.
+ */
+.atmos{position:absolute;inset:0;z-index:15;pointer-events:none;
+  opacity:.72;transition:opacity 1.4s ease}
+.atmos.dim{opacity:.3}
+.atmos *{pointer-events:none}
+@media(prefers-reduced-motion:reduce){.atmos{display:none}}
+
+/* --- the wandering threads.
+ *
+ * stroke-width is in USER UNITS, and this svg has preserveAspectRatio="none"
+ * with a 1000x620 viewBox stretched over the window: one user unit is about
+ * 1.4px across and 1.2px down on a laptop.  At stroke-width .6 - which is what
+ * this was set to, thinking in screen pixels - a thread is a third of a pixel
+ * wide and no browser draws it at all.  That is why they were "not shown".
+ * 1.6 user units is about two real pixels: a hairline you can actually see.
+ *
+ * They are the only saturated colour on the wall, and they are dark until
+ * tour.js lights them - see the .thr rule further down and the thread ticker. */
+/* @property is what makes the fade possible.
+ *
+ * `opacity: var(--lit, 0)` cannot be transitioned: an unregistered custom
+ * property is an untyped token, so the browser has no idea that --lit is a
+ * number and jumps straight to the new value.  The transition below would then
+ * be ignored, because there is nothing interpolatable - which is exactly the
+ * flash the brief is complaining about.  Registering it as a <number> with an
+ * initial value of 0 gives the transition real endpoints to interpolate, and
+ * the fade in and out happens in CSS while the ticker still owns the timing. */
+@property --lit{syntax:'<number>';inherits:false;initial-value:0}
+.thr{fill:none;stroke-linecap:round;stroke-width:.9;
+  /* --lit is registered above, so this resolves to a real number and the
+   * transition interpolates it.  ponytail: a browser without @property falls
+   * back to the browser default here, which is instant - the threads still
+   * light and go dark correctly, they just snap instead of fading. */
+  opacity:var(--lit,0);
+  transition:opacity .55s ease}
+
+/* --- the ghost light: two overlapping ellipses on one shared opacity ramp,
+ * one slow and one faster, so the beam breathes instead of pulsing.  feGaussian
+ * blur is the only filter here; it is a blur of a solid shape, which every
+ * browser renders without falling back to a bitmap. --- */
+.glowell{fill:#e8f0ff;opacity:0}
+@keyframes breath{
+  0%{opacity:.02}
+  38%{opacity:.085}
+  62%{opacity:.05}
+  100%{opacity:.02}
+}
+.glowell.slow{animation:breath 15s ease-in-out infinite}
+.glowell.fast{animation:breath 9s ease-in-out infinite}
+
+/* --- the smoke: three stacked slow blobs drifting up and sideways.  Kept at
+ * 1-2% opacity; more than that and it stops being a room and becomes a fog
+ * machine. --- */
+.smoke{fill:#6b5a45;opacity:0;animation:drift 34s ease-in-out infinite}
+.smoke.s2{animation:drift 44s ease-in-out infinite;animation-delay:-11s}
+.smoke.s3{animation:drift 26s ease-in-out infinite;animation-delay:-19s}
+@keyframes drift{
+  0%{opacity:.02;transform:translate(0,14%) scale(.9)}
+  45%{opacity:.042}
+  100%{opacity:0;transform:translate(4%,-16%) scale(1.25)}
+}
+
+/* --- the dust: 150 specks on one group, each with its own rise and fade.
+ * cy is animated so they float; the largest radius is 2.4px, and the big ones
+ * are the pale ones (atmosphere() draws size and colour from the same random
+ * number), so the field reads as dust settling in a beam rather than as snow.
+ * The inline animation-duration and -delay from atmosphere() win over these
+ * per-index rules, which are only the fallback for a mote built by hand. --- */
+@keyframes mote{
+  0%{opacity:0;transform:translate(0,0)}
+  20%{opacity:.72}
+  80%{opacity:.44}
+  100%{opacity:0;transform:translate(2%,-9%)}
+}
+/* The same rise, mirrored: a mote that drifts DOWN uses the one definition
+ * above with the travel negated, so the two fields cannot drift out of step. */
+@keyframes motedown{
+  0%{opacity:0;transform:translate(0,0)}
+  20%{opacity:.58}
+  80%{opacity:.34}
+  100%{opacity:0;transform:translate(-2%,7%)}
+}
+/* and one that goes nowhere: no travel at all, only the breathing opacity.
+ * Suspended dust, which is what a still room actually looks like. */
+@keyframes motehang{
+  0%{opacity:.14}
+  50%{opacity:.5}
+  100%{opacity:.14}
+}
+.motedown{animation-name:motedown}
+.motehang{animation-name:motehang}
+.mote{animation:mote 18s linear infinite}
+.mote:nth-child(3n){animation-duration:26s}
+.mote:nth-child(3n+1){animation-duration:21s}
+.mote:nth-child(5n){animation-duration:33s}
+.mote:nth-child(4n){animation-duration:29s}
+
+/* --- the threads, restated once.
+ *
+ * NOT `opacity:0`.  That was the fallback here for a while and it beat the
+ * ticker's value on every lit thread, which is why they never showed: a
+ * declaration in a rule wins over anything the element carries.  The lit value
+ * travels as --lit instead, registered as a <number> above so the fade can be
+ * interpolated, and the resting state is the property's initial value of 0.
+ * If the ticker never starts, --lit is never set and the threads stay dark
+ * instead of becoming 22 coloured lines across every room. */
+.thr{opacity:var(--lit,0)}
+
+/* --- the haze.
+ *
+ * The amount is drawn per visit (0..1) in atmosphere() and applied once, as an
+ * opacity on the whole group.  Four bands on four different clocks, blurred once
+ * together, so a high value is depth and not a white wash.  The ceiling is 0.9
+ * rather than 1.0 on purpose: at full opacity the photograph underneath is
+ * simply gone, and the room is the point. */
+.haze{filter:url(#soft)}
+.hz1{fill:#8a7a5c;animation:hazef 41s ease-in-out infinite}
+.hz2{fill:#a89a80;animation:hazef 53s ease-in-out infinite}
+.hz3{fill:#6f6a5c;animation:hazef 47s ease-in-out infinite}
+.hz4{fill:#9c9179;animation:hazef 61s ease-in-out infinite}
+@keyframes hazef{
+  0%{opacity:.02;transform:translate(-3%,2%) scale(.92)}
+  50%{opacity:.075}
+  100%{opacity:.015;transform:translate(4%,-3%) scale(1.2)}
+}
+
+
+/* the pointer's spiral light.  position:fixed so the JS can place it at
+ * clientX/clientY without converting through the plan's offset box - the
+ * highlight has to be near the CURSOR, and the cursor is not in the plan's
+ * coordinate space. */
+.spark{position:fixed;left:0;top:0;width:100%;height:100%;z-index:4;
+  pointer-events:none;opacity:0;mix-blend-mode:screen}
+.spark g{opacity:0}
+
+/* the pulsing ring.  A hotspot's x/y are percentages of the picture, and the
+   picture is cropped to fill the screen, so JS has to place it - see fixCover()
+   in tour.js, which is the correction carried over from the Yaran engine. */
+/* Same idea as the entrance rings: a patch of light, not a hoop.  The room
+ * hotspots keep a breathing motion because they sit on a dark photograph and
+ * have to say "press here", but the breathing works on opacity and scale now
+ * instead of a spreading ring, so there is no outline anywhere. */
+.hs{position:absolute;width:var(--r,30px);height:var(--r,30px);
+  margin:calc(var(--r,30px) / -2);border-radius:50%;cursor:pointer;
+  border:0;
+  /* the same halo as the entrance marks: clear centre, luminous band at a
+   * third of the radius, nothing at the rim */
+  background:radial-gradient(closest-side,
+    #fffaee05 0%,#fffaee14 13%,#fff3dc57 33%,#ffecd040 52%,#ffe4bd1a 72%,#ffdfb000 100%);
+  animation:hsbreathe 2.6s ease-in-out infinite;transition:filter .22s ease}
+@keyframes hsbreathe{
+  0%,100%{transform:scale(1);opacity:.84}
+  50%{transform:scale(1.09);opacity:1}
+}
+.hs:hover{filter:brightness(1.3) saturate(1.1)}
+/* THE pink room: the only hotspot in the tour that is not on the entrance
+ * photograph, so the only one painted in another colour. */
+.hs.pink{
+  background:radial-gradient(closest-side,
+    #fff4f706 0%,#fff0f416 13%,#ffd3e263 33%,#f7b0cb47 52%,#e79ab320 72%,#dd8fb200 100%);
+  animation:hsbreathe 3.4s ease-in-out infinite}
+}
+.hs:hover{border-color:var(--ink)}
+.hs.sel{animation:none;filter:brightness(1.45) saturate(1.15)}
+@media(prefers-reduced-motion:reduce){.hs{animation:none}}
+
+
+/* the panel a ring opens.  No buttons, no links, no headings: the panel is a
+   place where the room's own words surface one at a time.  The book names are
+   the only text, and they type themselves in. */
+.panel{position:absolute;z-index:35;width:min(330px,86vw);
+  background:#1d1710f7;border:1px solid var(--line);border-radius:4px;
+  padding:12px;opacity:0;visibility:hidden;transition:.2s;backdrop-filter:blur(5px);
+  max-height:74vh;overflow-y:auto;pointer-events:none}
+.panel.in{opacity:1;visibility:visible}
+.panel img.pi{display:block;width:100%;border:1px solid var(--line);
+  border-radius:2px;margin-bottom:8px;background:#0d0a07;cursor:zoom-in}
+/* the shelf's books.  A book name IS the link - there is no "viewer" button,
+   because a button that says the same thing twice is noise. */
+.panel .go{display:block;text-align:center;background:var(--indigo);color:#fff;
+  padding:7px;margin:4px 0;border-radius:3px;text-decoration:none;font-size:.85rem;
+  pointer-events:auto}
+.panel .go .bk{color:inherit}
+/* a painting's name, under the picture.  Same type-in as the books. */
+.panel .t1{display:block;font-size:.95rem;margin-top:2px}
+
+
+/* ---- the type-in ----
+ *
+ * One character at a time, with a blinking caret.  No JS timer per letter: the
+ * step count and the target width are two CSS variables, and a single width
+ * animation does the whole line.
+ *
+ * width:ch is the part that matters.  ch is the advance of "0", so the box is
+ * exactly as wide as the text and the caret rides the edge exactly - with px or
+ * %, the caret drifts away from the last letter on any font that is not
+ * monospace, which is every Persian face.
+ *
+ * inline-block is required: a block box ignores width, and every carrier here
+ * (.go is an <a>, .ac is a <button>) is full width by default, so the animation
+ * would run and change nothing. */
+@keyframes typein{
+  from{opacity:0;width:0}
+  to{opacity:1;width:var(--w,20ch)}
+}
+.typed{display:inline-block;overflow:hidden;white-space:nowrap;direction:rtl;
+  vertical-align:bottom;max-width:100%;
+  animation:typein .55s steps(var(--n,14)) forwards}
+.typed::after{content:'';display:inline-block;width:.06em;height:1.05em;
+  background:currentColor;margin-inline-start:.1em;vertical-align:-.18em;
+  animation:caret 1s steps(2) infinite}
+.typed.done::after{opacity:0;animation:none}
+@keyframes caret{50%{opacity:0}}
+@media(prefers-reduced-motion:reduce){
+  .typed{animation:none;opacity:1;width:auto}
+  .typed::after{display:none}
+}
+
+
+
+/* ---- side list: the room's paintings and books ----
+ *
+ * Closed by default and opened by one hotspot on the left edge, because a
+ * permanent panel of text over a room photograph is furniture nobody asked for.
+ * Clicking anywhere outside closes it again.
+ */
+.sideTab{position:absolute;top:50%;left:0;z-index:29;width:22px;height:74px;
+  margin-top:-37px;background:#1d1710e0;border:1px solid var(--line);
+  border-left:0;border-radius:0 4px 4px 0;cursor:pointer;padding:0;
+  display:grid;place-items:center;transition:.2s}
+.sideTab:hover{background:#241c13;border-color:var(--ember)}
+.sideTab::before{content:'';width:0;height:0;border:5px solid transparent;
+  border-right-color:var(--ember)}
+.side[hidden]{display:none}
+.side{position:absolute;top:11px;left:11px;z-index:28;width:min(258px,40vw);
+  max-height:calc(100% - 76px);overflow-y:auto;background:#1d1710e0;
+  border:1px solid var(--line);border-radius:3px;padding:10px;backdrop-filter:blur(4px);
+  pointer-events:auto;opacity:0;transform:translateX(-12px);transition:.22s}
+.side.on{opacity:1;transform:none}
+.side .cnt{color:var(--dim);font-size:.73rem;margin:0 0 6px}
+/* the carriers of .typed are inline-block, so they lay out like the room does
+   rather than like a form: a row of shelves, not a stack of fields */
+.ac{display:inline-flex;align-items:center;gap:7px;max-width:100%;background:none;
+  border:1px solid transparent;border-radius:3px;padding:3px 5px;cursor:pointer;
+  color:var(--ink);font:inherit;font-size:.79rem;text-align:right;transition:.15s;
+  margin:1px 0}
+.ac:hover,.ac.on{border-color:var(--ember);background:#241c13}
+.ac img{width:32px;height:32px;object-fit:cover;flex:0 0 auto;
+  border:1px solid var(--line);background:#0d0a07}
+.bc{display:inline-flex;align-items:center;gap:7px;max-width:100%;text-decoration:none;
+  color:var(--ink);font-size:.77rem;padding:3px 5px;border-radius:3px;
+  border:1px solid transparent;transition:.15s;margin:1px 0}
+.bc:hover{border-color:var(--ember);background:#241c13}
+.bc.no{cursor:default;opacity:.45}
+.bc.no:hover{border-color:transparent;background:none}
+.bc img,.bc .nc{width:24px;height:34px;flex:0 0 auto;object-fit:cover;
+  border:1px solid var(--line);background:#0d0a07}
+.bc .nc{border-style:dashed}
+/* a book name next to its own cover.  The name is the typing box, and the box
+ * is the flex item, not the <a> - an <a> that is inline-flex cannot be sized by
+ * the width animation, because its own width is then a flex-basis question. */
+.bc>span:last-child{overflow:hidden;min-width:0}
+/* the side list is the only route to a painting, so it must not vanish on a
+   narrow screen - it collapses to a button instead */
+@media(max-width:820px){
+  .side{width:min(230px,58vw);font-size:.95rem}
+}
+
+
+.warn{color:var(--ember);padding:26px;text-align:center}
+
+/* the full-size scan */
+.light{position:fixed;inset:0;z-index:60;display:none;place-items:center;
+ background:rgba(12,10,8,.93);padding:3vh 3vw}
+.light.in{display:grid}
+.light img{max-width:92vw;max-height:82vh;object-fit:contain;border-radius:2px;
+ box-shadow:0 20px 60px rgba(0,0,0,.7)}
+.light figcaption{color:#e8dcc8;font-size:.95rem;text-align:center;
+ padding-top:.8rem;max-width:60ch}
+#lightX{position:absolute;top:1rem;left:1rem;width:2.6rem;height:2.6rem;
+ border-radius:50%;border:1px solid rgba(232,220,200,.3);background:transparent;
+ color:#e8dcc8;font-size:1.6rem;line-height:1;cursor:pointer}
+#lightX:hover{background:rgba(232,220,200,.12)}
+ border:1px solid rgba(232,220,200,.25);border-radius:2px;background:transparent;
+ color:#c9b795;font-size:.82rem;cursor:pointer}
+img.pi{cursor:zoom-in}
+
+/* a painting placed in its frame */
+img.painting{position:absolute;
+ transform:translate(-50%,-50%);
+ /* A keystone is four points, so clip-path reads four points.
+  *
+  * matrix3d was the wrong tool and was the reason every painting drew flat:
+  * --rise landed in m32 and --lift in m42, which are depth terms, so the
+  * frame's top and bottom edges came out exactly horizontal whatever the data
+  * said.  A clip-path polygon() cannot put a number in the wrong slot.
+  *
+  * Rebuilding the shape from three derived slopes was also wrong: rise and
+  * lift are both edge slopes, so on a level wall they are equal and adding
+  * them back onto a centre line put the top and bottom edges on the same
+  * line - the painting collapsed to nothing.  The corners are stored instead.
+  *
+  * Each corner is a percentage of this element's own box; the box is the
+  * frame's measured w and h.  A level wall therefore gives exactly
+  * 0 0, 100 0, 100 100, 0 100 - a plain rectangle - and a wall seen at an
+  * angle gives a real trapezoid. */
+ clip-path:polygon(var(--c1,0% 0%), var(--c2,100% 0%),
+                   var(--c3,100% 100%), var(--c4,0% 100%));
+ z-index:2;pointer-events:none;
+ width:var(--w,7%);height:var(--h,12%);
+ object-fit:cover;object-position:center;
+ /* clip-path cuts a drop shadow off, so the moulding is an outline instead */
+ outline:2px solid rgba(20,14,8,.85);
+ background:#241a11;
+ transition:filter .25s}
+/* the ring over a painting pulses, so it reads as tappable */
+.hs.has-art{z-index:3;background:transparent;animation:none}
+.hs.has-art::after{content:'';position:absolute;inset:-6px;
+ border:1px solid rgba(217,164,65,0);border-radius:3px;
+ animation:ringart 2.6s ease-out infinite}
+@keyframes ringart{
+  0%{border-color:rgba(217,164,65,.85);box-shadow:0 0 12px rgba(217,164,65,.35)}
+  70%{border-color:rgba(217,164,65,0);box-shadow:0 0 0 rgba(217,164,65,0)}
+  100%{border-color:rgba(217,164,65,0);box-shadow:0 0 0 rgba(217,164,65,0)}
+}
+.hs.has-art.sel::after{animation:none;border-color:#f0d090;
+ box-shadow:0 0 18px rgba(217,164,65,.6)}
+@media(prefers-reduced-motion:reduce){
+ .hs.has-art::after{animation:none;border-color:rgba(217,164,65,.6)}
+}
+</style>
+</head>
+<body>
+
+<div class="bar">
+  <a id="about" href="#"></a>
+  <span class="sp"></span>
+</div>
+
+<!-- the control dock.  Auto-hides; the pin keeps it out.  No words: a caret,
+     a bar, a pin, each with an aria-label for anyone who needs one. -->
+<div class="dock" id="dock">
+  <button type="button" id="dkHome" aria-label="همهٔ اتاق‌ها"></button>
+  <button type="button" id="dkToggle" aria-label="بستن یا باز کردن پنل"><b></b></button>
+  <button type="button" id="dkPin" aria-label="پین کردن پنل"></button>
+</div>
+
+<div class="stage" id="stage">
+  <div class="plan" id="plan">
+    <img class="pimg" id="pimg" alt="" decoding="async">
+    <div class="glow" id="glow"></div>
+    <div class="thumb" id="thumb"><img class="timg" id="timg" alt="" decoding="async"></div>
+    <div class="glow" id="glow2"></div>
+    <!-- the light that answers the pointer near the hovered ring: a slow
+         spiral in and out.  Empty in the markup; plan.js fills it once. -->
+    <svg class="spark" id="spark" viewBox="0 0 1 1" aria-hidden="true"
+         preserveAspectRatio="none"></svg>
+  </div>
+  <div class="list" id="list"></div>
+  <div class="room" id="room">
+    <img class="bg" id="bgA" alt="">
+    <img class="bg" id="bgB" alt="">
+
+    <!-- the atmosphere.  One <svg>, built once by atmosphere(), and never
+         rebuilt per room: the threads are the same in every room, and a filter
+         blur on 40 motes is cheaper than any number of images. -->
+    <div class="scrim" id="scrim"></div>
+    <div class="panel" id="panel"></div>
+    <button class="sideTab" id="sideTab" type="button" aria-label="فهرست"></button>
+    <aside class="side" id="side" hidden></aside>
+  </div>
+
+  <!-- the atmosphere.  It lives on the stage, not inside the room: the first
+       thing the tour shows is the entrance photograph, and dust in that
+       hallway is the whole point of it.  One <svg>, built once by
+       atmosphere(), never rebuilt per room. -->
+  <svg class="atmos" id="atmos" viewBox="0 0 1000 620"
+       preserveAspectRatio="none" aria-hidden="true" focusable="false"></svg>
+</div>
+
+<script>
+// The reader registers a service worker and its cache-first rule kept serving
+// a stale copy of this page's own images, so the tour showed rooms it had no
+// file for.  Unregister whatever is installed and drop its caches before the
+// tour draws anything.
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.getRegistrations().then(function (regs) {
+    regs.forEach(function (r) { r.unregister(); });
+  });
+}
+if ('caches' in window) {
+  caches.keys().then(function (names) {
+    names.forEach(function (n) { caches.delete(n); });
+  });
+}
+</script>
+
+<script src="plan.js?v=16"></script>
+<script src="tour.js?v=47"></script>
+
+<!-- the full-size scan; a panel thumbnail is not the scan -->
+<div class="light" id="light" role="dialog" aria-label="اسکن تمام‌اندازه">
+  <button id="lightX" type="button" aria-label="بستن">&#215;</button>
+  <figure><img id="lightIm" alt=""><figcaption id="lightCap"></figcaption></figure>
+</div>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تور مجازی — راه</title>
+<style>
+:root{--gold:#d4af37;--bg:#14100c;--panel:#211a12}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;overflow:hidden;background:var(--bg);color:#e8dcc8;font-family:Vazirmatn,Tahoma,sans-serif}
+#stage{position:fixed;inset:0;overflow:hidden;background:#000;touch-action:none}
+#imgwrap{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);line-height:0;will-change:transform}
+#roomImg{display:block;max-width:100vw;max-height:100vh;width:auto;height:auto;user-select:none;-webkit-user-drag:none}
+#tip{position:absolute;transform:translate(-50%,-140%);background:rgba(20,14,8,.94);border:1px solid var(--gold);color:#f3e7cd;padding:5px 12px;border-radius:6px;font-size:13px;line-height:1.6;white-space:nowrap;width:max-content;pointer-events:none;display:none;z-index:5}
+.hot{position:absolute;width:26px;height:26px;transform:translate(-50%,-50%);border-radius:50%;background:rgba(212,175,55,.28);border:2px solid var(--gold);cursor:pointer;z-index:4;padding:0}
+.hot::after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--gold)}
+.hot.link{background:rgba(124,58,237,.30);border-color:#7c3aed}
+.hot.link::after{background:#7c3aed}
+.hot.link::before{border-color:rgba(124,58,237,.55)}
+.hot::before{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid rgba(212,175,55,.55);animation:pulse 2s infinite}
+@keyframes pulse{0%{transform:scale(.7);opacity:1}100%{transform:scale(1.5);opacity:0}}
+body.edit .hot{cursor:move}
+/* mini control panel */
+#mini{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:20;display:flex;align-items:center;gap:6px;padding:8px 12px;background:rgba(24,18,10,.92);border:1px solid #4a3a24;border-radius:14px;backdrop-filter:blur(6px);transition:opacity .35s,transform .35s;max-width:96vw;flex-wrap:wrap;justify-content:center}
+#mini.hide{opacity:0;transform:translateX(-50%) translateY(14px);pointer-events:none}
+#mini button{background:#2b2216;color:#e8dcc8;border:1px solid #4a3a24;height:38px;min-width:38px;padding:0 10px;border-radius:10px;cursor:pointer;font-family:inherit;font-size:16px}
+#mini button:hover{border-color:var(--gold);color:var(--gold)}
+#mini button.on{background:var(--gold);color:#14100c}
+#roomName{font-size:13px;color:var(--gold);padding:0 8px;white-space:nowrap}
+#zoomPct{font-size:12px;color:#a99;min-width:38px;text-align:center}
+.sep{width:1px;height:24px;background:#4a3a24;margin:0 2px}
+#toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:30;background:rgba(24,18,10,.95);border:1px solid var(--gold);color:#f3e7cd;padding:6px 14px;border-radius:8px;font-size:13px;display:none}
+</style>
+</head>
+<body>
+
+<div id="stage">
+  <div id="imgwrap">
+    <img id="roomImg" alt="">
+    <div id="tip"></div>
+  </div>
+</div>
+
+<div id="mini">
+  <button id="prevBtn" title="اتاق قبلی">➡️</button>
+  <span id="roomName"></span>
+  <button id="nextBtn" title="اتاق بعدی">⬅️</button>
+  <div class="sep"></div>
+  <button id="homeBtn" title="برگشت به کنج">🏠</button>
+  <div class="sep"></div>
+  <button id="zOut" title="زوم آوت">➖</button>
+  <span id="zoomPct">100%</span>
+  <button id="zIn" title="زوم این">➕</button>
+  <div class="sep"></div>
+  <button id="pinBtn" title="پین پنل (بدون آن، پنل خودکار پنهان می‌شود)">📌</button>
+  <button id="catBtn" title="رفتن به کاتالوگ">📚</button>
+  <button id="closeBtn" title="بستن تور (کاتالوگ)">✖️</button>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ————— room data —————
+var ROOMS=[
+ {id:'konj',name:'کنج',img:'rooms/konj.jpg',objs:[
+  {nav:'hammam',t:'راه به گرمابه',x:20.5,y:44.9},
+  {nav:'study',t:'راه به اتاق تحریر',x:25.6,y:46.3},
+  {nav:'mikhane',t:'راه به می‌خانه',x:24.4,y:76.9},
+  {nav:'library',t:'راه به کتابخانه',x:20.9,y:61.1},
+  {nav:'gallery',t:'راه به نگارخانه',x:25.7,y:59.3},
+  {nav:'sky',t:'راه به آسمان‌نما',x:22.9,y:30.4},
+  {slug:'loc-2021667284',t:'نسخهٔ خطی: عجایب المخلوقات',x:83.9,y:24.1},
+  {slug:'bodleian-9809c716',t:'نسخهٔ خطی: دیوان حافظ',x:90.6,y:47.2},
+  {slug:'bodleian-cce97ab5',t:'نسخهٔ خطی: لیلی و مجنون',x:67.5,y:52.1},
+  {slug:'bodleian-bodl-or-716-shahnameh',t:'شاهنامهٔ فردوسی',x:82.1,y:62.8},
+  {slug:'bodleian-greaves-1-jami',t:'نسخهٔ خطی: یوسف و زلیخا',x:77.1,y:60.4},
+  {slug:'bodleian-elliott-254-jami',t:'نسخهٔ خطی: بهارستان جامی',x:77.3,y:30.4},
+  {slug:'loc-zakhirah-khvarazm-shah',t:'ذخیرهٔ خوارزمشاهی',x:89.1,y:66.6},
+  {slug:'museum-vam-tile-panel-isfahani',t:'کاشی‌های تزیینی اصفهان — علی محمد اصفهانی',x:18.5,y:92.5},
+  {slug:'museum-hermitage-44595',t:'چراغ برنزی',x:50.3,y:44},
+  {slug:'museum-met-445977',t:'کاشی‌فهرس با نقش دو شکارچی',x:40.1,y:32.4},
+  {slug:'museum-hermitage-235104',t:'زنی با دستهٔ گل‌های محمدی',x:60.7,y:27.9},
+  {slug:'museum-hermitage-179607',t:'قلیان',x:58.6,y:76.5},
+  {slug:'museum-vam-ardabil-carpet',t:'فرش اردبیل',x:50,y:65},
+  {href:'../viewer/tour.html',t:'خانه‌ی د اسنت',x:50,y:78}
+ ]},
+ {id:'hammam',name:'گرمابه',img:'rooms/hammam.jpg',objs:[
+  {slug:'museum-hermitage-116419',t:'آبپر برنزی',x:79.3,y:33.2},
+  {slug:'museum-hermitage-212482',t:'شیشهٔ عطر',x:55.4,y:73.9},
+  {slug:'museum-hermitage-116109',t:'کوزهٔ فیروزه‌ای',x:19.7,y:20.1},
+  {slug:'museum-cleveland-1948.308',t:'عودسوز گربه‌ای',x:55.6,y:60.2},
+  {slug:'museum-met-450492',t:'آینه',x:93.8,y:56.2},
+  {slug:'museum-hermitage-91861',t:'چراغ روغنی',x:29.6,y:64.2},
+  {slug:'museum-cleveland-1969.291',t:'سطل حمام',x:75.3,y:84.3},
+  {slug:'museum-hermitage-179484',t:'قمقمهٔ فیروزه‌ای',x:71.2,y:41.3},
+  {slug:'museum-cleveland-1915.589',t:'کاسهٔ پرندگان پرنده',x:54.7,y:91},
+  {slug:'museum-hermitage-167063',t:'دیگ مسی',x:81.9,y:92.2}
+ ]},
+ {id:'study',name:'اتاق تحریر',img:'rooms/study.jpg',objs:[
+  {slug:'bodleian-cce97ab5',t:'نسخهٔ خطی: لیلی و مجنون',x:72.8,y:17.7},
+  {slug:'museum-cleveland-1947.501',t:'یوسف و زلیخا',x:45.8,y:19.3},
+  {slug:'museum-met-447071',t:'مونس‌الاحرار',x:83.3,y:36.8},
+  {slug:'museum-hermitage-228497',t:'قلمدان کشویی',x:48.6,y:81.9},
+  {slug:'museum-hermitage-228522',t:'جعبهٔ نوروز',x:12.5,y:82.9},
+  {slug:'museum-met-451023',t:'عاشقان',x:60.3,y:34},
+  {slug:'museum-hermitage-192831',t:'اسطرلاب',x:54.9,y:49.9},
+  {slug:'museum-hermitage-192530',t:'قلمدان فولادی زرین‌فام',x:18.6,y:68},
+  {slug:'museum-hermitage-228573',t:'رحل چوبی',x:41.5,y:60},
+  {slug:'bodleian-6b3da54c',t:'نسخهٔ خطی: رباعیات خیام',x:73.3,y:39.3}
+ ]},
+ {id:'mikhane',name:'می‌خانه',img:'rooms/mikhane.jpg',objs:[
+  {slug:'museum-met-451752',t:'کاسهٔ مجلس کنار حوض',x:64.1,y:88.2},
+  {slug:'museum-met-452079',t:'کاسهٔ دارای کتیبه',x:36.1,y:80.1},
+  {slug:'museum-hermitage-179234',t:'کاسهٔ فیروزه‌ای زرین‌فام',x:70.1,y:60.8},
+  {slug:'museum-getty-jam-aqiqi',t:'جام عقیقی',x:45.7,y:68.8},
+  {slug:'museum-cleveland-1964.41',t:'ظرف نوشیدن اسبی',x:50.2,y:72.7},
+  {slug:'museum-getty-panzarf',t:'گروه پنج ظرف',x:38.8,y:90.4},
+  {slug:'museum-getty-tekouk-gozn',t:'تکوک گوزن',x:37.8,y:72.3},
+  {slug:'museum-hermitage-69343',t:'کوزهٔ نقره‌ای',x:62.7,y:78.1},
+  {slug:'museum-cleveland-1917.977',t:'پیالهٔ مینایی',x:56,y:70},
+  {slug:'museum-cleveland-1964.96',t:'ریتون زن و گاوشیر',x:82,y:55}
+ ]},
+ {id:'library',name:'کتابخانه',img:'rooms/library.jpg',objs:[
+  {slug:'loc-2021667238',t:'اصول حساب — علم',x:84.1,y:82.5},
+  {slug:'loc-2017454465',t:'عجایب المخلوقات — علم',x:80.3,y:75.1},
+  {slug:'bodleian-ef568d4f',t:'هدایة المتعلمین در طب — علم',x:92,y:77.4},
+  {slug:'bodleian-library-ms-elliott-377',t:'تاریخ طبری — گوشهٔ تاریخ',x:10.2,y:75.6},
+  {slug:'loc-2013415253',t:'تاریخ نادری — گوشهٔ تاریخ',x:12.8,y:57.9},
+  {slug:'bodleian-7d185003',t:'خمسهٔ نظامی — ادبیات',x:42,y:73.4},
+  {slug:'eap-mantiq-al-tayr',t:'منطق‌الطیر — ادبیات',x:42.1,y:59.3},
+  {slug:'bodleian-9809c716',t:'دیوان حافظ — ادبیات',x:58.6,y:49},
+  {slug:'qdl-add-ms-16659',t:'آثار ابن سینا — فلسفه',x:65.2,y:55.3},
+  {slug:'bodleian-a1246f80',t:'حدائق الأنوار — فلسفه',x:60.7,y:75.8}
+ ]},
+ {id:'gallery',name:'نگارخانه',img:'rooms/gallery.jpg',objs:[
+  {slug:'museum-vam-O97147',t:'تک‌چهرهٔ فتح‌علی‌شاه',x:80.9,y:70},
+  {slug:'museum-met-447071',t:'مونس‌الاحرار',x:44.6,y:55.9},
+  {slug:'museum-met-451725',t:'همایش پرندگان',x:67.7,y:64.3},
+  {slug:'museum-met-451023',t:'عاشقان',x:63.3,y:58.8},
+  {slug:'museum-cleveland-1947.501.a',t:'یوسف و زلیخا',x:56.9,y:57.6},
+  {slug:'museum-met-450605',t:'شاهزاده و التماس‌کننده',x:39.7,y:60.4},
+  {slug:'museum-hermitage-82',t:'زنی با تاج',x:36.1,y:64.5},
+  {slug:'museum-met-453250',t:'تصویر پرنده — رضا عباسی',x:21.6,y:69.4},
+  {slug:'museum-met-450722',t:'جوانی با شاهین',x:74.6,y:65.5},
+  {slug:'museum-met-448280',t:'بهمن و گرازها — شاهنامه',x:85,y:35}
+ ]},
+ {id:'sky',name:'آسمان‌نما',img:'rooms/sky.jpg',objs:[
+  {slug:'museum-hermitage-192831',t:'اسطرلاب',x:19.9,y:60.8},
+  {slug:'bodleian-19cf9814',t:'نجومیّات — الغ‌بیگ',x:12.6,y:73.3},
+  {slug:'bodleian-library-ms-bodl-or-548',t:'زیجِ جدیدِ سلطانی',x:71,y:72},
+  {slug:'loc-2008401028',t:'صورتالکواکب — عبدالرحمن صوفی',x:17,y:84.9},
+  {slug:'qdl-add-ms-7492',t:'چهار رساله در نجوم و تقویم',x:82.8,y:61},
+  {slug:'qdl-add-ms-23569',t:'پنج رساله در نجوم و ریاضیات',x:14.9,y:78.5},
+  {slug:'loc-2017498317',t:'اثر طلسمی کیهانی قاجار',x:84.8,y:88.3},
+  {slug:'loc-2021667231',t:'مهر و مشتری',x:93.9,y:76.2},
+  {slug:'museum-met-451379',t:'کاسه با ترکیب درباری و نجومی',x:3.9,y:67.1},
+  {slug:'museum-met-449338',t:'چراغ',x:90.1,y:41.4}
+ ]}
+];
+
+var LS_KEY='***';
+var saved={};
+try{saved=JSON.parse(localStorage.getItem(LS_KEY)||'{}')}catch(e){}
+var cur=ROOMS[0], curIdx=0, editing=false;
+
+var img=document.getElementById('roomImg'),
+    wrap=document.getElementById('imgwrap'),
+    stage=document.getElementById('stage'),
+    tip=document.getElementById('tip'),
+    mini=document.getElementById('mini'),
+    roomName=document.getElementById('roomName'),
+    zoomPct=document.getElementById('zoomPct'),
+    toast=document.getElementById('toast');
+
+// ————— zoom / pan —————
+var z=1,dx=0,dy=0;
+function applyT(){wrap.style.transform='translate(calc(-50% + '+dx+'px), calc(-50% + '+dy+'px)) scale('+z+')';zoomPct.textContent=Math.round(z*100)+'%'}
+function setZoom(nz){z=Math.max(1,Math.min(4,nz));if(z===1){dx=0;dy=0}applyT()}
+document.getElementById('zIn').onclick=function(){setZoom(z*1.25)};
+document.getElementById('zOut').onclick=function(){setZoom(z/1.25)};
+stage.addEventListener('wheel',function(e){e.preventDefault();setZoom(z*(e.deltaY<0?1.12:1/1.12))},{passive:false});
+var panning=false,px=0,py=0;
+stage.addEventListener('pointerdown',function(e){
+  if(e.target.closest('.hot'))return;
+  if(z===1)return;
+  panning=true;px=e.clientX;py=e.clientY;stage.setPointerCapture(e.pointerId);
+});
+stage.addEventListener('pointermove',function(e){
+  if(!panning)return;
+  dx+=e.clientX-px;dy+=e.clientY-py;px=e.clientX;py=e.clientY;applyT();
+});
+stage.addEventListener('pointerup',function(){panning=false});
+
+// ————— panel autohide / pin —————
+var pinned=localStorage.getItem('tour-pin')==='1',hideT;
+function poke(){mini.classList.remove('hide');clearTimeout(hideT);if(!pinned)hideT=setTimeout(function(){mini.classList.add('hide')},3500)}
+document.addEventListener('pointermove',poke);
+document.addEventListener('touchstart',poke);
+var pinBtn=document.getElementById('pinBtn');
+function drawPin(){pinBtn.classList.toggle('on',pinned)}
+pinBtn.onclick=function(){pinned=!pinned;localStorage.setItem('tour-pin',pinned?'1':'0');drawPin();poke()};
+drawPin();poke();
+
+function showToast(t){toast.textContent=t;toast.style.display='block';clearTimeout(showToast.t);showToast.t=setTimeout(function(){toast.style.display='none'},2200)}
+
+// ————— rooms —————
+function pos(r,o){
+  var k=r.id+'/'+(o.slug||o.nav||o.href);
+  if(saved[k]) return saved[k];
+  return {x:o.x,y:o.y};
+}
+
+function render(){
+  img.src=cur.img;
+  img.onload=function(){drawHots()};
+  if(img.complete)drawHots();
+  roomName.textContent=cur.name+' ('+cur.objs.length+')';
+}
+
+function drawHots(){
+  [].forEach.call(wrap.querySelectorAll('.hot'),function(n){n.remove()});
+  cur.objs.forEach(function(o){
+    var p=pos(cur,o);
+    var d=document.createElement('button');
+    d.className='hot'+(o.href?' link':''); d.style.left=p.x+'%'; d.style.top=p.y+'%';
+    d.onmouseenter=function(){tip.textContent=o.t;tip.style.display='block';
+      tip.style.left=p.x+'%';tip.style.top=p.y+'%'};
+    d.onmouseleave=function(){tip.style.display='none'};
+    d.onclick=function(e){
+      if(editing)return;
+      if(o.href){location.href=o.href;return}
+      if(o.nav){selectRoom(o.nav);return}
+      if(e.button===1||e.ctrlKey||e.metaKey||e.shiftKey)
+        window.open('../viewer/viewer.html?book='+encodeURIComponent(o.slug));
+      else location.href='../viewer/viewer.html?book='+encodeURIComponent(o.slug);
+    };
+    d.onpointerdown=function(e){
+      if(!editing)return;
+      e.preventDefault();e.stopPropagation();d.setPointerCapture(e.pointerId);
+      function mv(ev){
+        var r=wrap.getBoundingClientRect();
+        var x=Math.round(((ev.clientX-r.left)/r.width)*1000)/10;
+        var y=Math.round(((ev.clientY-r.top)/r.height)*1000)/10;
+        x=Math.max(0,Math.min(100,x)); y=Math.max(0,Math.min(100,y));
+        d.style.left=x+'%'; d.style.top=y+'%';
+        tip.style.left=x+'%'; tip.style.top=y+'%';
+        saved[cur.id+'/'+(o.slug||o.nav||o.href)]={x:x,y:y};
+      }
+      function up(){
+        d.onpointermove=null; d.onpointerup=null;
+        localStorage.setItem(LS_KEY,JSON.stringify(saved));
+        showToast('ذخیره شد');
+      }
+      d.onpointermove=mv; d.onpointerup=up;
+    };
+    wrap.appendChild(d);
+  });
+}
+
+function selectRoom(id){
+  var i=ROOMS.map(function(r){return r.id}).indexOf(id);
+  if(i<0)i=0;
+  curIdx=i; cur=ROOMS[i];
+  z=1;dx=0;dy=0;applyT();
+  render();
+}
+function step(d){selectRoom(ROOMS[(curIdx+d+ROOMS.length)%ROOMS.length].id)}
+
+document.getElementById('nextBtn').onclick=function(){step(1)};
+document.getElementById('prevBtn').onclick=function(){step(-1)};
+document.getElementById('homeBtn').onclick=function(){selectRoom('konj')};
+function goCatalog(){location.href='../index.html'}
+document.getElementById('catBtn').onclick=goCatalog;
+document.getElementById('closeBtn').onclick=goCatalog;
+
+// ————— keyboard —————
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowLeft')step(1);           // rtl: left = next
+  else if(e.key==='ArrowRight')step(-1);
+  else if(e.key==='Escape')goCatalog();
+  else if(e.key==='+'||e.key==='=')setZoom(z*1.25);
+  else if(e.key==='-')setZoom(z/1.25);
+  else if(e.key==='e'||e.key==='E'){editing=!editing;document.body.classList.toggle('edit',editing);showToast(editing?'حالت ویرایش: نقاط را بکشید':'حالت نمایش')}
+  else if(e.key==='c'||e.key==='C'){
+    var txt=JSON.stringify(saved,null,1);
+    if(navigator.clipboard)navigator.clipboard.writeText(txt);
+    console.log(txt); showToast('JSON در کلیپ‌بورد/کنسول');
+  }
+  else if(e.key==='r'||e.key==='R'){
+    if(confirm('مختصات ذخیره‌شده پاک شود?')){saved={};localStorage.removeItem(LS_KEY);drawHots();showToast('بازگردانی شد')}
+  }
+});
+
+// edit tools are keyboard-only: E=جابجایی، C=خروجی JSON، R=بازگردانی
+render();applyT();
+</script>
+</body>
+</html>

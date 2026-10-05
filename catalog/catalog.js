@@ -1,7 +1,9 @@
 // catalog.js — museum home page logic
 (function(){
 'use strict';
-var _books=[], _filter='iiif';
+var _books=[], _filter='iiif', _section=null;
+
+function sectionOf(b){ return b.section==='bierah' ? 'bierah' : 'raah'; }
 
 function init(){
   loadTheme();
@@ -10,19 +12,67 @@ function init(){
   var qf=params.get('filter');
   var hash=location.hash.slice(1);
   var f=qf||hash;
-  if(f && /^(all|iiif|museum|local)$/.test(f)){
+  if(f && /^(all|iiif|museum|local|against-nature)$/.test(f)){
     _filter=f;
     document.querySelectorAll('.filter-tab').forEach(function(t){
       t.classList.toggle('on', t.dataset.filter===_filter);
     });
   }
+  // Section: URL param wins, else stored choice, else default raah (gate removed)
+  var qs=params.get('section');
+  var stored=null;
+  try{ stored=localStorage.getItem('coreader-section'); }catch(e){}
+  _section=(qs==='bierah'||qs==='raah')?qs:(stored==='bierah'||stored==='raah'?stored:'raah');
+  setSectionChrome(_section); showCatalog();
+
+  document.querySelectorAll('.filter-tab').forEach(function(t){
+    t.addEventListener('click',function(){
+      document.querySelectorAll('.filter-tab').forEach(function(x){x.classList.remove('on')});
+      t.classList.add('on'); _filter=t.dataset.filter; render();
+    });
+  });
+  document.getElementById('searchInput').addEventListener('input',function(){render()});
+}
+
+function setSectionChrome(sec){
+  document.body.classList.toggle('section-bierah', sec==='bierah');
+  var sw=document.getElementById('sectionSwitch');
+  if(sw){ sw.style.display=''; sw.textContent = sec==='bierah' ? 'تعویض بیراه' : 'تعویض راه'; }
+  var tb=document.getElementById('tourBtn');
+  if(tb){ tb.textContent = sec==='bierah' ? 'تور مجازی خانه‌ی د اسنت' : 'تور مجازی زیرزمين';
+    tb.onclick=function(){ location.href = sec==='bierah' ? 'viewer/tour.html' : 'tour/index.html'; }; }
+  var h1=document.querySelector('header h1');
+  var sub=document.querySelector('header .subtitle');
+  if(sec==='bierah'){
+    if(h1) h1.textContent='کتابخانهٔ بیراه';
+    if(sub) sub.textContent='کتاب‌ها و آثار هنریِ اشاره‌شده در رمان À reboursِ اُکتاو میرابو — نسخه‌های خطی و موزه‌ای با IIIF';
+    document.title='بیراه — رمان بیراه';
+  } else {
+    if(h1) h1.textContent='کتابخانهٔ نسخ خطی و اوراق فارسی';
+    if(sub) sub.textContent='مرور، خوانش، مقابله و حاشیه‌نویسی نسخ ایرانی از کتابخانه‌های سراسر جهان';
+    document.title='کتابخوانهٔ نسخ خطی و اوراق فارسی';
+  }
+}
+
+window.chooseSection=function(sec){
+  _section=sec;
+  try{ localStorage.setItem('coreader-section', sec); }catch(e){}
+  setSectionChrome(sec);
+  showCatalog();
+};
+window.toggleSection=function(){
+  chooseSection(_section==='bierah'?'raah':'bierah');
+};
+
+function showCatalog(){
   fetch('books-index.json').then(function(r){return r.json()}).then(function(list){
     // Merge custom books from localStorage, but only if slug not already in index (index has better metadata)
     var custom=JSON.parse(localStorage.getItem('coreader-custom-books')||'[]');
     var indexSlugs={};list.forEach(function(b){indexSlugs[b.slug]=1});
     // Drop any custom book whose manifestUrl matches an index book (same source — use index version)
     custom=custom.filter(function(c){return !indexSlugs[c.slug] && !Object.keys(indexSlugs).some(function(k){return list.find(function(b){return b.manifestUrl===c.manifestUrl})})});
-    _books=list.concat(custom);
+    // against-nature tour card shows in both sections — it is the shared hub
+    _books=list.concat(custom).filter(function(b){ return b.source==='against-nature' || sectionOf(b)===_section; });
     document.getElementById('skeletonGrid').style.display='none';
     document.getElementById('grid').style.display='';
     render();
@@ -31,13 +81,6 @@ function init(){
     document.getElementById('grid').style.display='';
     document.getElementById('grid').innerHTML='<div class="empty">خطا در بارگذاری فهرست کتاب‌ها</div>';
   });
-  document.querySelectorAll('.filter-tab').forEach(function(t){
-    t.addEventListener('click',function(){
-      document.querySelectorAll('.filter-tab').forEach(function(x){x.classList.remove('on')});
-      t.classList.add('on'); _filter=t.dataset.filter; render();
-    });
-  });
-  document.getElementById('searchInput').addEventListener('input',function(){render()});
 }
 
 function render(){
@@ -62,21 +105,24 @@ function render(){
     var slides='';
     if(b.thumbnail){
       var thumbs=Array.isArray(b.thumbnail)?b.thumbnail:[b.thumbnail];
-      slides=thumbs.slice(0,5).map(function(url,si){
-        return '<div class="slide'+(si===0?' active':'')+'"><img src="'+url+'" alt="" loading="lazy"></div>';
-      }).join('');
+      // Single slide: no slideshow — static cover like raah manuscripts
+      if(thumbs.length>=2){
+        slides=thumbs.slice(0,5).map(function(url,si){
+          return '<div class="slide'+(si===0?' active':'')+'"><img src="'+url+'" alt="" loading="lazy"></div>';
+        }).join('');
+      }
     }
     var slideshow=slides?'<div class="card-slideshow">'+slides+'</div>':'';
-    var badge=b.source==='iiif'?'<span class="source-badge iiif">IIIF</span>':(b.source==='museum'?'<span class="source-badge museum">موزه</span>':'<span class="source-badge local">ذخیره‌شده</span>');
+    var badge=b.source==='iiif'?'<span class="source-badge iiif">IIIF</span>':(b.source==='museum'?'<span class="source-badge museum">موزه</span>':(b.source==='against-nature'?'<span class="source-badge museum">تور دوبعدی</span>':'<span class="source-badge local">ذخیره‌شده</span>'));
     var provider=b.provider?' · '+b.provider:'';
-    var href=(b.source==='local'?'reader/reader.html?book=':'viewer/viewer.html?book=')+encodeURIComponent(b.slug);
+    // against-nature is a room tour, not a book: it opens the tour page with no room
+    var href=(b.source==='against-nature'?'viewer/tour.html':(b.source==='local'?'reader/reader.html?book=':'viewer/viewer.html?book=')+encodeURIComponent(b.slug));
     return '<a class="card" href="'+href+'" style="animation-delay:'+(i*0.05)+'s" data-slug="'+b.slug+'">'+
       '<div class="card-cover-wrap">'+coverImg+fallback+slideshow+'</div>'+
       '<div class="card-body">'+
       '<h2>'+b.title+'</h2>'+
       '<div class="author">'+(b.author||'ناشناس')+'</div>'+
       '<div class="meta">'+badge+'<span>'+b.pages+' صفحه'+provider+'</span></div>'+
-      pbar+'</div></a>';
       pbar+'</div></a>';
   }).join('');
   initSlideshows();
@@ -289,6 +335,7 @@ window.saveIiifBook=function(){
     source:kind,provider:iiifLabel(pm.provider)||'IIIF',
     manifestUrl:pm.url,pages:pm.pages,cover:'',
     thumbnail:pm.thumbnail||[],
+    section:_section||'raah',
     externalLinks:pm.externalLinks||{iiifManifest:pm.url}
   };
   var log=document.getElementById('addLog');
@@ -344,7 +391,8 @@ window.saveLocalBook=function(){
     // Add to custom books list for catalog
     custom.push({
       slug:slug,title:title,author:author||'ناشناس',
-      source:'local',pages:pages.length,cover:''
+      source:'local',pages:pages.length,cover:'',
+      section:_section||'raah'
     });
     localStorage.setItem('coreader-custom-books',JSON.stringify(custom));
     log.textContent+='\n✓ کتاب «'+title+'» ذخیره شد ('+pages.length+' صفحه).\n';

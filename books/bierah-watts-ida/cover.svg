@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="800" viewBox="0 0 600 800">
+  <rect width="600" height="800" fill="#1d1712"/>
+  <rect x="24" y="24" width="552" height="752" fill="#2a2119" stroke="#8a5a3b" stroke-width="6"/>
+  <rect x="46" y="46" width="508" height="708" fill="#221a13" stroke="#6b4630" stroke-width="2"/>
+  <rect x="70" y="70" width="460" height="660" fill="#191410" stroke="#4a3323" stroke-width="0"/>
+  <rect x="70" y="70" width="460" height="660" fill="#191410" stroke="#4a3323" stroke-width="1"/>
+  <text x="300" y="330" text-anchor="middle" fill="#e8dcc8" font-family="Vazirmatn, Segoe UI, Tahoma, sans-serif" font-size="76" font-weight="700">ایدا</text>
+  <text x="300" y="410" text-anchor="middle" fill="#c9b596" font-family="Segoe UI, Tahoma, sans-serif" font-size="28">George Frederic Watts</text>
+  <text x="300" y="470" text-anchor="middle" fill="#9a866b" font-family="Vazirmatn, Segoe UI, Tahoma, sans-serif" font-size="22"> </text>
+  <text x="300" y="470" text-anchor="middle" fill="#9a866b" font-family="Vazirmatn, Segoe UI, Tahoma, sans-serif" font-size="22">تصویر باز یافت نشد — قاب رزرو شد</text>
+  <text x="300" y="700" text-anchor="middle" fill="#7a6a55" font-family="Vazirmatn, Segoe UI, Tahoma, sans-serif" font-size="18">رمان بیراه — فصل ۱۱</text>
+</svg>

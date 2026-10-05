@@ -1,0 +1,68 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "books/bierah-goya-garroteado/manifest.json",
+ "@type": "sc:Manifest",
+ "label": "The Garrotted Man",
+ "description": [
+  {
+   "value": "",
+   "language": "en"
+  }
+ ],
+ "metadata": [
+  {
+   "label": "Artist / Maker",
+   "value": "Francisco José de Goya y Lucientes\nSpanish, 1746-1828"
+  },
+  {
+   "label": "Medium",
+   "value": "Etching in black ink on ivory wove paper"
+  },
+  {
+   "label": "Dimensions",
+   "value": "Plate: 32.7 × 21 cm (12 7/8 × 8 5/16 in.); Sheet: 35.3 × 24 cm (13 15/16 × 9 1/2 in.)"
+  },
+  {
+   "label": "Object Number",
+   "value": "1962.320"
+  },
+  {
+   "label": "Collection",
+   "value": "<a href='http://www.artic.edu/collection' target='_blank'>Art Institute of Chicago</a>"
+  }
+ ],
+ "attribution": "Digital image courtesy of the Art Institute of Chicago.",
+ "logo": "https://raw.githubusercontent.com/Art-Institute-of-Chicago/template/main/aic-logo.gif",
+ "within": "http://www.artic.edu/collection",
+ "rendering": {
+  "@id": "http://www.artic.edu/artworks/14320",
+  "format": "text/html",
+  "label": "Full record"
+ },
+ "sequences": [
+  {
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@type": "sc:Canvas",
+     "@id": "https://www.artic.edu/iiif/2/423a1c21-b2af-2779-d334-ad4a3aadbddf",
+     "label": "The Garrotted Man, 1778–80. Francisco José de Goya y Lucientes, Spanish, 1746-1828",
+     "width": 843,
+     "height": 1257,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://www.artic.edu/iiif/2/423a1c21-b2af-2779-d334-ad4a3aadbddf",
+       "resource": {
+        "@type": "dctypes:Image",
+        "@id": "cover.jpg"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "thumbnail": "cover.jpg"
+}

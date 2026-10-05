@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>کتابخوانهٔ نسخ خطی و اوراق فارسی</title>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="catalog/catalog.css?v=9">
+<link rel="stylesheet" href="catalog/catalog.css?v=13">
 </head>
 <body>
 <header>
@@ -30,6 +30,8 @@
     <div class="theme-dot on" data-theme="" style="background:#f7f4ee" onclick="setTheme('')"></div>
     <div class="theme-dot" data-theme="sepia" style="background:#f4ecd8" onclick="setTheme('sepia')"></div>
     <div class="theme-dot" data-theme="dark" style="background:#1a1a2e" onclick="setTheme('dark')"></div>
+    <button class="section-switch" id="sectionSwitch" onclick="toggleSection()" style="display:none">تعویض راه</button>
+    <button class="section-switch" id="tourBtn" onclick="location.href='tour/index.html'" style="border-color:#d4af37;color:#d4af37">تور مجازی زیرزمین</button>
   </div>
 </header>
 <div class="controls">
@@ -107,6 +109,6 @@
     </div>
   </div>
 </div>
-<script src="catalog/catalog.js?v=10"></script>
+<script src="catalog/catalog.js?v=14"></script>
 </body>
 </html>

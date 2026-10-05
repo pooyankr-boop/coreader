@@ -95,7 +95,7 @@
   "provider": "Bayerische Staatsbibliothek",
   "manifestUrl": "books/bsb-gulistan-saadi/manifest.json",
   "pages": 355,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://api.digitale-sammlungen.de/view/bsb00047632"
   },
@@ -116,7 +116,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-hyde-10/manifest.json",
   "pages": 364,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/23c9305a-844e-48c8-8e76-8832f5e42b2e/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/23c9305a-844e-48c8-8e76-8832f5e42b2e.json",
@@ -140,7 +140,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-ouseley-add-176-shahnama/manifest.json",
   "pages": 953,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/bcbfd832-086b-4874-80f8-87500e0de704/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/bcbfd832-086b-4874-80f8-87500e0de704.json",
@@ -164,7 +164,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-ouseley-add-175-hafiz/manifest.json",
   "pages": 666,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/4d01494c-8aba-4fea-b8f9-e7b70c826d0f/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/4d01494c-8aba-4fea-b8f9-e7b70c826d0f.json",
@@ -188,7 +188,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-ouseley-add-23-jami/manifest.json",
   "pages": 306,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/78f9e2cd-6d77-4f57-8ca5-a5544273a654/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/78f9e2cd-6d77-4f57-8ca5-a5544273a654.json",
@@ -212,7 +212,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-elliott-254-jami/manifest.json",
   "pages": 159,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/56911adf-3d32-4a52-a9c6-653eb5bd6cb7/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/56911adf-3d32-4a52-a9c6-653eb5bd6cb7.json",
@@ -236,7 +236,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-greaves-1-jami/manifest.json",
   "pages": 2,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/916f7aa0-d9aa-40dd-b067-238f0d6e7377/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/916f7aa0-d9aa-40dd-b067-238f0d6e7377.json",
@@ -256,7 +256,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-bodl-or-793-quran/manifest.json",
   "pages": 692,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/1d091ec9-33f8-42d9-a620-141dfc7b1816/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/1d091ec9-33f8-42d9-a620-141dfc7b1816.json",
@@ -280,7 +280,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-bodl-or-716-shahnameh/manifest.json",
   "pages": 1555,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/8287e6c8-8b65-4a55-8ad0-e22dff4eccc2/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/8287e6c8-8b65-4a55-8ad0-e22dff4eccc2.json",
@@ -304,7 +304,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-6b3da54c/manifest.json",
   "pages": 60,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/6b3da54c-5f21-4dda-af76-726fee02d9e5/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/6b3da54c-5f21-4dda-af76-726fee02d9e5.json",
@@ -328,7 +328,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-19cf9814/manifest.json",
   "pages": 369,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/19cf9814-fc13-4b5d-8961-f8520bea9edc/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/19cf9814-fc13-4b5d-8961-f8520bea9edc.json",
@@ -352,7 +352,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-9809c716/manifest.json",
   "pages": 344,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/9809c716-be88-4fc1-9469-78acabc07f79/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/9809c716-be88-4fc1-9469-78acabc07f79.json",
@@ -376,7 +376,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-64f5a170/manifest.json",
   "pages": 930,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/64f5a170-7542-415c-845f-9e5127c9bb5e/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/64f5a170-7542-415c-845f-9e5127c9bb5e.json",
@@ -400,7 +400,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-a0fc5fa6/manifest.json",
   "pages": 1108,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/a0fc5fa6-f3d8-4089-90be-f0ffd2128865/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/a0fc5fa6-f3d8-4089-90be-f0ffd2128865.json",
@@ -424,7 +424,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-ef568d4f/manifest.json",
   "pages": 668,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/ef568d4f-c70a-4493-aa67-17db035e7f89/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/ef568d4f-c70a-4493-aa67-17db035e7f89.json",
@@ -448,7 +448,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-d633c8a4/manifest.json",
   "pages": 216,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/d633c8a4-53e1-4afe-bc51-518f5fe4e357/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/d633c8a4-53e1-4afe-bc51-518f5fe4e357.json",
@@ -472,7 +472,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-882f4307/manifest.json",
   "pages": 122,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/882f4307-f40a-4a29-9a62-d19b3b2bb908/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/882f4307-f40a-4a29-9a62-d19b3b2bb908.json",
@@ -496,7 +496,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-7d185003/manifest.json",
   "pages": 674,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/7d185003-d35f-4381-aef8-a6b12c6e6b94/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/7d185003-d35f-4381-aef8-a6b12c6e6b94.json",
@@ -520,7 +520,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-399a2a26/manifest.json",
   "pages": 18,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/399a2a26-96de-484a-b9c0-ad37877e1b16/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/399a2a26-96de-484a-b9c0-ad37877e1b16.json",
@@ -544,7 +544,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-4183fd93/manifest.json",
   "pages": 111,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/4183fd93-986f-40ee-ada4-5eff5287a8bf/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/4183fd93-986f-40ee-ada4-5eff5287a8bf.json",
@@ -568,7 +568,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-cce97ab5/manifest.json",
   "pages": 130,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/cce97ab5-19e9-4fab-bc06-5a3560101156/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/cce97ab5-19e9-4fab-bc06-5a3560101156.json",
@@ -592,7 +592,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-2e3a3c8d/manifest.json",
   "pages": 780,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/2e3a3c8d-1465-4721-9923-12436f367498/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/2e3a3c8d-1465-4721-9923-12436f367498.json",
@@ -616,7 +616,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-b54c3f88/manifest.json",
   "pages": 547,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/b54c3f88-a3bf-4cfe-a743-e4fd42c8b67c/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/b54c3f88-a3bf-4cfe-a743-e4fd42c8b67c.json",
@@ -640,7 +640,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-20f1c921/manifest.json",
   "pages": 185,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/20f1c921-e68a-484d-8b40-1604c83d7bd2/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/20f1c921-e68a-484d-8b40-1604c83d7bd2.json",
@@ -664,7 +664,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-a1246f80/manifest.json",
   "pages": 230,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/a1246f80-b45e-47ed-aa68-19af4898a2df/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/a1246f80-b45e-47ed-aa68-19af4898a2df.json",
@@ -688,7 +688,7 @@
   "provider": "Bodleian Library, Oxford",
   "manifestUrl": "books/bodleian-7f010f0d/manifest.json",
   "pages": 414,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/7f010f0d-a12f-41e9-8eb6-fd9db60eae7d/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/7f010f0d-a12f-41e9-8eb6-fd9db60eae7d.json",
@@ -712,7 +712,7 @@
   "provider": "British Library — Endangered Archives Programme",
   "manifestUrl": "books/eap-mantiq-al-tayr/manifest.json",
   "pages": 67,
-  "cover": "",
+  "cover": "cover.jpg",
   "externalLinks": {
    "digitalObject": "https://eap.bl.uk/archive-file/EAP1326-1-55",
    "iiifManifest": "https://eap.bl.uk/archive-file/EAP1326-1-55/manifest?manifest=https://eap.bl.uk/archive-file/EAP1326-1-55/manifest",
@@ -735,7 +735,7 @@
   "provider": "British Library",
   "manifestUrl": "books/bl-add-ms-6998/manifest.json",
   "pages": 483,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "Persian",
   "date": "~12th-13th century",
   "viewingDirection": "right-to-left",
@@ -754,7 +754,7 @@
   "provider": "Qatar Digital Library — British Library",
   "manifestUrl": "books/qdl-add-ms-7492/manifest.json",
   "pages": 162,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "عربی/فارسی",
   "date": "~قرن ۱۰ هجری (۱۵۰۷ میلادی)",
   "viewingDirection": "right-to-left",
@@ -773,7 +773,7 @@
   "provider": "Qatar Digital Library — British Library",
   "manifestUrl": "books/qdl-add-ms-23569/manifest.json",
   "pages": 296,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "فارسی/عربی",
   "date": "~قرن ۹-۱۰ هجری",
   "viewingDirection": "right-to-left",
@@ -792,7 +792,7 @@
   "provider": "Qatar Digital Library — British Library",
   "manifestUrl": "books/qdl-add-ms-16659/manifest.json",
   "pages": 1208,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "عربی",
   "date": "~قرن ۱۲ هجری (۱۷۶۸-۹ میلادی)",
   "viewingDirection": "right-to-left",
@@ -811,7 +811,7 @@
   "provider": "Qatar Digital Library — British Library",
   "manifestUrl": "books/qdl-add-ms-23570/manifest.json",
   "pages": 306,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "عربی/فارسی",
   "date": "~قرن ۹-۱۰ هجری",
   "viewingDirection": "right-to-left",
@@ -830,7 +830,7 @@
   "provider": "Qatar Digital Library — British Library",
   "manifestUrl": "books/qdl-add-ms-23560/manifest.json",
   "pages": 640,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "عربی/فارسی",
   "date": "~۱۰۹۹ هجری (۱۶۸۸ میلادی)",
   "viewingDirection": "right-to-left",
@@ -849,7 +849,7 @@
   "provider": "British Library — Endangered Archives Programme",
   "manifestUrl": "books/eap-anvari-sukhaili/manifest.json",
   "pages": 258,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -873,7 +873,7 @@
   "provider": "Library of Congress — World Digital Library",
   "manifestUrl": "books/loc-zakhirah-khvarazm-shah/manifest.json",
   "pages": 848,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "فارسی",
   "date": "۱۱۰۰ تا ۱۱۹۹ میلادی",
   "viewingDirection": "right-to-left",
@@ -898,7 +898,7 @@
   "provider": "Library of Congress",
   "manifestUrl": "books/loc-2007332311/manifest.json",
   "pages": 612,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "فارسی/عبری",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -920,7 +920,7 @@
   "provider": "Library of Congress",
   "manifestUrl": "books/loc-2008401028/manifest.json",
   "pages": 374,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "عربی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -942,7 +942,7 @@
   "provider": "Library of Congress",
   "manifestUrl": "books/loc-2012498627/manifest.json",
   "pages": 192,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -964,7 +964,7 @@
   "provider": "Library of Congress",
   "manifestUrl": "books/loc-2012498861/manifest.json",
   "pages": 640,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -986,7 +986,7 @@
   "provider": "Library of Congress",
   "manifestUrl": "books/loc-2013415253/manifest.json",
   "pages": 547,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1008,7 +1008,7 @@
   "provider": "Library of Congress",
   "manifestUrl": "books/loc-2015481730/manifest.json",
   "pages": 333,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1030,7 +1030,7 @@
   "provider": "Library of Congress",
   "manifestUrl": "books/loc-2016397203/manifest.json",
   "pages": 331,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1052,7 +1052,7 @@
   "provider": "Library of Congress",
   "manifestUrl": "books/loc-2017406026/manifest.json",
   "pages": 349,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1074,7 +1074,7 @@
   "provider": "Library of Congress",
   "manifestUrl": "books/loc-2017454465/manifest.json",
   "pages": 713,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "عربی/فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1096,7 +1096,7 @@
   "provider": "Library of Congress",
   "manifestUrl": "books/loc-2017498317/manifest.json",
   "pages": 87,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1118,7 +1118,7 @@
   "provider": "Library of Congress",
   "manifestUrl": "books/loc-2021667223/manifest.json",
   "pages": 78,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1140,7 +1140,7 @@
   "provider": "Library of Congress",
   "manifestUrl": "books/loc-2021667229/manifest.json",
   "pages": 1530,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1162,7 +1162,7 @@
   "provider": "Library of Congress",
   "manifestUrl": "books/loc-2021667230/manifest.json",
   "pages": 426,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1184,7 +1184,7 @@
   "provider": "Library of Congress",
   "manifestUrl": "books/loc-2021667231/manifest.json",
   "pages": 499,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1206,7 +1206,7 @@
   "provider": "Library of Congress",
   "manifestUrl": "books/loc-2021667238/manifest.json",
   "pages": 58,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "عربی/فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1228,7 +1228,7 @@
   "provider": "Library of Congress",
   "manifestUrl": "books/loc-2021667365/manifest.json",
   "pages": 283,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "عربی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1250,7 +1250,7 @@
   "provider": "Library of Congress",
   "manifestUrl": "books/loc-2021667284/manifest.json",
   "pages": 1158,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "فارسی/عربی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1272,7 +1272,7 @@
   "provider": "Library of Congress",
   "manifestUrl": "books/loc-2021667287/manifest.json",
   "pages": 696,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1294,7 +1294,7 @@
   "provider": "Library of Congress",
   "manifestUrl": "books/loc-2021667400/manifest.json",
   "pages": 685,
-  "cover": "",
+  "cover": "cover.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1339,7 +1339,8 @@
   "externalLinks": {
    "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/f0c08098-65c9-4524-b8b0-ce2610c341cb.json",
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/f0c08098-65c9-4524-b8b0-ce2610c341cb/"
-  }
+  },
+  "cover": "cover.jpg"
  },
  {
   "slug": "bodleian-library-ms-canonici-or-122",
@@ -1406,7 +1407,8 @@
   "externalLinks": {
    "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/26ae1dfa-db31-4a1a-889a-cb4e034215fc.json",
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/26ae1dfa-db31-4a1a-889a-cb4e034215fc/"
-  }
+  },
+  "cover": "cover.jpg"
  },
  {
   "slug": "bodleian-library-ms-ouseley-369",
@@ -1439,7 +1441,8 @@
   "externalLinks": {
    "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/ad16640a-3e51-4750-b6ce-86e8be191cda.json",
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/ad16640a-3e51-4750-b6ce-86e8be191cda/"
-  }
+  },
+  "cover": "cover.jpg"
  },
  {
   "slug": "bodleian-library-ms-ouseley-344",
@@ -1455,7 +1458,8 @@
   "externalLinks": {
    "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/bb573df6-5d45-4950-8460-12e356b136d3.json",
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/bb573df6-5d45-4950-8460-12e356b136d3/"
-  }
+  },
+  "cover": "cover.jpg"
  },
  {
   "slug": "bodleian-library-ms-ouseley-217",
@@ -1522,7 +1526,8 @@
   "externalLinks": {
    "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/79361790-4671-4c4f-983a-c40044671f56.json",
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/79361790-4671-4c4f-983a-c40044671f56/"
-  }
+  },
+  "cover": "cover.jpg"
  },
  {
   "slug": "bodleian-library-ms-elliott-327",
@@ -1572,7 +1577,8 @@
   "externalLinks": {
    "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/6f5b6382-f892-4109-b3be-f6a26da9ebc3.json",
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/6f5b6382-f892-4109-b3be-f6a26da9ebc3/"
-  }
+  },
+  "cover": "cover.jpg"
  },
  {
   "slug": "museum-si-luster-plate",
@@ -1771,7 +1777,7 @@
   "author": "Islamic period",
   "source": "museum",
   "pages": 1,
-  "thumbnail": "https://openaccess-cdn.clevelandart.org/1982.102/1982.102_web.jpg",
+  "thumbnail": "https://openaccess-cdn.clevelandart.org/1974.98/1974.98_web.jpg",
   "manifestUrl": "books/museum-cleveland-silk-hunters/manifest.json",
   "provider": "Cleveland Museum of Art",
   "externalLinks": {
@@ -3692,13 +3698,16 @@
   "author": "Abdullah Khan",
   "source": "museum",
   "provider": "Victoria and Albert Museum",
-  "manifestUrl": "https://iiif.vam.ac.uk/collections/O97147/manifest.json",
+  "manifestUrl": "books/museum-vam-O97147/manifest.json",
   "pages": 1,
-  "thumbnail": "https://framemark.vam.ac.uk/collections/2006AF6960/full/!400,400/0/default.jpg",
+  "thumbnail": [
+   "https://framemark.vam.ac.uk/collections/2006AF6960/full/!1200,1200/0/default.jpg"
+  ],
   "externalLinks": {
    "digitalObject": null,
    "iiifManifest": "https://iiif.vam.ac.uk/collections/O97147/manifest.json"
-  }
+  },
+  "cover": "cover.jpg"
  },
  {
   "slug": "museum-cleveland-1933.488.b",
@@ -5159,5 +5168,1222 @@
    "digitalObject": "https://www.getty.edu/art/collection/object/103TPE",
    "iiifManifest": "https://media.getty.edu/iiif/manifest/3/abf50366-3245-485c-b42e-d8bba8611576"
   }
+ },
+ {
+  "slug": "bierah-mallarme-parnasses",
+  "title": "چند شعر مالارمه",
+  "author": "Stéphane Mallarmé",
+  "source": "iiif",
+  "pages": 465,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/leparnassecontem03pari/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/leparnassecontem03pari/manifest.json",
+   "digitalObject": "https://archive.org/details/leparnassecontem03pari"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/leparnassecontem03pari%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-mallarme-anthology",
+  "title": "آنتولوژی نثر شعرها",
+  "author": "various",
+  "source": "iiif",
+  "pages": 234,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/versetprosemorce00malluoft/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/lesfondateursdud00avriuoft/manifest.json",
+   "digitalObject": "https://archive.org/details/lesfondateursdud00avriuoft"
+  },
+  "thumbnail": [
+   "https://archive.org/services/img/versetprosemorce00malluoft"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-poe-collected",
+  "title": "پو",
+  "author": "Edgar Allan Poe",
+  "source": "iiif",
+  "pages": 391,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/worksedgarallan10poegoog/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/worksedgarallan10poegoog/manifest.json",
+   "digitalObject": "https://archive.org/details/worksedgarallan10poegoog"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/worksedgarallan10poegoog%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-baudelaire",
+  "title": "بودل",
+  "author": "Charles Baudelaire",
+  "source": "iiif",
+  "pages": 366,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/oeuvrescompletes0000baud_m0y4/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/oeuvrescompletes0000baud_m0y4/manifest.json",
+   "digitalObject": "https://archive.org/details/oeuvrescompletes0000baud_m0y4"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/oeuvrescompletes0000baud_m0y4%2foeuvrescompletes0000baud_m0y4_slip_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-verlaine-poemes-saturniens",
+  "title": "شعرهای ساتورنی",
+  "author": "Paul Verlaine",
+  "source": "iiif",
+  "pages": 436,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/bub_gb_zWwGAQAAIAAJ/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/bub_gb_zWwGAQAAIAAJ/manifest.json",
+   "digitalObject": "https://archive.org/details/bub_gb_zWwGAQAAIAAJ"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/bub_gb_zWwGAQAAIAAJ%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-verlaine-bonne-chanson",
+  "title": "سرود خوب",
+  "author": "Paul Verlaine",
+  "source": "iiif",
+  "pages": 54,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/bub_gb_ne4aAAAAYAAJ/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/bub_gb_ne4aAAAAYAAJ/manifest.json",
+   "digitalObject": "https://archive.org/details/bub_gb_ne4aAAAAYAAJ"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/bub_gb_ne4aAAAAYAAJ%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-verlaine-fetes-galantes",
+  "title": "جشن‌های درباری",
+  "author": "Paul Verlaine",
+  "source": "iiif",
+  "pages": 130,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/ftesgalante00verl/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/bub_gb_zWwGAQAAIAAJ/manifest.json",
+   "digitalObject": "https://archive.org/details/bub_gb_zWwGAQAAIAAJ"
+  },
+  "thumbnail": [
+   "https://archive.org/services/img/ftesgalante00verl"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-verlaine-romances",
+  "title": "رمانس بی‌کلام",
+  "author": "Paul Verlaine",
+  "source": "iiif",
+  "pages": 70,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/romancessansparo00verl/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/romancessansparo00verl/manifest.json",
+   "digitalObject": "https://archive.org/details/romancessansparo00verl"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/romancessansparo00verl%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-verlaine-sagesse",
+  "title": "حکمت",
+  "author": "Paul Verlaine",
+  "source": "iiif",
+  "pages": 150,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/sagessep00verl/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/bub_gb_zWwGAQAAIAAJ/manifest.json",
+   "digitalObject": "https://archive.org/details/bub_gb_zWwGAQAAIAAJ"
+  },
+  "thumbnail": [
+   "https://archive.org/services/img/sagessep00verl"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-corbiere-amours-jaunes",
+  "title": "عشق‌های زرد",
+  "author": "Tristan Corbière",
+  "source": "iiif",
+  "pages": 344,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/lesamoursjaunes00corb/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/lesamoursjaunes00corb/manifest.json",
+   "digitalObject": "https://archive.org/details/lesamoursjaunes00corb"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/lesamoursjaunes00corb%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-hannon",
+  "title": "تئودور هانو",
+  "author": "Théodore Hannon",
+  "source": "iiif",
+  "pages": 232,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/pierrotmacabreb00mfull/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/pierrotmacabreb00mfull/manifest.json",
+   "digitalObject": "https://archive.org/details/pierrotmacabreb00mfull"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/pierrotmacabreb00mfull%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-mallarme-separate",
+  "title": "مالارمه (دستهٔ جدا)",
+  "author": "Stéphane Mallarmé",
+  "source": "iiif",
+  "pages": 190,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/alr6875.0001.001.umich.edu/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/versetprosemorce00malluoft/manifest.json",
+   "digitalObject": "https://archive.org/details/versetprosemorce00malluoft"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/alr6875.0001.001.umich.edu%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-leconte-de-lisle",
+  "title": "لکنت دو لیل",
+  "author": "Leconte de Lisle",
+  "source": "iiif",
+  "pages": 198,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/BSG_FOLWSUP549RES/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/techniqueoffrenc00thierich/manifest.json",
+   "digitalObject": "https://archive.org/details/techniqueoffrenc00thierich"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/BSG_FOLWSUP549RES%2F__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-gautier",
+  "title": "گوتیه",
+  "author": "Théophile Gautier",
+  "source": "iiif",
+  "pages": 442,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/emaux-et-camees-de-theophile-gautier-classiques-garnier-1954-dvg/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/emaux-et-camees-de-theophile-gautier-classiques-garnier-1954-dvg/manifest.json",
+   "digitalObject": "https://archive.org/details/emaux-et-camees-de-theophile-gautier-classiques-garnier-1954-dvg"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/emaux-et-camees-de-theophile-gautier-classiques-garnier-1954-dvg%2fvignette_1_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-victor-hugo",
+  "title": "ویکتور هوگو",
+  "author": "Victor Hugo",
+  "source": "iiif",
+  "pages": 340,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/worksofvictorhug0017vict/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/worksofvictorhug0017vict/manifest.json",
+   "digitalObject": "https://archive.org/details/worksofvictorhug0017vict"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/worksofvictorhug0017vict%2fworksofvictorhug0017vict_slip_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-stendhal",
+  "title": "استاندال",
+  "author": "Stendhal",
+  "source": "iiif",
+  "pages": 554,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/stendhal-la-chartreuse-de-parme-www.e-dition-etoile.-com/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/stendhal-la-chartreuse-de-parme-www.e-dition-etoile.-com/manifest.json",
+   "digitalObject": "https://archive.org/details/stendhal-la-chartreuse-de-parme-www.e-dition-etoile.-com"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/stendhal-la-chartreuse-de-parme-www.e-dition-etoile.-com%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-duranty",
+  "title": "دورانتی",
+  "author": "Duranty",
+  "source": "iiif",
+  "pages": 363,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/lescombatsdefra00duragoog/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/lasuccessionleca00chamuoft/manifest.json",
+   "digitalObject": "https://archive.org/details/lasuccessionleca00chamuoft"
+  },
+  "thumbnail": [
+   "https://archive.org/services/img/lescombatsdefra00duragoog"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-villiers-collected",
+  "title": "ویلیه دو لیل‌آدمان",
+  "author": "Villiers de l'Isle-Adam",
+  "source": "iiif",
+  "pages": 1,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/revoltandescape00islgoog/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/revoltandescape00islgoog/manifest.json",
+   "digitalObject": "https://archive.org/details/revoltandescape00islgoog"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/villiers-de-l-isle-adam-_-duke-of-portland%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-charles-cros",
+  "title": "علم عشق",
+  "author": "Charles Cros",
+  "source": "iiif",
+  "pages": 294,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/lecoffretdesanta00crosuoft/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/lecoffretdesanta00crosuoft/manifest.json",
+   "digitalObject": "https://archive.org/details/lecoffretdesanta00crosuoft"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/lecoffretdesanta00crosuoft%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-flaubert-tentation",
+  "title": "وسوسهٔ سنت آنتوان",
+  "author": "Gustave Flaubert",
+  "source": "iiif",
+  "pages": 312,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/bnf-bpt6k6138387q/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/bnf-bpt6k6138387q/manifest.json",
+   "digitalObject": "https://archive.org/details/bnf-bpt6k6138387q"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/bnf-bpt6k6138387q%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-goncourt-faustin",
+  "title": "فاستن",
+  "author": "Edmond de Goncourt",
+  "source": "iiif",
+  "pages": 366,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/lafaustin00goncuoft/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/lafaustin00goncuoft/manifest.json",
+   "digitalObject": "https://archive.org/details/lafaustin00goncuoft"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/lafaustin00goncuoft%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-zola-mouret",
+  "title": "گناه آبه مورِه",
+  "author": "Émile Zola",
+  "source": "iiif",
+  "pages": 442,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/lafautedelabbmo01zolagoog/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/lafautedelabbmo01zolagoog/manifest.json",
+   "digitalObject": "https://archive.org/details/lafautedelabbmo01zolagoog"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/lafautedelabbmo01zolagoog%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-dickens-collected",
+  "title": "دیکنز",
+  "author": "Charles Dickens",
+  "source": "iiif",
+  "pages": 464,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/completeworksofc29dick/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/novelscharlesdi00kittgoog/manifest.json",
+   "digitalObject": "https://archive.org/details/novelscharlesdi00kittgoog"
+  },
+  "thumbnail": [
+   "https://archive.org/services/img/completeworksofc29dick"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-du-cange",
+  "title": "دُو کانژ",
+  "author": "Du Cange",
+  "source": "iiif",
+  "pages": 918,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/glossariummediae01duca/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/glossariummediae01duca/manifest.json",
+   "digitalObject": "https://archive.org/details/glossariummediae01duca"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/glossariummediae01duca%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-catullus",
+  "title": "کاتولوس",
+  "author": "Catullus",
+  "source": "iiif",
+  "pages": 319,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/selectpoemscatu00simpgoog/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/selectpoemscatu00simpgoog/manifest.json",
+   "digitalObject": "https://archive.org/details/selectpoemscatu00simpgoog"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/selectpoemscatu00simpgoog%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-petronius",
+  "title": "ساتیریکون",
+  "author": "Petronius",
+  "source": "iiif",
+  "pages": 454,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/titipetroniiarbi00petr_0/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/titipetroniiarbi00petr_0/manifest.json",
+   "digitalObject": "https://archive.org/details/titipetroniiarbi00petr_0"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/titipetroniiarbi00petr_0%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-lucan",
+  "title": "فارسالیا",
+  "author": "Lucan",
+  "source": "iiif",
+  "pages": 305,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/lucanspharsalia00rowegoog/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/lucanspharsalia00rowegoog/manifest.json",
+   "digitalObject": "https://archive.org/details/lucanspharsalia00rowegoog"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/lucanspharsalia00rowegoog%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-walafred",
+  "title": "هورتولوس",
+  "author": "Walafrid Strabo",
+  "source": "iiif",
+  "pages": 124,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/walafridistrabih00wala/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/walafridistrabih00wala/manifest.json",
+   "digitalObject": "https://archive.org/details/walafridistrabih00wala"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/walafridistrabih00wala%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-ausonius",
+  "title": "اوسونیوس",
+  "author": "Ausonius",
+  "source": "iiif",
+  "pages": 392,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/ausonius02auso/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/ausonius02auso/manifest.json",
+   "digitalObject": "https://archive.org/details/ausonius02auso"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/ausonius02auso%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-bede",
+  "title": "بده",
+  "author": "Bede",
+  "source": "iiif",
+  "pages": 420,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/ecclesiasticalh00bedeuoft/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/ecclesiasticalh00bedeuoft/manifest.json",
+   "digitalObject": "https://archive.org/details/ecclesiasticalh00bedeuoft"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/ecclesiasticalh00bedeuoft%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-abbo",
+  "title": "شعر محاصرهٔ پاریس",
+  "author": "Abbo le Courbé",
+  "source": "iiif",
+  "pages": 402,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/nouvellesannale00abbogoog/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/dli.ministry.05618/manifest.json",
+   "digitalObject": "https://archive.org/details/dli.ministry.05618"
+  },
+  "thumbnail": [
+   "https://archive.org/services/img/nouvellesannale00abbogoog"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-macer-floridus",
+  "title": "توان گیاهان",
+  "author": "Macer Floridus",
+  "source": "iiif",
+  "pages": 240,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/deviribusherbaru00mace/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/deviribusherbaru00mace/manifest.json",
+   "digitalObject": "https://archive.org/details/deviribusherbaru00mace"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/deviribusherbaru00mace%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-fredegarius",
+  "title": "سرگذشت‌نامهٔ فردهگاریوس",
+  "author": "Fredegarius",
+  "source": "iiif",
+  "pages": 496,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/bub_gb_Gr6mrGyKMJ8C/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/bub_gb_Gr6mrGyKMJ8C/manifest.json",
+   "digitalObject": "https://archive.org/details/bub_gb_Gr6mrGyKMJ8C"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/bub_gb_Gr6mrGyKMJ8C%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-paul-deacon",
+  "title": "پول دیاکن",
+  "author": "Paul the Deacon",
+  "source": "iiif",
+  "pages": 886,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/lombardoktrt00paul/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/lombardoktrt00paul/manifest.json",
+   "digitalObject": "https://archive.org/details/lombardoktrt00paul"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/lombardoktrt00paul%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-dracontius",
+  "title": "هگزامرون",
+  "author": "Dracontius",
+  "source": "iiif",
+  "pages": 130,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/carminaminoraplu00dracuoft/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/11263042bsb/manifest.json",
+   "digitalObject": "https://archive.org/details/11263042bsb"
+  },
+  "thumbnail": [
+   "https://archive.org/services/img/carminaminoraplu00dracuoft"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-bangor-antiphonary",
+  "title": "آنتی‌فونری بنگور",
+  "author": "anon",
+  "source": "iiif",
+  "pages": 177,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/TheAntiphonaryOfBangor/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/TheAntiphonaryOfBangor/manifest.json",
+   "digitalObject": "https://archive.org/details/TheAntiphonaryOfBangor"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/TheAntiphonaryOfBangor%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-ch12-catholic-writers",
+  "title": "الهیات سخت پدران",
+  "author": "various Catholic writers",
+  "source": "iiif",
+  "pages": 586,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/orateurssacres0000vari/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/orateurssacres0000vari/manifest.json",
+   "digitalObject": "https://archive.org/details/orateurssacres0000vari"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/orateurssacres0000vari%2forateurssacres0000vari_slip_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-ch12-abbe-perreyve",
+  "title": "آبه پرِو",
+  "author": "Abbé Perreyve",
+  "source": "iiif",
+  "pages": 475,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/lettresdehenrip00perrgoog/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/lettresdehenrip00perrgoog/manifest.json",
+   "digitalObject": "https://archive.org/details/lettresdehenrip00perrgoog"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/lettresdehenrip00perrgoog%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-ch12-dominican-didon",
+  "title": "دیدون",
+  "author": "Dominican Didon",
+  "source": "iiif",
+  "pages": 556,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/savioursperson02didouoft/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/savioursperson02didouoft/manifest.json",
+   "digitalObject": "https://archive.org/details/savioursperson02didouoft"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/savioursperson02didouoft%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-ch12-ravignan-gratry",
+  "title": "روانیگان و گراتری",
+  "author": "Reverend Fathers Ravignan or Gratry",
+  "source": "iiif",
+  "pages": 352,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/souvenirsdemajeu00grat/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/souvenirsdemajeu00grat/manifest.json",
+   "digitalObject": "https://archive.org/details/souvenirsdemajeu00grat"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/souvenirsdemajeu00grat%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-ch12-busenbaum",
+  "title": "بوزنباوم",
+  "author": "Busenbaum",
+  "source": "iiif",
+  "pages": 1206,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/bub_gb_yLgCrs0Br00C/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/bub_gb_yLgCrs0Br00C/manifest.json",
+   "digitalObject": "https://archive.org/details/bub_gb_yLgCrs0Br00C"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/bub_gb_yLgCrs0Br00C%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-ch12-liguori",
+  "title": "لیگواری",
+  "author": "Liguori",
+  "source": "iiif",
+  "pages": 527,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/cihm_46958/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/cihm_46958/manifest.json",
+   "digitalObject": "https://archive.org/details/cihm_46958"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/cihm_46958%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-ch12-diana",
+  "title": "دیانا",
+  "author": "Diana",
+  "source": "iiif",
+  "pages": 84,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/IA41545809_0063/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/IA41545809_0063/manifest.json",
+   "digitalObject": "https://archive.org/details/IA41545809_0063"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/IA41545809_0063%2fIA41545809_0063_slip_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-ch12-sanchez",
+  "title": "سانچس",
+  "author": "Sánchez",
+  "source": "iiif",
+  "pages": 68,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/actacapituliprov00domi/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/actacapituliprov00domi/manifest.json",
+   "digitalObject": "https://archive.org/details/actacapituliprov00domi"
+  },
+  "thumbnail": [
+   "https://archive.org/services/img/actacapituliprov00domi"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-ch12-un-mariage",
+  "title": "کشیشِ ازدواج‌کرده",
+  "author": "anon",
+  "source": "iiif",
+  "pages": 160,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/unprtremaric00houtuoft/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/unprtremaric00houtuoft/manifest.json",
+   "digitalObject": "https://archive.org/details/unprtremaric00houtuoft"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/unprtremaric00houtuoft%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-ch12-sacramental",
+  "title": "مقالات ساکرامنتال",
+  "author": "various",
+  "source": "iiif",
+  "pages": 238,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/sacramentalenromance1544/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/sacramentalenromance1544/manifest.json",
+   "digitalObject": "https://archive.org/details/sacramentalenromance1544"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/sacramentalenromance1544%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-ch16-te-deum",
+  "title": "ته‌دئوم",
+  "author": "various",
+  "source": "iiif",
+  "pages": 703,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/APopularHistoryOfTheCatholicChurch/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/APopularHistoryOfTheCatholicChurch/manifest.json",
+   "digitalObject": "https://archive.org/details/APopularHistoryOfTheCatholicChurch"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/APopularHistoryOfTheCatholicChurch%2f__ia_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-luyken-persecutions",
+  "title": "آزارهای مذهبی",
+  "author": "Jan Luyken",
+  "source": "museum",
+  "pages": 1,
+  "provider": "Art Institute of Chicago",
+  "manifestUrl": "books/bierah-luyken-persecutions/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://api.artic.edu/api/v1/artworks/81168/manifest.json",
+   "digitalObject": "https://www.artic.edu/artworks/81168"
+  },
+  "thumbnail": [
+   "books/bierah-luyken-persecutions/cover.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-bresdin-comedy-of-death",
+  "title": "کمدی مرگ",
+  "author": "Charles Bresdin",
+  "source": "museum",
+  "pages": 1,
+  "provider": "Art Institute of Chicago",
+  "manifestUrl": "books/bierah-bresdin-comedy-of-death/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://api.artic.edu/api/v1/artworks/8099/manifest.json",
+   "digitalObject": "https://www.artic.edu/artworks/8099"
+  },
+  "thumbnail": [
+   "books/bierah-bresdin-comedy-of-death/cover.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-bresdin-good-samaritan",
+  "title": "سامری نیکو",
+  "author": "Charles Bresdin",
+  "source": "museum",
+  "pages": 2,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/brooklynmuseum-o35969-the-good-samaritan-le-bon-samaritain/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/brooklynmuseum-o35969-the-good-samaritan-le-bon-samaritain/manifest.json",
+   "digitalObject": "https://archive.org/details/brooklynmuseum-o35969-the-good-samaritan-le-bon-samaritain"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/brooklynmuseum-o35969-the-good-samaritan-le-bon-samaritain%2fbrooklynmuseum-o35969i000-33.58_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-redon-melancholy",
+  "title": "ملانکولی",
+  "author": "Odilon Redon",
+  "source": "museum",
+  "pages": 1,
+  "provider": "Art Institute of Chicago",
+  "manifestUrl": "books/bierah-redon-melancholy/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://api.artic.edu/api/v1/artworks/96841/manifest.json",
+   "digitalObject": "https://www.artic.edu/artworks/96841"
+  },
+  "thumbnail": [
+   "books/bierah-redon-melancholy/cover.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-redon-series",
+  "title": "نوارهای سیاه رِدون",
+  "author": "Odilon Redon",
+  "source": "museum",
+  "pages": 1,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/clevelandart-2020.63-quasimodo/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/clevelandart-2020.63-quasimodo/manifest.json"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/clevelandart-2020.63-quasimodo%2f2020.63_full_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-elgreco-christ",
+  "title": "مسیح",
+  "author": "El Greco",
+  "source": "museum",
+  "pages": 1,
+  "provider": "Art Institute of Chicago",
+  "manifestUrl": "books/bierah-elgreco-christ/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://api.artic.edu/api/v1/artworks/84310/manifest.json",
+   "digitalObject": "https://www.artic.edu/artworks/84310"
+  },
+  "thumbnail": [
+   "books/bierah-elgreco-christ/cover.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-goya-caprichos",
+  "title": "کاپریچوس",
+  "author": "Francisco Goya",
+  "source": "museum",
+  "pages": 1,
+  "provider": "Art Institute of Chicago",
+  "manifestUrl": "books/bierah-goya-caprichos/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://api.artic.edu/api/v1/artworks/44617/manifest.json",
+   "digitalObject": "https://www.artic.edu/artworks/44617"
+  },
+  "thumbnail": [
+   "books/bierah-goya-caprichos/cover.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-goya-proverbios",
+  "title": "ضرب‌المثل‌ها",
+  "author": "Francisco Goya",
+  "source": "museum",
+  "pages": 1,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/mma_fools_or_little_bulls_folly_disparate_de_tontos_or_toritos_from_the__334457/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/mma_fools_or_little_bulls_folly_disparate_de_tontos_or_toritos_from_the__334457/manifest.json",
+   "digitalObject": "https://archive.org/details/mma_fools_or_little_bulls_folly_disparate_de_tontos_or_toritos_from_the__334457"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/mma_fools_or_little_bulls_folly_disparate_de_tontos_or_toritos_from_the__334457%2f334457_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-goya-garroteado",
+  "title": "خفه‌شده با قلندر",
+  "author": "Francisco de Goya",
+  "source": "museum",
+  "pages": 1,
+  "provider": "Art Institute of Chicago",
+  "manifestUrl": "books/bierah-goya-garroteado/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://api.artic.edu/api/v1/artworks/14320/manifest.json",
+   "digitalObject": "https://www.artic.edu/artworks/14320"
+  },
+  "thumbnail": [
+   "books/bierah-goya-garroteado/cover.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-goya-war",
+  "title": "حکاکی‌های جنگ",
+  "author": "Francisco Goya",
+  "source": "museum",
+  "pages": 1,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/mma_not_this_time_either_tampoco_from_the_disasters_of_war_los_desastres_de__334470/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/mma_not_this_time_either_tampoco_from_the_disasters_of_war_los_desastres_de__334470/manifest.json",
+   "digitalObject": "https://archive.org/details/mma_not_this_time_either_tampoco_from_the_disasters_of_war_los_desastres_de__334470"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/mma_not_this_time_either_tampoco_from_the_disasters_of_war_los_desastres_de__334470%2f334470_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-rembrandts",
+  "title": "رامبرانت‌هایش",
+  "author": "Rembrandt",
+  "source": "museum",
+  "pages": 2,
+  "provider": "Art Institute of Chicago",
+  "manifestUrl": "books/bierah-rembrandts/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://api.artic.edu/api/v1/artworks/74/manifest.json",
+   "digitalObject": "https://www.artic.edu/artworks/74"
+  },
+  "thumbnail": [
+   "books/bierah-rembrandts/cover.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-poe-pym",
+  "title": "پیم",
+  "author": "Edgar Allan Poe",
+  "source": "museum",
+  "pages": 296,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/bwb_S0-AKO-362/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/bwb_S0-AKO-362/manifest.json",
+   "digitalObject": "https://archive.org/details/bwb_S0-AKO-362"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/bwb_S0-AKO-362%2fbwb_S0-AKO-362_slip_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-dutch-school",
+  "title": "مدرسهٔ هلندی",
+  "author": "various",
+  "source": "museum",
+  "pages": 1,
+  "provider": "Art Institute of Chicago",
+  "manifestUrl": "books/bierah-dutch-school/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://api.artic.edu/api/v1/artworks/867/manifest.json",
+   "digitalObject": "https://www.artic.edu/artworks/867"
+  },
+  "thumbnail": [
+   "books/bierah-dutch-school/cover.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-rubens-salome",
+  "title": "سالومهٔ روبنس",
+  "author": "Rubens",
+  "source": "museum",
+  "pages": 1,
+  "provider": "Internet Archive",
+  "manifestUrl": "https://iiif.archive.org/iiif/clevelandart-1954.2.a-the-feast-of-herod/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "iiifManifest": "https://iiif.archive.org/iiif/clevelandart-1954.2.a-the-feast-of-herod/manifest.json"
+  },
+  "thumbnail": [
+   "https://iiif.archive.org/image/iiif/2/clevelandart-1954.2.a-the-feast-of-herod%2f1954.2.a_full_thumb.jpg/full/!400,400/0/default.jpg"
+  ],
+  "cover": "cover.jpg"
+ },
+ {
+  "slug": "bierah-moreau-salome",
+  "title": "سالومه",
+  "author": "Gustave Moreau",
+  "source": "museum",
+  "pages": 1,
+  "provider": "Wikimedia Commons",
+  "manifestUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Gustave_Moreau_Salom%C3%A9_1876.jpg?width=2400",
+  "section": "bierah",
+  "externalLinks": {
+   "digitalObject": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Gustave_Moreau_Salom%C3%A9_1876.jpg"
+  },
+  "cover": "cover.jpg",
+  "thumbnail": [
+   "books/bierah-moreau-salome/cover.jpg"
+  ]
+ },
+ {
+  "slug": "bierah-moreau-apparition",
+  "title": "ظهور",
+  "author": "Gustave Moreau",
+  "source": "museum",
+  "pages": 1,
+  "provider": "Wikimedia Commons",
+  "manifestUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Gustave_Moreau_-_The_Apparition_-_Google_Art_Project.jpg?width=2400",
+  "section": "bierah",
+  "externalLinks": {
+   "digitalObject": "https://upload.wikimedia.org/wikipedia/commons/2/23/Gustave_Moreau_-_The_Apparition_-_Google_Art_Project.jpg"
+  },
+  "cover": "cover.jpg",
+  "thumbnail": [
+   "books/bierah-moreau-apparition/cover.jpg"
+  ]
+ },
+ {
+  "slug": "bierah-watts-curse-of-cain",
+  "title": "نفرین قاین",
+  "author": "George Frederic Watts",
+  "source": "museum",
+  "pages": 1,
+  "provider": "Wikimedia Commons / Norfolk Museums Service",
+  "manifestUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/George_Frederic_Watts_%281817-1904%29_-_The_Curse_of_Cain_-_NWHCM_%2C_1907.35.2_%2C_F_-_Norfolk_Museums_Collections.jpg?width=2400",
+  "section": "bierah",
+  "externalLinks": {
+   "digitalObject": "https://upload.wikimedia.org/wikipedia/commons/6/6e/George_Frederic_Watts_%281817-1904%29_-_The_Curse_of_Cain_-_NWHCM_%2C_1907.35.2_%2C_F_-_Norfolk_Museums_Collections.jpg"
+  },
+  "cover": "cover.jpg",
+  "thumbnail": [
+   "books/bierah-watts-curse-of-cain/cover.jpg"
+  ]
+ },
+ {
+  "slug": "bierah-watts-eve",
+  "title": "حوا",
+  "author": "George Frederic Watts",
+  "source": "museum",
+  "pages": 1,
+  "provider": "Wikimedia Commons",
+  "manifestUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/George_Frederic_Watts_-_Eve_Repentant_-_Google_Art_Project.jpg?width=2400",
+  "section": "bierah",
+  "externalLinks": {
+   "digitalObject": "https://upload.wikimedia.org/wikipedia/commons/d/dd/George_Frederic_Watts_-_Eve_Repentant_-_Google_Art_Project.jpg"
+  },
+  "cover": "cover.jpg",
+  "thumbnail": [
+   "books/bierah-watts-eve/cover.jpg"
+  ]
+ },
+ {
+  "slug": "bierah-millais-eve-of-st-agnes",
+  "title": "شب عید قدیس آگنس",
+  "author": "John Everett Millais",
+  "source": "museum",
+  "pages": 1,
+  "provider": "Wikimedia Commons",
+  "manifestUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Madeleine_undressing_%E2%80%93_Eve_of_St_Agnes%2C_John_Everett_Millais.jpg?width=2400",
+  "section": "bierah",
+  "externalLinks": {
+   "digitalObject": "https://upload.wikimedia.org/wikipedia/commons/9/9b/Madeleine_undressing_%E2%80%93_Eve_of_St_Agnes%2C_John_Everett_Millais.jpg"
+  },
+  "cover": "cover.jpg",
+  "thumbnail": [
+   "books/bierah-millais-eve-of-st-agnes/cover.jpg"
+  ]
+ },
+ {
+  "slug": "bierah-watts-ida",
+  "title": "ایدا",
+  "author": "George Frederic Watts",
+  "source": "museum",
+  "pages": 1,
+  "provider": "رمان بیراه — فصل ۱۱",
+  "manifestUrl": "books/bierah-watts-ida/manifest.json",
+  "section": "bierah",
+  "externalLinks": {
+   "digitalObject": "https://en.wikisource.org/wiki/Against_the_Grain/Chapter_XI"
+  },
+  "cover": "cover.jpg",
+  "thumbnail": [
+   "books/bierah-watts-ida/cover.jpg"
+  ],
+  "note": "image: Wikimedia Commons 'Olympus on Ida' (Ida on Mount Olympus) by G.F. Watts — monograph plate captioned 'IDA ON MOUNT OLYMPUS' (IA gfwatts00west p.147); attribution to the novel's 'Ida' is best-effort",
+  "real": true
+ },
+ {
+  "slug": "contre-nature",
+  "title": "درون‌سویی — خانهٔ دِزِ اِسِنت",
+  "author": "J.-K. Huysmans",
+  "source": "against-nature",
+  "manifestUrl": "books/contre-nature/manifest.json",
+  "pages": 11,
+  "thumbnail": [
+   "books/contre-nature/img/study.jpg",
+   "books/contre-nature/img/library.jpg",
+   "books/contre-nature/img/dining-outer.jpg",
+   "books/contre-nature/img/dressing-room.jpg",
+   "books/contre-nature/img/attic.jpg"
+  ],
+  "externalLinks": {},
+  "cover": "img/study.jpg"
  }
 ]

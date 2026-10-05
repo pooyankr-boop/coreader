@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head><meta charset="utf-8"><title>books</title>
+<style>body{margin:0;background:#111}
+#out{color:#8f8;font:12px/1.45 monospace;white-space:pre;padding:8px}</style>
+</head>
+<body>
+<pre id="out">checking...</pre>
+<iframe id="f" style="width:1180px;height:660px;border:0"></iframe>
+<script>
+window.onerror=function(m,f,l,c,e){
+  document.getElementById('out').textContent='JS ERROR: '+m+' line '+l; return true; };
+var L=[],pass=0,fail=0;
+function ok(c,w){ if(c){pass++;L.push('ok    '+w);} else {fail++;L.push('FAIL  '+w);} }
+var d=document.getElementById('out');
+function flush(){ d.textContent=L.join('\n')+'\n\n'+(fail?'SOME CHECKS FAILED':'ALL CHECKS PASS')+'  ('+pass+'/'+(pass+fail)+')'; }
+
+// One slug per probe run, passed in the query string: ?b=slug
+var slug = new URLSearchParams(location.search).get('b') || 'contre-nature';
+document.getElementById('f').src = '/viewer/viewer.html?book=' + encodeURIComponent(slug);
+
+setTimeout(run, 11000);
+function run(){
+  var W=document.getElementById('f').contentWindow, D=W.document;
+  try{ var B=W.BOOK; }catch(e){ B=null; }
+  var body=D.body.innerText.replace(/\s+/g,' ').slice(0,150);
+  ok(!!B, slug+': the viewer built a book');
+  if(B){
+    var pages=B.pages || (B.items||[]).length;
+    ok(pages>0, '  with pages: '+pages);
+    var items=B.items||[];
+    var withImg=items.filter(function(it){ return it.images && it.images.length; }).length;
+    ok(items.length===0 || withImg>0, '  '+withImg+' of '+items.length+' items carry an image');
+    var first=(items[0]&&items[0].images&&items[0].images[0])||null;
+    if(first){
+      var im=D.querySelector('#page img, .pg img, #viewer img, main img') || D.querySelector('img');
+      ok(!!im, '  and an <img> is on screen');
+      ok(im && im.complete && im.naturalWidth>0,
+         '  which actually painted: '+(im?im.naturalWidth+'x'+im.naturalHeight+' from '+(im.src||'').split('/').pop():'none'));
+      ok(!/404|Failed to load|not found/i.test(body),
+         '  and no error text on the page: "'+body.slice(0,80)+'"');
+    } else {
+      ok(items.length===0, '  (a book with no paginated items - show it as the index entry)');
+    }
+  } else {
+    ok(!/not found|خطا|error/i.test(body), 'no error text: "'+body.slice(0,100)+'"');
+  }
+  flush();
+}
+</script>
+</body>
+</html>

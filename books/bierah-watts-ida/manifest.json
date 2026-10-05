@@ -1,0 +1,45 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "books/bierah-watts-ida/manifest.json",
+ "@type": "sc:Manifest",
+ "label": "Ida",
+ "metadata": [
+  {
+   "label": "Artist",
+   "value": [
+    "George Frederic Watts"
+   ]
+  },
+  {
+   "label": "Note",
+   "value": [
+    "No open image available; placeholder frame"
+   ]
+  }
+ ],
+ "sequences": [
+  {
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@type": "sc:Canvas",
+     "label": "1",
+     "width": 600,
+     "height": 800,
+     "images": [
+      {
+       "@type": "oa:ImageAnnotation",
+       "resource": {
+        "@id": "../books/bierah-watts-ida/cover.svg",
+        "@type": "dctypes:Image",
+        "format": "image/svg+xml",
+        "width": 600,
+        "height": 800
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

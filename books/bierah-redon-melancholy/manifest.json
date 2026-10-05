@@ -1,0 +1,68 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "books/bierah-redon-melancholy/manifest.json",
+ "@type": "sc:Manifest",
+ "label": "Melancholy",
+ "description": [
+  {
+   "value": "",
+   "language": "en"
+  }
+ ],
+ "metadata": [
+  {
+   "label": "Artist / Maker",
+   "value": "Odilon Redon\nFrench, 1840-1916"
+  },
+  {
+   "label": "Medium",
+   "value": "Various charcoals and gouache, with pastel and black chalk, and touches of stumping and erasing, on pale-pink wove paper with red and blue fibers altered to a golden tone, laid down on gray wove paper"
+  },
+  {
+   "label": "Dimensions",
+   "value": "36.8 × 35.7 cm (14 1/2 × 14 1/16 in.)"
+  },
+  {
+   "label": "Object Number",
+   "value": "1982.87"
+  },
+  {
+   "label": "Collection",
+   "value": "<a href='http://www.artic.edu/collection' target='_blank'>Art Institute of Chicago</a>"
+  }
+ ],
+ "attribution": "Digital image courtesy of the Art Institute of Chicago.",
+ "logo": "https://raw.githubusercontent.com/Art-Institute-of-Chicago/template/main/aic-logo.gif",
+ "within": "http://www.artic.edu/collection",
+ "rendering": {
+  "@id": "http://www.artic.edu/artworks/96841",
+  "format": "text/html",
+  "label": "Full record"
+ },
+ "sequences": [
+  {
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@type": "sc:Canvas",
+     "@id": "https://www.artic.edu/iiif/2/33722a6a-955b-c0fa-f297-5c0b095e7759",
+     "label": "Melancholy, 1876. Odilon Redon, French, 1840-1916",
+     "width": 843,
+     "height": 870,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://www.artic.edu/iiif/2/33722a6a-955b-c0fa-f297-5c0b095e7759",
+       "resource": {
+        "@type": "dctypes:Image",
+        "@id": "cover.jpg"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "thumbnail": "cover.jpg"
+}

@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تعیین جای نقاشی‌ها</title>
+<style>
+body{margin:0;background:#14110d;color:#e8dcc8;font-family:Tahoma,sans-serif}
+header{padding:.7rem 1rem;background:#1d1813;border-bottom:1px solid #3a3228;
+ position:sticky;top:0;z-index:10;font-size:.9rem}
+header b{color:#d9a441}
+#stage{position:relative;display:inline-block;line-height:0;cursor:crosshair}
+#pic{display:block;max-width:100%}
+.dot{position:absolute;width:34px;height:34px;margin:-17px 0 0 -17px;
+ border:2px solid #d9a441;border-radius:50%;background:rgba(217,164,65,.18);
+ pointer-events:none}
+.dot.done{border-color:#6fbf73;background:rgba(111,191,115,.22)}
+#hud{padding:.5rem 1rem;font-size:.8rem;color:#a99a80;border-bottom:1px solid #3a3228}
+#log{padding:.6rem 1rem;font-size:.85rem;white-space:pre-wrap;
+ font-family:Consolas,monospace;color:#c9b795;max-height:38vh;overflow:auto}
+button{background:#2a2219;color:#e8dcc8;border:1px solid #6b5c42;
+ padding:.4rem .8rem;cursor:pointer;font-family:inherit}
+button:hover{background:#3a2f22}
+.row{display:flex;gap:.4rem;flex-wrap:wrap;padding:.5rem 1rem;align-items:center}
+select,input{background:#1d1813;color:#e8dcc8;border:1px solid #6b5c42;
+ padding:.3rem;font-family:inherit}
+</style>
+</head>
+<body>
+<header><b>جای نقاشی‌ها</b> — چهار گوشهٔ قاب را کلیک کن. ترتیب کلیک مهم نیست؛ گوشه‌ها خودشان مرتب می‌شوند. برای دیدن نتیجه دکمهٔ «کپی مختصات» را بزن.</header>
+<div id="hud">در حال بارگذاری…</div>
+<div class="row">
+  <button id="undo">حذف آخری</button>
+  <button id="copy">کپی مختصات</button>
+  <button id="reset">از اول</button>
+  <span style="color:#7a6f5e;font-size:.8rem">راهنما: x از چپ، y از بالا</span>
+</div>
+<div id="stage"><img id="pic" alt=""></div>
+<div id="log"></div>
+
+<script src="quad.js"></script><script>
+/* Click the empty frame; the coordinate goes into a table you can copy.
+ * No build step, no guess: a human decides where a painting goes. */
+const PIC = new URLSearchParams(location.search).get('p') || 'study';
+const out = [];
+let cur = 0;
+const logEl = document.getElementById('log');
+const pic  = document.getElementById('pic');
+const stage= document.getElementById('stage');
+const hud  = document.getElementById('hud');
+
+const MISSING = {
+  'moreau-salome': 'panels reserved for them between the bookcases',
+  'moreau-apparition': 'panels reserved for them between the bookcases',
+  'luyken-persecutions': 'on each of its walls, in ebony frames',
+  'elgreco-christ': 'gazed at from the bed each morning',
+  'goya-caprichos': 'portfolios of prints, examined in private',
+  'goya-proverbios': 'portfolios',
+  'goya-garroteado': 'portfolios',
+  'goya-war': 'portfolios',
+  'rembrandts': 'examined now and again as if in secrecy; never framed',
+  'poe-pym': 'on the table with chronometers and charts',
+  'bresdin-comedy-of-death': 'hung in rows along the walls',
+  'bresdin-good-samaritan': 'hung in rows along the walls',
+  'redon-melancholy': 'in a gold-edged frame of unpolished pearwood',
+  'redon-series': 'adorning nearly every panel of the hall'
+};
+
+fetch('../books/contre-nature/manifest.json?_=' + Date.now())
+  .then(r => r.json())
+  .then(m => {
+    const room = m.stops.find(s => s.id === PIC);
+    const arts = (room.artworks || []);
+    const i = arts.findIndex(a => !out.find(o => o.id === a.id));
+    hud.textContent = arts.length
+      ? PIC + ' — نقاشی باقی‌مانده: ' +
+          arts.map(a => a.titleFa).join('، ')
+      : PIC + ' — نقاشی ندارد';
+    pic.src = '../books/contre-nature/img/' + PIC + '.jpg';
+    window.__arts = arts;
+    window.__idx = i;
+    logEl.textContent = arts.length
+      ? 'اولین نقاشی: ' + arts[0].titleFa +
+        '\nجای آن در رمان: ' + (MISSING[arts[0].id] || '?')
+      : '';
+  });
+
+pic.onload = () => {
+  hud.textContent = PIC + ' — ' + pic.naturalWidth + '×' + pic.naturalHeight +
+    ' — نقاشی باقی‌مانده: ' +
+    (window.__arts || []).map(a => a.titleFa).join('، ');
+};
+
+/* Four clicks per frame: top-left, top-right, bottom-right, bottom-left.
+ * A frame on a wall seen from an angle is not a rectangle on screen, so a
+ * centre point plus a width cannot place it.  Four corners can: they give the
+ * keystone directly. */
+const CORNER = ['\u0628\u0627\u0644\u0627 \u0631\u0627\u0633\u062a \u0645\u0648\u0642\u0639 \u0631\u0648\u0628\u064a\u0643',
+                '\u0628\u0627\u0644\u0627 \u0686\u0645\u0628 \u0645\u0648\u0642\u0639 \u0631\u0648\u0628\u064a\u0643',
+                '\u067e\u0627\u06cc\u06cc\u0646 \u0686\u0645\u0628 \u0645\u0648\u0642\u0639 \u0631\u0648\u0628\u064a\u0643',
+                '\u067e\u0627\u06cc\u06cc\u0646 \u0628\u0627\u0644\u0627 \u0631\u0627\u0633\u062a \u0645\u0648\u0642\u0639 \u0631\u0648\u0628\u064a\u0643'];
+
+// quad returns an object; show it in one readable line
+function fmt(o) {
+  const q = quad(o);
+  if (!q) return '\u0686\u0647\u0627\u0631 \u06af\u0648\u0634\u0647 \u0644\u0627\u0632\u0645 \u0627\u0633\u062a';
+  return 'x ' + q.x + '  y ' + q.y + '  w ' + q.w + '  h ' + q.h +
+         '  |  tl ' + q.tl + '  tr ' + q.tr + '  br ' + q.br + '  bl ' + q.bl +
+         '  (tilt ' + q.tilt + ' rise ' + q.rise + ' lift ' + q.lift + ')';
+}
+
+stage.onclick = function (e) {
+  const r = pic.getBoundingClientRect();
+  // percentages of the displayed box, so the numbers hold on any screen
+  const x = +(((e.clientX - r.left) / r.width  * 100).toFixed(2));
+  const y = +(((e.clientY - r.top)  / r.height * 100).toFixed(2));
+  const next = (window.__arts || [])[cur];
+  if (!next) { logEl.textContent = '\u0647\u0645\u0647 \u0646\u0642\u0627\u0634\u06cc\u200c\u0647\u0627\u06cc \u0627\u06cc\u0646 \u0627\u062a\u0627\u0642 \u062b\u0628\u062a \u0634\u062f\u0647\u061f'; return; }
+
+  const rec = out[cur] || (out[cur] = { id: next.id, titleFa: next.titleFa, c: [] });
+  rec.c.push([x, y]);
+
+  const d = document.createElement('div');
+  d.className = 'dot done';
+  d.style.left = x + '%';
+  d.style.top  = y + '%';
+  d.title = CORNER[rec.c.length - 1];
+  stage.appendChild(d);
+
+  if (rec.c.length < 4) {
+    logEl.textContent = rec.titleFa + ' — ' + (rec.c.length) + '/4 گوشه: ' +
+      CORNER[rec.c.length] + ' را کلیک کن';
+    return;
+  }
+  cur++;
+  logEl.textContent = out.map((o, i) =>
+    (i + 1) + '. ' + o.titleFa + '  ' + fmt(o)
+  ).join('\n') + '\n\n' + (cur < (window.__arts || []).length
+    ? '\u0628\u0639\u062f\u06cc: ' + window.__arts[cur].titleFa + ' — \u0628\u0627\u0644\u0627 \u0631\u0627\u0633\u062a \u0645\u0648\u0642\u0639 \u0631\u0648\u0628\u064a\u0643'
+    : '\u2014 \u0647\u0645\u0647 \u062b\u0628\u062a \u0634\u062f\u061f \u2014');
+};
+
+document.getElementById('undo').onclick = () => {
+  // step back one corner, not one painting: the current frame may be half done
+  const last = out[cur];
+  if (last && last.c.length) { last.c.pop(); if (!last.c.length) out.pop(); }
+  else { out.pop(); cur = Math.max(0, cur - 1); }
+  stage.querySelectorAll('.dot').forEach(n => n.remove());
+  out.forEach(o => o.c.forEach(c => {
+    const d = document.createElement('div');
+    d.className = 'dot done';
+    d.style.left = c[0] + '%';
+    d.style.top  = c[1] + '%';
+    stage.appendChild(d);
+  }));
+  logEl.textContent = out.map((o, i) => (i + 1) + '. ' + o.titleFa + '  ' + fmt(o)).join('\n');
+};
+
+document.getElementById('reset').onclick = () => {
+  out.length = 0;
+  cur = 0;
+  stage.querySelectorAll('.dot').forEach(n => n.remove());
+  logEl.textContent = '';
+};
+
+document.getElementById('copy').onclick = () => {
+  const body = JSON.stringify({
+    room: PIC,
+    points: out.map(o => {
+      // quad returns the box AND the four corners; a keystone cannot be
+      // rebuilt from three numbers, so the corners go into the manifest.
+      const q = quad(o);
+      return {
+        id: o.id, titleFa: o.titleFa,
+        x: q.x, y: q.y, w: q.w, h: q.h,
+        tl: q.tl, tr: q.tr, br: q.br, bl: q.bl,
+        tilt: q.tilt, rise: q.rise, lift: q.lift
+      };
+    })
+  }, null, 1);
+  navigator.clipboard.writeText(body).then(
+    () => { logEl.textContent = '\u0643\u067e\u06cc \u0634\u062f:\n' + body; },
+    () => { logEl.textContent = '\u0643\u067e\u06cc \u0646\u0634\u062f \u2014 \u0627\u06cc\u0646 \u0645\u062a\u0646 \u0631\u0627 \u062f\u0633\u062a\u06cc \u0628\u06af\u06cc\u0631:\n' + body; }
+  );
+};
+</script>
+</body>
+</html>

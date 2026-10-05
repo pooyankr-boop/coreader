@@ -1,5 +1,8 @@
 # Internal work-in-progress, not part of the site
 docs/
 
+# Parallel-project leftovers (not part of the site)
+100/
+
 # Safety backup taken before the Harvard import
 books-index.json.bak-before-harvard

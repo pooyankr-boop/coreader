@@ -1,0 +1,68 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "books/bierah-goya-caprichos/manifest.json",
+ "@type": "sc:Manifest",
+ "label": "Francisco de Goya y Lucientes, Painter, plate one from Los Caprichos",
+ "description": [
+  {
+   "value": "",
+   "language": "en"
+  }
+ ],
+ "metadata": [
+  {
+   "label": "Artist / Maker",
+   "value": "Francisco José de Goya y Lucientes\nSpanish, 1746-1828"
+  },
+  {
+   "label": "Medium",
+   "value": "Etching and aquatint on cream laid paper"
+  },
+  {
+   "label": "Dimensions",
+   "value": "Image: 13.6 × 11.2 cm (5 3/8 × 4 7/16 in.); Plate: 21.5 × 15 cm (8 1/2 × 5 15/16 in.); Sheet: 30.3 × 20 cm (11 15/16 × 7 7/8 in.)"
+  },
+  {
+   "label": "Object Number",
+   "value": "1927.3191"
+  },
+  {
+   "label": "Collection",
+   "value": "<a href='http://www.artic.edu/collection' target='_blank'>Art Institute of Chicago</a>"
+  }
+ ],
+ "attribution": "Digital image courtesy of the Art Institute of Chicago.",
+ "logo": "https://raw.githubusercontent.com/Art-Institute-of-Chicago/template/main/aic-logo.gif",
+ "within": "http://www.artic.edu/collection",
+ "rendering": {
+  "@id": "http://www.artic.edu/artworks/44617",
+  "format": "text/html",
+  "label": "Full record"
+ },
+ "sequences": [
+  {
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@type": "sc:Canvas",
+     "@id": "https://www.artic.edu/iiif/2/3adea549-8221-9e65-9802-55b7135a7d3a",
+     "label": "Francisco de Goya y Lucientes, Painter, plate one from Los Caprichos, 1797/99. Francisco José de Goya y Lucientes, Spanish, 1746-1828",
+     "width": 843,
+     "height": 1262,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://www.artic.edu/iiif/2/3adea549-8221-9e65-9802-55b7135a7d3a",
+       "resource": {
+        "@type": "dctypes:Image",
+        "@id": "cover.jpg"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "thumbnail": "cover.jpg"
+}

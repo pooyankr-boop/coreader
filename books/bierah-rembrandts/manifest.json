@@ -1,0 +1,86 @@
+{
+ "@context": "http://iiif.io/api/presentation/2/context.json",
+ "@id": "books/bierah-rembrandts/manifest.json",
+ "@type": "sc:Manifest",
+ "label": "Three Oriental Figures (Jacob and Laban?)",
+ "description": [
+  {
+   "value": "",
+   "language": "en"
+  }
+ ],
+ "metadata": [
+  {
+   "label": "Artist / Maker",
+   "value": "Rembrandt van Rijn\nDutch, 1606-1669"
+  },
+  {
+   "label": "Medium",
+   "value": "Etching on paper"
+  },
+  {
+   "label": "Dimensions",
+   "value": "Plate/image: 14.3 × 11.1 cm (5 11/16 × 4 3/8 in.); Sheet: 14.6 × 11.4 cm (5 3/4 × 4 1/2 in.)"
+  },
+  {
+   "label": "Object Number",
+   "value": "1887.462"
+  },
+  {
+   "label": "Collection",
+   "value": "<a href='http://www.artic.edu/collection' target='_blank'>Art Institute of Chicago</a>"
+  }
+ ],
+ "attribution": "Digital image courtesy of the Art Institute of Chicago.",
+ "logo": "https://raw.githubusercontent.com/Art-Institute-of-Chicago/template/main/aic-logo.gif",
+ "within": "http://www.artic.edu/collection",
+ "rendering": {
+  "@id": "http://www.artic.edu/artworks/74",
+  "format": "text/html",
+  "label": "Full record"
+ },
+ "sequences": [
+  {
+   "@type": "sc:Sequence",
+   "canvases": [
+    {
+     "@type": "sc:Canvas",
+     "@id": "https://www.artic.edu/iiif/2/5a1ce126-9ffd-36d2-21f1-21c667c4241c",
+     "label": "Three Oriental Figures (Jacob and Laban?), 1641. Rembrandt van Rijn, Dutch, 1606-1669",
+     "width": 843,
+     "height": 1073,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://www.artic.edu/iiif/2/5a1ce126-9ffd-36d2-21f1-21c667c4241c",
+       "resource": {
+        "@type": "dctypes:Image",
+        "@id": "cover.jpg"
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "https://www.artic.edu/iiif/2/c9d7ee3a-04a9-63aa-2948-c82a5f401dfa",
+     "label": "Three Oriental Figures (Jacob and Laban?), 1641. Rembrandt van Rijn, Dutch, 1606-1669",
+     "width": 843,
+     "height": 1093,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "https://www.artic.edu/iiif/2/c9d7ee3a-04a9-63aa-2948-c82a5f401dfa",
+       "resource": {
+        "@type": "dctypes:Image",
+        "@id": "page2.jpg"
+       }
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "thumbnail": "cover.jpg"
+}
