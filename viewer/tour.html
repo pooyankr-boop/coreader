@@ -141,8 +141,8 @@ a{color:var(--ember)}
   transition:transform .34s ease,opacity .34s ease}
 .dock.hide{transform:translateY(120%);opacity:0;pointer-events:none}
 .dock.pin{transform:none;opacity:1}
-/* NOTE: `button`, not `b`.  A bare `b` tag selector matches the <b> inside
- * #dkToggle and leaves the three real buttons unstyled - they render at the
+/* NOTE: `button`, not `b`.  A bare `b` tag selector matches a <b> inside a
+ * dock button and leaves the three real buttons unstyled - they render at the
  * browser's default 25px and the dock measures 85x25 instead of 114x38. */
 .dock button{position:relative;display:grid;place-items:center;
   width:38px;height:38px;padding:0;
@@ -155,16 +155,35 @@ a{color:var(--ember)}
   border:7px solid transparent;border-bottom-color:var(--ember);
   transform:translateY(-2px)}
 .dock #dkHome:hover::after{border-bottom-color:var(--ink)}
-/* the bar: show or hide the dock.  Two bars become one when it is open.
- * The parent must be position:relative or this ::after anchors to the dock
- * instead of to the button. */
-.dock #dkToggle{position:relative}
-.dock #dkToggle b{display:block;width:16px;height:2px;background:var(--ink);
-  border-radius:1px}
-.dock #dkToggle::after{content:'';position:absolute;top:21px;left:50%;
-  transform:translateX(-50%);width:16px;height:2px;background:var(--ink);
-  border-radius:1px;opacity:.45}
-.dock #dkToggle.on::after{opacity:0}
+/* the cross: close the panel.  It is a close, not a minimize - the panel leaves
+ * and a three-bar handle takes its place, so a docked control can be dismissed
+ * for the rest of the visit instead of being slid away and back on every mouse
+ * move. */
+.dock #dkClose::before,.dock #dkClose::after{content:'';position:absolute;
+  top:50%;left:50%;width:16px;height:2px;background:var(--ink);border-radius:1px}
+.dock #dkClose::before{transform:translate(-50%,-50%) rotate(45deg)}
+.dock #dkClose::after{transform:translate(-50%,-50%) rotate(-45deg)}
+.dock #dkClose:hover::before,.dock #dkClose:hover::after{background:var(--ember)}
+/* the handle that stands in for the closed dock.  Same place, same size, so the
+ * corner does not jump when the panel comes and goes. */
+#dkOpen{position:fixed;bottom:0;inset-inline-end:0;z-index:45;display:none;
+  place-items:center;width:38px;height:38px;padding:0;cursor:pointer;
+  background:#1d1710e8;border:1px solid var(--line);border-bottom:0;
+  border-radius:4px 4px 0 0}
+#dkOpen::before{content:'';width:16px;height:10px;opacity:.55;
+  /* three bars, drawn with one element: three gradients over the same box */
+  background-image:linear-gradient(var(--ink) 2px,transparent 2px),
+                   linear-gradient(var(--ink) 2px,transparent 2px),
+                   linear-gradient(var(--ink) 2px,transparent 2px);
+  background-size:16px 2px;background-position:0 0,0 4px,0 8px;
+  background-repeat:no-repeat}
+#dkOpen.on{display:grid}
+#dkOpen:hover{background:#241c13;border-color:var(--ember)}
+#dkOpen:hover::before{opacity:1;
+  background-image:linear-gradient(var(--ember) 2px,transparent 2px),
+                   linear-gradient(var(--ember) 2px,transparent 2px),
+                   linear-gradient(var(--ember) 2px,transparent 2px)}
+#dkOpen:focus-visible{outline:2px solid var(--ember);outline-offset:-2px}
 /* the pin */
 .dock #dkPin::after{content:'';width:11px;height:11px;border:1.5px solid var(--ember);
   border-radius:50%}
@@ -547,12 +566,15 @@ img.painting{position:absolute;
 </div>
 
 <!-- the control dock.  Auto-hides; the pin keeps it out.  No words: a caret,
-     a bar, a pin, each with an aria-label for anyone who needs one. -->
+     a cross, a pin, each with an aria-label for anyone who needs one.  The
+     cross closes the panel for the visit; the little three-bar handle that
+     replaces it is the only way back. -->
 <div class="dock" id="dock">
   <button type="button" id="dkHome" aria-label="همهٔ اتاق‌ها"></button>
-  <button type="button" id="dkToggle" aria-label="بستن یا باز کردن پنل"><b></b></button>
+  <button type="button" id="dkClose" aria-label="بستن پنل"></button>
   <button type="button" id="dkPin" aria-label="پین کردن پنل"></button>
 </div>
+<button type="button" id="dkOpen" aria-label="باز کردن پنل"></button>
 
 <div class="stage" id="stage">
   <div class="plan" id="plan">

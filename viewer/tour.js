@@ -699,33 +699,39 @@ function atmosphere() {
  * over a photograph without a reason.  Pin it and mouseleave stops hiding it,
  * because a control that reappears on hover is a control you cannot aim at.
  *
- * The state lives in sessionStorage, not in a variable: pinning is a decision
- * the user makes once per visit, not once per page load, and a reload should
- * not silently unpin it.
+ * The cross closes it for the rest of the visit and leaves a three-bar handle
+ * in the same corner.  Closing is remembered in sessionStorage, like the pin:
+ * it is a decision made once, not a thing to undo by moving the mouse, and it
+ * must survive a reload inside the same visit.  A closed dock ignores mousemove
+ * entirely - otherwise the very first flick of the pointer would bring back the
+ * thing the reader just dismissed.
  */
 var DOCK = {
   KEY: 'dk-pin',
+  CLOSE_KEY: 'dk-closed',
   pinned: false,
+  closed: false,
   t: 0
 };
 
 function dockInit() {
-  try { DOCK.pinned = sessionStorage.getItem(DOCK.KEY) === '1'; } catch (e) {}
+  try {
+    DOCK.pinned = sessionStorage.getItem(DOCK.KEY) === '1';
+    DOCK.closed = sessionStorage.getItem(DOCK.CLOSE_KEY) === '1';
+  } catch (e) {}
   var d = $('dock');
   if (!d) return;
   if (DOCK.pinned) { d.classList.add('pin'); $('dkPin').classList.add('on'); }
   else dockArm();
 
   $('dkHome').addEventListener('click', function () { go(''); });
-  $('dkToggle').addEventListener('click', function () {
-    var d2 = $('dock');
-    var hiding = !d2.classList.contains('hide');
-    d2.classList.toggle('hide', hiding);
-    $('dkToggle').classList.toggle('on', !hiding);
-    // a manual toggle is a decision too: hold the dock open until the pointer
-    // leaves again, otherwise it would spring back under the cursor at once
-    if (!hiding) { d2.classList.add('pin'); }
-    else if (!DOCK.pinned) { d2.classList.remove('pin'); dockArm(); }
+  $('dkOpen').addEventListener('click', function () { dockShow(); });
+  $('dkClose').addEventListener('click', function () {
+    DOCK.closed = true;
+    try { sessionStorage.setItem(DOCK.CLOSE_KEY, '1'); } catch (e) {}
+    $('dock').classList.add('hide');
+    $('dkOpen').classList.add('on');
+    clearTimeout(DOCK.t);
   });
   $('dkPin').addEventListener('click', function () {
     DOCK.pinned = !DOCK.pinned;
@@ -735,6 +741,7 @@ function dockInit() {
     if (DOCK.pinned) clearTimeout(DOCK.t);
     else dockArm();
   });
+  if (DOCK.closed) dockHide();
 }
 
 /* Hide after the pointer has been off the page for a moment.  The listener is
@@ -742,14 +749,32 @@ function dockInit() {
  * pointer is over. */
 function dockArm() {
   var d = $('dock');
-  if (!d || DOCK.pinned) return;
+  if (!d || DOCK.pinned || DOCK.closed) return;
   clearTimeout(DOCK.t);
-  DOCK.t = setTimeout(function () {
-    if (!DOCK.pinned) { d.classList.add('hide'); $('dkToggle').classList.remove('on'); }
-  }, 1600);
+  DOCK.t = setTimeout(dockHide, 1600);
+}
+
+/* One place that hides the dock, so "closed for the visit" and "out of the way
+ * for now" cannot disagree about which classes are on it. */
+function dockHide() {
+  var d = $('dock');
+  if (!d || DOCK.pinned) return;
+  d.classList.add('hide');
+}
+
+function dockShow() {
+  var d = $('dock');
+  if (!d) return;
+  DOCK.closed = false;
+  try { sessionStorage.removeItem(DOCK.CLOSE_KEY); } catch (e) {}
+  $('dkOpen').classList.remove('on');
+  d.classList.remove('hide');
+  if (!DOCK.pinned) d.classList.add('pin');
+  else clearTimeout(DOCK.t);
 }
 
 function dockWake() {
+  if (DOCK.closed) return;
   var d = $('dock');
   if (!d || DOCK.pinned) return;
   d.classList.remove('hide');
