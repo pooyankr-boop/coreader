@@ -12,3 +12,9 @@ nul
 NUL2
 t1.json
 bierah_urls.json
+
+# Local gateway for the literary engine; never publish the key
+llm-config.json
+
+# Local speech gateways; the token never leaves this machine
+tts-config.json

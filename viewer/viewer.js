@@ -79,8 +79,19 @@ function loadBook(slug){
         // from GitHub Pages — proxying them only produced 404s there.
         var needsProxy = /qdl\.qa|digirati\.io|loc\.gov|ids\.si\.edu|harvardartmuseums\.org|harvard\.edu|artic\.edu|collections\.yale\.edu/.test(manifestUrl);
         if(isDirectImage){
+          // commons.wikimedia.org/wiki/Special:FilePath answers with a chain of
+          // redirects and no Access-Control-Allow-Origin on the first hop, so a
+          // browser cannot read the bytes it points at — the five paintings
+          // listed that way never opened. The index already carries the same
+          // file on upload.wikimedia.org, which answers 200 with
+          // Access-Control-Allow-Origin: * (checked, 4.4 MB for Eve Repentant),
+          // so point at that instead. Commons will not serve an on-demand
+          // thumbnail of these files — /thumb/…/800px-… answers 400 for every
+          // width tried — so the original is the only URL that opens.
+          var direct = entry.externalLinks && entry.externalLinks.digitalObject;
+          var resolved = (direct && /^https:\/\/upload\.wikimedia\.org\//.test(direct)) ? direct : null;
           // Route through proxy when the host blocks cross-origin fetch
-          var imgSrc = needsProxy ? '/proxy-image?url=' + encodeURIComponent(manifestUrl) : manifestUrl;
+          var imgSrc = resolved || (needsProxy ? '/proxy-image?url=' + encodeURIComponent(manifestUrl) : manifestUrl);
           // Create a minimal book entry with the direct image
           return normalizeBook({
             source: 'iiif',
@@ -400,6 +411,15 @@ function normalizeBook(data, slug){
     b.externalLinks = b.externalLinks || {};
     b.externalLinks.iiifManifest = data['@id'];
     b.manifestUrl = data['@id'];
+  // The shelf image a placeholder manifest can fall back on. 'books/...' is
+  // written for the site root, and this page lives in /viewer/ — the same
+  // rewrite the manifest loader already applies.
+  var _entry = data._entry || entry || {};
+  var _thumbs = _entry.thumbnail || [];
+  var _cover = (typeof _entry.cover === 'string' && _entry.cover)
+    ? 'books/' + slug + '/' + _entry.cover.replace(/^\.\//, '')
+    : (_thumbs.length ? String(_thumbs[0]).replace(/^\.\//, '') : '');
+  if(_cover && !/^https?:/.test(_cover)) b._cover = '../' + _cover;
   }
   // Detect IIIF manifest by presence of items/sequences/@context
   if(data['@context'] && data['@context'].indexOf('iiif')>=0){
@@ -489,7 +509,7 @@ function normalizeBook(data, slug){
           c.images.forEach(function(anno){
             var res=anno.resource||anno.body;
             if(res){
-              var imgObj={id:res['@id']||res.id, service:res.service, width:res.width, height:res.height};
+              var imgObj={id:realImageFor(res['@id']||res.id, b._cover), service:res.service, width:res.width, height:res.height};
               page.images.push(imgObj);
             }
           });
@@ -641,6 +661,14 @@ function osdBindHighlight(){
   _osd.addHandler('open', function(){ hlPaint(); hlMarkText(); });
 }
 
+/* A manifest can ship a drawn frame instead of the painting: the resource is
+ * an SVG, and OpenSeadragon will not tile one, so the page comes up blank.
+ * The real scan ships next to it as cover.jpg — use that. */
+function realImageFor(id, fallback){
+  if(!id) return fallback;
+  if(!/\.svg($|\?)/i.test(id)) return id;
+  return fallback || id.replace(/\.svg($|\?)/i, '.jpg');
+}
 function getTileSource(item){
   if(item.images && item.images.length){
     var img=item.images[0];

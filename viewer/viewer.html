@@ -9,7 +9,7 @@
 <title>کتاب</title>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700&family=El+Messiri:wght@400;500;600;700&family=Lalezar&family=Lateef&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Reem+Kufi:wght@400;500;600;700&family=Sakkal+Majalla&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="viewer.css?v=2">
+<link rel="stylesheet" href="viewer.css?v=3">
 <style>
 /* Loading spinner */
 .loading-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg,#faf8f5);z-index:900;transition:opacity .3s}
@@ -401,16 +401,17 @@
 <!-- Self-hosted: the cdnjs copy failed intermittently (ERR_QUIC/RESET),
      setupOsd then threw "OpenSeadragon is not defined" and loadBook
      replaced the whole body with an error page. Local copy = no network. -->
+<link rel="stylesheet" href="../assets/translate.css?v=4">
 <script src="openseadragon.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>window.pdfjsLib && (pdfjsLib.GlobalWorkerOptions.workerSrc='');</script>
 <script src="ganjoor-text.js?v=4"></script>
 <script src="page-text.js?v=1"></script>
 <script src="voice.js?v=1"></script>
-<script src="../assets/translate.js?v=3"></script>
-<script src="../assets/lexicon.js?v=1"></script>
-<script src="viewer.js?v=30"></script>
-<script src="ui-functions.js?v=4"></script>
+<script src="../assets/translate.js?v=14"></script>
+<script src="../assets/lexicon.js?v=2"></script>
+<script src="viewer.js?v=32"></script>
+<script src="ui-functions.js?v=5"></script>
 <script>
 // Clean up obsolete service worker registrations if any exist
 if ('serviceWorker' in navigator) {

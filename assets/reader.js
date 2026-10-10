@@ -640,9 +640,18 @@ function showSideTt(el){
   requestAnimationFrame(function(){ card.classList.add('visible'); });
   // Shrink old cards (reduce size/opacity) — don't remove
   list.forEach(function(item){ item.el.classList.add('shrunk'); });
-  // Auto-shrink this card after delay (stays visible but smaller)
+  // A card opened by reading aloud or line-tracking has to stay: the reader is
+  // not pointing at anything. A card opened by the pointer is a glance, and a
+  // glance ends — so it fades on its own, and sooner still once the pointer
+  // has moved off the word.
   var shrinkTimer = setTimeout(function(){ card.classList.add('shrunk'); }, SIDE_TT_SHRINK_MS);
-  list.push({ el: card, srcEl: el, shrinkTimer: shrinkTimer });
+  var timers = { fade: null };
+  function startFade(){ if (isPersistMode()) return; clearTimeout(timers.fade);
+    timers.fade = setTimeout(function(){ if (!card.matches(':hover')) _fadeSideTt(card); }, SIDE_TT_SHRINK_MS); }
+  card.addEventListener('mouseenter', function(){ clearTimeout(timers.fade); });
+  card.addEventListener('mouseleave', startFade);
+  startFade();
+  list.push({ el: card, srcEl: el, shrinkTimer: shrinkTimer, fadeTimer: timers });
   // Remove oldest if too many
   if (list.length > SIDE_TT_MAX){ var old = list.shift(); _fadeSideTt(old.el); }
 }
@@ -654,7 +663,11 @@ function _fadeSideTt(card){
   _removeFromList(card, _sideTtR); _removeFromList(card, _sideTtL);
 }
 function dismissSideTt(btn){ var card = btn.closest('.side-tt'); if (card) _fadeSideTt(card); }
-function _removeFromList(card, list){ for (var i = 0; i < list.length; i++){ if (list[i].el === card){ clearTimeout(list[i].shrinkTimer); list.splice(i, 1); break; } } }
+function _removeFromList(card, list){ for (var i = 0; i < list.length; i++){ if (list[i].el === card){ clearTimeout(list[i].shrinkTimer); if (list[i].fadeTimer) clearTimeout(list[i].fadeTimer.fade); list.splice(i, 1); break; } } }
+// The word's own cards, so leaving it can take them with it
+function fadeSideTtFor(el){
+  _sideTtR.concat(_sideTtL).forEach(function(item){ if (item.srcEl === el) _fadeSideTt(item.el); });
+}
 function clearAllSideTt(){
   _sideTtR.concat(_sideTtL).forEach(function(e){ clearTimeout(e.shrinkTimer); _fadeSideTt(e.el); });
   _sideTtR = []; _sideTtL = [];
@@ -732,6 +745,8 @@ document.addEventListener('mouseout', function(e){
     a._tooltipEl.classList.remove('on');
     a._tooltipEl = null;
   }
+  // the margin card is the same glance: it goes when the pointer does
+  fadeSideTtFor(a);
 });
 function toggleAnno(){
   annoOn = !annoOn;
@@ -994,9 +1009,20 @@ document.addEventListener('contextmenu', function(e){
   ctxRange = sel.rangeCount > 0 ? sel.getRangeAt(0) : null;
   ctxAnnoEl = e.target.closest('.anno');
   var ctxMenu = document.getElementById('ctxMenu');
-  ctxMenu.style.left = Math.min(e.clientX, window.innerWidth - 220) + 'px';
-  ctxMenu.style.top = Math.min(e.clientY, window.innerHeight - 340) + 'px';
+  /* The menu carries the dictionary, the notes and the actions, so it can be
+   * taller than the room under the pointer. Open it first so it has a size,
+   * then place it: flush with the pointer when it fits, nudged back inside
+   * the window when it does not — above the pointer if there is more room
+   * there than below. */
+  ctxMenu.style.left = '0px';
+  ctxMenu.style.top = '0px';
   ctxMenu.setAttribute('data-open', 'true');
+  var box = ctxMenu.getBoundingClientRect();
+  var x = Math.max(8, Math.min(e.clientX, window.innerWidth - box.width - 8));
+  var y = e.clientY;
+  if (y + box.height > window.innerHeight - 8) y = Math.max(8, e.clientY - box.height);
+  ctxMenu.style.left = x + 'px';
+  ctxMenu.style.top = y + 'px';
 }, true);
 document.addEventListener('mousedown', function(e){
   var ctxMenu = document.getElementById('ctxMenu');
@@ -1589,7 +1615,8 @@ function loadTtsSettings(){
   try { s = JSON.parse(localStorage.getItem('coreader-tts-settings')); } catch (e) {}
   if (s) ttsEngine = s.engine || 'browser';
   document.getElementById('setTtsEngine').value = ttsEngine;
-  document.getElementById('googleTtsNote').style.display = ttsEngine === 'google' ? '' : 'none';
+  var note = document.getElementById('googleTtsNote');
+  if (note) note.style.display = (ttsEngine === 'browser') ? 'none' : '';
 }
 function saveTtsSettings(){
   localStorage.setItem('coreader-tts-settings', JSON.stringify({ engine: ttsEngine }));
@@ -1622,7 +1649,7 @@ function setTtsRate(v){
 }
 
 function toggleTtsPlay(){
-  if (ttsEngine === 'google') toggleTtsPlayGoogle();
+  if (ttsEngine === 'google' || ttsEngine === 'hf' || ttsEngine === 'gateway') toggleTtsPlayGoogle();
   else toggleTtsPlayBrowser();
 }
 
@@ -1772,6 +1799,60 @@ function googleTtsUrl(text){
   return 'https://translate.google.com/translate_tts?ie=UTF-8&q=' + encodeURIComponent(text) + '&tl=fa&client=gtx';
 }
 var googleChunks = [], googleChunkIdx = 0, googleFellBack = false;
+/* --- free speech models ------------------------------------------------
+ * The browser's own voice is honest but thin, and a Persian reader deserves
+ * better. Two more sources, both free: Hugging Face's inference router
+ * (Persian MMS and friends, needs the reader's own free token) and the local
+ * gateway on this machine, which speaks with Edge's Persian voices. Neither
+ * needs anything in the source: the address and the token live in
+ * tts-config.json next to the site, so a published copy simply has no remote
+ * engine and keeps the browser's voice. */
+var _ttsCfg, _ttsCfgTried = false;
+function ttsConfig(){
+  if (_ttsCfgTried) return Promise.resolve(_ttsCfg);
+  _ttsCfgTried = true;
+  var base = '/';
+  var me = document.querySelector('script[src*="reader.js"]');
+  try { if (me && me.src) base = new URL('../', me.src).href; } catch (e) {}
+  return fetch(base + 'tts-config.json').then(function(r){ return r.ok ? r.json() : null; })
+    .then(function(c){ _ttsCfg = c || null; return _ttsCfg; },
+          function(){ _ttsCfg = null; return null; });
+}
+function remoteSpeech(url, key, model, text){
+  return fetch(url, {
+    method: 'POST',
+    headers: { 'Authorization': 'Bearer ' + key, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ model: model, input: text, voice: '' })
+  }).then(function(r){
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.blob();
+  }).then(function(b){
+    if (!b || !b.size) throw new Error('empty audio');
+    return URL.createObjectURL(b);
+  });
+}
+function hfTts(text){
+  return ttsConfig().then(function(cfg){
+    if (!cfg || !cfg.hfKey) throw new Error('no Hugging Face token');
+    return remoteSpeech(cfg.hfUrl || 'https://router.huggingface.co/v1/audio/speech',
+                        cfg.hfKey, cfg.hfModel || 'facebook/mms-tts-fa', text);
+  });
+}
+function gatewayTts(text){
+  return ttsConfig().then(function(cfg){
+    if (!cfg || !(cfg.gwKey || cfg.gwUrl)) throw new Error('no local gateway');
+    return remoteSpeech(cfg.gwUrl || 'http://localhost:20128/v1/audio/speech',
+                        cfg.gwKey || '', cfg.gwModel || 'edge-tts/fa-IR-DilaraNeural', text);
+  });
+}
+/* One place that answers "where does the audio for this piece of text come
+ * from", so the player below does not care which engine is speaking. */
+function ttsAudioSrc(text){
+  if (ttsEngine === 'hf') return hfTts(text);
+  if (ttsEngine === 'gateway') return gatewayTts(text);
+  return Promise.resolve(googleTtsUrl(text));
+}
+
 function startTtsGoogleForPage(){
   if (!ttsReadyPage()){ endTts('پایان کتاب'); return; }
   googleChunks = buildGoogleChunks();
@@ -1787,8 +1868,36 @@ function playGoogleChunk(){
   }
   var chunk = googleChunks[googleChunkIdx];
   if (ttsAudio){ try { ttsAudio.pause(); } catch (e) {} }
-  ttsAudio = new Audio(googleTtsUrl(chunk.text));
-  ttsAudio.playbackRate = +document.getElementById('ttsRate').value || 1;
+  _ttsReleaseSrc();
+  ttsAudioSrc(chunk.text).then(function(src){
+    if (chunk !== googleChunks[googleChunkIdx]) return; // the page turned under us
+    ttsAudio = new Audio(src);
+    _ttsOwnUrl = src;
+    ttsAudio.playbackRate = +document.getElementById('ttsRate').value || 1;
+    playPreparedChunk(chunk);
+  }, function(){
+    if (ttsEngine === 'hf' || ttsEngine === 'gateway') ttsRemoteFallback();
+    else playPreparedChunk(chunk);
+  });
+}
+var _ttsOwnUrl = '';
+function _ttsReleaseSrc(){
+  if (_ttsOwnUrl && _ttsOwnUrl.indexOf('blob:') === 0){ try { URL.revokeObjectURL(_ttsOwnUrl); } catch (e) {} }
+  _ttsOwnUrl = '';
+}
+/* A remote engine can be down, unconfigured or simply out of quota. The
+ * reader keeps reading: Google first, the browser's own voice after that. */
+function ttsRemoteFallback(){
+  document.getElementById('ttsStatus').textContent = 'مدل انتخاب‌شده در دسترس نیست — بازگشت به گوگل و سپس صدای مرورگر';
+  ttsEngine = (ttsEngine === 'hf') ? 'gateway' : 'google';
+  var sel = document.getElementById('setTtsEngine');
+  if (sel) sel.value = ttsEngine;
+  _ttsCfgTried = false; _ttsCfg = null;   // the next engine may be configured
+  saveTtsSettings();
+  playGoogleChunk();
+}
+function playPreparedChunk(chunk){
+  if (!ttsAudio) return;
   ttsAudio.ontimeupdate = function(){
     if (!ttsAudio.duration) return;
     var span = chunk.end - chunk.start;
@@ -2445,6 +2554,7 @@ function toggleFullscreen(){
   }
 }
 document.addEventListener('fullscreenchange', function(){
+  document.body.classList.toggle('fs', !!document.fullscreenElement);
   var want = !document.fullscreenElement;
   if(want !== toolbarVisible) toggleToolbar();
 });

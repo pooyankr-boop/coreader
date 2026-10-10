@@ -136,6 +136,8 @@ body.pdf-open .main{margin-left:min(44vw,620px)}
   border:1px solid var(--glass-border);box-shadow:0 8px 32px rgba(0,0,0,.08),0 1px 3px rgba(0,0,0,.06);
   transition:opacity .3s var(--ease-out-expo),transform .3s var(--ease-out-expo);max-width:95vw;overflow-x:auto}
 .toolbar.hide{opacity:0;transform:translateX(-50%) translateY(-40px);pointer-events:none}
+/* full screen takes the whole window, so the close button goes too */
+body.fs .toolbar-toggle{opacity:0;pointer-events:none;transform:translateY(-52px)}
 .toolbar:hover{box-shadow:0 4px 20px rgba(0,0,0,.15)}
 /* wide toolbars still scroll sideways on a small screen - they just must not
  * show a scrollbar while doing it */

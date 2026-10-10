@@ -204,7 +204,7 @@
        * language's entry, and a Persian reader should not have to read the
        * answer in the source language: the senses go through the same
        * translator the page uses. */
-      var toPersian = (window.TR && TR.text) ? toPersianSenses(res) : Promise.resolve(res);
+      var toPersian = toPersianSenses(res);
       return toPersian.then(function (r2) { return renderGroups(target, box, word, r2, max); });
     }).catch(function (e) {
       box.innerHTML = '<div class="lx-err">واژه‌نامه در دسترس نیست؛ پیوندهای پایین را امتحان کنید.</div>';
@@ -212,6 +212,21 @@
     });
   }
 
+  /* The lexicon translates its own answers. It used to borrow the page's
+   * translator, which ties a dictionary lookup to whichever script happened
+   * to load first; this is one endpoint and a newline protocol. */
+  function translateLines(texts, sl) {
+    var joined = texts.join('\n');
+    var url = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=' +
+      encodeURIComponent(sl || 'auto') + '&tl=fa&dt=t&q=' + encodeURIComponent(joined);
+    return fetch(url).then(function (r) {
+      if (!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function (j) {
+      if (!j || !j[0]) throw new Error('bad payload');
+      return j[0].map(function (seg) { return seg && seg[0] || ''; }).join('');
+    });
+  }
   function inArabicScript(s) {
     return /[\u0600-\u06FF\u0750-\u077F]/.test(s);
   }
@@ -227,7 +242,7 @@
     if (!jobs.length) return Promise.resolve(res);
     var texts = jobs.map(function (s) { return s.text; });
     var sl = res.lang === 'fa' ? 'en' : res.lang;
-    return TR.text(texts.join('\n'), sl, 'fa').then(function (out) {
+    return translateLines(texts, sl).then(function (out) {
       var lines = String(out || '').split('\n');
       for (var i = 0; i < jobs.length && i < lines.length; i++) {
         if (lines[i] && lines[i] !== texts[i]) jobs[i].text = lines[i];

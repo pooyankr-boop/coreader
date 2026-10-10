@@ -27,6 +27,7 @@
     }
   };
   document.addEventListener('fullscreenchange', function() {
+    document.body.classList.toggle('fs', !!document.fullscreenElement);
     setToolbarVisible(!document.fullscreenElement);
   });
 
