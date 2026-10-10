@@ -1840,8 +1840,12 @@ function hfTts(text){
 }
 function gatewayTts(text){
   return ttsConfig().then(function(cfg){
-    if (!cfg || !(cfg.gwKey || cfg.gwUrl)) throw new Error('no local gateway');
-    return remoteSpeech(cfg.gwUrl || 'http://localhost:20128/v1/audio/speech',
+    /* The endpoint lives in tts-config.json, which is gitignored, so a reader
+     * on the public site has none of this. Naming a localhost address here
+     * would put someone else's machine in the shipped bundle, and a request
+     * to it would hang a stranger's browser. */
+    if (!cfg || !cfg.gwUrl) throw new Error('no local gateway');
+    return remoteSpeech(cfg.gwUrl,
                         cfg.gwKey || '', cfg.gwModel || 'edge-tts/fa-IR-DilaraNeural', text);
   });
 }
