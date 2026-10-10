@@ -204,7 +204,7 @@
        * language's entry, and a Persian reader should not have to read the
        * answer in the source language: the senses go through the same
        * translator the page uses. */
-      var toPersian = (res.lang !== 'fa' && window.TR && TR.text) ? toPersianSenses(res) : Promise.resolve(res);
+      var toPersian = (window.TR && TR.text) ? toPersianSenses(res) : Promise.resolve(res);
       return toPersian.then(function (r2) { return renderGroups(target, box, word, r2, max); });
     }).catch(function (e) {
       box.innerHTML = '<div class="lx-err">واژه‌نامه در دسترس نیست؛ پیوندهای پایین را امتحان کنید.</div>';
@@ -212,13 +212,22 @@
     });
   }
 
+  function inArabicScript(s) {
+    return /[\u0600-\u06FF\u0750-\u077F]/.test(s);
+  }
+  /* A Persian entry is not only Persian: a word carries English, Italian and
+   * German sections too, and those senses have to be Persian as well. Only
+   * what is not already in the script is sent to the translator, and each
+   * block keeps the language it was written in. */
   function toPersianSenses(res) {
     var jobs = [];
     res.groups.forEach(function (g) {
-      g.senses.forEach(function (s) { jobs.push(s); });
+      g.senses.forEach(function (s) { if (!inArabicScript(s.text)) jobs.push(s); });
     });
+    if (!jobs.length) return Promise.resolve(res);
     var texts = jobs.map(function (s) { return s.text; });
-    return TR.text(texts.join('\n'), res.lang === 'other' ? 'en' : 'en', 'fa').then(function (out) {
+    var sl = res.lang === 'fa' ? 'en' : res.lang;
+    return TR.text(texts.join('\n'), sl, 'fa').then(function (out) {
       var lines = String(out || '').split('\n');
       for (var i = 0; i < jobs.length && i < lines.length; i++) {
         if (lines[i] && lines[i] !== texts[i]) jobs[i].text = lines[i];
