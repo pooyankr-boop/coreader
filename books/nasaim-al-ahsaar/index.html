@@ -24,7 +24,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700&family=El+Messiri:wght@400;500;600;700&family=Lalezar&family=Lateef&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Reem+Kufi:wght@400;500;600;700&family=Sakkal+Majalla&family=Scheherazade+New:wght@400;700&family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/fonts.css">
 <script>window.BOOK_URL='book.json';</script></head>
-<body>
+<body class="night">
 <div class="loading-overlay" id="loadingOverlay">
   <div class="loading-spinner"></div>
 </div>
@@ -402,12 +402,14 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>window.pdfjsLib && (pdfjsLib.GlobalWorkerOptions.workerSrc='');</script>
-<script src="../../assets/reader.js"></script>
+<script src="../../assets/translate.js?v=3"></script>
+<script src="../../assets/lexicon.js?v=1"></script>
+<script src="../../assets/reader.js?v=6"></script>
 <script>
-// Register service worker for offline support
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('../../sw.js').catch(function(){});
-}
+  // Clean up obsolete service worker registrations (same policy as viewer/tour): the old worker pre-cached a blank root and served static files cache-first, which kept stale pages after an update.
+  if(navigator.serviceWorker && navigator.serviceWorker.getRegistrations){
+    navigator.serviceWorker.getRegistrations().then(function(regs){ regs.forEach(function(r){ r.unregister(); }); });
+  }
 //
 // Hide loading spinner once book content is available
 (function(){

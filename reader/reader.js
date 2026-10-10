@@ -88,8 +88,7 @@ function lightenColor(hex, percent){
 }
 
 // ===== Load book =====
-console.log('[coreader] loading book.json from', window.BOOK_URL || 'book.json');
-fetch(window.BOOK_URL || 'book.json').then(function(r){return r.json()}).then(function(book){
+function initBook(book){
   console.log('[coreader] book loaded:', book.title, 'pages:', book.pages ? book.pages.length : 'NONE');
   BOOK = book;
   document.getElementById('bookTitle').textContent = book.title;
@@ -108,9 +107,12 @@ fetch(window.BOOK_URL || 'book.json').then(function(r){return r.json()}).then(fu
   (function(){
     var tw = localStorage.getItem('coreader-tw');
     if (tw){
-      document.querySelector('.tc').style.maxWidth = tw + 'px';
-      document.getElementById('setTw').value = tw;
-      document.getElementById('setTwV').textContent = toFA(tw);
+      var tcEl = document.querySelector('.tc');
+      if (tcEl) tcEl.style.maxWidth = tw + 'px';
+      var stw = document.getElementById('setTw');
+      if (stw) stw.value = tw;
+      var stwv = document.getElementById('setTwV');
+      if (stwv) stwv.textContent = toFA(tw);
     }
   })();
   loadUserEdits();
@@ -119,10 +121,45 @@ fetch(window.BOOK_URL || 'book.json').then(function(r){return r.json()}).then(fu
   loadAutoTheme();
   if (book.hasPdf) document.getElementById('bPdf').style.display = '';
   console.log('[coreader] book setup complete');
-}).catch(function(err){
-  console.error('[coreader] book load error:', err);
-  document.getElementById('tc').innerHTML = '<p style="color:red">خطا در بارگذاری کتاب: ' + (err && err.message ? err.message : String(err)) + '</p>';
-});
+}
+
+(function(){
+  var p = new URLSearchParams(location.search);
+  var slug = p.get('book');
+  var localBooks = null;
+  try {
+    localBooks = JSON.parse(localStorage.getItem('coreader-local-books') || '{}');
+  } catch(e){}
+
+  if (slug && localBooks && localBooks[slug]) {
+    console.log('[coreader] loading book from localStorage:', slug);
+    initBook(localBooks[slug]);
+    return;
+  }
+
+  console.log('[coreader] loading book.json from', window.BOOK_URL || 'book.json');
+  fetch(window.BOOK_URL || 'book.json').then(function(r){
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  }).then(function(book){
+    initBook(book);
+  }).catch(function(err){
+    if (slug && localBooks && localBooks[slug]) {
+      initBook(localBooks[slug]);
+      return;
+    }
+    console.error('[coreader] book load error:', err);
+    var tcEl = document.getElementById('tc');
+    if (tcEl) {
+      tcEl.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--muted)">' +
+        '<div style="font-size:48px;margin-bottom:16px">📖</div>' +
+        '<h2 style="color:var(--fg-color)">کتاب یافت نشد</h2>' +
+        '<p style="margin:12px 0">' + (err && err.message ? err.message : String(err)) + '</p>' +
+        '<button onclick="location.href=\'../\'" style="padding:10px 24px;border-radius:12px;background:var(--accent);color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:14px;box-shadow:0 4px 15px rgba(0,0,0,.2)">بازگشت به کتابخانه</button>' +
+        '</div>';
+    }
+  });
+})();
 
 function buildToc(){
   var tocEl = document.getElementById('toc');
@@ -754,6 +791,29 @@ function loadPdf(){
   var src = srcs[curPdfSrc];
   if (!src){ showPdfErr('این کتاب نسخهٔ PDF ندارد.'); return; }
   hidePdfErr(); document.getElementById('pdfMax').textContent = '...';
+
+  // Support local uploaded PDF (base64 dataUrl)
+  if (src.dataUrl) {
+    try {
+      var base64 = src.dataUrl.indexOf(',') >= 0 ? src.dataUrl.split(',')[1] : src.dataUrl;
+      var raw = atob(base64);
+      var uint8 = new Uint8Array(raw.length);
+      for (var i = 0; i < raw.length; i++) uint8[i] = raw.charCodeAt(i);
+      pdfjsLib.getDocument({ data: uint8 }).promise
+        .then(function(doc){
+          pdfDoc = doc; pdfDocCache[curPdfSrc] = doc;
+          document.getElementById('pdfMax').textContent = doc.numPages;
+          pdfRender(pdfPendingPage || 1); pdfPendingPage = null;
+        }).catch(function(e){
+          showPdfErr('خطا در پردازش فایل PDF محلی: ' + (e && e.message ? e.message : 'نامعتبر'));
+        });
+      return;
+    } catch(err) {
+      showPdfErr('خطا در خواندن داده‌های فایل PDF.');
+      return;
+    }
+  }
+
   fetch(src.filename).then(function(r){ if (!r.ok) throw 0; return r.arrayBuffer(); })
     .then(function(buf){ return pdfjsLib.getDocument({ data: new Uint8Array(buf) }).promise; })
     .then(function(doc){ pdfDoc = doc; pdfDocCache[curPdfSrc] = doc; document.getElementById('pdfMax').textContent = doc.numPages; pdfRender(pdfPendingPage || 1); pdfPendingPage = null; })

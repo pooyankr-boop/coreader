@@ -1,71 +1,61 @@
-// coreader service worker — cache-first for static assets, network-first for data
-var CACHE = 'coreader-v7';
+// coreader service worker
+// - HTML / JS / CSS / JSON: network-first (always fresh; falls back to cache when offline)
+// - images, fonts, PDFs: cache-first
+// v8: the old worker pre-cached a blank "<!DOCTYPE html>" for the site root and served
+// every static file cache-first, which kept stale copies of pages after an update.
+var CACHE = 'coreader-v9';
 
 self.addEventListener('install', function(e) {
-  // Don't fail install on missing assets — use individual puts
-  e.waitUntil(
-    caches.open(CACHE).then(function(c) {
-      return Promise.allSettled([
-        c.put('./', new Response('<!DOCTYPE html>', {headers:{'Content-Type':'text/html'}})),
-        c.put('viewer/viewer.html', fetch('viewer/viewer.html').then(function(r){return r;}).catch(function(){})),
-        c.put('viewer/viewer.css', fetch('viewer/viewer.css').then(function(r){return r;}).catch(function(){})),
-        c.put('viewer/viewer.js', fetch('viewer/viewer.js').then(function(r){return r;}).catch(function(){})),
-        c.put('viewer/ganjoor-text.js', fetch('viewer/ganjoor-text.js').then(function(r){return r;}).catch(function(){})),
-      ]);
-    }).then(function() { return self.skipWaiting(); })
-  );
+  e.waitUntil(self.skipWaiting());
 });
 
 self.addEventListener('activate', function(e) {
   e.waitUntil(
     caches.keys().then(function(names) {
-      return Promise.all(
-        names.filter(function(n) { return n !== CACHE; })
-             .map(function(n) { return caches.delete(n); })
-      );
+      return Promise.all(names.filter(function(n) { return n !== CACHE; })
+                              .map(function(n) { return caches.delete(n); }));
     }).then(function() { return self.clients.claim(); })
   );
 });
 
+function isAsset(url) {
+  return /\.(?:jpe?g|png|gif|webp|svg|ico|woff2?|ttf|otf|pdf)$/i.test(url.pathname);
+}
+
 self.addEventListener('fetch', function(e) {
-  var url = new URL(e.request.url);
-  // Network-first for books-index.json (dynamic data)
-  if (url.pathname.endsWith('books-index.json')) {
+  var req = e.request;
+  if (req.method !== 'GET') return;
+  var url = new URL(req.url);
+  if (url.origin !== self.location.origin) return;
+  if (url.pathname === '/proxy-manifest' || url.pathname === '/proxy-image' || url.pathname === '/cache-manifest') return;
+  if (req.headers.has('range')) return;
+
+  if (isAsset(url)) {
     e.respondWith(
-      fetch(e.request).then(function(r) {
-        var clone = r.clone();
-        caches.open(CACHE).then(function(c) { c.put(e.request, clone); });
-        return r;
-      }).catch(function() {
-        return caches.match(e.request);
+      caches.match(req).then(function(hit) {
+        if (hit) return hit;
+        return fetch(req).then(function(resp) {
+          if (resp && resp.status === 200 && resp.type === 'basic') {
+            var clone = resp.clone();
+            caches.open(CACHE).then(function(c) { c.put(req, clone); });
+          }
+          return resp;
+        });
       })
     );
     return;
   }
-  // Network-first for JSON data files (ganjoor, book.json, manifest)
-  if (url.pathname.endsWith('.json') && url.pathname.indexOf('/books/') >= 0) {
-    e.respondWith(
-      fetch(e.request).then(function(r) {
-        if (r.ok) {
-          var clone = r.clone();
-          caches.open(CACHE).then(function(c) { c.put(e.request, clone); });
-        }
-        return r;
-      }).catch(function() {
-        return caches.match(e.request);
-      })
-    );
-    return;
-  }
-  // Cache-first for everything else (HTML, CSS, JS, fonts, images)
+
   e.respondWith(
-    caches.match(e.request).then(function(r) {
-      if (r) return r;
-      return fetch(e.request).then(function(resp) {
-        if (!resp || resp.status !== 200 || resp.type !== 'basic') return resp;
+    fetch(req).then(function(resp) {
+      if (resp && resp.status === 200 && resp.type === 'basic') {
         var clone = resp.clone();
-        caches.open(CACHE).then(function(c) { c.put(e.request, clone); });
-        return resp;
+        caches.open(CACHE).then(function(c) { c.put(req, clone); });
+      }
+      return resp;
+    }).catch(function() {
+      return caches.match(req).then(function(hit) {
+        return hit || new Response('Offline', { status: 503, headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
       });
     })
   );

@@ -18,6 +18,45 @@ function sectionOf(b){
   return b.section === 'bierah' ? 'bierah' : 'raah';
 }
 
+/* ---- safe helpers ---- */
+// esc(): full HTML escape for text/attribute context. Titles, authors and
+// notes come from third-party IIIF manifests and from files the user drops
+// in, so anything built into HTML here is untrusted.
+function esc(s){
+  return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+// richText(): escape, but keep the harmless <i>/<em>/<b> some museum titles carry on purpose.
+function richText(s){
+  return esc(s).replace(/&lt;(\/?)(i|em|b)&gt;/gi, '<$1$2>');
+}
+// plainText(): for attributes (alt/title) - strip tags first, then escape.
+function plainText(s){
+  return esc(String(s == null ? '' : s).replace(/<[^>]*>/g, ''));
+}
+// jsAttr(): a value inside a single-quoted JS string inside an HTML attribute.
+function jsAttr(s){
+  return esc(String(s == null ? '' : s).replace(/\\/g, '\\\\').replace(/'/g, "\\'"));
+}
+function lsSet(key, val){
+  try { localStorage.setItem(key, JSON.stringify(val)); return true; } catch(e){ return false; }
+}
+// foldFa(): search normalisation - Arabic/Persian yeh & kaf, diacritics, ZWNJ,
+// kashida, digit forms, alef variants. Without it a query typed with an Arabic
+// yeh never matches a Persian title.
+function foldFa(s){
+  return String(s == null ? '' : s).toLowerCase()
+    .replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E4\u06E7\u06E8\u06EA-\u06ED\u0640\u200C\u200D]/g, '')
+    .replace(/[\u064A\u0649]/g, '\u06CC').replace(/\u0643/g, '\u06A9')
+    .replace(/[\u0622\u0623\u0625\u0671]/g, '\u0627').replace(/\u06C0/g, '\u0647')
+    .replace(/[\u0660-\u0669]/g, function(d){ return String(d.charCodeAt(0) - 0x0660); })
+    .replace(/[\u06F0-\u06F9]/g, function(d){ return String(d.charCodeAt(0) - 0x06F0); });
+}
+function itemHref(src, slug){
+  if(src === 'against-nature') return 'viewer/tour.html';
+  if(src === 'local') return 'reader/reader.html?book=' + encodeURIComponent(slug);
+  return 'viewer/viewer.html?book=' + encodeURIComponent(slug);
+}
+
 function init(){
   loadAppTheme();
   loadSavedViewMode();
@@ -49,7 +88,9 @@ function init(){
 
   // Keyboard shortcut for search (/ or Ctrl+K)
   document.addEventListener('keydown', function(e){
-    if((e.key === '/' && document.activeElement !== searchInput) || ((e.ctrlKey || e.metaKey) && e.key === 'k')){
+    var ae = document.activeElement;
+    var typing = !!(ae && (ae.tagName === 'INPUT' || ae.tagName === 'TEXTAREA' || ae.tagName === 'SELECT' || ae.isContentEditable));
+    if((e.key === '/' && !typing) || ((e.ctrlKey || e.metaKey) && e.key === 'k')){
       e.preventDefault();
       if(searchInput){ searchInput.focus(); searchInput.select(); }
     } else if(e.key === 'Escape'){
@@ -61,14 +102,22 @@ function init(){
 }
 
 // === Theme Engine ===
+/* The reading theme (coreader-theme: night, sepia, ...) and the site theme
+ * used to share one key, so opening a book overwrote the site's theme and
+ * vice versa. They are separate now, and the site opens on شب و آبسیدین. */
 function loadAppTheme(){
-  var t = localStorage.getItem('coreader-theme') || 'theme-gold';
-  setAppTheme(t, false);
+  var t = localStorage.getItem('coreader-app-theme');
+  if (!t){
+    var old = localStorage.getItem('coreader-theme') || '';
+    t = /^theme-/.test(old) ? old : 'theme-dark';
+  }
+  setAppTheme(t, true);   // remember what opened, not only what was clicked
 }
 
 window.setAppTheme = function(themeClass, save){
+  if (!document.querySelector('.theme-pill[data-theme="' + themeClass + '"]')) themeClass = 'theme-dark';
   if(save !== false){
-    try { localStorage.setItem('coreader-theme', themeClass); } catch(e){}
+    try { localStorage.setItem('coreader-app-theme', themeClass); } catch(e){}
   }
   document.body.className = document.body.className.replace(/\btheme-\w+\b/g, '').trim();
   document.body.classList.add(themeClass);
@@ -216,7 +265,9 @@ window.changeSort = function(s){
 };
 
 function loadSavedViewMode(){
-  var m = localStorage.getItem('coreader-view-mode') || 'grid';
+  var m = 'grid';
+  try { m = localStorage.getItem('coreader-view-mode') || m; } catch(e){}
+  if(!/^(grid|list|showcase)$/.test(m)) m = 'grid';
   setViewMode(m, false);
 }
 
@@ -245,7 +296,7 @@ window.clearSearch = function(){
 // === Main Render Logic ===
 function render(){
   var searchInput = document.getElementById('searchInput');
-  var q = (searchInput ? searchInput.value : '').trim().toLowerCase();
+  var q = foldFa((searchInput ? searchInput.value : '').trim());
   var matchBadge = document.getElementById('searchMatchCount');
 
   var list = _books.filter(function(b){
@@ -255,10 +306,10 @@ function render(){
     if(!sourceMatches) return false;
     if(!q) return true;
 
-    var title = (b.title || '').toLowerCase();
-    var author = (b.author || '').toLowerCase();
-    var provider = (b.provider || '').toLowerCase();
-    var slug = (b.slug || '').toLowerCase();
+    var title = foldFa(b.title);
+    var author = foldFa(b.author);
+    var provider = foldFa(b.provider);
+    var slug = foldFa(b.slug);
     return title.indexOf(q) >= 0 || author.indexOf(q) >= 0 || provider.indexOf(q) >= 0 || slug.indexOf(q) >= 0;
   });
 
@@ -325,11 +376,11 @@ function render(){
     }
 
     var coverImg = coverSrc ?
-      '<img class="card-cover" src="' + coverSrc + '" alt="' + (b.title || '') + '" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' : '';
+      '<img class="card-cover" src="' + esc(coverSrc) + '" alt="' + plainText(b.title || '') + '" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' : '';
 
     var fallback = '<div class="card-cover-fallback" style="' + (coverSrc ? 'display:none' : '') + '">' +
       '<div class="fallback-ornament">📜</div>' +
-      '<div class="fallback-title">' + (b.title || '') + '</div>' +
+      '<div class="fallback-title">' + esc(b.title || '') + '</div>' +
       '</div>';
 
     // Slideshow
@@ -361,18 +412,18 @@ function render(){
         coverImg + fallback + slideshow +
         '<div class="card-badges-top">' +
           '<span class="source-badge ' + badgeClass + '">' + badgeLabel + '</span>' +
-          '<button onclick="toggleCardFavorite(\'' + b.slug + '\', event)" style="background:rgba(0,0,0,0.5);border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;color:' + (isFav ? '#f59e0b' : '#ffffff') + ';font-size:14px" title="نشان کردن">' + (isFav ? '★' : '☆') + '</button>' +
+          '<button onclick="toggleCardFavorite(\'' + jsAttr(b.slug) + '\', event)" style="background:rgba(0,0,0,0.5);border:none;border-radius:50%;width:28px;height:28px;cursor:pointer;color:' + (isFav ? '#f59e0b' : '#ffffff') + ';font-size:14px" title="نشان کردن">' + (isFav ? '★' : '☆') + '</button>' +
         '</div>' +
         '<div class="card-quick-actions">' +
           '<a href="' + href + '" class="quick-action-btn">📖 مطالعه</a>' +
-          '<button class="quick-action-btn" onclick="openQuickView(\'' + b.slug + '\', event)">👁️ جزئیات</button>' +
+          '<button class="quick-action-btn" onclick="openQuickView(\'' + jsAttr(b.slug) + '\', event)">👁️ جزئیات</button>' +
         '</div>' +
       '</div>' +
       '<a href="' + href + '" class="card-body" style="text-decoration:none;color:inherit">' +
-        '<h2 class="card-title">' + (b.title || 'بدون عنوان') + '</h2>' +
-        '<div class="card-author">' + (b.author || 'ناشناس') + '</div>' +
+        '<h2 class="card-title">' + richText(b.title || 'بدون عنوان') + '</h2>' +
+        '<div class="card-author">' + esc(b.author || 'ناشناس') + '</div>' +
         '<div class="card-meta-row">' +
-          '<span class="card-provider" title="' + (b.provider || 'نسخه خطی') + '">' + (b.provider || 'نسخه خطی') + '</span>' +
+          '<span class="card-provider" title="' + esc(b.provider || 'نسخه خطی') + '">' + esc(b.provider || 'نسخه خطی') + '</span>' +
           '<span class="card-pages">' + toFA(b.pages || 1) + ' صفحه</span>' +
         '</div>' +
         pbar +
@@ -462,7 +513,8 @@ window.openQuickView = function(slug, e){
     var t0 = Array.isArray(book.thumbnail) ? book.thumbnail[0] : book.thumbnail;
     coverSrc = t0;
   }
-  document.getElementById('qvCoverImg').src = coverSrc || '';
+  var qvImg = document.getElementById('qvCoverImg');
+  if(coverSrc) qvImg.src = coverSrc; else qvImg.removeAttribute('src');
 
   // Thumbs gallery
   var thumbsRow = document.getElementById('qvThumbsRow');
@@ -522,10 +574,13 @@ window.toggleCardFavorite = function(slug, e){
       author: book.author,
       provider: book.provider,
       cover: book.cover || (Array.isArray(book.thumbnail) ? book.thumbnail[0] : book.thumbnail),
+      source: book.source,
       time: Date.now()
     });
   }
-  localStorage.setItem('coreader-favs', JSON.stringify(favs));
+  // A full browser rejects the write and used to abort half-way, leaving a
+  // favourite that could not be removed.
+  if(!lsSet('coreader-favs', favs)){ alert('فضای ذخیره‌سازی مرورگر پر است؛ نشان ذخیره نشد.'); return; }
   render();
 };
 
@@ -539,8 +594,8 @@ window.openFavsDrawer = function(){
     listEl.innerHTML = favs.map(function(f, i){
       return '<div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border:1px solid var(--border);border-radius:12px;background:var(--cream)">' +
         '<div style="overflow:hidden;margin-inline-end:8px">' +
-        '<a href="viewer/viewer.html?book=' + encodeURIComponent(f.slug) + '" style="font-weight:700;color:var(--text);text-decoration:none;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + f.title + '</a>' +
-        '<div style="font-size:11px;color:var(--muted)">' + (f.author || '') + '</div>' +
+        '<a href="' + esc(itemHref(f.source, f.slug)) + '" style="font-weight:700;color:var(--text);text-decoration:none;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">' + richText(f.title) + '</a>' +
+        '<div style="font-size:11px;color:var(--muted)">' + esc(f.author || '') + '</div>' +
         '</div>' +
         '<button onclick="removeFavItem(' + i + ')" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:16px">✕</button>' +
         '</div>';
@@ -769,17 +824,28 @@ window.saveLocalBook = function(){
   if(_txtFile){
     var reader = new FileReader();
     reader.onload = function(e){
-      var text = e.target.result;
+      var text = e.target.result.replace(/\r\n?/g, '\n');
       var raw = text.split(/\f|\n{3,}/);
       if(raw.length <= 1){
         raw = [];
         var chunk = 3000;
-        for(var i = 0; i < text.length; i += chunk) raw.push(text.substring(i, i + chunk));
+        for(var pos = 0; pos < text.length;){
+          var end = Math.min(pos + chunk, text.length);
+          // stop at a line break if there is one in the second half, else at a
+          // space: a fixed chunk cuts words in half
+          if(end < text.length){
+            var cut = text.lastIndexOf('\n', end);
+            if(cut <= pos + chunk * 0.5) cut = text.lastIndexOf(' ', end);
+            if(cut > pos) end = cut;
+          }
+          raw.push(text.substring(pos, end));
+          pos = end;
+        }
       }
       var pages = raw.filter(function(t){ return t.trim(); }).map(function(t, i){
         return {
           page: i + 1,
-          html: '<div class="page-content"><p>' + t.trim().replace(/\n/g, '<br>') + '</p></div>'
+          html: '<div class="page-content"><p>' + esc(t.trim()).replace(/\n/g, '<br>') + '</p></div>'
         };
       });
       if(_pdfFiles.length) processPdfs(pages); else finish(pages, null);

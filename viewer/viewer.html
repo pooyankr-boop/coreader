@@ -9,7 +9,7 @@
 <title>کتاب</title>
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700&family=El+Messiri:wght@400;500;600;700&family=Lalezar&family=Lateef&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Reem+Kufi:wght@400;500;600;700&family=Sakkal+Majalla&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="viewer.css">
+<link rel="stylesheet" href="viewer.css?v=2">
 <style>
 /* Loading spinner */
 .loading-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg,#faf8f5);z-index:900;transition:opacity .3s}
@@ -35,6 +35,7 @@
   <div class="toolbar" id="toolbar">
     <button onclick="goHome()" title="بازگشت">◀ خانه</button>
     <button onclick="togglePanel()" id="bPanel" class="on">پنل</button>
+    <button onclick="toggleSplitPane('text')" id="bSplit" title="مقابله: متن کنار عکس">مقابله</button>
     <div class="pg-nav">
       <button onclick="prevPage()">‹</button>
       <input type="number" id="pgInput" min="1" value="1" onkeydown="if(event.key==='Enter')goPage(+this.value)">
@@ -43,6 +44,8 @@
     </div>
     <div class="spacer"></div>
     <button onclick="toggleSearch()" id="bSearch">🔍 جستجو</button>
+    <button onclick="toggleTts()" id="bTts">🔊 خوانش</button>
+    <button onclick="toggleMic()" id="bMic">🎤 خط‌بر</button>
     <button onclick="toggleGanjoorTTS()" id="bGanjoorTTS" style="display:none">🔊 خوانش</button>
     <button onclick="toggleGanjoorMic()" id="bGanjoorMic" style="display:none">🎤 خط‌بر</button>
     <button onclick="openSettings()" id="bSettings">⚙️</button>
@@ -53,9 +56,20 @@
     <button onclick="zoomIn()" title="بزرگ‌نمایی">+</button>
     <button onclick="zoomOut()" title="کوچک‌نمایی">−</button>
     <button onclick="toggleFullscreen()" id="bFullscreen" title="تمام صفحه">⛶</button>
+    <div class="spacer"></div>
+    <button onclick="toggleAdjustPanel()" id="bAdjust" title="تنظیم نور، رنگ، کنتراست و معکوس تصویر">◐ تنظیم تصویر</button>
+    <button onclick="setTool('cursor')" id="bCursor" title="نشانگر عادی" class="tool-btn on">🖱️</button>
+    <button onclick="setTool('arrow')" id="bArrow" title="فلش (پرزنټیشن)">➡️</button>
+    <button onclick="setTool('pen')" id="bPen" title="قلم">✏️</button>
+    <button onclick="setTool('highlighter')" id="bHighlighter" title="هایلایت">🖍️</button>
+    <button onclick="setTool('laser')" id="bLaser" title="لیزر پرزنټیشن">🔴</button>
+    <button onclick="clearCanvas()" id="bClear" title="پاک کردن همه خطوط">🗑️ پاک</button>
+    <button onclick="saveAllChanges()" id="bSave" title="ذخیرهٔ همه تغییرات این کتاب در حافظهٔ مرورگر">💾 ذخیره</button>
   </div>
+  <button class="toolbar-toggle" id="toolbarToggle" onclick="toggleToolbar()" title="بستن نوار ابزار">✕</button>
 
   <div class="body">
+    <div class="split-wrap" id="splitWrap"></div>
     <div class="image-panel" id="imagePanel">
       <div id="osd-container"></div>
       <div class="page-label" id="pageLabel"></div>
@@ -65,8 +79,8 @@
       <div class="panel-resizer" id="panelResizer" title="کشیدن برای تغییر اندازه"></div>
       <div class="sp-tabs">
         <div class="sp-tab on" data-pane="meta" onclick="switchPane('meta')">اطلاعات</div>
-        <div class="sp-tab" data-pane="text" onclick="switchPane('text')">متن</div>
         <div class="sp-tab" data-pane="anno" onclick="switchPane('anno')">حاشیه</div>
+        <button class="sp-close" onclick="togglePanel()" title="بستن پنل">✕</button>
       </div>
       <div class="sp-content">
         <div class="sp-pane on" id="pane-meta">
@@ -78,7 +92,7 @@
               <input type="checkbox" id="textSelectToggle" checked onchange="toggleTextSelection(this.checked)"> امکان انتخاب متن
             </label>
           </div>
-          <div class="tts-controls" id="ttsInlineControls" style="display:none">
+<div class="tts-controls" id="ttsInlineControls">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;padding:10px;background:var(--cream);border-radius:10px;border:1px solid var(--border)">
               <button class="tts-btn" id="ttsPlayBtn" onclick="toggleTtsPlay()" style="padding:6px 12px;border:1.5px solid var(--border);border-radius:8px;background:var(--card);cursor:pointer;font-size:14px">▶️</button>
               <select id="ttsVoiceSel" style="flex:1;padding:4px 8px;border:1px solid var(--border);border-radius:6px;font-family:inherit;font-size:12px;background:var(--cream);color:var(--text)"></select>
@@ -321,6 +335,23 @@
 
 <!-- Right-click context menu: add/edit/delete annotation, edit text,
      diacritics, dictionary/encyclopedia lookup -->
+<!-- Ask box: prompt/alert/confirm replacement.
+     The desktop webview blocks the native dialogs (they throw), so every
+     menu action that asked a question used to die silently.  One inline box
+     serves all of them. -->
+<div class="ask-box" id="askBox" data-open="false">
+  <div class="ask-backdrop"></div>
+  <div class="ask-card">
+    <div class="ask-title" id="askTitle"></div>
+    <div class="ask-msg" id="askMsg"></div>
+    <input type="text" class="ask-input" id="askInput" dir="auto">
+    <div class="ask-row">
+      <button class="ask-btn" id="askOk"></button>
+      <button class="ask-btn ghost" id="askCancel"></button>
+    </div>
+  </div>
+</div>
+
 <div class="ctx-menu" id="ctxMenu">
   <div class="ctx-item" onclick="ctxAddAnno()">📝 افزودن حاشیه</div>
   <div class="ctx-item" onclick="ctxEditAnno()">✏️ ویرایش حاشیه</div>
@@ -367,30 +398,25 @@
 <div class="hl-slide-neighbor" id="hlNbrPrev"></div>
 <div class="hl-slide-neighbor" id="hlNbrNext"></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/openseadragon/4.1.1/openseadragon.min.js"></script>
+<!-- Self-hosted: the cdnjs copy failed intermittently (ERR_QUIC/RESET),
+     setupOsd then threw "OpenSeadragon is not defined" and loadBook
+     replaced the whole body with an error page. Local copy = no network. -->
+<script src="openseadragon.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>window.pdfjsLib && (pdfjsLib.GlobalWorkerOptions.workerSrc='');</script>
 <script src="ganjoor-text.js?v=4"></script>
-<script src="viewer.js?v=25"></script>
+<script src="page-text.js?v=1"></script>
+<script src="voice.js?v=1"></script>
+<script src="../assets/translate.js?v=3"></script>
+<script src="../assets/lexicon.js?v=1"></script>
+<script src="viewer.js?v=30"></script>
 <script src="ui-functions.js?v=4"></script>
 <script>
-// Register service worker for offline support — auto-reload on new version
-// DISABLED for debugging — SW was caching stale ganjoor-text.js
-// Also UNREGISTER any old SW that might be serving cached files
+// Clean up obsolete service worker registrations if any exist
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.getRegistrations().then(function(regs) {
-    if (regs.length > 0) {
-      regs.forEach(function(r) { r.unregister(); console.log('[viewer] unregistered old SW'); });
-      // Force reload after SW unregister so this page load uses fresh files
-      setTimeout(function() { location.reload(true); }, 100);
-    }
-  });
-  // Clear old caches
-  if ('caches' in window) {
-    caches.keys().then(function(names) {
-      names.forEach(function(n) { caches.delete(n); console.log('[viewer] deleted cache:', n); });
-    });
-  }
+    regs.forEach(function(r) { r.unregister(); });
+  }).catch(function(){});
 }
 // Hide loading spinner once book content is available
 (function(){
@@ -405,5 +431,56 @@ if ('serviceWorker' in navigator) {
   setTimeout(function(){var o=document.getElementById('loadingOverlay');if(o)o.classList.add('hidden');},5000);
 })();
 </script>
+
+<!-- Mic line-following bar (fixed, bottom center) -->
+<div class="mic-bar" id="micBar">
+  <button class="mic-btn" id="micBtn" onclick="toggleRecording()" aria-label="شروع یا توقف خط‌بر">🎤</button>
+  <span class="mic-status" id="micStatus">آماده خط‌بر...</span>
+  <button class="mic-stop" onclick="toggleMic()">پایان</button>
+</div>
+
+<!-- Adjustment panel -->
+<div class="adjust-overlay" id="adjustOverlay" style="display:none" onclick="if(event.target===this)toggleAdjustPanel()"></div>
+<div class="adjust-panel" id="adjustPanel" style="display:none">
+  <div class="adjust-header">
+    <span>تنظیمات تصویر</span>
+    <button class="adj-close" onclick="toggleAdjustPanel()">✕</button>
+  </div>
+  <div class="adjust-body">
+    <div class="adj-row">
+      <label>روشنایی</label>
+      <input type="range" id="adjBrightness" min="0.1" max="2" step="0.05" value="1" oninput="applyFilters()">
+      <span id="adjBrightnessVal" class="adj-val">۱.۰</span>
+    </div>
+    <div class="adj-row">
+      <label>کنتراست</label>
+      <input type="range" id="adjContrast" min="0.1" max="3" step="0.05" value="1" oninput="applyFilters()">
+      <span id="adjContrastVal" class="adj-val">۱.۰</span>
+    </div>
+    <div class="adj-row">
+      <label>اشباع</label>
+      <input type="range" id="adjSaturation" min="0" max="3" step="0.05" value="1" oninput="applyFilters()">
+      <span id="adjSaturationVal" class="adj-val">۱.۰</span>
+    </div>
+    <div class="adj-row">
+      <label>درجهٔ رنگ</label>
+      <input type="range" id="adjHue" min="-180" max="180" step="5" value="0" oninput="applyFilters()">
+      <span id="adjHueVal" class="adj-val">۰</span>
+    </div>
+    <div class="adj-row">
+      <label>تاری</label>
+      <input type="range" id="adjBlur" min="0" max="8" step="0.5" value="0" oninput="applyFilters()">
+      <span id="adjBlurVal" class="adj-val">۰</span>
+    </div>
+    <div class="adj-row adj-toggle-row">
+      <label>معکوس رنگ</label>
+      <input type="checkbox" id="adjInvert" onchange="applyFilters()">
+    </div>
+    <button class="adj-reset" onclick="resetAdjustments()">بازنشانی</button>
+  </div>
+</div>
+
+<!-- Canvas overlay for presentation tools (drawn over OSD) -->
+<canvas id="presCanvas" style="display:none;position:fixed;top:0;left:0;pointer-events:none;z-index:50"></canvas>
 </body>
 </html>

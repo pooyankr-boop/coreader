@@ -137,10 +137,15 @@ body.pdf-open .main{margin-left:min(44vw,620px)}
   transition:opacity .3s var(--ease-out-expo),transform .3s var(--ease-out-expo);max-width:95vw;overflow-x:auto}
 .toolbar.hide{opacity:0;transform:translateX(-50%) translateY(-40px);pointer-events:none}
 .toolbar:hover{box-shadow:0 4px 20px rgba(0,0,0,.15)}
+/* wide toolbars still scroll sideways on a small screen - they just must not
+ * show a scrollbar while doing it */
+.toolbar{scrollbar-width:none;-ms-overflow-style:none}
+.toolbar::-webkit-scrollbar{display:none}
 .toolbar button{font-family:var(--ff);font-size:13px;padding:7px 13px;border:1px solid transparent;border-radius:10px;
   background:transparent;color:var(--fg-color);cursor:pointer;white-space:nowrap;transition:all .2s var(--ease-out-expo);flex-shrink:0;position:relative}
 .toolbar button:hover{background:var(--hover);box-shadow:0 3px 12px rgba(0,0,0,.08);transform:translateY(-1px)}
 .toolbar button:active{transform:translateY(0) scale(.97);box-shadow:none}
+.toolbar .spacer{flex:1}
 .toolbar button.on{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border-color:transparent;box-shadow:0 4px 16px rgba(139,69,19,.35),0 0 0 1px rgba(255,255,255,.1) inset}
 .pg-jump{display:flex;align-items:center;gap:3px;flex-shrink:0}
 .pg-jump input{width:50px;text-align:center;font-family:var(--ff);font-size:13px;padding:5px 4px;

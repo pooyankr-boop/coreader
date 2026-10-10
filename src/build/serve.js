@@ -11,10 +11,26 @@ const MIME = {
   '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
   '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8',
   '.pdf': 'application/pdf', '.png': 'image/png', '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.svg': 'image/svg+xml',
+  '.gif': 'image/gif', '.ico': 'image/x-icon',
+  '.ttf': 'font/ttf', '.woff': 'font/woff', '.woff2': 'font/woff2'
 };
 
 // Proxy IIIF manifests from QDL/BL (Cloudflare-protected) and LOC
 const PROXY_HOSTS = ['www.qdl.qa', 'bl.digirati.io', 'www.loc.gov', 'iiif.vam.ac.uk', 'collections.vam.ac.uk', 'openaccess-cdn.clevelandart.org', 'images.metmuseum.org', 'nrs.harvard.edu', 'ids.lib.harvard.edu', 'mps.lib.harvard.edu', 'harvardartmuseums.org', 'ids.si.edu', 'www.artic.edu', 'media.getty.edu', 'iiif.bnf.fr', 'gallica.bnf.fr', 'wellcomecollection.org', 'iiif.oregon.edu', 'media.art.thewalters.org', 'media.britishmuseum.org', 'api.bl.uk', 'iiif.maximillian-mueller.de', 'iiif.ku.edu', 'iiif.lib.harvard.edu', 'iiif.harvardartmuseums.org', 'digi.ub.rug.nl', 'iiif.library.utoronto.ca', 'iiif.leidenuniv.nl', 'iiif.library.ox.ac.uk', 'iiif.library.jhu.edu', 'iiif.library.nd.edu', 'iiif.library.usc.edu', 'iiif.library.yale.edu', 'iiif.library.princeton.edu', 'iiif.library.columbia.edu', 'iiif.library.chicago.edu', 'iiif.library.duke.edu', 'iiif.library.emory.edu', 'iiif.library.georgetown.edu', 'iiif.library.ndl.gov', 'iiif.library.virginia.edu', 'iiif.library.wisc.edu', 'iiif.library.brown.edu', 'iiif.library.cornell.edu', 'iiif.library.stanford.edu', 'iiif.library.caltech.edu', 'iiif.library.upenn.edu', 'iiif.library.utexas.edu', 'iiif.library.ufl.edu', 'iiif.library.ucla.edu', 'iiif.library.usf.edu', 'iiif.library.vanderbilt.edu', 'iiif.library.tamu.edu', 'iiif.library.okstate.edu', 'iiif.library.illinois.edu', 'iiif.library.psu.edu', 'iiif.library.msu.edu', 'iiif.library.rutgers.edu', 'iiif.library.neu.edu', 'iiif.library.gwu.edu', 'iiif.library.bu.edu', 'iiif.library.bc.edu', 'iiif.library.rochester.edu', 'iiif.library.wustl.edu', 'iiif.library.virginia.edu', 'iiif.library.rice.edu', 'iiif.library.tulane.edu', 'iiif.library.fsu.edu', 'iiif.library.sc.edu', 'iiif.library.uky.edu', 'iiif.library.auburn.edu', 'iiif.library.missouri.edu', 'iiif.library.ku.edu', 'iiif.library.iastate.edu', 'iiif.library.nd.edu', 'iiif.library.okstate.edu', 'iiif.library.vt.edu', 'iiif.library.uga.edu', 'iiif.library.gatech.edu', 'iiif.library.clemson.edu', 'iiif.library.lsu.edu', 'iiif.library.tamu.edu', 'iiif.library.arizona.edu', 'iiif.library.asu.edu', 'iiif.library.nau.edu', 'iiif.library.nmhu.edu', 'iiif.library.nmsu.edu', 'iiif.library.unm.edu', 'iiif.library.unlv.edu', 'iiif.library.unr.edu', 'iiif.library.usu.edu', 'iiif.library.weber.edu', 'iiif.library.byu.edu', 'iiif.library.uwyo.edu', 'iiif.library.csu.edu', 'iiif.library.mines.edu', 'iiif.library.colostate.edu', 'iiif.library.du.edu', 'iiif.library.cudenver.edu', 'iiif.library.msudenver.edu', 'iiif.library.nmsu.edu', 'iiif.library.nmhu.edu', 'iiif.library.su.edu', 'iiif.library.unm.edu', 'iiif.library.unlv.edu', 'iiif.library.unr.edu', 'iiif.library.usu.edu', 'iiif.library.weber.edu', 'iiif.library.byu.edu', 'iiif.library.uwyo.edu', 'iiif.library.csu.edu', 'iiif.library.mines.edu', 'iiif.library.colostate.edu', 'iiif.library.du.edu', 'iiif.library.cudenver.edu', 'iiif.library.msudenver.edu'];
+PROXY_HOSTS.splice(0, PROXY_HOSTS.length, ...new Set(PROXY_HOSTS)); // drop duplicate entries
+// A suffix match without a dot boundary let 'notiiif.vam.ac.uk' through.
+function hostAllowed(h) { return PROXY_HOSTS.some(a => h === a || h.endsWith('.' + a)); }
+// Never follow a redirect into the local machine / private network.
+function isPrivateHost(h) {
+  h = String(h || '').toLowerCase().replace(/^\[|\]$/g, '');
+  return h === 'localhost' || h.endsWith('.localhost') || h === '::1' || /^(127\.|10\.|0\.|169\.254\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.)/.test(h) || /^(fc|fd|fe80)/.test(h);
+}
+function redirectBlocked(loc, res) {
+  try { if (isPrivateHost(new URL(loc).hostname)) { res.writeHead(403); res.end('Redirect to private host blocked'); return true; } }
+  catch (e) { res.writeHead(502); res.end('Bad redirect'); return true; }
+  return false;
+}
 const { execFile } = require('child_process');
 
 // loc.gov serves /resource/* only to browsers that pass the Cloudflare
@@ -47,12 +63,13 @@ function proxyFetch(targetUrl, res, depth) {
     if (proxyRes.statusCode >= 300 && proxyRes.statusCode < 400 && proxyRes.headers.location) {
       let loc = proxyRes.headers.location;
       if (!loc.startsWith('http')) loc = new URL(loc, targetUrl).href;
+      if (redirectBlocked(loc, res)) return;
       return proxyFetch(loc, res, depth + 1);
     }
     let data = '';
     proxyRes.on('data', chunk => data += chunk);
     proxyRes.on('end', () => {
-      res.writeHead(200, {
+      res.writeHead(proxyRes.statusCode || 200, {
         'Content-Type': 'application/json; charset=utf-8',
         'Access-Control-Allow-Origin': '*',
         'Cache-Control': 'public, max-age=3600'
@@ -65,7 +82,9 @@ function proxyFetch(targetUrl, res, depth) {
 }
 
 http.createServer((req, res) => {
-  let urlPath = decodeURIComponent(req.url.split('?')[0]);
+  let urlPath;
+  try { urlPath = decodeURIComponent(req.url.split('?')[0]); }
+  catch (e) { res.writeHead(400); res.end('Bad request'); return; }
 
   // Proxy route
   if (urlPath === '/proxy-manifest') {
@@ -74,7 +93,7 @@ http.createServer((req, res) => {
     if (!target) { res.writeHead(400); res.end('Missing url'); return; }
     try {
       const host = new URL(target).hostname;
-      if (!PROXY_HOSTS.some(h => host.endsWith(h))) { res.writeHead(403); res.end('Host not allowed'); return; }
+      if (!hostAllowed(host)) { res.writeHead(403); res.end('Host not allowed'); return; }
       if (host.endsWith('loc.gov')) { locBrowserFetch(target, res); return; }
       proxyFetch(target, res, 0);
     } catch(e) { res.writeHead(400); res.end('Bad url'); }
@@ -85,8 +104,11 @@ http.createServer((req, res) => {
   if (urlPath === '/cache-manifest' && req.method === 'POST') {
     const slug = new URL(req.url, 'http://localhost').searchParams.get('slug');
     if (!slug || !/^[\w\u0600-\u06FF-]+$/.test(slug)) { res.writeHead(400); res.end('Bad slug'); return; }
+    // refuse cross-site POSTs (a web page you visit must not be able to write into books/)
+    try { const o = req.headers.origin; if (o && new URL(o).host !== req.headers.host) { res.writeHead(403); res.end('Cross-origin blocked'); return; } }
+    catch (e) { res.writeHead(403); res.end('Bad origin'); return; }
     let body = '';
-    req.on('data', c => body += c);
+    req.on('data', c => { body += c; if (body.length > 30 * 1024 * 1024) { res.writeHead(413); res.end('Too large'); req.destroy(); } });
     req.on('end', () => {
       try { JSON.parse(body); }
       catch(e) { res.writeHead(400); res.end('Not JSON'); return; }
@@ -130,6 +152,7 @@ http.createServer((req, res) => {
         if (proxyRes.statusCode >= 300 && proxyRes.statusCode < 400 && proxyRes.headers.location) {
           let loc = proxyRes.headers.location;
           if (!loc.startsWith('http')) loc = new URL(loc, targetUrl).href;
+          if (redirectBlocked(loc, res)) return;
           return proxyImg(loc, depth + 1);
         }
         res.writeHead(proxyRes.statusCode, {
@@ -163,7 +186,7 @@ http.createServer((req, res) => {
   }
 
   let filePath = path.join(ROOT, urlPath);
-  if (!filePath.startsWith(ROOT)) { res.writeHead(403); res.end('Forbidden'); return; }
+  if ((filePath !== ROOT && !filePath.startsWith(ROOT + path.sep)) || urlPath.indexOf('\0') >= 0 || /(^|\/)\.git(\/|$)/.test(urlPath)) { res.writeHead(403); res.end('Forbidden'); return; }
   if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
     filePath = path.join(filePath, 'index.html');
   }

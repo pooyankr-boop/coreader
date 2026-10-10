@@ -2,14 +2,33 @@
 (function(){
   'use strict';
 
+  // === Toolbar show/hide ===
+  var toolbarVisible = true;
+  function setToolbarVisible(v) {
+    toolbarVisible = v;
+    var tb = document.getElementById('toolbar');
+    var btn = document.getElementById('toolbarToggle');
+    if (tb) tb.classList.toggle('hide', !v);
+    if (btn) { btn.classList.toggle('active', v); btn.textContent = v ? '\u2715' : '\u2630'; }
+  }
+  window.toggleToolbar = function() { setToolbarVisible(!toolbarVisible); };
+
   // === Fullscreen ===
+  // Full-screen puts the page first, so the floating toolbar gets out of the
+  // way on its own and returns the moment you leave - it must not be parked
+  // over a page you are presenting.
   window.toggleFullscreen = function() {
     if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen().catch(function(){});
+      document.documentElement.requestFullscreen().then(function() {
+        setToolbarVisible(false);
+      }).catch(function(){});
     } else {
       document.exitFullscreen().catch(function(){});
     }
   };
+  document.addEventListener('fullscreenchange', function() {
+    setToolbarVisible(!document.fullscreenElement);
+  });
 
   // === Panel Resizer ===
   var resizer = document.getElementById('panelResizer');

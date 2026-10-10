@@ -3,13 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="فهرست نسخ خطی و اوراق فارسی از کتابخانه‌ها و موزه‌های جهان؛ مطالعه، جست‌وجو و یادداشت‌برداری.">
 <title>کتابخوانهٔ نسخ خطی و اوراق فارسی</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="catalog/catalog.css?v=20">
+<link rel="stylesheet" href="catalog/catalog.css?v=21">
 </head>
-<body class="theme-gold">
+<body class="theme-dark">
+<a class="skip-link" href="#main-content">پرش به محتوا</a>
+<noscript><p style="padding:16px;text-align:center">برای استفاده از کتابخانه باید جاوااسکریپت مرورگر فعال باشد.</p></noscript>
 
 <header class="site-header">
   <div class="header-top-bar">
@@ -33,10 +36,10 @@
 
       <!-- 6 Themes Palette -->
       <div class="theme-palette" title="انتخاب تم رنگی">
-        <div class="theme-pill active" data-theme="theme-gold" style="background:#f8f5ee;border-color:#c99738" onclick="setAppTheme('theme-gold')" title="زرین و عاجی"></div>
+        <div class="theme-pill" data-theme="theme-gold" style="background:#f8f5ee;border-color:#c99738" onclick="setAppTheme('theme-gold')" title="زرین و عاجی"></div>
         <div class="theme-pill" data-theme="theme-lapis" style="background:#0b1524;border-color:#d4af37" onclick="setAppTheme('theme-lapis')" title="لاجورد و کهربا"></div>
         <div class="theme-pill" data-theme="theme-sepia" style="background:#f4ecda;border-color:#8a5a3b" onclick="setAppTheme('theme-sepia')" title="کهن و پاپیروس"></div>
-        <div class="theme-pill" data-theme="theme-dark" style="background:#101216;border-color:#38bdf8" onclick="setAppTheme('theme-dark')" title="شب و آبسیدین"></div>
+        <div class="theme-pill active" data-theme="theme-dark" style="background:#101216;border-color:#38bdf8" onclick="setAppTheme('theme-dark')" title="شب و آبسیدین"></div>
         <div class="theme-pill" data-theme="theme-emerald" style="background:#091712;border-color:#10b981" onclick="setAppTheme('theme-emerald')" title="زمردین درباری"></div>
         <div class="theme-pill" data-theme="theme-light" style="background:#ffffff;border-color:#cbd5e1" onclick="setAppTheme('theme-light')" title="روشن مینیمال"></div>
       </div>
@@ -86,7 +89,7 @@
       <!-- Search Field -->
       <div class="search-box-wrap">
         <span class="search-icon-start">🔍</span>
-        <input type="text" id="searchInput" class="search-input" placeholder="جست‌وجو در عنوان، نگارنده، کاتب یا موزه...">
+        <input type="text" id="searchInput" aria-label="جست‌وجو در کتاب‌ها" class="search-input" placeholder="جست‌وجو در عنوان، نگارنده، کاتب یا موزه...">
         <button id="searchClearBtn" class="search-clear-btn" onclick="clearSearch()" title="پاک‌کردن">✕</button>
         <span class="search-shortcut-hint" id="searchShortcutHint">/</span>
       </div>
@@ -96,7 +99,7 @@
 
       <!-- Sorting & View Modes -->
       <div class="view-and-sort-cluster">
-        <select id="sortSelect" class="sort-select" onchange="changeSort(this.value)">
+        <select id="sortSelect" aria-label="مرتب‌سازی" class="sort-select" onchange="changeSort(this.value)">
           <option value="default">مرتب‌سازی: پیش‌فرض</option>
           <option value="title">عنوان (الفبا)</option>
           <option value="pages-desc">بیشترین صفحات</option>
@@ -133,7 +136,7 @@
   </div>
 </div>
 
-<main class="catalog-content">
+<main class="catalog-content" id="main-content" tabindex="-1">
   <!-- Shimmer Skeleton Loading -->
   <div class="skeleton-grid" id="skeletonGrid">
     <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line w80"></div><div class="skeleton-line w50"></div></div></div>
@@ -151,7 +154,7 @@
 
 <!-- Add Manuscript / Book Modal -->
 <div class="modal-overlay" id="addOverlay">
-  <div class="modal">
+  <div class="modal" role="dialog" aria-modal="true" aria-label="افزودن کتاب">
     <div class="modal-header">
       <div>
         <h2>افزودن کتاب یا اثر موزه‌ای</h2>
@@ -222,7 +225,7 @@
 <!-- Quick View Manuscript Modal -->
 <div class="modal-overlay" id="quickViewOverlay" onclick="if(event.target===this)closeQuickView()">
   <div class="modal quick-view-dialog" id="quickViewDialog">
-    <div class="qv-cover-side">
+    <div class="qv-cover-side" role="dialog" aria-modal="true" aria-label="نمایش سریع کتاب">
       <img id="qvCoverImg" class="qv-cover-img" src="" alt="جلد اثر">
       <div class="qv-thumbs-row" id="qvThumbsRow"></div>
     </div>
@@ -254,7 +257,7 @@
 
 <!-- Bookmarks Drawer Modal -->
 <div class="modal-overlay" id="favsDrawerOverlay" onclick="if(event.target===this)closeFavsDrawer()">
-  <div class="modal" style="max-width:480px">
+  <div class="modal" style="max-width:480px" role="dialog" aria-modal="true" aria-label="علاقه‌مندی‌ها">
     <div class="modal-header">
       <div>
         <h2>⭐ آثار نشان‌شده و علاقه‌مندی‌ها</h2>
@@ -269,6 +272,7 @@
   </div>
 </div>
 
-<script src="catalog/catalog.js?v=20"></script>
+<script src="assets/translate.js?v=2"></script>
+<script src="catalog/catalog.js?v=23"></script>
 </body>
 </html>

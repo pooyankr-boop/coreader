@@ -2,67 +2,2029 @@
  "@context": "http://iiif.io/api/presentation/2/context.json",
  "@id": "books/bierah-luyken-persecutions/manifest.json",
  "@type": "sc:Manifest",
- "label": "Battle Scene",
- "description": [
-  {
-   "value": "",
-   "language": "en"
-  }
- ],
- "metadata": [
-  {
-   "label": "Artist / Maker",
-   "value": "Attributed to Jan Luyken (Dutch, 1649-1712)\nor Jacques Callot (French, 1592-1635)\nor Caspar Luyken (Dutch, 1672-1708)\nor the circle of Abraham Jansz. van Diepenbeeck (Flemish, 1596-1675)\nor a follower of Hendrick Goltzius (Dutch, 1558-1617)"
-  },
-  {
-   "label": "Medium",
-   "value": "Pen and black and brown ink, with brush and gray wash, on ivory laid paper"
-  },
-  {
-   "label": "Dimensions",
-   "value": "12.5 × 7.2 cm (4 15/16 × 2 7/8 in.)"
-  },
-  {
-   "label": "Object Number",
-   "value": "1922.157"
-  },
-  {
-   "label": "Collection",
-   "value": "<a href='http://www.artic.edu/collection' target='_blank'>Art Institute of Chicago</a>"
-  }
- ],
- "attribution": "Digital image courtesy of the Art Institute of Chicago.",
- "logo": "https://raw.githubusercontent.com/Art-Institute-of-Chicago/template/main/aic-logo.gif",
- "within": "http://www.artic.edu/collection",
- "rendering": {
-  "@id": "http://www.artic.edu/artworks/81168",
-  "format": "text/html",
-  "label": "Full record"
- },
+ "label": "آزارهای مذهبی",
+ "attribution": "Jan Luyken, public domain, via Wikimedia Commons",
  "sequences": [
   {
    "@type": "sc:Sequence",
    "canvases": [
     {
      "@type": "sc:Canvas",
-     "@id": "https://www.artic.edu/iiif/2/7e10cc8a-ea19-e737-08ec-88af493f7410",
-     "label": "Battle Scene, n.d.. Attributed to Jan Luyken (Dutch, 1649-1712), or Jacques Callot (French, 1592-1635), or Caspar Luyken (Dutch, 1672-1708), or the circle of Abraham Jansz. van Diepenbeeck (Flemish, 1596-1675), or a follower of Hendrick Goltzius (Dutch, 1558-1617)",
-     "width": 843,
-     "height": 616,
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p1",
+     "label": "1",
+     "width": 1400,
+     "height": 1180,
      "images": [
       {
        "@type": "oa:Annotation",
        "motivation": "sc:painting",
-       "on": "https://www.artic.edu/iiif/2/7e10cc8a-ea19-e737-08ec-88af493f7410",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p1",
        "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/224_Waldenzen_bij_Toulouse_verbrand%2C_ca._1284%2C_RP-P-2017-7210.jpg/1920px-224_Waldenzen_bij_Toulouse_verbrand%2C_ca._1284%2C_RP-P-2017-7210.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
         "@type": "dctypes:Image",
-        "@id": "cover.jpg"
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1180
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p2",
+     "label": "2",
+     "width": 1400,
+     "height": 1178,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p2",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/99/Acht_doopsgezinden_te_Amsterdam_verbrand%2C_1549_Six_Fr%C3%A9res_et_deux_soeurs_brul%C3%A9es_%C3%A0_Amsterdam%2C_Ao._1549_Sechs_Br%C3%BCder_un_zwey_Schwestern_zu_Amsterdam_verbrent_Ao._1549_%28titel_op_object%29%2C_RP-P-OB-78.424.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1178
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p3",
+     "label": "3",
+     "width": 1400,
+     "height": 2178,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p3",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/Allegorie_op_vervolging_van_doopsgezinden_Titelpagina_voor_Tieleman_van_Braght%2C_Het_bloedig_tooneel_of_martelaars-spiegel_der_doops-gesinde%2C_of_weereloose_christenen%2C_1685%2C_RP-P-1982-1176.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 2178
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p4",
+     "label": "4",
+     "width": 1400,
+     "height": 1123,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p4",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/4/4f/Anabaptists_gmuend_1529.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1123
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p5",
+     "label": "5",
+     "width": 1400,
+     "height": 1120,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p5",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Anneke_jans.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1120
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p6",
+     "label": "6",
+     "width": 1400,
+     "height": 1138,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p6",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/Anneken_Jans_geeft_op_weg_naar_de_executieplaats_te_Rotterdam_haar_kind_aan_een_bakker_ter_verzorging%2C_1539_Anne_Ians_noy%C3%A9e_%C3%A0_Rotterdam%2C_Ao._1539_Anneken_Ians_zu_Rotterdam_ertr%C3%A4neket%2C_Ao._1550_%28titel_op_object%29%2C_RP-P-OB-78.426.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1138
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p7",
+     "label": "7",
+     "width": 1400,
+     "height": 1167,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p7",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/b/b4/Anneken_van_den_Hove_te_Brussel_levend_begraven_%28Jan_Luyken%2C_1597%29.PNG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1167
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p8",
+     "label": "8",
+     "width": 1400,
+     "height": 1150,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p8",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/Anneken_van_den_Hove_te_Brussel_levend_begraven%2C_1597_Anne_vande_Hoven_enterr%C3%A9e_toute_vive_%C3%A0_Bruxelles%2C_Ao._1597_Annetge_vanden_Hove_zu_Brussel_levendich_in_die_erde_vergraben%2C_Ao._1597_%28titel_op_object%29%2C_RP-P-OB-78.459.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1150
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p9",
+     "label": "9",
+     "width": 1400,
+     "height": 1201,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p9",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Anthonie_IJsbaarts_te_Tielt_op_de_brandstapel%2C_1573_Antoine_Ysbaarts%2C_brul%C3%A9_%C3%A0_Tielt_en_Flandres%2C_Ao._1573_Anthon_Ysbaarts%2C_zu_Tielt_in_Flandern_verbrent%2C_Ao._1573_%28titel_op_object%29%2C_RP-P-OB-78.454.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1201
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p10",
+     "label": "10",
+     "width": 1400,
+     "height": 1114,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p10",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Antipas_in_een_koperen_stier_boven_het_vuur%2C_RP-P-OB-44.227.jpg/1920px-Antipas_in_een_koperen_stier_boven_het_vuur%2C_RP-P-OB-44.227.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1114
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p11",
+     "label": "11",
+     "width": 1400,
+     "height": 1124,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p11",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/58/Apostel_Bartolome%C3%BCs_levend_gevild%2C_RP-P-OB-44.221.jpg/1920px-Apostel_Bartolome%C3%BCs_levend_gevild%2C_RP-P-OB-44.221.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1124
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p12",
+     "label": "12",
+     "width": 1400,
+     "height": 1348,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p12",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/9/91/Arnoldofbrescia.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1348
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p13",
+     "label": "13",
+     "width": 1400,
+     "height": 1138,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p13",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Arrestatie_van_Hans_Smit_en_elf_anderen%2C_1558.jpg/1920px-Arrestatie_van_Hans_Smit_en_elf_anderen%2C_1558.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1138
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p14",
+     "label": "14",
+     "width": 1400,
+     "height": 1097,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p14",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Barca_Peter-Pietersz.jpg/1920px-Barca_Peter-Pietersz.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1097
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p15",
+     "label": "15",
+     "width": 1400,
+     "height": 1136,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p15",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a1/Barnabas_op_weg_naar_de_brandstapel_op_Cyprus%2C_RP-P-OB-44.216.jpg/1920px-Barnabas_op_weg_naar_de_brandstapel_op_Cyprus%2C_RP-P-OB-44.216.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1136
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p16",
+     "label": "16",
+     "width": 1400,
+     "height": 1123,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p16",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/56/Blandina_door_een_stier_gedood%2C_RP-P-OB-44.234.jpg/1920px-Blandina_door_een_stier_gedood%2C_RP-P-OB-44.234.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1123
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p17",
+     "label": "17",
+     "width": 1400,
+     "height": 1234,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p17",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/0/01/CassianusofImola.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1234
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p18",
+     "label": "18",
+     "width": 1400,
+     "height": 1152,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p18",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Christenen_door_Longobarden_gedood_omdat_ze_weigeren_mee_te_werken_aan_het_offeren_van_een_geitenbok%2C_in_het_jaar_566%2C_RP-P-2017-7199.jpg/1920px-Christenen_door_Longobarden_gedood_omdat_ze_weigeren_mee_te_werken_aan_het_offeren_van_een_geitenbok%2C_in_het_jaar_566%2C_RP-P-2017-7199.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1152
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p19",
+     "label": "19",
+     "width": 1400,
+     "height": 1173,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p19",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/dc/Christiaan_Langedul_en_drie_anderen_te_Antwerpen_voor_de_brandstapel%2C_1567_Christien_Langedul_et_trois_autres_brulez_%C3%A0_Anvers%2C_Ao._1567_Christian_Langedul_und_drie_andere_zu_Antorff_verbrent%2C_Ao._1567_%28titel_op_object%29%2C_RP-P-OB-78.439.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1173
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p20",
+     "label": "20",
+     "width": 1400,
+     "height": 1132,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p20",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3f/Cointha_weigert_de_afgoden_te_offeren%2C_RP-P-OB-44.237.jpg/1920px-Cointha_weigert_de_afgoden_te_offeren%2C_RP-P-OB-44.237.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1132
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p21",
+     "label": "21",
+     "width": 1400,
+     "height": 1195,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p21",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/De_boeken_van_de_verbrande_Jurriaan_Simonsz._te_Haarlem_door_het_volk_buit_gemaakt%2C_1557_Iuriaan_Simons%2C_Clement_Dirksz_et_Marie_Ioris_brulez_%C3%A0_Harlem%2C_Ao._1557_Iurgen_Simons%2C_Clement_Dirckz_und_Mari_Ioris_zu_Harlem_ver%2C_RP-P-OB-78.431.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1195
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p22",
+     "label": "22",
+     "width": 1400,
+     "height": 1171,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p22",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/De_verbrande_lijken_van_David_en_Levina_te_Gent%2C_1554_David_et_Levina_etrangez_et_brulez_%C3%A0_Gand%2C_Ao._1554_David_und_Levina_zu_Gent_erw%C3%BCrget_unf_verbrent%2C_Ao._1554_%28titel_op_object%29%2C_RP-P-OB-78.428.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1171
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p23",
+     "label": "23",
+     "width": 1400,
+     "height": 1192,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p23",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/Dirk_Willemsz._redt_zijn_vervolger_uit_het_ijs_bij_Asperen%2C_1569_Frederic_Willemsz_pris_et_brul%C3%A9_hors_d%27Asperen%2C_Ao._1569_Dieterich_Wilhelmsz_wird_gefangen_und_aussen_Asperen_verbrent%2C_Ao._1569_%28titel_op_object%29%2C_RP-P-OB-78.442.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1192
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p24",
+     "label": "24",
+     "width": 1400,
+     "height": 1122,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p24",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/16/Dirk.willems.rescue.ncs.jpg/1920px-Dirk.willems.rescue.ncs.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1122
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p25",
+     "label": "25",
+     "width": 1400,
+     "height": 1110,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p25",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/Eulalia_van_M%C3%A9rida_schopt_een_heidens_altaar_om%2C_RP-P-OB-44.243.jpg/1920px-Eulalia_van_M%C3%A9rida_schopt_een_heidens_altaar_om%2C_RP-P-OB-44.243.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1110
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p26",
+     "label": "26",
+     "width": 1400,
+     "height": 1159,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p26",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/9/9c/Execution_of_about_350_persons%2C_Alzey%2C_1529.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1159
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p27",
+     "label": "27",
+     "width": 1400,
+     "height": 1171,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p27",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/7/72/Execution_of_Hendrik_Eemkens_in_1562_in_Utrecht.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1171
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p28",
+     "label": "28",
+     "width": 1400,
+     "height": 1832,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p28",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Execution_of_Tuman_bay_II.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1832
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p29",
+     "label": "29",
+     "width": 1400,
+     "height": 1092,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p29",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/0/09/Feier.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1092
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p30",
+     "label": "30",
+     "width": 1400,
+     "height": 1127,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p30",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a5/Felicitas_in_de_gevangenis_met_de_cipier%2C_RP-P-OB-44.235.jpg/1920px-Felicitas_in_de_gevangenis_met_de_cipier%2C_RP-P-OB-44.235.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1127
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p31",
+     "label": "31",
+     "width": 1400,
+     "height": 1115,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p31",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/33/Felicitas_met_haar_zeven_zonen_onthoofd%2C_RP-P-OB-44.232.jpg/1920px-Felicitas_met_haar_zeven_zonen_onthoofd%2C_RP-P-OB-44.232.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1115
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p32",
+     "label": "32",
+     "width": 1400,
+     "height": 1142,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p32",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Felicitas_of_Rome.jpg/1920px-Felicitas_of_Rome.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1142
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p33",
+     "label": "33",
+     "width": 1400,
+     "height": 1083,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p33",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Gegevens_cataloguskaartje_Gruwelen_onder_Alva_gepleegd%2C_1567%2C_Inventarisnummer_NL-HlmNHA_1100_KNA006001823.JPG/1920px-Gegevens_cataloguskaartje_Gruwelen_onder_Alva_gepleegd%2C_1567%2C_Inventarisnummer_NL-HlmNHA_1100_KNA006001823.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1083
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p34",
+     "label": "34",
+     "width": 1400,
+     "height": 1146,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p34",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Gerrit_Hasepoot_te_Nijmegen_neemt_afscheid_van_zijn_gezin%2C_1556_Gerard_Hasepoot%2C_brul%C3%A9_%C3%A0_Nimegue%2C_Ao._1556_Gerhard_Hasepoot%2C_zu_Nimwegen_verbrent%2C_Ao._1556_%28titel_op_object%29%2C_RP-P-OB-78.430.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1146
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p35",
+     "label": "35",
+     "width": 1400,
+     "height": 1111,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p35",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/1/10/Gerrit_Hazenpoet.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1111
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p36",
+     "label": "36",
+     "width": 1400,
+     "height": 1203,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p36",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e7/Hanging_of_Saint_Luke_Evangelist.jpg/1920px-Hanging_of_Saint_Luke_Evangelist.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1203
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p37",
+     "label": "37",
+     "width": 1400,
+     "height": 1171,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p37",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/Hans_Knevel_te_Antwerpen_verhoord%2C_1572_Jean_Knevel%2C_brul%C3%A9_%C3%A0_Anvers%2C_Ao._1572_Hans_Knebel_zu_Antwerpen_verbrent%2C_Ao._1572._%28titel_op_object%29%2C_RP-P-OB-78.451.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1171
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p38",
+     "label": "38",
+     "width": 1400,
+     "height": 1185,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p38",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/Hans_van_Overdam_in_een_bos_bij_Gent_gevangengenomen_%2C_1550_Jean_d%27Overdam_tu%C3%A9_%C3%A0_Gand%2C_Ao._1550_Hans_von_Overdam_zu_Gent_get%C3%B6dtet%2C_Ao._1550_%28titel_op_object%29%2C_RP-P-OB-78.425.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1185
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p39",
+     "label": "39",
+     "width": 1400,
+     "height": 1199,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p39",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Harmen_de_Verwer_en_vijf_anderen_te_Deventer_verbrand%2C_1571_Douze_persones_decapit%C3%A9es_et_brul%C3%A9es_%C3%A0_Deventer%2C_Ao._1571_Zw%C3%B6lff_Personen_zu_Deventer_verbrent_und_enth%C3%A4upt%2C_Ao._1571_%28titel_op_object%29%2C_RP-P-OB-78.448.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1199
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p40",
+     "label": "40",
+     "width": 1400,
+     "height": 1198,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p40",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/80/Hendrik_Eemkens_te_Utrecht_door_buskruit_gedood%2C_1562_Henri_Eemkens%2C_brul%C3%A9_%C3%A0_Utrecht%2C_Ao._1562_Heinrich_Eemkens_zu_Utrecht_verbrent%2C_Ao._1562_%28titel_op_object%29%2C_RP-P-OB-78.438.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1198
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p41",
+     "label": "41",
+     "width": 1400,
+     "height": 1175,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p41",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Het_verbranden_van_drie_doopsgezinden_en_hun_boeken_te_Haarlem_op_26_april_1557_afbeelding_door_Jan_Luyken%2C_Inventarisnummer_NL-HlmNHA_1100_KNA006001824.JPG/1920px-Het_verbranden_van_drie_doopsgezinden_en_hun_boeken_te_Haarlem_op_26_april_1557_afbeelding_door_Jan_Luyken%2C_Inventarisnummer_NL-HlmNHA_1100_KNA006001824.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1175
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p42",
+     "label": "42",
+     "width": 1400,
+     "height": 1099,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p42",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/d/dd/Hinrichtung_von_David_van_der_Leyen_und_Levina_Ghyselius_in_Gent%2C_14._Februar_1554.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1099
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p43",
+     "label": "43",
+     "width": 1400,
+     "height": 1171,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p43",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/5/51/Honoricus%2C_koning_der_Vandalen%2C_sterft%2C_van_de_wormen_gegeten%2C_in_het_jaar_477%2C_RP-P-2017-7198.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1171
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p44",
+     "label": "44",
+     "width": 1400,
+     "height": 1130,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p44",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Ignatius_van_Antiochi%C3%AB_in_de_arena_voor_de_leeuwen_gesteld%2C_RP-P-OB-44.230.jpg/1920px-Ignatius_van_Antiochi%C3%AB_in_de_arena_voor_de_leeuwen_gesteld%2C_RP-P-OB-44.230.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1130
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p45",
+     "label": "45",
+     "width": 1400,
+     "height": 1115,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p45",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/Jakobus_de_Mindere_%28Jacobus_Minor%29_doodgeslagen%2C_RP-P-OB-44.215.jpg/1920px-Jakobus_de_Mindere_%28Jacobus_Minor%29_doodgeslagen%2C_RP-P-OB-44.215.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1115
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p46",
+     "label": "46",
+     "width": 1400,
+     "height": 1141,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p46",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/Jan_Bosch_te_Maastricht_verbrand%2C_1559_Jean_Bosch%2C_brul%C3%A9_%C3%A0_Mastricht%2C_Ao._1559_Jan_Bosch_zu_Mastricht_verbrent_Ao._1559_%28titel_op_object%29%2C_RP-P-OB-78.433.jpg/1920px-Jan_Bosch_te_Maastricht_verbrand%2C_1559_Jean_Bosch%2C_brul%C3%A9_%C3%A0_Mastricht%2C_Ao._1559_Jan_Bosch_zu_Mastricht_verbrent_Ao._1559_%28titel_op_object%29%2C_RP-P-OB-78.433.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1141
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p47",
+     "label": "47",
+     "width": 1400,
+     "height": 1020,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p47",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/7/71/Jan_Luyken_Martyrs_Theater_Chalais_execution_1685.png?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1020
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p48",
+     "label": "48",
+     "width": 1400,
+     "height": 1213,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p48",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/08/Jan_Smit_te_Haarlem_aan_%C3%A9%C3%A9n_been_opgehangen%2C_1572_Jean_Smit%2C_pendu_hors_de_Harlem%2C_Ao._1572_Jan_Smit_usserhalb_Harlem_an_einen_galgen_gehenket%2C_Ao._1572_%28titel_op_object%29%2C_RP-P-OB-78.452.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1213
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p49",
+     "label": "49",
+     "width": 1400,
+     "height": 1132,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p49",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/Jan_Smit_te_Haarlem_aan_%C3%A9%C3%A9n_been_opgehangen%2C_RP-T-1903-A-4768A.jpg/1920px-Jan_Smit_te_Haarlem_aan_%C3%A9%C3%A9n_been_opgehangen%2C_RP-T-1903-A-4768A.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1132
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p50",
+     "label": "50",
+     "width": 1400,
+     "height": 1169,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p50",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/d/d2/Jan_Woutersz_van_Cuyck_executie.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1169
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p51",
+     "label": "51",
+     "width": 1400,
+     "height": 1177,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p51",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Jan_Woutersz._van_Kuyk_en_Adriaanken_Jans_te_Dordrecht_verbrand%2C_1572_Jean_Woutersz_de_Kuyk_et_Adrienne_Jans_de_Molenaarsgraaf_brulez_%C3%A0_Dordrecht%2C_Ao._1572_Hans_Walters_von_Kuyk%2C_und_Adriaantge_Hans_von_Molenaarsgraf_zu%2C_RP-P-OB-78.449.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1177
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p52",
+     "label": "52",
+     "width": 1400,
+     "height": 1135,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p52",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/7/79/Jaques_d%27Auchy_in_the_Prison.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1135
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p53",
+     "label": "53",
+     "width": 1400,
+     "height": 1144,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p53",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ab/Jaques_d%27Auchy_neemt_in_de_gevangenis_te_Leeuwarden_afscheid_van_zijn_vrouw%2C_1559_Iaques_d%27Auchy%2C_tu%C3%A9_%C3%A0_Leuwarde%2C_Ao._1559_Iaques_d%27Auchy_zu_Leeuwarden_get%C3%B6det%2C_Ao._1559_%28titel_op_object%29%2C_RP-P-OB-78.434.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1144
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p54",
+     "label": "54",
+     "width": 1400,
+     "height": 1142,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p54",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e3/Johannes_de_evangelist_naar_Patmos_verbannen%2C_RP-P-OB-44.228.jpg/1920px-Johannes_de_evangelist_naar_Patmos_verbannen%2C_RP-P-OB-44.228.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1142
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p55",
+     "label": "55",
+     "width": 1400,
+     "height": 1176,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p55",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1c/Joris_Wippe_te_Dordrecht_in_een_vat_verdronken%2C_1558_Ioris_Wippe_noy%C3%A9_dans_un_tonneau_%C3%A0_Dordrecht%2C_Ao._1558_Ioris_Wippe_zu_Dordrecht_in_einem_fasser_tr%C3%A4nket%2C_Ao._1558_%28titel_op_object%29%2C_RP-P-OB-78.432.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1176
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p56",
+     "label": "56",
+     "width": 1400,
+     "height": 1114,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p56",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/Julitta_van_Iconi%C3%AB_gegeseld_terwijl_haar_kind_wordt_gedood%2C_RP-P-OB-44.244.jpg/1920px-Julitta_van_Iconi%C3%AB_gegeseld_terwijl_haar_kind_wordt_gedood%2C_RP-P-OB-44.244.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1114
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p57",
+     "label": "57",
+     "width": 1400,
+     "height": 1101,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p57",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/86/Kruisiging_van_Christus%2C_RP-P-OB-44.210.jpg/1920px-Kruisiging_van_Christus%2C_RP-P-OB-44.210.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1101
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p58",
+     "label": "58",
+     "width": 1400,
+     "height": 1123,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p58",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/Kruisiging_van_Matthias%2C_RP-P-OB-44.225.jpg/1920px-Kruisiging_van_Matthias%2C_RP-P-OB-44.225.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1123
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p59",
+     "label": "59",
+     "width": 1400,
+     "height": 1115,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p59",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/e/e4/Leonhard_kaiser.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1115
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p60",
+     "label": "60",
+     "width": 1400,
+     "height": 1198,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p60",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e5/Louwerens_Jansz._te_Antwerpen_ter_dood_geleid%2C_1577_Laurens_Jansz_Nooddruft_de_Delft_brul%C3%A9_%C3%A0_Anvers%2C_Ao._1577_Lourentz_Hansz_Nooddruft_von_Delft_zu_Antorf_verbrent%2C_Ao._1577_%28titel_op_object%29%2C_RP-P-OB-78.457.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1198
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p61",
+     "label": "61",
+     "width": 1400,
+     "height": 1138,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p61",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/Lucas_opgehangen_aan_een_olijfboom%2C_RP-P-OB-44.226.jpg/1920px-Lucas_opgehangen_aan_een_olijfboom%2C_RP-P-OB-44.226.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1138
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p62",
+     "label": "62",
+     "width": 1400,
+     "height": 1138,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p62",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Marcus_naar_de_brandstapel_gesleept%2C_RP-P-OB-44.217.jpg/1920px-Marcus_naar_de_brandstapel_gesleept%2C_RP-P-OB-44.217.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1138
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p63",
+     "label": "63",
+     "width": 1400,
+     "height": 1178,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p63",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Maria_van_Beckum_en_haar_schoonzuster_Ursel_te_Delden_verbrand%2C_1544_Marie_de_Beckum_et_sa_soeur_brul%C3%A9es_a_Deventer_Ao._1544_Maria_von_Beckum_und_ihre_Schwester_zu_Deventer_verbrent%2C_Ao_1544_%28titel_op_object%29%2C_RP-P-OB-78.423.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1178
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p64",
+     "label": "64",
+     "width": 1400,
+     "height": 1184,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p64",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/Mark_Martyr.jpg/1920px-Mark_Martyr.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1184
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p65",
+     "label": "65",
+     "width": 1400,
+     "height": 1120,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p65",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Martelaarschap_van_Matthe%C3%BCs%2C_RP-P-OB-44.223.jpg/1920px-Martelaarschap_van_Matthe%C3%BCs%2C_RP-P-OB-44.223.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1120
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p66",
+     "label": "66",
+     "width": 1400,
+     "height": 1120,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p66",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ac/Marteldood_van_Andreas_aan_het_kruis%2C_RP-P-OB-44.220.jpg/1920px-Marteldood_van_Andreas_aan_het_kruis%2C_RP-P-OB-44.220.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1120
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p67",
+     "label": "67",
+     "width": 1400,
+     "height": 1133,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p67",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Marteldood_van_Petrus_aan_het_kruis%2C_RP-P-OB-44.218.jpg/1920px-Marteldood_van_Petrus_aan_het_kruis%2C_RP-P-OB-44.218.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1133
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p68",
+     "label": "68",
+     "width": 1400,
+     "height": 1196,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p68",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/Mattheus_Mair_te_Wier_verdronken%2C_1592_Mattheiu_Mair%2C_noy%C3%A9_%C3%A0_Wier%2C_Ao._1592_Matheus_Mair_zu_Wier_ertr%C3%A4nket%2C_Ao._1592_%28titel_op_object%29%2C_RP-P-OB-78.458.jpg/1920px-Mattheus_Mair_te_Wier_verdronken%2C_1592_Mattheiu_Mair%2C_noy%C3%A9_%C3%A0_Wier%2C_Ao._1592_Matheus_Mair_zu_Wier_ertr%C3%A4nket%2C_Ao._1592_%28titel_op_object%29%2C_RP-P-OB-78.458.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1196
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p69",
+     "label": "69",
+     "width": 1400,
+     "height": 1229,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p69",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Mm_bk1_p034.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1229
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p70",
+     "label": "70",
+     "width": 1400,
+     "height": 1113,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p70",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/3/33/Murder_of_David_van_der_Leyen_and_Levina_Ghyselins%2C_Ghent%2C_1554%29_-_I._Luyken_LCCN98508355.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1113
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p71",
+     "label": "71",
+     "width": 1400,
+     "height": 1000,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p71",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/Onthoofding_van_Henri_de_Talleyrand-P%C3%A9rigord_door_een_ongeoefende_beul%2C_1626%2C_RP-P-1896-A-19368-1409.jpg/1920px-Onthoofding_van_Henri_de_Talleyrand-P%C3%A9rigord_door_een_ongeoefende_beul%2C_1626%2C_RP-P-1896-A-19368-1409.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1000
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p72",
+     "label": "72",
+     "width": 1400,
+     "height": 1110,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p72",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/Onthoofding_van_Jakobus_de_Meerdere%2C_RP-P-OB-44.213.jpg/1920px-Onthoofding_van_Jakobus_de_Meerdere%2C_RP-P-OB-44.213.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1110
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p73",
+     "label": "73",
+     "width": 1400,
+     "height": 1096,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p73",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1c/Onthoofding_van_Johannes_de_Doper%2C_RP-P-OB-44.211.jpg/1920px-Onthoofding_van_Johannes_de_Doper%2C_RP-P-OB-44.211.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1096
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p74",
+     "label": "74",
+     "width": 1400,
+     "height": 1131,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p74",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Onthoofding_van_Paulus%2C_RP-P-OB-44.219.jpg/1920px-Onthoofding_van_Paulus%2C_RP-P-OB-44.219.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1131
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p75",
+     "label": "75",
+     "width": 1400,
+     "height": 1101,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p75",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/38/Origenes_in_de_gevangenis_met_vuur_gepijnigd%2C_RP-P-OB-44.238.jpg/1920px-Origenes_in_de_gevangenis_met_vuur_gepijnigd%2C_RP-P-OB-44.238.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1101
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p76",
+     "label": "76",
+     "width": 1400,
+     "height": 1019,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p76",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/d/d5/Peinliches_Verhoer.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1019
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p77",
+     "label": "77",
+     "width": 1400,
+     "height": 1241,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p77",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Pelagiusofcordoba.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1241
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p78",
+     "label": "78",
+     "width": 1400,
+     "height": 1138,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p78",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Persecuzioni_di_Diocleziano.jpg/1920px-Persecuzioni_di_Diocleziano.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1138
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p79",
+     "label": "79",
+     "width": 1400,
+     "height": 1136,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p79",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Phocas_in_een_kalkoven_geworpen%2C_RP-P-OB-44.231.jpg/1920px-Phocas_in_een_kalkoven_geworpen%2C_RP-P-OB-44.231.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1136
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p80",
+     "label": "80",
+     "width": 1400,
+     "height": 1116,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p80",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/79/Polycarpus_op_de_brandstapel_doodgestoken%2C_RP-P-OB-44.233.jpg/1920px-Polycarpus_op_de_brandstapel_doodgestoken%2C_RP-P-OB-44.233.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1116
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p81",
+     "label": "81",
+     "width": 1400,
+     "height": 1285,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p81",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Santa_Blandina.jpg/1920px-Santa_Blandina.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1285
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p82",
+     "label": "82",
+     "width": 1400,
+     "height": 1148,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p82",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Schoolmeester_Cassianus_van_Imola_door_zijn_leerlingen_gedood%2C_RP-P-OB-44.242.jpg/1920px-Schoolmeester_Cassianus_van_Imola_door_zijn_leerlingen_gedood%2C_RP-P-OB-44.242.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1148
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p83",
+     "label": "83",
+     "width": 1400,
+     "height": 1166,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p83",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/Simon_de_Kramer_weigert_te_Bergen_op_Zoom_voor_een_processie_te_knielen%2C_1553_Simon%2C_mercier%2C_brul%C3%A9_%C3%A0_Bergue-op-Zoom%2C_Ao._1553_Simon%2C_krahmer_zu_Bergen_auff_Zohm_verbrent%2C_Ao._1533._%28titel_op_object%29%2C_RP-P-OB-78.427.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1166
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p84",
+     "label": "84",
+     "width": 1400,
+     "height": 1118,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p84",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/Simon_Zelotes_van_zijn_kleren_ontdaan_voor_de_kruisiging%2C_RP-P-OB-44.224.jpg/1920px-Simon_Zelotes_van_zijn_kleren_ontdaan_voor_de_kruisiging%2C_RP-P-OB-44.224.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1118
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p85",
+     "label": "85",
+     "width": 1400,
+     "height": 1095,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p85",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/Steniging_van_Filippus%2C_RP-P-OB-44.214.jpg/1920px-Steniging_van_Filippus%2C_RP-P-OB-44.214.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1095
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p86",
+     "label": "86",
+     "width": 1400,
+     "height": 1106,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p86",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Steniging_van_Stefanus%2C_RP-P-OB-44.212.jpg/1920px-Steniging_van_Stefanus%2C_RP-P-OB-44.212.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1106
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p87",
+     "label": "87",
+     "width": 1400,
+     "height": 1105,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p87",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/Taracus_tijdens_zijn_verhoor_met_een_steen_op_de_mond_geslagen%2C_RP-P-OB-44.239.jpg/1920px-Taracus_tijdens_zijn_verhoor_met_een_steen_op_de_mond_geslagen%2C_RP-P-OB-44.239.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1105
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p88",
+     "label": "88",
+     "width": 1400,
+     "height": 1120,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p88",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/19/Taracus%2C_Probus_en_Andronicus_in_de_arena_door_een_beer_gespaard%2C_RP-P-OB-44.240.jpg/1920px-Taracus%2C_Probus_en_Andronicus_in_de_arena_door_een_beer_gespaard%2C_RP-P-OB-44.240.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1120
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p89",
+     "label": "89",
+     "width": 1400,
+     "height": 1133,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p89",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2d/Thomas_in_een_oven_geworpen%2C_RP-P-OB-44.222.jpg/1920px-Thomas_in_een_oven_geworpen%2C_RP-P-OB-44.222.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1133
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p90",
+     "label": "90",
+     "width": 1400,
+     "height": 1112,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p90",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/12/Verbranden_van_een_kerk_door_keizer_Maximinus%2C_RP-P-OB-44.236.jpg/1920px-Verbranden_van_een_kerk_door_keizer_Maximinus%2C_RP-P-OB-44.236.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1112
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p91",
+     "label": "91",
+     "width": 1400,
+     "height": 1173,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p91",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/3/37/Vertreibung_der_T%C3%A4ufer_aus_%C3%96sterreich_001.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1173
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p92",
+     "label": "92",
+     "width": 1400,
+     "height": 1099,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p92",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/Vervolgingen_van_Christenen_door_keizer_Diocletianus%2C_RP-P-OB-44.241.jpg/1920px-Vervolgingen_van_Christenen_door_keizer_Diocletianus%2C_RP-P-OB-44.241.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1099
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p93",
+     "label": "93",
+     "width": 1400,
+     "height": 1120,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p93",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Vitalis_levend_begraven%2C_RP-P-OB-44.229.jpg/1920px-Vitalis_levend_begraven%2C_RP-P-OB-44.229.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1120
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p94",
+     "label": "94",
+     "width": 1400,
+     "height": 1231,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p94",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/61/Vitalisburiedalive.jpg/1920px-Vitalisburiedalive.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1231
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p95",
+     "label": "95",
+     "width": 1400,
+     "height": 1493,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p95",
+       "resource": {
+        "@id": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Whipping_of_an_incarcerated_delinquent%2C_Germany_17th_century.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1493
+       }
+      }
+     ]
+    },
+    {
+     "@type": "sc:Canvas",
+     "@id": "books/bierah-luyken-persecutions/manifest.json#p96",
+     "label": "96",
+     "width": 1400,
+     "height": 1160,
+     "images": [
+      {
+       "@type": "oa:Annotation",
+       "motivation": "sc:painting",
+       "on": "books/bierah-luyken-persecutions/manifest.json#p96",
+       "resource": {
+        "@id": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cd/Willem_Jansz._beklimt_de_brandstapel_te_Amsterdam%2C_1569_Guillaume_Jansz._de_Durgerdam_brul%C3%A9_%C3%A0_Amsterdam%2C_Ao._1569_Wilhelm_Hans_von_Durgerdam%2C_zu_Amsterdam_verbrent%2C_Ao._1569_%28titel_op_object%29%2C_RP-P-OB-78.444.jpg/1920px-thumbnail.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+        "@type": "dctypes:Image",
+        "format": "image/jpeg",
+        "width": 1400,
+        "height": 1160
        }
       }
      ]
     }
    ]
   }
- ],
- "thumbnail": "cover.jpg"
+ ]
 }

@@ -21,18 +21,11 @@
 var BOOK = null;
 var curPage = 1, annoOn = true;
 
+function lsJSON(k,d){try{var v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}}
+function escHtml(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;')}
 function toFA(n){return String(n).replace(/[0-9]/g,function(d){return '۰۱۲۳۴۵۶۷۸۹'[d]})}
 // Lighten color by percentage (0-100)
 // Normalize word for search (remove diacritics, convert to Persian)
-function normW(w){
-  return w
-    .replace(/[\u064B-\u065F]/g, '') // Remove Arabic diacritics
-    .replace(/[\u0650-\u065F\u064B-\u064F\u0610-\u061A]/g, '') // Remove all diacritics
-    .replace(/ی/g, 'ي').replace(/ک/g, 'ك') // Standard Persian forms
-    .replace(/[ـًٌٍَُِْٰ\u200C\u200F]/g, '') // Remove zero-width and other marks
-    .replace(/[^آ-یA-Za-z0-9]/g, '') // Keep only Persian/Arabic letters and numbers
-    .toLowerCase();
-}
 // Darken color by percentage (0-100)
 function darkenColor(hex, percent){
   // Remove # if present
@@ -88,8 +81,7 @@ function lightenColor(hex, percent){
 }
 
 // ===== Load book =====
-console.log('[coreader] loading book.json from', window.BOOK_URL || 'book.json');
-fetch(window.BOOK_URL || 'book.json').then(function(r){return r.json()}).then(function(book){
+function initBook(book){
   console.log('[coreader] book loaded:', book.title, 'pages:', book.pages ? book.pages.length : 'NONE');
   BOOK = book;
   document.getElementById('bookTitle').textContent = book.title;
@@ -108,9 +100,12 @@ fetch(window.BOOK_URL || 'book.json').then(function(r){return r.json()}).then(fu
   (function(){
     var tw = localStorage.getItem('coreader-tw');
     if (tw){
-      document.querySelector('.tc').style.maxWidth = tw + 'px';
-      document.getElementById('setTw').value = tw;
-      document.getElementById('setTwV').textContent = toFA(tw);
+      var tcEl = document.querySelector('.tc');
+      if (tcEl) tcEl.style.maxWidth = tw + 'px';
+      var stw = document.getElementById('setTw');
+      if (stw) stw.value = tw;
+      var stwv = document.getElementById('setTwV');
+      if (stwv) stwv.textContent = toFA(tw);
     }
   })();
   loadUserEdits();
@@ -119,10 +114,45 @@ fetch(window.BOOK_URL || 'book.json').then(function(r){return r.json()}).then(fu
   loadAutoTheme();
   if (book.hasPdf) document.getElementById('bPdf').style.display = '';
   console.log('[coreader] book setup complete');
-}).catch(function(err){
-  console.error('[coreader] book load error:', err);
-  document.getElementById('tc').innerHTML = '<p style="color:red">خطا در بارگذاری کتاب: ' + (err && err.message ? err.message : String(err)) + '</p>';
-});
+}
+
+(function(){
+  var p = new URLSearchParams(location.search);
+  var slug = p.get('book');
+  var localBooks = null;
+  try {
+    localBooks = JSON.parse(localStorage.getItem('coreader-local-books') || '{}');
+  } catch(e){}
+
+  if (slug && localBooks && localBooks[slug]) {
+    console.log('[coreader] loading book from localStorage:', slug);
+    initBook(localBooks[slug]);
+    return;
+  }
+
+  console.log('[coreader] loading book.json from', window.BOOK_URL || 'book.json');
+  fetch(window.BOOK_URL || 'book.json').then(function(r){
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  }).then(function(book){
+    initBook(book);
+  }).catch(function(err){
+    if (slug && localBooks && localBooks[slug]) {
+      initBook(localBooks[slug]);
+      return;
+    }
+    console.error('[coreader] book load error:', err);
+    var tcEl = document.getElementById('tc');
+    if (tcEl) {
+      tcEl.innerHTML = '<div style="text-align:center;padding:60px 20px;color:var(--muted)">' +
+        '<div style="font-size:48px;margin-bottom:16px">📖</div>' +
+        '<h2 style="color:var(--fg-color)">کتاب یافت نشد</h2>' +
+        '<p style="margin:12px 0">' + (err && err.message ? err.message : String(err)) + '</p>' +
+        '<button onclick="location.href=\'../\'" style="padding:10px 24px;border-radius:12px;background:var(--accent);color:#fff;border:none;cursor:pointer;font-family:inherit;font-size:14px;box-shadow:0 4px 15px rgba(0,0,0,.2)">بازگشت به کتابخانه</button>' +
+        '</div>';
+    }
+  });
+})();
 
 function buildToc(){
   var tocEl = document.getElementById('toc');
@@ -163,7 +193,10 @@ function buildPages(){
       for (var i = 0; i < entries.length; i++){
         if (entries[i].isIntersecting){
           var pg = +entries[i].target.id.replace('pg_', '');
-          if (pg && pg !== curPage){ curPage = pg; updNav(); hlToc(); saveReadingProgress(); }
+          // While a read is running the page is whatever is being read: letting
+          // the scroll reassign curPage made ttsAdvance() see a mismatch and
+          // stop the read half-way.
+          if (pg && pg !== curPage && !ttsPlaying){ curPage = pg; updNav(); hlToc(); saveReadingProgress(); }
         }
       }
     }, { rootMargin: '-20% 0px -70% 0px' });
@@ -385,7 +418,14 @@ function setTheme(t){
   document.querySelectorAll('.theme-btn').forEach(function(b){ b.classList.toggle('on', b.dataset.theme === t); });
   localStorage.setItem('coreader-theme', t || '');
 }
-(function(){ var t = localStorage.getItem('coreader-theme'); if (t) setTheme(t); })();
+/* The reading theme opens on شب (night). A value that is missing, or that was
+ * written by the site theme which used to share this key, is not trusted. */
+(function(){
+  var KNOWN = ['', 'sepia', 'cream', 'green', 'dark', 'night'];
+  var t = localStorage.getItem('coreader-theme');
+  if (t === null || KNOWN.indexOf(t) < 0) t = 'night';
+  setTheme(t);
+})();
 
 // ===== Feature 2: Glass opacity on load =====
 (function(){
@@ -511,9 +551,11 @@ function loadThemeColor(){
     var el = document.getElementById('setThemeColorV');
     if (el) el.textContent = themeColor;
   } else {
-    // Default theme color
-    localStorage.setItem('coreader-theme-color', '#faf8f5');
-    setThemeColor('#faf8f5');
+    /* Nothing picked. #faf8f5 used to be written here on every first load, so
+     * a stored copy of it does not mean anybody chose it - applying it would
+     * paint the background over whichever theme is active. */
+    var tcEl = document.getElementById('setThemeColorV');
+    if (tcEl) tcEl.textContent = 'پیش‌فرض تم';
   }
 }
 
@@ -760,7 +802,7 @@ function buildPdfSourceSelect(){
   var sel = document.getElementById('pdfSrcSel');
   if (srcs.length <= 1){ sel.style.display = 'none'; return; }
   sel.style.display = '';
-  sel.innerHTML = srcs.map(function(s, i){ return '<option value="' + i + '">' + s.label + '</option>'; }).join('');
+  sel.innerHTML = srcs.map(function(s, i){ return '<option value="' + i + '">' + escHtml(s.label) + '</option>'; }).join('');
   sel.value = curPdfSrc;
 }
 function switchPdfSource(idx){
@@ -774,6 +816,29 @@ function loadPdf(){
   var src = srcs[curPdfSrc];
   if (!src){ showPdfErr('این کتاب نسخهٔ PDF ندارد.'); return; }
   hidePdfErr(); document.getElementById('pdfMax').textContent = '...';
+
+  // Support local uploaded PDF (base64 dataUrl)
+  if (src.dataUrl) {
+    try {
+      var base64 = src.dataUrl.indexOf(',') >= 0 ? src.dataUrl.split(',')[1] : src.dataUrl;
+      var raw = atob(base64);
+      var uint8 = new Uint8Array(raw.length);
+      for (var i = 0; i < raw.length; i++) uint8[i] = raw.charCodeAt(i);
+      pdfjsLib.getDocument({ data: uint8 }).promise
+        .then(function(doc){
+          pdfDoc = doc; pdfDocCache[curPdfSrc] = doc;
+          document.getElementById('pdfMax').textContent = doc.numPages;
+          pdfRender(pdfPendingPage || 1); pdfPendingPage = null;
+        }).catch(function(e){
+          showPdfErr('خطا در پردازش فایل PDF محلی: ' + (e && e.message ? e.message : 'نامعتبر'));
+        });
+      return;
+    } catch(err) {
+      showPdfErr('خطا در خواندن داده‌های فایل PDF.');
+      return;
+    }
+  }
+
   fetch(src.filename).then(function(r){ if (!r.ok) throw 0; return r.arrayBuffer(); })
     .then(function(buf){ return pdfjsLib.getDocument({ data: new Uint8Array(buf) }).promise; })
     .then(function(doc){ pdfDoc = doc; pdfDocCache[curPdfSrc] = doc; document.getElementById('pdfMax').textContent = doc.numPages; pdfRender(pdfPendingPage || 1); pdfPendingPage = null; })
@@ -1026,6 +1091,65 @@ function insertTashkil(ch){
 // ===== Persistence — per-book local edits (annotations + text fixes),
 // stored client-side since this is a static site with no backend =====
 function editsKey(){ return 'coreader-edits-' + (BOOK ? BOOK.slug : 'unknown'); }
+/* ===== Transient marks do not belong in saved text =====
+ * خط‌بَر and خوانش rewrite the page into per-word spans and colour whichever
+ * word is being spoken. saveUserEdits() compares innerHTML, so a session that
+ * ended (or a 30-second tick that fired) while tracking was live used to
+ * snapshot those spans as if the reader had edited the page - and loadUserEdits
+ * then put them back, for good, as the stray gold blobs over the text. */
+function sanitizeEditableHTML(html){
+  if (!html || typeof html !== 'string') return html;
+  var box = document.createElement('div');
+  box.innerHTML = html;
+  // the sliding highlight is an overlay, never content
+  box.querySelectorAll('.hl-slide, .wl-slide, #hlSlide').forEach(function(n){ n.parentNode.removeChild(n); });
+  // a span the tracker inserted is unwrapped; only real annotations survive
+  box.querySelectorAll('span.wl').forEach(function(n){
+    var parent = n.parentNode;
+    while (n.firstChild) parent.insertBefore(n.firstChild, n);
+    parent.removeChild(n);
+  });
+  // colour classes the tracker left on a word it had rewritten
+  box.querySelectorAll('[class]').forEach(function(n){
+    if (!/(^|\s)(wl|anno-highlight)(\s|-|$)/.test(n.className)) return;
+    n.className = n.className.replace(/(^|\s)(wl(-[\w-]+)?|anno-highlight)(?=\s|$)/g, ' ').replace(/\s+/g, ' ').trim();
+    if (!n.className) n.removeAttribute('class');
+  });
+  return box.innerHTML;
+}
+
+// One pass over everything this browser has ever saved, so books polluted
+// before this fix come back clean instead of carrying the old blobs.
+function scrubSavedTextBooks(){
+  try {
+    var keys = [];
+    for (var i = 0; i < localStorage.length; i++){
+      var k = localStorage.key(i);
+      if (k && (k.indexOf('coreader-edits-') === 0 || k === 'coreader-local-books')) keys.push(k);
+    }
+    keys.forEach(function(k){
+      var raw = localStorage.getItem(k), out = raw;
+      if (k === 'coreader-local-books'){
+        var books = JSON.parse(raw) || {};
+        Object.keys(books).forEach(function(slug){
+          var b = books[slug];
+          if (!b || !b.pages || !b.pages.length) return;
+          b.pages.forEach(function(p){ if (p && typeof p.html === 'string') p.html = sanitizeEditableHTML(p.html); });
+        });
+        out = JSON.stringify(books);
+      } else {
+        var ed = JSON.parse(raw) || {};
+        if (ed && ed.textEdits){
+          Object.keys(ed.textEdits).forEach(function(pg){ ed.textEdits[pg] = sanitizeEditableHTML(ed.textEdits[pg]); });
+          out = JSON.stringify(ed);
+        }
+      }
+      if (out !== raw) localStorage.setItem(k, out);
+    });
+  } catch (e) {}
+}
+scrubSavedTextBooks();
+
 function saveUserEdits(){
   try {
     var edits = { textEdits: {} };
@@ -1034,7 +1158,10 @@ function saveUserEdits(){
       var txtEl = pgEl.querySelector('.ps-txt');
       if (!txtEl) return;
       var orig = BOOK.pages.find(function(p){ return p.page === pg; });
-      if (orig && txtEl.innerHTML !== orig.html) edits.textEdits[pg] = txtEl.innerHTML;
+      // compare like with like: tracking spans are stripped from both sides,
+      // so reading a page aloud no longer counts as editing it
+      var clean = sanitizeEditableHTML(txtEl.innerHTML);
+      if (orig && clean !== sanitizeEditableHTML(orig.html)) edits.textEdits[pg] = clean;
     });
     localStorage.setItem(editsKey(), JSON.stringify(edits));
   } catch (e) {}
@@ -1046,7 +1173,9 @@ function loadUserEdits(){
     Object.keys(edits.textEdits).forEach(function(pg){
       var pgEl = document.getElementById('pg_' + pg);
       var txtEl = pgEl && pgEl.querySelector('.ps-txt');
-      if (txtEl) txtEl.innerHTML = edits.textEdits[pg];
+      // the same scrub on the way in: anything saved before this fix is
+      // cleaned the moment the book opens
+      if (txtEl) txtEl.innerHTML = sanitizeEditableHTML(edits.textEdits[pg]);
     });
   } catch (e) {}
 }
@@ -1074,11 +1203,15 @@ function doEncSearch(word){
   if (!word) return;
   document.getElementById('encLeftWord').textContent = word;
   document.getElementById('encLeftInput').value = word;
-  document.getElementById('encLeftResults').innerHTML = encSources.map(function(s){
+  var results = document.getElementById('encLeftResults');
+  results.innerHTML = encSources.map(function(s){
     return '<a class="enc-link" href="' + s.fn(word) + '" target="_blank" rel="noopener">' +
       '<span class="enc-title">' + s.icon + ' ' + s.name + '</span>' +
       '<span class="enc-desc">' + s.desc + ' ↗</span></a>';
   }).join('');
+  // the meanings come from the lexicon and sit above the links; the links stay
+  // because they are the fallback when a word has no entry
+  if (window.LX) LX.render(results, word);
   document.getElementById('encLeft').classList.add('on');
   document.body.classList.add('enc-open');
 }
@@ -1398,9 +1531,9 @@ function showFavTab(tab){
     return;
   }
   list.innerHTML = data.map(function(item, i){
-    var meta = (item.book || '') + (item.page ? ' — صفحهٔ ' + toFA(item.page) : '');
-    var note = item.note ? '<div style="margin-top:4px;font-size:12px;opacity:.8">📝 ' + item.note + '</div>' : '';
-    var colorSwatch = item.color ? '<span style="display:inline-block;width:12px;height:12px;background:' + item.color + ';border-radius:3px;margin-inline-start:4px;vertical-align:middle"></span>' : '';
+    var meta = escHtml(item.book || '') + (item.page ? ' — صفحهٔ ' + toFA(item.page) : '');
+    var note = item.note ? '<div style="margin-top:4px;font-size:12px;opacity:.8">📝 ' + escHtml(item.note) + '</div>' : '';
+    var colorSwatch = item.color ? '<span style="display:inline-block;width:12px;height:12px;background:' + escHtml(item.color) + ';border-radius:3px;margin-inline-start:4px;vertical-align:middle"></span>' : '';
     var textPreview = (item.text || item.title || '').substring(0, 200) + ((item.text || item.title || '').length > 200 ? '…' : '');
     var timeStr = item.time ? '<span style="margin-inline-start:6px;opacity:.6">' + new Date(item.time).toLocaleDateString('fa') + '</span>' : '';
     return '<div class="fav-item" onclick="goToFav(' + (item.page || 1) + ')">' +
@@ -1474,7 +1607,7 @@ function populateTtsVoices(){
   var fa = voices.filter(function(v){ return v.lang && v.lang.toLowerCase().indexOf('fa') === 0; });
   var list = fa.length ? fa : voices;
   ttsVoices = list;
-  sel.innerHTML = list.map(function(v, i){ return '<option value="' + i + '">' + v.name + ' (' + v.lang + ')</option>'; }).join('');
+  sel.innerHTML = list.map(function(v, i){ return '<option value="' + i + '">' + escHtml(v.name) + ' (' + escHtml(v.lang) + ')</option>'; }).join('');
   if (!fa.length && voices.length && ttsEngine === 'browser'){
     document.getElementById('ttsStatus').textContent = 'صدای فارسی در این مرورگر نصب نیست — گزینهٔ Google را در تنظیمات امتحان کنید';
   }
@@ -1517,10 +1650,62 @@ function ttsHighlightAndMaybeAnno(idx){
   var annoEl = findAnnoNear(idx);
   if (annoEl && annoEl !== lastAnnoEl && annoOn){ showMarginAnno(annoEl); lastAnnoEl = annoEl; }
 }
+/* --- does the read continue? --------------------------------------------
+ * The page being read is tracked separately from `curPage`. The
+ * IntersectionObserver in buildPages() rewrites `curPage` on every scroll, so
+ * `goPg(curPage + 1)` regularly landed past the next page and reading skipped
+ * text; while a read is running the observer is left alone and `ttsPage` is
+ * the single source of truth.
+ *
+ * An empty page used to end the read outright (buildMicIndex finds no words
+ * and startTtsBrowserForPage returns). Now such pages are stepped over, so
+ * the read goes on to the next page that has text. */
+var ttsPage = 0;
+
+function pageHasWords(pg){
+  var el = document.getElementById('pg_' + pg);
+  if (!el) return false;
+  var txt = el.querySelector('.ps-txt');
+  return !!(txt && txt.textContent.trim());
+}
+/* First page at or after `from` that has something to read; 0 at the end. */
+function ttsNextReadable(from){
+  var total = BOOK && BOOK.pages ? BOOK.pages.length : 0;
+  for (var p = from; p <= total; p++) if (pageHasWords(p)) return p;
+  return 0;
+}
+function endTts(msg){
+  ttsPage = 0; ttsStartIdx = 0; ttsPlaying = false; updateTtsPlayBtn();
+  document.getElementById('ttsStatus').textContent = msg;
+  clearHighlights();
+}
+/* Put ttsPage on a page that really has text and index its words. Returns 0
+ * when there is nothing left to read. */
+function ttsReadyPage(){
+  if (!ttsPage) ttsPage = ttsNextReadable(curPage);
+  var guard = 0;
+  while (ttsPage && guard++ < 1000){
+    goPg(ttsPage);
+    buildMicIndex(ttsPage);
+    if (micWords.length) return ttsPage;
+    ttsPage = ttsNextReadable(ttsPage + 1);
+  }
+  ttsPage = 0;
+  return 0;
+}
+/* ttsPage has been read: turn to the next page's text, or stop. `start` keeps
+ * the reader on the engine it was already using. */
+function ttsAdvance(start){
+  if (curPage !== ttsPage){ endTts('آماده خوانش'); return; }
+  ttsPage = ttsNextReadable(ttsPage + 1);
+  ttsStartIdx = 0;
+  if (!ttsPage){ endTts('پایان کتاب'); return; }
+  start();
+}
+
 function startTtsBrowserForPage(){
   if (!window.speechSynthesis){ document.getElementById('ttsStatus').textContent = 'مرورگر شما از خوانش صوتی پشتیبانی نمی‌کند'; return; }
-  buildMicIndex(curPage);
-  if (!micWords.length) return;
+  if (!ttsReadyPage()){ endTts('پایان کتاب'); return; }
   var built = buildTtsTextFromMicWords(ttsStartIdx);
   ttsOffsets = built.offsets;
   var utter = new SpeechSynthesisUtterance(built.text);
@@ -1535,8 +1720,7 @@ function startTtsBrowserForPage(){
   };
   utter.onend = function(){
     if (!ttsOn) return;
-    if (curPage < BOOK.pages.length){ ttsStartIdx = 0; goPg(curPage + 1); startTtsBrowserForPage(); }
-    else { ttsPlaying = false; updateTtsPlayBtn(); document.getElementById('ttsStatus').textContent = 'پایان کتاب'; clearHighlights(); }
+    ttsAdvance(startTtsBrowserForPage);
   };
   window.speechSynthesis.cancel();
   window.speechSynthesis.speak(utter);
@@ -1589,8 +1773,7 @@ function googleTtsUrl(text){
 }
 var googleChunks = [], googleChunkIdx = 0, googleFellBack = false;
 function startTtsGoogleForPage(){
-  buildMicIndex(curPage);
-  if (!micWords.length) return;
+  if (!ttsReadyPage()){ endTts('پایان کتاب'); return; }
   googleChunks = buildGoogleChunks();
   googleChunkIdx = 0;
   document.getElementById('ttsStatus').textContent = 'در حال خواندن... (Google)';
@@ -1599,8 +1782,7 @@ function startTtsGoogleForPage(){
 function playGoogleChunk(){
   if (googleChunkIdx >= googleChunks.length){
     if (!ttsOn) return;
-    if (curPage < BOOK.pages.length){ ttsStartIdx = 0; goPg(curPage + 1); startTtsGoogleForPage(); }
-    else { ttsPlaying = false; updateTtsPlayBtn(); document.getElementById('ttsStatus').textContent = 'پایان کتاب'; clearHighlights(); }
+    ttsAdvance(startTtsGoogleForPage);
     return;
   }
   var chunk = googleChunks[googleChunkIdx];
@@ -1661,7 +1843,7 @@ function clearHighlights(){
 function stopTts(){
   if (window.speechSynthesis) window.speechSynthesis.cancel();
   if (ttsAudio){ try { ttsAudio.pause(); } catch (e) {} ttsAudio = null; }
-  ttsPlaying = false; ttsStartIdx = 0; _magGroup = -1;
+  ttsPlaying = false; ttsStartIdx = 0; ttsPage = 0; _magGroup = -1;
   updateTtsPlayBtn();
   if (micWords.length){
     micWords.forEach(function(w){ w.el.className = w.isAnno ? 'anno anno-' + (w.el.dataset.cat || 'word') : 'wl'; });
@@ -1691,19 +1873,30 @@ function toggleMic(){
   if (!micOn) stopMic();
 }
 
+/* One normalizer for the whole project.
+ *
+ * This used to be a second, near-copy of its own rule and it mangled words:
+ *   'PRÊTRES'  -> 'prtres'   the ê vanished, because stripping "not a word
+ *                            character" before folding accents removed both the
+ *                            letter and the U+0302 sitting on it
+ *   'مُحَمَّد' -> 'مهمد'     م became م  - a real Persian letter swapped for another,
+ *                            so the mic could never lock onto a vocalised word
+ *   'كتاب'     -> 'كتـاب'    k and k are the same word in two scripts
+ *
+ * ptFold (page-text.js) is the single implementation: fold accents first, then
+ * strip.  The reader, the viewer and search all go through it now, so a word the
+ * mic cannot hear and a word search cannot find can no longer drift apart.
+ *
+ * ponytail: ptFold lowercases and strips bidi marks but keeps ZWNJ handling to
+ * its callers, which is why the ZWNJ split in buildMicIndex stays where it is. */
 function normW(w){
-  var s = w.toLowerCase()
+  if (typeof ptFold === 'function') return ptNorm(w);
+  return String(w == null ? '' : w).toLowerCase()
     .replace(/[\u0610-\u061A\u064B-\u065F\u0670\u06D6-\u06DC\u06DF-\u06E4\u06E7\u06E8\u06EA-\u06ED]/g, '')
     .replace(/ـ/g, '')
-    .replace(/[إأآءٱ]/g, 'ا')
-    .replace(/ؤ/g, 'و')
-    .replace(/[ئىي]/g, 'ی')
-    .replace(/ك/g, 'ک')
-    .replace(/[ةه]/g, 'ه')
-    .replace(/[^\u0621-\u06FE0-9a-zA-Z]/g, '');
-  s = s.replace(/[ثصس]/g, 'س').replace(/[ذضظز]/g, 'ز').replace(/[طت]/g, 'ت').replace(/[قغ]/g, 'ق').replace(/[حه]/g, 'ه');
-  return s;
+    .replace(/[^\u0621-\u06FE0-9A-Za-z]/g, '');
 }
+
 function editDist(a, b){
   if (a === b) return 0;
   var la = a.length, lb = b.length;
@@ -1713,6 +1906,62 @@ function editDist(a, b){
   return d[la][lb];
 }
 function wordSim(a, b){ if (!a || !b) return 0; if (a === b) return 1; var m = Math.max(a.length, b.length); if (!m) return 1; return 1 - editDist(a, b) / m; }
+
+/* --- shared voice engine -------------------------------------------------
+ *
+ * voice.js is the same alignment code, and it is proven character-for-character
+ * identical to this file's own alignBuffer/editDist.  What differs is the word
+ * list and the normalizer, so rather than delete this page's engine and risk its
+ * 50-odd micWords call sites, the reader now MOUNTS the shared one and the two
+ * are checked against each other on real text.
+ *
+ * Why this matters: the reader normalized with normW (Persian-only letter
+ * folding, no accent folding) while the viewer used ptFold.  'PRÊTRES' became
+ * 'prtres' in one and 'pretres' in the other, so a word the mic could not hear
+ * and a word search could find had drifted apart.  One normalizer, one engine.
+ *
+ * ponytail: reader.js still owns micWords/highlightAt, which voice.js does not
+ * implement.  When those are deleted and the reader delegates outright, this
+ * mount block goes with them.
+ */
+(function mountSharedVoice(){
+  if (!window.__coreaderVoice) return;
+  window.__coreaderVoice.mount({
+    lang: 'fa-IR',
+    getWords: function(){
+      // Hand over this page's word list, in the shape the engine reads.
+      return micWords.map(function(w){
+        return { n: w.n, el: w.el, t: w.el ? w.el.textContent : '' };
+      });
+    },
+    onWord: function(idx){ highlightAt(idx); },
+    onPage: function(){}
+  });
+  // Test hook: buildMicIndex and micWords are private to this file's IIFE, so the
+  // only way a headless check can compare the two engines is through here.
+  window.__coreaderReaderVoice = {
+    buildIndex: function(pg){ buildMicIndex(pg == null ? curPage : pg); return micWords.length; },
+    words: function(){ return micWords; },
+    curPage: function(){ return curPage; },
+    // The reader's own aligner, exposed so a headless check can compare it with
+    // the shared engine on identical input instead of trusting that they match.
+    align: function(spoken, from, ahead, behind){ return alignBuffer(spoken, from, ahead, behind); },
+    norm: function(w){ return normW(w); },
+    textOf: function(i){ var w=micWords[i]; return w&&w.el?w.el.textContent:''; },
+    // The reader's own search index, for the same reason: changing the shared
+    // normalizer changes it, so it has to be checked from in here.
+    buildSearch: function(){
+      buildSearchIndex();
+      var idx = BOOK ? BOOK.searchIndex : null;
+      if(!idx) return null;
+      return { keys: Object.keys(idx).length, index: idx };
+    },
+    // BOOK and curPage are private to this IIFE, so a headless check cannot read
+    // them off window - it has to ask in here.
+    book: function(){ return BOOK ? { slug: BOOK.slug, title: BOOK.title, pages: BOOK.pages.length } : null; },
+    page: function(){ return curPage; }
+  };
+})();
 
 function buildMicIndex(pg){
   var pgEl = document.getElementById('pg_' + pg); if (!pgEl) return;
@@ -2186,6 +2435,31 @@ function toggleToolbar(){
   btn.textContent = toolbarVisible ? '✕' : '☰';
 }
 
+// Full-screen reading hides the floating toolbar on the way in and brings it
+// back on the way out, so nothing floats over the text you are reading.
+function toggleFullscreen(){
+  if(!document.fullscreenElement){
+    document.documentElement.requestFullscreen().then(function(){ if(toolbarVisible) toggleToolbar(); }).catch(function(){});
+  } else {
+    document.exitFullscreen().catch(function(){});
+  }
+}
+document.addEventListener('fullscreenchange', function(){
+  var want = !document.fullscreenElement;
+  if(want !== toolbarVisible) toggleToolbar();
+});
+
+// Zoom the reading column: the same + / − the viewer has, mapped onto the
+// thing a text page actually scales - its type.
+function zoomText(dir){
+  var root = document.documentElement;
+  var cur = parseFloat(getComputedStyle(root).getPropertyValue('--fs')) || 19;
+  var next = Math.min(34, Math.max(12, cur + dir * 1.5));
+  var input = document.getElementById('setFs');
+  if (input) input.value = next;
+  applySetting('fs', next);
+}
+
 // ===== Magnifier (ذره‌بین) — DOM-clone + CSS transform approach =====
 var magOn = false, magDragging = false, magOffX = 0, magOffY = 0;
 var MAG_W = 1600, MAG_H = 461, MAG_SCALE = 2;
@@ -2379,6 +2653,12 @@ window.toggleTts = toggleTts; window.toggleTtsPlay = toggleTtsPlay; window.setTt
 window.setTtsEngine = setTtsEngine; window.toggleTtsPlayGoogle = toggleTtsPlayGoogle;
 window.toggleMagnifier = toggleMagnifier;
 window.toggleToolbar = toggleToolbar;
+// These two are new, and this file keeps its globals in one export list, so
+// they belong here too or the toolbar buttons call nothing.
+window.toggleFullscreen = toggleFullscreen; window.zoomText = zoomText;
+// exported for the same reason: a check has to be able to prove that reading
+// a page does not get recorded as editing it
+window.saveUserEdits = saveUserEdits; window.sanitizeEditableHTML = sanitizeEditableHTML;
 window.dismissSideTt = dismissSideTt;
 window.clearAllSideTt = clearAllSideTt;
 })();

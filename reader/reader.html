@@ -24,7 +24,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700&family=El+Messiri:wght@400;500;600;700&family=Lalezar&family=Lateef&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Reem+Kufi:wght@400;500;600;700&family=Sakkal+Majalla&family=Scheherazade+New:wght@400;700&family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/fonts.css">
 </head>
-<body>
+<body class="night">
 <div class="loading-overlay" id="loadingOverlay">
   <div class="loading-spinner"></div>
 </div>
@@ -71,6 +71,10 @@
       <button onclick="openSettings()" id="bSettings">⚙️ تنظیمات</button>
       <button onclick="toggleMagnifier()" id="bMag">🔍 ذره‌بین</button>
       <button onclick="showFavPanel()">⭐ علاقه‌مندی</button>
+      <div class="spacer"></div>
+      <button onclick="zoomText(-1)" title="کوچک‌نمایی متن">−</button>
+      <button onclick="zoomText(1)" title="بزرگ‌نمایی متن">+</button>
+      <button onclick="toggleFullscreen()" id="bFullscreen" title="تمام صفحه">⛶</button>
     </div>
     <button class="toolbar-toggle" id="toolbarToggle" onclick="toggleToolbar()">☰</button>
     <div class="tc" id="tc"></div>
@@ -413,12 +417,16 @@
   }
 })();
 </script>
-<script src="../assets/reader.js"></script>
+<script src="../viewer/page-text.js"></script>
+  <script src="../viewer/voice.js"></script>
+<script src="../assets/translate.js?v=3"></script>
+<script src="../assets/lexicon.js?v=1"></script>
+  <script src="../assets/reader.js?v=6"></script>
 <script>
-// Register service worker for offline support
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('../sw.js').catch(function(){});
-}
+  // Clean up obsolete service worker registrations if any exist (same policy as viewer/tour): the old worker pre-cached a blank root and served static files cache-first, which kept stale pages after an update.
+  if(navigator.serviceWorker && navigator.serviceWorker.getRegistrations){
+    navigator.serviceWorker.getRegistrations().then(function(regs){ regs.forEach(function(r){ r.unregister(); }); });
+  }
 //
 // Hide loading spinner once book content is available
 (function(){

@@ -6,3 +6,9 @@ docs/
 
 # Safety backup taken before the Harvard import
 books-index.json.bak-before-harvard
+
+# Accidental artifacts from a mistyped redirect on Windows
+nul
+NUL2
+t1.json
+bierah_urls.json
