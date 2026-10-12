@@ -15,7 +15,8 @@
   "pages": 314,
   "hasPdf": true,
   "candidateCount": 250,
-  "cover": "cover.webp"
+  "cover": "cover.webp",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "nasaim-al-ahsaar",
@@ -96,6 +97,7 @@
   "manifestUrl": "books/bsb-gulistan-saadi/manifest.json",
   "pages": 355,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://api.digitale-sammlungen.de/view/bsb00047632"
   },
@@ -117,6 +119,7 @@
   "manifestUrl": "books/bodleian-hyde-10/manifest.json",
   "pages": 364,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/23c9305a-844e-48c8-8e76-8832f5e42b2e/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/23c9305a-844e-48c8-8e76-8832f5e42b2e.json",
@@ -141,6 +144,7 @@
   "manifestUrl": "books/bodleian-ouseley-add-176-shahnama/manifest.json",
   "pages": 953,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/bcbfd832-086b-4874-80f8-87500e0de704/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/bcbfd832-086b-4874-80f8-87500e0de704.json",
@@ -165,6 +169,7 @@
   "manifestUrl": "books/bodleian-ouseley-add-175-hafiz/manifest.json",
   "pages": 666,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/4d01494c-8aba-4fea-b8f9-e7b70c826d0f/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/4d01494c-8aba-4fea-b8f9-e7b70c826d0f.json",
@@ -189,6 +194,7 @@
   "manifestUrl": "books/bodleian-ouseley-add-23-jami/manifest.json",
   "pages": 306,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/78f9e2cd-6d77-4f57-8ca5-a5544273a654/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/78f9e2cd-6d77-4f57-8ca5-a5544273a654.json",
@@ -213,6 +219,7 @@
   "manifestUrl": "books/bodleian-elliott-254-jami/manifest.json",
   "pages": 159,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/56911adf-3d32-4a52-a9c6-653eb5bd6cb7/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/56911adf-3d32-4a52-a9c6-653eb5bd6cb7.json",
@@ -237,6 +244,7 @@
   "manifestUrl": "books/bodleian-greaves-1-jami/manifest.json",
   "pages": 2,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/916f7aa0-d9aa-40dd-b067-238f0d6e7377/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/916f7aa0-d9aa-40dd-b067-238f0d6e7377.json",
@@ -257,6 +265,7 @@
   "manifestUrl": "books/bodleian-bodl-or-793-quran/manifest.json",
   "pages": 692,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/1d091ec9-33f8-42d9-a620-141dfc7b1816/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/1d091ec9-33f8-42d9-a620-141dfc7b1816.json",
@@ -281,6 +290,7 @@
   "manifestUrl": "books/bodleian-bodl-or-716-shahnameh/manifest.json",
   "pages": 1555,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/8287e6c8-8b65-4a55-8ad0-e22dff4eccc2/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/8287e6c8-8b65-4a55-8ad0-e22dff4eccc2.json",
@@ -305,6 +315,7 @@
   "manifestUrl": "books/bodleian-6b3da54c/manifest.json",
   "pages": 60,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/6b3da54c-5f21-4dda-af76-726fee02d9e5/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/6b3da54c-5f21-4dda-af76-726fee02d9e5.json",
@@ -329,6 +340,7 @@
   "manifestUrl": "books/bodleian-19cf9814/manifest.json",
   "pages": 369,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/19cf9814-fc13-4b5d-8961-f8520bea9edc/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/19cf9814-fc13-4b5d-8961-f8520bea9edc.json",
@@ -353,6 +365,7 @@
   "manifestUrl": "books/bodleian-9809c716/manifest.json",
   "pages": 344,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/9809c716-be88-4fc1-9469-78acabc07f79/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/9809c716-be88-4fc1-9469-78acabc07f79.json",
@@ -377,6 +390,7 @@
   "manifestUrl": "books/bodleian-64f5a170/manifest.json",
   "pages": 930,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/64f5a170-7542-415c-845f-9e5127c9bb5e/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/64f5a170-7542-415c-845f-9e5127c9bb5e.json",
@@ -401,6 +415,7 @@
   "manifestUrl": "books/bodleian-a0fc5fa6/manifest.json",
   "pages": 1108,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/a0fc5fa6-f3d8-4089-90be-f0ffd2128865/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/a0fc5fa6-f3d8-4089-90be-f0ffd2128865.json",
@@ -425,6 +440,7 @@
   "manifestUrl": "books/bodleian-ef568d4f/manifest.json",
   "pages": 668,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/ef568d4f-c70a-4493-aa67-17db035e7f89/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/ef568d4f-c70a-4493-aa67-17db035e7f89.json",
@@ -449,6 +465,7 @@
   "manifestUrl": "books/bodleian-d633c8a4/manifest.json",
   "pages": 216,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/d633c8a4-53e1-4afe-bc51-518f5fe4e357/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/d633c8a4-53e1-4afe-bc51-518f5fe4e357.json",
@@ -473,6 +490,7 @@
   "manifestUrl": "books/bodleian-882f4307/manifest.json",
   "pages": 122,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/882f4307-f40a-4a29-9a62-d19b3b2bb908/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/882f4307-f40a-4a29-9a62-d19b3b2bb908.json",
@@ -497,6 +515,7 @@
   "manifestUrl": "books/bodleian-7d185003/manifest.json",
   "pages": 674,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/7d185003-d35f-4381-aef8-a6b12c6e6b94/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/7d185003-d35f-4381-aef8-a6b12c6e6b94.json",
@@ -521,6 +540,7 @@
   "manifestUrl": "books/bodleian-399a2a26/manifest.json",
   "pages": 18,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/399a2a26-96de-484a-b9c0-ad37877e1b16/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/399a2a26-96de-484a-b9c0-ad37877e1b16.json",
@@ -545,6 +565,7 @@
   "manifestUrl": "books/bodleian-4183fd93/manifest.json",
   "pages": 111,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/4183fd93-986f-40ee-ada4-5eff5287a8bf/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/4183fd93-986f-40ee-ada4-5eff5287a8bf.json",
@@ -569,6 +590,7 @@
   "manifestUrl": "books/bodleian-cce97ab5/manifest.json",
   "pages": 130,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/cce97ab5-19e9-4fab-bc06-5a3560101156/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/cce97ab5-19e9-4fab-bc06-5a3560101156.json",
@@ -593,6 +615,7 @@
   "manifestUrl": "books/bodleian-2e3a3c8d/manifest.json",
   "pages": 780,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/2e3a3c8d-1465-4721-9923-12436f367498/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/2e3a3c8d-1465-4721-9923-12436f367498.json",
@@ -617,6 +640,7 @@
   "manifestUrl": "books/bodleian-b54c3f88/manifest.json",
   "pages": 547,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/b54c3f88-a3bf-4cfe-a743-e4fd42c8b67c/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/b54c3f88-a3bf-4cfe-a743-e4fd42c8b67c.json",
@@ -641,6 +665,7 @@
   "manifestUrl": "books/bodleian-20f1c921/manifest.json",
   "pages": 185,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/20f1c921-e68a-484d-8b40-1604c83d7bd2/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/20f1c921-e68a-484d-8b40-1604c83d7bd2.json",
@@ -665,6 +690,7 @@
   "manifestUrl": "books/bodleian-a1246f80/manifest.json",
   "pages": 230,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/a1246f80-b45e-47ed-aa68-19af4898a2df/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/a1246f80-b45e-47ed-aa68-19af4898a2df.json",
@@ -689,6 +715,7 @@
   "manifestUrl": "books/bodleian-7f010f0d/manifest.json",
   "pages": 414,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/7f010f0d-a12f-41e9-8eb6-fd9db60eae7d/",
    "mirador": "https://iiif.bodleian.ox.ac.uk/iiif/mirador/?iiif-content=https://iiif.bodleian.ox.ac.uk/iiif/manifest/7f010f0d-a12f-41e9-8eb6-fd9db60eae7d.json",
@@ -713,6 +740,7 @@
   "manifestUrl": "books/eap-mantiq-al-tayr/manifest.json",
   "pages": 67,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "externalLinks": {
    "digitalObject": "https://eap.bl.uk/archive-file/EAP1326-1-55",
    "iiifManifest": "https://eap.bl.uk/archive-file/EAP1326-1-55/manifest?manifest=https://eap.bl.uk/archive-file/EAP1326-1-55/manifest",
@@ -736,6 +764,7 @@
   "manifestUrl": "books/bl-add-ms-6998/manifest.json",
   "pages": 483,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "language": "Persian",
   "date": "~12th-13th century",
   "viewingDirection": "right-to-left",
@@ -755,6 +784,7 @@
   "manifestUrl": "books/qdl-add-ms-7492/manifest.json",
   "pages": 162,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "language": "عربی/فارسی",
   "date": "~قرن ۱۰ هجری (۱۵۰۷ میلادی)",
   "viewingDirection": "right-to-left",
@@ -774,6 +804,7 @@
   "manifestUrl": "books/qdl-add-ms-23569/manifest.json",
   "pages": 296,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "language": "فارسی/عربی",
   "date": "~قرن ۹-۱۰ هجری",
   "viewingDirection": "right-to-left",
@@ -793,6 +824,7 @@
   "manifestUrl": "books/qdl-add-ms-16659/manifest.json",
   "pages": 1208,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "language": "عربی",
   "date": "~قرن ۱۲ هجری (۱۷۶۸-۹ میلادی)",
   "viewingDirection": "right-to-left",
@@ -812,6 +844,7 @@
   "manifestUrl": "books/qdl-add-ms-23570/manifest.json",
   "pages": 306,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "language": "عربی/فارسی",
   "date": "~قرن ۹-۱۰ هجری",
   "viewingDirection": "right-to-left",
@@ -831,6 +864,7 @@
   "manifestUrl": "books/qdl-add-ms-23560/manifest.json",
   "pages": 640,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "language": "عربی/فارسی",
   "date": "~۱۰۹۹ هجری (۱۶۸۸ میلادی)",
   "viewingDirection": "right-to-left",
@@ -850,6 +884,7 @@
   "manifestUrl": "books/eap-anvari-sukhaili/manifest.json",
   "pages": 258,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -921,6 +956,7 @@
   "manifestUrl": "books/loc-2008401028/manifest.json",
   "pages": 374,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "language": "عربی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -987,6 +1023,7 @@
   "manifestUrl": "books/loc-2013415253/manifest.json",
   "pages": 547,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1031,6 +1068,7 @@
   "manifestUrl": "books/loc-2016397203/manifest.json",
   "pages": 331,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1053,6 +1091,7 @@
   "manifestUrl": "books/loc-2017406026/manifest.json",
   "pages": 349,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1097,6 +1136,7 @@
   "manifestUrl": "books/loc-2017498317/manifest.json",
   "pages": 87,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1141,6 +1181,7 @@
   "manifestUrl": "books/loc-2021667229/manifest.json",
   "pages": 1530,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1273,6 +1314,7 @@
   "manifestUrl": "books/loc-2021667287/manifest.json",
   "pages": 696,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1295,6 +1337,7 @@
   "manifestUrl": "books/loc-2021667400/manifest.json",
   "pages": 685,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "language": "فارسی",
   "viewingDirection": "right-to-left",
   "externalLinks": {
@@ -1340,7 +1383,8 @@
    "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/f0c08098-65c9-4524-b8b0-ce2610c341cb.json",
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/f0c08098-65c9-4524-b8b0-ce2610c341cb/"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "bodleian-library-ms-canonici-or-122",
@@ -1408,7 +1452,8 @@
    "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/26ae1dfa-db31-4a1a-889a-cb4e034215fc.json",
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/26ae1dfa-db31-4a1a-889a-cb4e034215fc/"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "bodleian-library-ms-ouseley-369",
@@ -1442,7 +1487,8 @@
    "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/ad16640a-3e51-4750-b6ce-86e8be191cda.json",
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/ad16640a-3e51-4750-b6ce-86e8be191cda/"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "bodleian-library-ms-ouseley-344",
@@ -1459,7 +1505,8 @@
    "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/bb573df6-5d45-4950-8460-12e356b136d3.json",
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/bb573df6-5d45-4950-8460-12e356b136d3/"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "bodleian-library-ms-ouseley-217",
@@ -1527,7 +1574,8 @@
    "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/79361790-4671-4c4f-983a-c40044671f56.json",
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/79361790-4671-4c4f-983a-c40044671f56/"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "bodleian-library-ms-elliott-327",
@@ -1578,7 +1626,8 @@
    "iiifManifest": "https://iiif.bodleian.ox.ac.uk/iiif/manifest/6f5b6382-f892-4109-b3be-f6a26da9ebc3.json",
    "digitalObject": "https://digital.bodleian.ox.ac.uk/objects/6f5b6382-f892-4109-b3be-f6a26da9ebc3/"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-si-luster-plate",
@@ -1593,7 +1642,8 @@
    "digitalObject": "https://asia-archive.si.edu/object/F1941.11/",
    "iiifManifest": "https://ids.si.edu/ids/manifest/FS-6197_08"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-vam-ardabil-carpet",
@@ -1625,7 +1675,8 @@
    "digitalObject": "https://www.artic.edu/artworks/103392/tile-fragment-with-arabic-or-persian-inscription",
    "iiifManifest": "https://api.artic.edu/api/v1/artworks/103392/manifest.json"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-yale-ibex",
@@ -1650,6 +1701,8 @@
   "author": "نامشخص",
   "source": "museum",
   "pages": 1,
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": [
    "https://images.metmuseum.org/CRDImages/an/original/DP-19135-003.jpg"
   ],
@@ -1666,6 +1719,8 @@
   "author": "نامشخص",
   "source": "museum",
   "pages": 1,
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": [
    "https://images.metmuseum.org/CRDImages/is/original/DP220849.jpg"
   ],
@@ -1689,7 +1744,8 @@
    "digitalObject": "https://collections.vam.ac.uk/item/O83279/tile-panel-isfahani-ali-muhammad/",
    "iiifManifest": "https://iiif.vam.ac.uk/collections/O83279/manifest.json"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-vam-tile-kufic",
@@ -1704,7 +1760,8 @@
    "digitalObject": "https://collections.vam.ac.uk/item/O86073/tile-isfahani-ali-muhammad/",
    "iiifManifest": "https://iiif.vam.ac.uk/collections/O86073/manifest.json"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-ewer-sphinx",
@@ -1712,6 +1769,8 @@
   "author": " Ahmad al-Dhaki of Mosul",
   "source": "museum",
   "pages": 1,
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1945.27/1945.27_web.jpg",
   "manifestUrl": "books/museum-cleveland-ewer-sphinx/manifest.json",
   "provider": "Cleveland Museum of Art",
@@ -1725,6 +1784,8 @@
   "author": "Ahmad al-Dhaki (master craftsman)",
   "source": "museum",
   "pages": 1,
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1956.11/1956.11_web.jpg",
   "manifestUrl": "books/museum-cleveland-luxury-ewer/manifest.json",
   "provider": "Cleveland Museum of Art",
@@ -1738,6 +1799,7 @@
   "author": "Islamic period",
   "source": "museum",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1915.548/1915.548_web.jpg",
   "manifestUrl": "books/museum-cleveland-glass-bottle/manifest.json",
   "provider": "Cleveland Museum of Art",
@@ -1751,6 +1813,8 @@
   "author": "Egypt or Syria, Islamic period",
   "source": "museum",
   "pages": 1,
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1951.535/1951.535_web.jpg",
   "manifestUrl": "books/museum-cleveland-silk-palmettes/manifest.json",
   "provider": "Cleveland Museum of Art",
@@ -1764,6 +1828,8 @@
   "author": "Islamic period",
   "source": "museum",
   "pages": 1,
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1982.83/1982.83_web.jpg",
   "manifestUrl": "books/museum-cleveland-silk-lions/manifest.json",
   "provider": "Cleveland Museum of Art",
@@ -1777,6 +1843,8 @@
   "author": "Islamic period",
   "source": "museum",
   "pages": 1,
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1974.98/1974.98_web.jpg",
   "manifestUrl": "books/museum-cleveland-silk-hunters/manifest.json",
   "provider": "Cleveland Museum of Art",
@@ -1790,6 +1858,8 @@
   "author": "France, late 1800s",
   "source": "museum",
   "pages": 1,
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1981.10/1981.10_web.jpg",
   "manifestUrl": "books/museum-cleveland-mosque-lamp/manifest.json",
   "provider": "Cleveland Museum of Art",
@@ -1803,6 +1873,8 @@
   "author": "Egypt or Syria, Islamic period",
   "source": "museum",
   "pages": 1,
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1982.272/1982.272_web.jpg",
   "manifestUrl": "books/museum-cleveland-silk-1982-272/manifest.json",
   "provider": "Cleveland Museum of Art",
@@ -1816,6 +1888,8 @@
   "author": "Egypt or Syria, Islamic period",
   "source": "museum",
   "pages": 1,
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1960.275/1960.275_web.jpg",
   "manifestUrl": "books/museum-cleveland-silk-1960-275/manifest.json",
   "provider": "Cleveland Museum of Art",
@@ -1829,6 +1903,8 @@
   "author": "Egypt or Syria, Islamic period",
   "source": "museum",
   "pages": 1,
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1977.17/1977.17_web.jpg",
   "manifestUrl": "books/museum-cleveland-silk-1977-17/manifest.json",
   "provider": "Cleveland Museum of Art",
@@ -1842,6 +1918,8 @@
   "author": "Egypt or Syria, Islamic period",
   "source": "museum",
   "pages": 1,
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1939.36/1939.36_web.jpg",
   "manifestUrl": "books/museum-cleveland-silk-1939-36/manifest.json",
   "provider": "Cleveland Museum of Art",
@@ -1855,6 +1933,8 @@
   "author": "Egypt or Syria, Islamic period",
   "source": "museum",
   "pages": 1,
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1982.102/1982.102_web.jpg",
   "manifestUrl": "books/museum-cleveland-silk-1982-102/manifest.json",
   "provider": "Cleveland Museum of Art",
@@ -1868,6 +1948,8 @@
   "author": "Islamic period",
   "source": "museum",
   "pages": 1,
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1961.352/1961.352_web.jpg",
   "manifestUrl": "books/museum-cleveland-1961-352/manifest.json",
   "provider": "Cleveland Museum of Art",
@@ -1881,6 +1963,8 @@
   "author": "Islamic period",
   "source": "museum",
   "pages": 1,
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1961.374/1961.374_web.jpg",
   "manifestUrl": "books/museum-cleveland-1961-374/manifest.json",
   "provider": "Cleveland Museum of Art",
@@ -1894,6 +1978,7 @@
   "author": "Islamic period",
   "source": "museum",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1962.346/1962.346_web.jpg",
   "manifestUrl": "books/museum-cleveland-1962-346/manifest.json",
   "provider": "Cleveland Museum of Art",
@@ -1907,6 +1992,8 @@
   "author": "Islamic period",
   "source": "museum",
   "pages": 1,
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "https://openaccess-cdn.clevelandart.org/1963.650/1963.650_web.jpg",
   "manifestUrl": "books/museum-cleveland-1963-650/manifest.json",
   "provider": "Cleveland Museum of Art",
@@ -1926,7 +2013,8 @@
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O279226/tile-unknown/"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-192530",
@@ -1940,7 +2028,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/192530?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-192831",
@@ -1954,7 +2043,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/192831?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-193639",
@@ -1968,7 +2058,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/193639?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-206430",
@@ -1982,7 +2073,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/206430?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-206441",
@@ -1996,7 +2088,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/206441?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-179234",
@@ -2010,7 +2103,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/179234?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-212482",
@@ -2024,7 +2118,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/212482?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-228497",
@@ -2038,7 +2133,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/228497?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-228522",
@@ -2052,7 +2148,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/228522?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-228573",
@@ -2066,7 +2163,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/228573?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-116109",
@@ -2080,7 +2178,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/116109?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-193818",
@@ -2094,7 +2193,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/193818?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-116409",
@@ -2108,7 +2208,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/116409?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-124004",
@@ -2122,7 +2223,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/124004?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-3474430",
@@ -2136,7 +2238,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/3474430?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-91861",
@@ -2150,7 +2253,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/91861?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-44594",
@@ -2164,7 +2268,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/44594?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-97533",
@@ -2178,7 +2283,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/97533?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-97989",
@@ -2192,7 +2298,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/97989?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-276835",
@@ -2206,7 +2313,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/276835?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-209758",
@@ -2220,7 +2328,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/209758?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-219918",
@@ -2234,7 +2343,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/219918?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-116419",
@@ -2248,7 +2358,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/116419?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-144016",
@@ -2262,7 +2373,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/144016?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-179607",
@@ -2276,7 +2388,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/179607?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-207962",
@@ -2290,7 +2403,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/207962?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-167063",
@@ -2304,7 +2418,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/167063?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-179484",
@@ -2318,7 +2433,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/179484?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-179485",
@@ -2332,7 +2448,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/179485?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-69343",
@@ -2346,7 +2463,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/69343?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-281418",
@@ -2360,7 +2478,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/281418?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-281398",
@@ -2374,7 +2493,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/281398?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-47400",
@@ -2388,7 +2508,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/47400?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-230239",
@@ -2402,7 +2523,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/230239?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-281720",
@@ -2416,7 +2538,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/281720?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-235104",
@@ -2430,7 +2553,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/235104?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-281721",
@@ -2444,7 +2568,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/281721?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-82",
@@ -2458,7 +2583,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/82?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-83",
@@ -2472,7 +2598,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/83?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-44595",
@@ -2486,7 +2613,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/44595?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-209762",
@@ -2500,7 +2628,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/209762?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-209768",
@@ -2514,7 +2643,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/209768?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-209760",
@@ -2528,7 +2658,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/209760?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-209801",
@@ -2542,7 +2673,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/209801?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-35828",
@@ -2556,7 +2688,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/35828?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-191959",
@@ -2570,7 +2703,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/191959?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-hermitage-179774",
@@ -2584,7 +2718,8 @@
   "externalLinks": {
    "digitalObject": "https://www.hermitagemuseum.org/digital-collection/179774?lng=en"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-450605",
@@ -2598,7 +2733,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/450605"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-453250",
@@ -2612,7 +2748,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/453250"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-448280",
@@ -2626,7 +2763,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/448280"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-447071",
@@ -2640,7 +2778,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/447071"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-453048",
@@ -2654,7 +2793,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/453048"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-451023",
@@ -2668,7 +2808,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/451023"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-453312",
@@ -2682,7 +2823,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/453312"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-451725",
@@ -2696,7 +2838,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/451725"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-447966",
@@ -2710,7 +2853,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/447966"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-444554",
@@ -2724,7 +2868,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/444554"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1947.501.a",
@@ -2738,7 +2883,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1947.501.a"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1947.501",
@@ -2752,7 +2898,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1947.501"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1988.96.b",
@@ -2766,7 +2913,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1988.96.b"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1915.589",
@@ -2780,7 +2928,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1915.589"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1948.308",
@@ -2794,7 +2943,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1948.308"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1917.977",
@@ -2808,7 +2958,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1917.977"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1948.308.b",
@@ -2822,7 +2973,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1948.308.b"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1948.308.a",
@@ -2836,7 +2988,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1948.308.a"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1948.308.c",
@@ -2850,7 +3003,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1948.308.c"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1926.22",
@@ -2864,7 +3018,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1926.22"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1985.181",
@@ -2878,7 +3033,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1985.181"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1971.22",
@@ -2892,7 +3048,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1971.22"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1964.96",
@@ -2906,7 +3063,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1964.96"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1918.353",
@@ -2920,7 +3078,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1918.353"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-vam-O1244086",
@@ -2930,6 +3089,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O1244086/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2012FJ7290/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -2944,6 +3104,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O74602/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AV9406/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -2958,6 +3119,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O119449/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006BK8780/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -2972,6 +3134,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O40697/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2007BM5845/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -2986,6 +3149,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O1292355/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2014HC6392/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -3000,6 +3164,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O1244087/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2012FJ7289/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -3014,6 +3179,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O147254/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2008BU1067/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -3028,6 +3194,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O40700/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2007BM5846/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -3042,6 +3209,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O397561/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2021MW1534/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -3056,6 +3224,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O251431/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AM9104/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -3070,6 +3239,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O101641/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2018LB9286/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -3084,6 +3254,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O1773774/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2025PH2025/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -3098,6 +3269,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O618230/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2010EH6300/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -3112,6 +3284,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O163569/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2010EC4581/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -3126,6 +3299,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O150586/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2010EC3656/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -3140,6 +3314,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O73404/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AJ6547/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -3154,6 +3329,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O152907/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2008BU4716/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -3168,6 +3344,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O1103790/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2010EM4881/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -3182,6 +3359,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O499799/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2010EL4380/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -3196,6 +3374,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O1103798/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2010EM4878/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -3214,7 +3393,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/454621"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-323972",
@@ -3228,7 +3408,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/323972"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-323511",
@@ -3242,7 +3423,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/323511"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-323971",
@@ -3256,7 +3438,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/323971"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-326157",
@@ -3270,7 +3453,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/326157"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-326395",
@@ -3284,7 +3468,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/326395"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-326158",
@@ -3298,7 +3483,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/326158"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-323512",
@@ -3312,7 +3498,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/323512"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-323479",
@@ -3326,7 +3513,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/323479"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-323478",
@@ -3340,7 +3528,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/323478"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-323509",
@@ -3354,7 +3543,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/323509"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-323508",
@@ -3368,7 +3558,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/323508"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-325978",
@@ -3382,7 +3573,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/325978"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-325979",
@@ -3396,7 +3588,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/325979"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-322973",
@@ -3410,7 +3603,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/322973"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-451752",
@@ -3424,7 +3618,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/451752"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-324291",
@@ -3452,7 +3647,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/450492"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-451909",
@@ -3466,7 +3662,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/451909"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-452032",
@@ -3480,7 +3677,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/452032"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-448959",
@@ -3494,7 +3692,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/448959"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-448663",
@@ -3508,7 +3707,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/448663"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-323944",
@@ -3536,7 +3736,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/323955"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-323943",
@@ -3550,7 +3751,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/323943"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-325995",
@@ -3564,7 +3766,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/325995"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-324138",
@@ -3578,7 +3781,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/324138"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-448672",
@@ -3592,7 +3796,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/448672"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-451379",
@@ -3606,7 +3811,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/451379"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-325818",
@@ -3620,7 +3826,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/325818"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-450483",
@@ -3634,7 +3841,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/450483"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-452991",
@@ -3648,7 +3856,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/452991"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-450452",
@@ -3662,7 +3871,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/450452"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-444453",
@@ -3676,7 +3886,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/444453"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-vam-O54307",
@@ -3686,6 +3897,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O54307/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AM1085/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -3707,7 +3919,8 @@
    "digitalObject": null,
    "iiifManifest": "https://iiif.vam.ac.uk/collections/O97147/manifest.json"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1933.488.b",
@@ -3721,7 +3934,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1933.488.b"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1942.204",
@@ -3749,7 +3963,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1949.467"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1933.488.a",
@@ -3763,7 +3978,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1933.488.a"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1964.41",
@@ -3777,7 +3993,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1964.41"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1943.91",
@@ -3791,7 +4008,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1943.91"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1948.205",
@@ -3805,7 +4023,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1948.205"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1969.291",
@@ -3819,7 +4038,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1969.291"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1935.242",
@@ -3833,7 +4053,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1935.242"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1935.243",
@@ -3847,7 +4068,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1935.243"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-24007",
@@ -3861,7 +4083,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/24007"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-24182",
@@ -3875,7 +4098,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/24182"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-325508",
@@ -3889,7 +4113,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/325508"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-326379",
@@ -3903,7 +4128,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/326379"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-326456",
@@ -3917,7 +4143,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/326456"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-444525",
@@ -3931,7 +4158,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/444525"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-444614",
@@ -3945,7 +4173,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/444614"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-445977",
@@ -3959,7 +4188,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/445977"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-449338",
@@ -3973,7 +4203,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/449338"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-449974",
@@ -3987,7 +4218,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/449974"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-450722",
@@ -4001,7 +4233,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/450722"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-450761",
@@ -4015,7 +4248,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/450761"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-452079",
@@ -4029,7 +4263,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/452079"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-452740",
@@ -4043,7 +4278,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/452740"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-met-664761",
@@ -4057,7 +4293,8 @@
   "externalLinks": {
    "digitalObject": "https://www.metmuseum.org/art/collection/search/664761"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1962.23",
@@ -4071,7 +4308,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1962.23"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1933.184",
@@ -4085,7 +4323,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1933.184"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1933.177",
@@ -4099,7 +4338,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1933.177"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1933.175",
@@ -4113,7 +4353,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1933.175"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1951.539",
@@ -4127,7 +4368,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1951.539"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-cleveland-1944.482",
@@ -4141,7 +4383,8 @@
   "externalLinks": {
    "digitalObject": "https://www.clevelandart.org/art/1944.482"
   },
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "museum-vam-O67415",
@@ -4151,6 +4394,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O67415/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AG4289/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": null,
@@ -4165,6 +4409,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O114626/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2017KN1882/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O114626/",
@@ -4179,6 +4424,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O76932/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AF6081/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O76932/",
@@ -4193,6 +4439,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O40302/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AF0168/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O40302/",
@@ -4207,6 +4454,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O347028/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2019LX9628/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O347028/",
@@ -4221,6 +4469,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O109620/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AB9514/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O109620/",
@@ -4235,6 +4484,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O76906/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AF6897/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O76906/",
@@ -4249,6 +4499,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O155616/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2009CR1516/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O155616/",
@@ -4263,6 +4514,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O155232/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2021NA6692/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O155232/",
@@ -4277,6 +4529,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O427359/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2015HJ5742/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O427359/",
@@ -4291,6 +4544,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O114693/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2018LC0208/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O114693/",
@@ -4305,6 +4559,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O114730/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2013GA5469/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O114730/",
@@ -4319,6 +4574,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O114683/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2015HX2538/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O114683/",
@@ -4333,6 +4589,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O114680/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2015HX2535/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O114680/",
@@ -4347,6 +4604,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O114731/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2015HX2584/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O114731/",
@@ -4361,6 +4619,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O155743/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2021NA6727/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O155743/",
@@ -4375,6 +4634,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O76910/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AF7180/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O76910/",
@@ -4389,6 +4649,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O72085/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2020MU3154/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O72085/",
@@ -4403,6 +4664,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O72087/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2017KN3042/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O72087/",
@@ -4417,6 +4679,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O450192/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2020MM4350/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O450192/",
@@ -4431,6 +4694,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O72250/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2020MP9935/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O72250/",
@@ -4445,6 +4709,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O67801/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AJ7300/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O67801/",
@@ -4459,6 +4724,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O113962/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AR0205/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O113962/",
@@ -4473,6 +4739,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O71285/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AJ7341/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O71285/",
@@ -4487,6 +4754,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O71264/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AJ7329/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O71264/",
@@ -4501,6 +4769,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O71247/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AJ7283/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O71247/",
@@ -4515,6 +4784,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O71466/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AJ7328/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O71466/",
@@ -4529,6 +4799,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O71493/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2017JW0979/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O71493/",
@@ -4543,6 +4814,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O71266/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AJ7338/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O71266/",
@@ -4557,6 +4829,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O71554/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AJ7331/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O71554/",
@@ -4571,6 +4844,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O100776/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AW2949/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O100776/",
@@ -4585,6 +4859,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O39220/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2016JJ7939/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O39220/",
@@ -4599,6 +4874,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O55138/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2016JF5846/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O55138/",
@@ -4613,6 +4889,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O305320/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2016JF5989/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O305320/",
@@ -4627,6 +4904,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O55183/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2016JF3778/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O55183/",
@@ -4641,6 +4919,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O53746/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2015HN9822/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O53746/",
@@ -4655,6 +4934,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O76909/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AF6907/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O76909/",
@@ -4669,6 +4949,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O38969/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2006AF6911/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O38969/",
@@ -4683,6 +4964,7 @@
   "provider": "Victoria and Albert Museum",
   "manifestUrl": "https://iiif.vam.ac.uk/collections/O72/manifest.json",
   "pages": 1,
+  "cover": "cover.jpg",
   "thumbnail": "https://framemark.vam.ac.uk/collections/2018KX8607/full/!400,400/0/default.jpg",
   "externalLinks": {
    "digitalObject": "https://collections.vam.ac.uk/item/O72/",
@@ -4698,6 +4980,7 @@
   "manifestUrl": "books/museum-getty-zarf-kohol-2/manifest.json",
   "pages": 1,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-zarf-kohol-2/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/109631",
@@ -4713,6 +4996,7 @@
   "manifestUrl": "books/museum-getty-zarf-kohol-1/manifest.json",
   "pages": 1,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-zarf-kohol-1/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/109632",
@@ -4728,6 +5012,7 @@
   "manifestUrl": "books/museum-getty-kase-lengr-dolfin/manifest.json",
   "pages": 4,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-kase-lengr-dolfin/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103V15",
@@ -4743,6 +5028,7 @@
   "manifestUrl": "books/museum-getty-tekouk-gozn/manifest.json",
   "pages": 5,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-tekouk-gozn/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103WEZ",
@@ -4758,6 +5044,7 @@
   "manifestUrl": "books/museum-getty-kase-pichk/manifest.json",
   "pages": 2,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-kase-pichk/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103V1J",
@@ -4773,6 +5060,7 @@
   "manifestUrl": "books/museum-getty-sinapush-shir-gozn/manifest.json",
   "pages": 2,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-sinapush-shir-gozn/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103V1S",
@@ -4788,6 +5076,7 @@
   "manifestUrl": "books/museum-getty-gardanband-zarrin/manifest.json",
   "pages": 3,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-gardanband-zarrin/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103V1V",
@@ -4803,6 +5092,7 @@
   "manifestUrl": "books/museum-getty-tekouk-sagak-1/manifest.json",
   "pages": 6,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-tekouk-sagak-1/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103WET",
@@ -4818,6 +5108,7 @@
   "manifestUrl": "books/museum-getty-tekouk-sagak-2/manifest.json",
   "pages": 6,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-tekouk-sagak-2/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103WEX",
@@ -4833,6 +5124,7 @@
   "manifestUrl": "books/museum-getty-kase-gol-sorkhi/manifest.json",
   "pages": 7,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-kase-gol-sorkhi/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103WF4",
@@ -4848,6 +5140,7 @@
   "manifestUrl": "books/museum-getty-panzarf/manifest.json",
   "pages": 30,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-panzarf/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103WEY",
@@ -4863,6 +5156,7 @@
   "manifestUrl": "books/museum-getty-kase-fals-nama/manifest.json",
   "pages": 4,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-kase-fals-nama/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103V1D",
@@ -4878,6 +5172,7 @@
   "manifestUrl": "books/museum-getty-jam-nangin-sangi/manifest.json",
   "pages": 6,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-jam-nangin-sangi/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103WF2",
@@ -4893,6 +5188,7 @@
   "manifestUrl": "books/museum-getty-aviz-zanjir/manifest.json",
   "pages": 1,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-aviz-zanjir/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/1061BT",
@@ -4908,6 +5204,7 @@
   "manifestUrl": "books/museum-getty-tekouk-shir/manifest.json",
   "pages": 2,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-tekouk-shir/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103WF0",
@@ -4923,6 +5220,7 @@
   "manifestUrl": "books/museum-getty-tekouk-amfor-grifin/manifest.json",
   "pages": 9,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-tekouk-amfor-grifin/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103WEV",
@@ -4953,6 +5251,7 @@
   "manifestUrl": "books/museum-getty-derakhm-yazdgard-2/manifest.json",
   "pages": 2,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-derakhm-yazdgard-2/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103Z1T",
@@ -4968,6 +5267,7 @@
   "manifestUrl": "books/museum-getty-kase-sheshi/manifest.json",
   "pages": 3,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-kase-sheshi/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/1098QT",
@@ -4983,6 +5283,7 @@
   "manifestUrl": "books/museum-getty-kase-shabaka/manifest.json",
   "pages": 2,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-kase-shabaka/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103WEW",
@@ -4998,6 +5299,7 @@
   "manifestUrl": "books/museum-getty-pialeh-naghsh-dar/manifest.json",
   "pages": 5,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-pialeh-naghsh-dar/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103TPC",
@@ -5013,6 +5315,7 @@
   "manifestUrl": "books/museum-getty-derakhm-kave-1/manifest.json",
   "pages": 2,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-derakhm-kave-1/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/10649B",
@@ -5028,6 +5331,7 @@
   "manifestUrl": "books/museum-getty-sinapush-shir-gozn-2/manifest.json",
   "pages": 2,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-sinapush-shir-gozn-2/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103V1P",
@@ -5043,6 +5347,7 @@
   "manifestUrl": "books/museum-getty-jam-aqiqi/manifest.json",
   "pages": 5,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-jam-aqiqi/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/105YY2",
@@ -5058,6 +5363,7 @@
   "manifestUrl": "books/museum-getty-jam-nim-kore/manifest.json",
   "pages": 6,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-jam-nim-kore/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103WF1",
@@ -5073,6 +5379,7 @@
   "manifestUrl": "books/museum-getty-nagin-hakkaki/manifest.json",
   "pages": 2,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-nagin-hakkaki/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103XYP",
@@ -5088,6 +5395,7 @@
   "manifestUrl": "books/museum-getty-darik/manifest.json",
   "pages": 7,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-darik/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103Z3N",
@@ -5118,6 +5426,7 @@
   "manifestUrl": "books/museum-getty-mohre-hashkani/manifest.json",
   "pages": 1,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-mohre-hashkani/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103XHV",
@@ -5133,6 +5442,7 @@
   "manifestUrl": "books/museum-getty-mohr-hormi/manifest.json",
   "pages": 4,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-mohr-hormi/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103V06",
@@ -5148,6 +5458,7 @@
   "manifestUrl": "books/museum-getty-angoshtar/manifest.json",
   "pages": 2,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-angoshtar/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103VRS",
@@ -5163,6 +5474,7 @@
   "manifestUrl": "books/museum-getty-kase-safali-hendasi/manifest.json",
   "pages": 8,
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": "books/museum-getty-kase-safali-hendasi/cover.jpg",
   "externalLinks": {
    "digitalObject": "https://www.getty.edu/art/collection/object/103TPE",
@@ -5237,7 +5549,7 @@
  },
  {
   "slug": "bierah-baudelaire",
-  "title": "بودل",
+  "title": "مجموعه آثار بودلر",
   "author": "Charles Baudelaire",
   "source": "iiif",
   "pages": 366,
@@ -5277,7 +5589,8 @@
    "https://iiif.archive.org/image/iiif/3/bub_gb_zWwGAQAAIAAJ%2Fbub_gb_zWwGAQAAIAAJ_jp2.zip%2Fbub_gb_zWwGAQAAIAAJ_jp2%2Fbub_gb_zWwGAQAAIAAJ_0003.jp2/full/!400,400/0/default.jpg",
    "https://iiif.archive.org/image/iiif/3/bub_gb_zWwGAQAAIAAJ%2Fbub_gb_zWwGAQAAIAAJ_jp2.zip%2Fbub_gb_zWwGAQAAIAAJ_jp2%2Fbub_gb_zWwGAQAAIAAJ_0004.jp2/full/!400,400/0/default.jpg"
   ],
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "bierah-verlaine-bonne-chanson",
@@ -5977,7 +6290,8 @@
    "https://iiif.archive.org/image/iiif/3/orateurssacres0000vari%2Forateurssacres0000vari_jp2.zip%2Forateurssacres0000vari_jp2%2Forateurssacres0000vari_0004.jp2/full/!400,400/0/default.jpg",
    "https://iiif.archive.org/image/iiif/3/orateurssacres0000vari%2Forateurssacres0000vari_jp2.zip%2Forateurssacres0000vari_jp2%2Forateurssacres0000vari_0005.jp2/full/!400,400/0/default.jpg"
   ],
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "bierah-ch12-abbe-perreyve",
@@ -6205,6 +6519,8 @@
   "author": "Jan Luyken",
   "source": "museum",
   "pages": 96,
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "provider": "Art Institute of Chicago",
   "manifestUrl": "books/bierah-luyken-persecutions/manifest.json",
   "section": "bierah",
@@ -6243,7 +6559,8 @@
   "thumbnail": [
    "books/bierah-bresdin-comedy-of-death/cover.jpg"
   ],
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "bierah-bresdin-good-samaritan",
@@ -6280,7 +6597,8 @@
   "thumbnail": [
    "books/bierah-redon-melancholy/cover.jpg"
   ],
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "bierah-redon-series",
@@ -6315,7 +6633,8 @@
   "thumbnail": [
    "books/bierah-elgreco-christ/cover.jpg"
   ],
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "bierah-goya-caprichos",
@@ -6323,6 +6642,8 @@
   "author": "Francisco Goya",
   "source": "museum",
   "pages": 80,
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "provider": "Art Institute of Chicago",
   "manifestUrl": "books/bierah-goya-caprichos/manifest.json",
   "section": "bierah",
@@ -6351,6 +6672,7 @@
   "author": "Francisco Goya",
   "source": "museum",
   "pages": 192,
+  "cover": "cover.jpg",
   "provider": "Internet Archive",
   "manifestUrl": "books/bierah-goya-proverbios/manifest.json",
   "section": "bierah",
@@ -6389,7 +6711,8 @@
   "thumbnail": [
    "books/bierah-goya-garroteado/cover.jpg"
   ],
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "bierah-goya-war",
@@ -6397,6 +6720,7 @@
   "author": "Francisco Goya",
   "source": "museum",
   "pages": 110,
+  "cover": "cover.jpg",
   "provider": "Internet Archive",
   "manifestUrl": "books/bierah-goya-war/manifest.json",
   "section": "bierah",
@@ -6425,6 +6749,8 @@
   "author": "Rembrandt",
   "source": "museum",
   "pages": 128,
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "provider": "Art Institute of Chicago",
   "manifestUrl": "books/bierah-rembrandts/manifest.json",
   "section": "bierah",
@@ -6485,7 +6811,8 @@
   "thumbnail": [
    "books/bierah-dutch-school/cover.jpg"
   ],
-  "cover": "cover.jpg"
+  "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg"
  },
  {
   "slug": "bierah-rubens-salome",
@@ -6517,6 +6844,7 @@
    "digitalObject": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Gustave_Moreau_Salom%C3%A9_1876.jpg"
   },
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": [
    "books/bierah-moreau-salome/cover.jpg"
   ]
@@ -6534,6 +6862,7 @@
    "digitalObject": "https://upload.wikimedia.org/wikipedia/commons/2/23/Gustave_Moreau_-_The_Apparition_-_Google_Art_Project.jpg"
   },
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": [
    "books/bierah-moreau-apparition/cover.jpg"
   ]
@@ -6551,6 +6880,7 @@
    "digitalObject": "https://upload.wikimedia.org/wikipedia/commons/6/6e/George_Frederic_Watts_%281817-1904%29_-_The_Curse_of_Cain_-_NWHCM_%2C_1907.35.2_%2C_F_-_Norfolk_Museums_Collections.jpg"
   },
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": [
    "books/bierah-watts-curse-of-cain/cover.jpg"
   ]
@@ -6568,6 +6898,7 @@
    "digitalObject": "https://upload.wikimedia.org/wikipedia/commons/d/dd/George_Frederic_Watts_-_Eve_Repentant_-_Google_Art_Project.jpg"
   },
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": [
    "books/bierah-watts-eve/cover.jpg"
   ]
@@ -6585,6 +6916,7 @@
    "digitalObject": "https://upload.wikimedia.org/wikipedia/commons/9/9b/Madeleine_undressing_%E2%80%93_Eve_of_St_Agnes%2C_John_Everett_Millais.jpg"
   },
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": [
    "books/bierah-millais-eve-of-st-agnes/cover.jpg"
   ]
@@ -6602,6 +6934,7 @@
    "digitalObject": "https://en.wikisource.org/wiki/Against_the_Grain/Chapter_XI"
   },
   "cover": "cover.jpg",
+  "coverThumb": "cover-thumb.jpg",
   "thumbnail": [
    "books/bierah-watts-ida/cover.jpg"
   ],
@@ -6623,6 +6956,7 @@
    "books/contre-nature/img/attic.jpg"
   ],
   "externalLinks": {},
-  "cover": "img/study.jpg"
+  "cover": "img/study.jpg",
+  "coverThumb": "img/study-thumb.jpg"
  }
 ]

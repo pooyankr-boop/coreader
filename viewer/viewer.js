@@ -77,7 +77,7 @@ function loadBook(slug){
         // vam.ac.uk, framemark.vam.ac.uk and images.metmuseum.org all answer with
         // Access-Control-Allow-Origin: * (verified), so they fetch fine straight
         // from GitHub Pages — proxying them only produced 404s there.
-        var needsProxy = /qdl\.qa|digirati\.io|loc\.gov|ids\.si\.edu|harvardartmuseums\.org|harvard\.edu|artic\.edu|collections\.yale\.edu/.test(manifestUrl);
+        var needsProxy = /qdl\.qa|digirati\.io|loc\.gov|ids\.si\.edu|harvardartmuseums\.org|harvard\.edu|artic\.edu|collections\.yale\.edu|iiif\.archive\.org/.test(manifestUrl);
         if(isDirectImage){
           // commons.wikimedia.org/wiki/Special:FilePath answers with a chain of
           // redirects and no Access-Control-Allow-Origin on the first hop, so a
@@ -107,7 +107,7 @@ function loadBook(slug){
           fetchManifest(fetchUrl).then(function(r){
             return r.json();
           }).then(function(data){data._entry=entry;return data;}),
-          new Promise(function(_, reject){ setTimeout(function(){ reject(new Error('manifest timeout')); }, 15000); })
+          new Promise(function(_, reject){ setTimeout(function(){ reject(new Error('manifest timeout')); }, 30000); })
         ]).catch(function(){
           // If manifest fails, create a minimal book entry
           return { source: 'iiif', title: entry.title || slug, pages: entry.pages || 100, _entry: entry };
@@ -555,6 +555,7 @@ function normalizeBook(data, slug){
 // (`/full/2400,`) if a 1208-page book ever opens many pages at once.
 function loadImageRetry(url, attempts, cb){
   var n=0;
+  var t0=Date.now();
   (function attempt(){
     var im=new Image();
     im.crossOrigin='anonymous';
@@ -564,7 +565,8 @@ function loadImageRetry(url, attempts, cb){
     };
     im.onerror=function(){
       if(++n>=attempts){ cb(null); return; }
-      setTimeout(attempt, 400*n);
+      // Back off longer on slow servers: 400ms, 1.2s, 3.6s
+      setTimeout(attempt, 400*Math.pow(3, n-1));
     };
     im.src=url;
   })();
@@ -577,6 +579,14 @@ function toBlobUrl(im, cb){
     if(c.toBlob){ c.toBlob(function(b){ cb(b?URL.createObjectURL(b):null); }, 'image/jpeg', 0.92); }
     else cb(null);
   }catch(e){ cb(null); }
+}
+
+
+function hideOsdLoading(){
+  var el=document.getElementById('osdLoading');
+  if(el) el.style.display='none';
+  var err=document.getElementById('imgLoadError');
+  if(err) err.remove();
 }
 
 function setupOsd(){
@@ -609,11 +619,13 @@ function setupOsd(){
   } else if(tileSource.type==='image' && tileSource.url && !/^data:/.test(tileSource.url)){
     // Retry ourselves and hand OSD a blob: same-origin, so its canvas draw
     // can never be blocked by the remote host's CORS headers.
-    loadImageRetry(tileSource.url, 3, function(im){
+    loadImageRetry(tileSource.url, 5, function(im){
       if(!im){
-        container.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted)">تصویر قابل بارگذاری نیست</div>';
+        container.innerHTML='<div id="imgLoadError" style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--muted);flex-direction:column;gap:8px"><span>⏳</span><span>در حال بارگذاری تصویر...</span></div>';
         return;
       }
+      var loadEl=document.getElementById('osdLoading');
+      if(loadEl) loadEl.style.display='none';
       var w=im.naturalWidth, h=im.naturalHeight;
       toBlobUrl(im, function(blobUrl){
         if(!blobUrl){
@@ -645,6 +657,7 @@ function setupOsd(){
   }
   _osd=OpenSeadragon(osdOpts); osdBindHighlight();
   osdBindHighlight();
+  hideOsdLoading();
 }
 
 /* Hook a freshly built OpenSeadragon up to the highlight layer.
@@ -734,7 +747,8 @@ function openImagePage(ts, container){
     }
     var w=im.naturalWidth, h=im.naturalHeight;
     toBlobUrl(im, function(blobUrl){
-      _osd.open(blobUrl?{type:'image', url:blobUrl, width:w, height:h}
+      hideOsdLoading();
+    _osd.open(blobUrl?{type:'image', url:blobUrl, width:w, height:h}
                 :{type:'image', url:ts.url, width:w, height:h});
     });
   });
@@ -1277,15 +1291,16 @@ function splitFill(kind){
   if(!el) return;
   if(kind==='text') return fillTextColumn(el);
   var u=_split.kinds[kind];
+  var uq=String(u==null?'':u).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');   // a URL from book data goes into an attribute
   if(kind==='pdf'){
-    el.innerHTML='<iframe class="split-frame" src="'+u+'" title="PDF"></iframe>';
+    el.innerHTML='<iframe class="split-frame" src="'+uq+'" title="PDF"></iframe>';
   } else if(kind==='textfile'){
     // A .txt cannot be framed, and a 3.5MB file should not be fetched by a
     // page turn: link to it and let the reader open it deliberately.
     el.innerHTML=splitMsg('این فایل متن کل کتاب است و صفحه‌به‌صفحه نیست'+
-      '<br><a class="split-x" href="'+u+'" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px">باز کردن متن کامل</a>');
+      '<br><a class="split-x" href="'+uq+'" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px">باز کردن متن کامل</a>');
   } else if(kind==='gif' || kind==='image'){
-    el.innerHTML='<img class="split-img" src="'+u+'" alt="">';
+    el.innerHTML='<img class="split-img" src="'+uq+'" alt="">';
   } else {
     el.innerHTML=splitMsg('این قالب درون سایت نمایش داده نمی‌شود');
   }

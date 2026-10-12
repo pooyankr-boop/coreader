@@ -664,7 +664,7 @@ body {
  * to go.  Scoped to .has-slides on purpose - unscoped, this rule also fired on
  * every one-picture card and faded its only image out to nothing, because there
  * was no slideshow behind it to take over. */
-.card.has-slides:hover .card-cover {
+.card.has-slides.slides-ready:hover .card-cover {
   opacity: 0;
 }
 

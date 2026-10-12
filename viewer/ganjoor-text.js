@@ -379,9 +379,11 @@ function showSideTt(el) {
   if (!text && !title) return;
   var tip = document.createElement('div');
   tip.className = 'side-tt visible side-r';
-  tip.innerHTML = '<div class="at-word">' + el.textContent + '</div>' +
-    (title ? '<div class="at-title">' + title + '</div>' : '') +
-    '<div class="at-text">' + text + '</div>';
+  /* word, title and text come from OCR / book data: text, never markup */
+  function row(cls, t) { var d = document.createElement('div'); d.className = cls; d.textContent = t; return d; }
+  tip.appendChild(row('at-word', el.textContent));
+  if (title) tip.appendChild(row('at-title', title));
+  tip.appendChild(row('at-text', text));
   var pgEl = el.closest('.g-reading-box') || el.closest('#textContent');
   if (pgEl) { pgEl.style.position = 'relative'; pgEl.appendChild(tip); }
   var rect = el.getBoundingClientRect();

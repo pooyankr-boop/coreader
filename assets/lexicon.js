@@ -55,8 +55,9 @@
   }
 
   function stripHtml(html) {
-    var box = document.createElement('div');
-    box.innerHTML = String(html || '');
+    /* DOMParser builds an inert document: unlike innerHTML on a detached element it never
+       starts image loads or runs on* handlers from a third party's markup */
+    var box = new DOMParser().parseFromString('<body>' + String(html || '') + '</body>', 'text/html').body;
     box.querySelectorAll('style,script').forEach(function (n) { n.parentNode.removeChild(n); });
     // usage labels and etymology notes are noise inside a definition
     box.querySelectorAll('.usage-label-se, .ib-content, .reference, sup').forEach(function (n) { n.parentNode.removeChild(n); });
@@ -129,7 +130,7 @@
   /* English Wiktionary's REST endpoint is the structured one: it covers every
    * language it has an entry for, grouped by language and part of speech. */
   function fromEn(word) {
-    return getJSON(EN_API + encodeURIComponent(encodeURIComponent(normLight(word)))).then(function (data) {
+    return getJSON(EN_API + encodeURIComponent(normLight(word))).then(function (data) {
       if (!data) return null;
       var groups = [];
       Object.keys(data).forEach(function (langKey) {
@@ -204,7 +205,7 @@
        * language's entry, and a Persian reader should not have to read the
        * answer in the source language: the senses go through the same
        * translator the page uses. */
-      var toPersian = toPersianSenses(res);
+      var toPersian = toPersianSenses(res, max);
       return toPersian.then(function (r2) { return renderGroups(target, box, word, r2, max); });
     }).catch(function (e) {
       box.innerHTML = '<div class="lx-err">واژه‌نامه در دسترس نیست؛ پیوندهای پایین را امتحان کنید.</div>';
@@ -234,16 +235,20 @@
    * German sections too, and those senses have to be Persian as well. Only
    * what is not already in the script is sent to the translator, and each
    * block keeps the language it was written in. */
-  function toPersianSenses(res) {
-    var jobs = [];
+  function toPersianSenses(res, max) {
+    var jobs = [], shown = 0;
+    max = max || 6;
     res.groups.forEach(function (g) {
-      g.senses.forEach(function (s) { if (!inArabicScript(s.text)) jobs.push(s); });
+      g.senses.forEach(function (s) { if (shown++ < max && !inArabicScript(s.text)) jobs.push(s); });
     });
     if (!jobs.length) return Promise.resolve(res);
     var texts = jobs.map(function (s) { return s.text; });
     var sl = res.lang === 'fa' ? 'en' : res.lang;
     return translateLines(texts, sl).then(function (out) {
       var lines = String(out || '').split('\n');
+      /* one answer line per sense or nothing: a merged or dropped line would pin a
+         translation on the wrong meaning */
+      if (lines.length !== jobs.length) return res;
       for (var i = 0; i < jobs.length && i < lines.length; i++) {
         if (lines[i] && lines[i] !== texts[i]) jobs[i].text = lines[i];
       }

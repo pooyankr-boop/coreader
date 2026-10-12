@@ -10,6 +10,65 @@ var _sortMode = 'default';
 var _currentQvSlug = null;
 var _slideIntervals = {};
 
+/* === Remote images: a small queue ===
+ * A browser keeps ~6 connections per origin, and the remote thumbnails go through this
+ * origin's /proxy-image. When they were all requested at once, the slow ones (archive.org
+ * can take 30s+) held every connection and even the local cover files at the end of the
+ * list waited behind them. Remote images now load two at a time, newest-visible first;
+ * what the user hovers jumps the queue. Local files are never queued. */
+var _imgQ = [], _imgActive = 0, _IMG_CONC = 2, _imgObserver = null;
+function queueImage(img, src, urgent){
+  if(!img || !src || img.dataset.q) return;
+  img.dataset.q = '1';
+  var job = { img: img, src: src };
+  if(urgent) _imgQ.unshift(job); else _imgQ.unshift(job);   // newest first: what scrolled into view last is what the user is looking at
+  pumpImages();
+}
+function pumpImages(){
+  while(_imgActive < _IMG_CONC && _imgQ.length){
+    var job = _imgQ.shift();
+    if(!job.img.isConnected) continue;            // the grid was re-rendered meanwhile
+    _imgActive++;
+    (function(j){
+      var finished = false, timer = null;
+      function done(){ if(finished) return; finished = true; clearTimeout(timer); _imgActive--; pumpImages(); }
+      timer = setTimeout(done, 20000);            // a hung request must not hold a slot forever
+      j.img.addEventListener('load', done, { once: true });
+      j.img.addEventListener('error', done, { once: true });
+      j.img.src = j.src;
+    })(job);
+  }
+}
+function initRemoteCovers(){
+  _imgQ.length = 0;
+  if(_imgObserver){ _imgObserver.disconnect(); _imgObserver = null; }
+  var imgs = document.querySelectorAll('img.card-cover[data-rsrc]');
+  if(!imgs.length) return;
+  if(!('IntersectionObserver' in window)){ Array.prototype.forEach.call(imgs, function(im){ queueImage(im, im.dataset.rsrc, false); }); return; }
+  _imgObserver = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(!e.isIntersecting) return;
+      _imgObserver.unobserve(e.target);
+      queueImage(e.target, e.target.dataset.rsrc, false);
+    });
+  }, { rootMargin: '500px 0px' });
+  Array.prototype.forEach.call(imgs, function(im){ _imgObserver.observe(im); });
+}
+/* A cover that fails must never reload the page (it used to: location.reload() after 2s,
+ * which restarted every request and looped on a slow proxy). Remote covers get one retry,
+ * then the card shows its ornament. */
+window.coverFail = function(img){
+  var wrap = img.parentElement, fb = wrap && wrap.querySelector('.card-cover-fallback');
+  if(img.dataset.rsrc && !img.dataset.retried){
+    img.dataset.retried = '1';
+    setTimeout(function(){ if(img.isConnected) img.src = img.dataset.rsrc + (img.dataset.rsrc.indexOf('?') >= 0 ? '&' : '?') + 'retry=1'; }, 4000);
+    return;
+  }
+  img.style.display = 'none';
+  if(fb) fb.style.display = 'flex';
+};
+
+
 function toFA(n){
   return String(n).replace(/[0-9]/g, function(d){ return '۰۱۲۳۴۵۶۷۸۹'[d]; });
 }
@@ -22,6 +81,9 @@ function sectionOf(b){
 // esc(): full HTML escape for text/attribute context. Titles, authors and
 // notes come from third-party IIIF manifests and from files the user drops
 // in, so anything built into HTML here is untrusted.
+function lsGet(key, fallback){
+  try { var v = localStorage.getItem(key); return v == null ? fallback : JSON.parse(v); } catch(e){ return fallback; }
+}
 function esc(s){
   return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
@@ -179,7 +241,7 @@ function showCatalog(){
     })
     .then(function(list){
       var custom = [];
-      try { custom = JSON.parse(localStorage.getItem('coreader-custom-books') || '[]'); } catch(e){}
+      try { custom = lsGet('coreader-custom-books', []); } catch(e){}
       var indexSlugs = {};
       list.forEach(function(b){ indexSlugs[b.slug] = 1; });
       custom = custom.filter(function(c){
@@ -193,7 +255,7 @@ function showCatalog(){
       console.warn('[catalog] fetch books-index failed:', err);
       // Fallback: check custom books from localStorage
       var custom = [];
-      try { custom = JSON.parse(localStorage.getItem('coreader-custom-books') || '[]'); } catch(e){}
+      try { custom = lsGet('coreader-custom-books', []); } catch(e){}
       if(custom.length){
         window._allRawBooks = custom;
         filterCatalogBySection();
@@ -357,8 +419,8 @@ function render(){
 
   var progress = {};
   var favs = [];
-  try { progress = JSON.parse(localStorage.getItem('coreader-progress') || '{}'); } catch(e){}
-  try { favs = JSON.parse(localStorage.getItem('coreader-favs') || '[]'); } catch(e){}
+  try { progress = lsGet('coreader-progress', {}); } catch(e){}
+  try { favs = lsGet('coreader-favs', []); } catch(e){}
   var favSlugs = {};
   favs.forEach(function(f){ if(f.slug) favSlugs[f.slug] = 1; });
 
@@ -369,14 +431,27 @@ function render(){
       '<div class="card-progress"><div class="card-progress-bar" style="width:' + pct + '%"></div></div>' +
       '<div class="card-progress-text"><span>پیشرفت مطالعه</span><span>' + toFA(pct) + '٪</span></div>' : '';
 
-    var coverSrc = b.cover ? ('books/' + b.slug + '/' + b.cover) : '';
+    var coverSrc = b.cover ? ('books/' + b.slug + '/' + (b.coverThumb || b.cover)) : '';
     if(!coverSrc && b.thumbnail){
       var t0 = Array.isArray(b.thumbnail) ? b.thumbnail[0] : b.thumbnail;
       coverSrc = t0;
     }
-
-    var coverImg = coverSrc ?
-      '<img class="card-cover" src="' + esc(coverSrc) + '" alt="' + plainText(b.title || '') + '" loading="lazy" onerror="this.style.display=\'none\';this.nextElementSibling.style.display=\'flex\'">' : '';
+    // Remote thumbnails (archive.org, framemark.vam.ac.uk, thumb.wikimedia.org)
+    // are slow and intermittently hang for 30s+. Route them through the local
+    // proxy so the browser never waits on a cross-origin server, and add a
+    // loading placeholder so the card does not jump straight to error text.
+    var coverProxy = '';
+    if(coverSrc && /^https?:\/\//.test(coverSrc) && coverSrc.indexOf('/proxy-image')<0){
+      coverProxy = '/proxy-image?url=' + encodeURIComponent(coverSrc);
+    }
+    var coverImgSrc = coverProxy || coverSrc || '';
+    var coverImg = '';
+    if(coverProxy){
+      // remote: no src yet - initRemoteCovers() loads it through the queue when it nears the viewport
+      coverImg = '<img class="card-cover" data-rsrc="' + esc(coverProxy) + '" alt="' + plainText(b.title || '') + '" decoding="async" onerror="coverFail(this)">';
+    } else if(coverImgSrc){
+      coverImg = '<img class="card-cover" src="' + esc(coverImgSrc) + '" alt="' + plainText(b.title || '') + '" loading="lazy" decoding="async" onerror="coverFail(this)">';
+    }
 
     var fallback = '<div class="card-cover-fallback" style="' + (coverSrc ? 'display:none' : '') + '">' +
       '<div class="fallback-ornament">📜</div>' +
@@ -389,7 +464,11 @@ function render(){
       var thumbs = Array.isArray(b.thumbnail) ? b.thumbnail : [b.thumbnail];
       if(thumbs.length >= 2){
         slides = thumbs.slice(0, 5).map(function(url, si){
-          return '<div class="slide' + (si === 0 ? ' active' : '') + '"><img src="' + url + '" alt="" loading="lazy"></div>';
+          var su = url;
+          if(/^https?:\/\//.test(url) && url.indexOf('/proxy-image')<0){
+            su = '/proxy-image?url=' + encodeURIComponent(url);
+          }
+          return '<div class="slide' + (si === 0 ? ' active' : '') + '"><img data-src="' + esc(su) + '" alt="" decoding="async" onerror="this.parentElement.remove()"></div>';
         }).join('');
       }
     }
@@ -431,6 +510,7 @@ function render(){
     '</div>';
   }).join('');
 
+  initRemoteCovers();
   initSlideshows();
 }
 
@@ -460,15 +540,37 @@ function initSlideshows(){
     var live = slides();
     var idx = 0;
 
+    function ready(sl){ var im = sl.querySelector('img'); return !!(im && im.complete && im.naturalWidth > 0); }
+    // The slide images are not requested until the card is hovered (or focused); they load
+    // at the front of the queue, and the cover stays visible until the first one is ready.
+    function loadSlides(){
+      if(card.dataset.slidesLoading) return;
+      card.dataset.slidesLoading = '1';
+      Array.prototype.forEach.call(ss.querySelectorAll('.slide img[data-src]'), function(im){
+        im.addEventListener('load', function(){
+          var sl = im.closest('.slide'); if(!sl) return;
+          card.classList.add('slides-ready');
+          var act = ss.querySelector('.slide.active');
+          if(!act || !ready(act)){ if(act) act.classList.remove('active'); sl.classList.add('active'); }
+        }, { once: true });
+        queueImage(im, im.dataset.src, true);
+      });
+    }
+    card.addEventListener('focusin', loadSlides);
     card.addEventListener('mouseenter', function(){
+      loadSlides();
       clearInterval(_slideIntervals[slug]);
       _slideIntervals[slug] = setInterval(function(){
         // re-query every tick: a slide can vanish under us mid-show
         live = slides();
         if(live.length < 2){ dropSlideshow(card, ss); return; }
-        live[idx % live.length].classList.remove('active');
-        idx = (idx + 1) % live.length;
-        live[idx].classList.add('active');
+        var n = live.length, cur = idx % n, next = -1;
+        for(var k = 1; k < n; k++){ var c = (cur + k) % n; if(ready(live[c])){ next = c; break; } }
+        if(next >= 0){
+          live[cur].classList.remove('active');
+          idx = next;
+          live[next].classList.add('active');
+        }
       }, 1800);
     });
 
@@ -541,7 +643,7 @@ window.closeQuickView = function(){
 
 function updateQvFavBtn(){
   if(!_currentQvSlug) return;
-  var favs = JSON.parse(localStorage.getItem('coreader-favs') || '[]');
+  var favs = lsGet('coreader-favs', []);
   var isFav = favs.some(function(f){ return f.slug === _currentQvSlug; });
   var btn = document.getElementById('qvFavBtn');
   if(btn){
@@ -563,7 +665,7 @@ window.toggleCardFavorite = function(slug, e){
   var book = _books.find(function(b){ return b.slug === slug; });
   if(!book) return;
 
-  var favs = JSON.parse(localStorage.getItem('coreader-favs') || '[]');
+  var favs = lsGet('coreader-favs', []);
   var idx = favs.findIndex(function(f){ return f.slug === slug; });
   if(idx >= 0){
     favs.splice(idx, 1);
@@ -586,7 +688,7 @@ window.toggleCardFavorite = function(slug, e){
 
 // === Bookmarks Drawer ===
 window.openFavsDrawer = function(){
-  var favs = JSON.parse(localStorage.getItem('coreader-favs') || '[]');
+  var favs = lsGet('coreader-favs', []);
   var listEl = document.getElementById('favsDrawerList');
   if(!favs.length){
     listEl.innerHTML = '<div style="color:var(--muted);text-align:center;padding:24px 0">اثری نشان نشده است</div>';
@@ -609,7 +711,7 @@ window.closeFavsDrawer = function(){
 };
 
 window.removeFavItem = function(i){
-  var favs = JSON.parse(localStorage.getItem('coreader-favs') || '[]');
+  var favs = lsGet('coreader-favs', []);
   favs.splice(i, 1);
   localStorage.setItem('coreader-favs', JSON.stringify(favs));
   openFavsDrawer();
@@ -657,6 +759,7 @@ function iiifLabel(v){
       if(Array.isArray(v[keys[k]]) && v[keys[k]].length) return iiifLabel(v[keys[k]]);
     }
     if(v['@value']) return String(v['@value']);
+    return '';          // an unrecognised object must not print as "[object Object]"
   }
   return String(v);
 }
@@ -673,6 +776,15 @@ function resolveManifestUrl(inputUrl){
   return Promise.resolve(u);
 }
 
+/* IIIF v3: provider is a list of Agents ({label:{en:[..]}}); v2: attribution is a string, a
+   language map or a list of them. Either way the result is plain text. */
+function manifestProvider(m){
+  var p = Array.isArray(m.provider) ? m.provider[0] : m.provider;
+  var t = p ? iiifLabel(p.label != null ? p.label : p) : '';
+  if(!t){ var a = m.attribution; t = a ? iiifLabel(Array.isArray(a) ? a[0] : a) : ''; }
+  return String(t).replace(/^Provided by\s+/i, '').trim();
+}
+
 window.fetchIiifManifest = function(){
   var url = (document.getElementById('iiifUrl').value || '').trim();
   var log = document.getElementById('addLog');
@@ -686,13 +798,21 @@ window.fetchIiifManifest = function(){
 
   resolveManifestUrl(url).then(function(manUrl){
     log.textContent += 'دریافت داده‌های اثر از: ' + manUrl + '\n';
-    return fetch(manUrl).then(function(r){
+    return fetch(manUrl).catch(function(err){
+      /* a library that sends no CORS header: try the local preview server's proxy; if there is
+         none (published site, file://) report the original network error, not a proxy 404 */
+      if(location.protocol === 'file:') throw err;
+      return fetch('/proxy-manifest?url=' + encodeURIComponent(manUrl)).then(function(pr){
+        if(!pr.ok) throw err;
+        return pr;
+      }, function(){ throw err; });
+    }).then(function(r){
       if(!r.ok) throw new Error('HTTP ' + r.status);
       return r.json();
     }).then(function(m){
       var label = iiifLabel(m.label) || 'نسخه خطی بدون عنوان';
       var summary = iiifLabel(m.summary);
-      var prov = iiifLabel(Array.isArray(m.provider) ? m.provider[0] : m.provider) || String(m.attribution || '').replace(/^Provided by\s+/i, '');
+      var prov = manifestProvider(m);
       var pages = (m.items || []).length;
       if(!pages && m.sequences && m.sequences[0]) pages = (m.sequences[0].canvases || []).length;
 
@@ -730,7 +850,7 @@ window.saveIiifBook = function(){
   var title = pm.label || 'کتاب IIIF';
   var slug = title.replace(/[^\w\u0600-\u06FF]+/g, '-').replace(/^-|-$/g, '').toLowerCase() || ('iiif-' + Date.now());
 
-  var custom = JSON.parse(localStorage.getItem('coreader-custom-books') || '[]');
+  var custom = lsGet('coreader-custom-books', []);
   if(custom.some(function(b){ return b.slug === slug; })) slug += '-' + Date.now();
 
   var kindEl = document.getElementById('iiifKind');
@@ -785,7 +905,7 @@ window.saveLocalBook = function(){
   log.textContent = 'در حال پردازش و استخراج محتوا...\n';
   var slug = title.replace(/[^\w\u0600-\u06FF]+/g, '-').replace(/^-|-$/g, '').toLowerCase() || ('local-' + Date.now());
 
-  var custom = JSON.parse(localStorage.getItem('coreader-custom-books') || '[]');
+  var custom = lsGet('coreader-custom-books', []);
   if(custom.some(function(b){ return b.slug === slug; })) slug += '-' + Date.now();
 
   function finish(pages, pdfSources){
@@ -802,7 +922,7 @@ window.saveLocalBook = function(){
       pdfSources: pdfSources || []
     };
 
-    var localBooks = JSON.parse(localStorage.getItem('coreader-local-books') || '{}');
+    var localBooks = lsGet('coreader-local-books', {});
     localBooks[slug] = bookData;
     localStorage.setItem('coreader-local-books', JSON.stringify(localBooks));
 

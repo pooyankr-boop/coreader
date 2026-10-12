@@ -813,14 +813,23 @@
       if (!r.width) return;
       /* fixed, so the numbers are the window's: just inside the top edge of
          the box, and inside the window when the box has scrolled past it */
-      var top = Math.max(8, Math.min(window.innerHeight - 34, r.top + 6));
+      /* the page's own toolbar is fixed over the top of the window (z-index 900):
+         stay below it, or the button hides behind it and clicks land on its buttons */
+      var tb = document.querySelector('.toolbar'), tbBottom = 0;
+      if (tb) { var tbr = tb.getBoundingClientRect(), tbs = getComputedStyle(tb); if (tbr.height && tbs.display !== 'none' && tbs.visibility !== 'hidden') tbBottom = tbr.bottom; }
+      var minTop = Math.max(8, tbBottom + 8);
+      var top = Math.max(minTop, Math.min(window.innerHeight - 34, r.top + 6));
       btn.style.top = Math.round(top) + 'px';
       btn.style.left = Math.round(Math.max(46, Math.min(window.innerWidth - 46, r.left + r.width / 2))) + 'px';
-      btn.style.visibility = (r.bottom < 40 || r.top > window.innerHeight) ? 'hidden' : '';
+      btn.style.visibility = (r.bottom < minTop + 24 || r.top > window.innerHeight) ? 'hidden' : '';
     }
     function schedule() { if (!queued) { queued = true; requestAnimationFrame(place); } }
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
+    /* the box changes size without a scroll/resize: the viewer's text pane is moved into the
+       split column when opened, and the toolbar can collapse - re-place the button then */
+    if (window.ResizeObserver) { try { new ResizeObserver(schedule).observe(container); } catch (e) {} }
+    document.addEventListener('click', function () { setTimeout(schedule, 150); }, true);
     place();
   }
   function inBoxButton(container, id) {
@@ -837,14 +846,19 @@
     if (tc && tc.closest('#pane-text')) {
       /* viewer: a button in the always-visible toolbar (the text pane itself is closed by default
          and is moved into the split column when opened), plus a shortcut in the pane header */
-      var main = inBoxButton(tc, 'trToggle');
-      mount({ container: tc, button: main });
-      pinButton(main, tc);
+      /* viewer: ONE button, in the text box's own header bar (it never covers the text and it
+         moves with the pane into the split column). The old second button, pinned over the
+         text with position:fixed, is gone. Without a header (unexpected markup) fall back
+         to the pinned one so the feature is never unreachable. */
       var head = document.querySelector('#pane-text > div');
       if (head) {
-        var b2 = el('button', { type: 'button', class: 'tr-btn', id: 'trToggle2', text: '🌐 ترجمه', title: 'ترجمهٔ متن این صفحه' });
-        b2.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); main.click(); });
-        head.appendChild(b2);
+        var hb = el('button', { type: 'button', class: 'tr-btn', id: 'trToggle', text: '🌐 ترجمه', title: 'ترجمهٔ متن این صفحه' });
+        head.appendChild(hb);
+        mount({ container: tc, button: hb });
+      } else {
+        var main = inBoxButton(tc, 'trToggle');
+        mount({ container: tc, button: main });
+        pinButton(main, tc);
       }
       return;
     }

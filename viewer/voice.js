@@ -168,6 +168,9 @@
     if (!w) { stop(); return; }
     V.idx = i;
     emit();
+    /* every utterance carries a ticket: cancel() fires onerror on the one it interrupted, and
+       without the ticket that late callback starts a second reading chain */
+    var tok = V.tok = (V.tok || 0) + 1;
     var u = new SpeechSynthesisUtterance(w.t || w.n);
     u.lang = (V.host && V.host.lang) || 'fa-IR';
     u.rate = (V.host && V.host.rate) || 1;
@@ -175,8 +178,8 @@
     var want = new RegExp('^' + u.lang.slice(0, 2), 'i');
     var match = voices.filter(function (v) { return want.test(v.lang); })[0];
     if (match) u.voice = match;
-    u.onend = function () { if (V.speaking) speakFrom(V.idx + 1); };
-    u.onerror = function () { if (V.speaking) speakFrom(V.idx + 1); };
+    u.onend = function () { if (V.speaking && tok === V.tok) speakFrom(V.idx + 1); };
+    u.onerror = function () { if (V.speaking && tok === V.tok) speakFrom(V.idx + 1); };
     window.speechSynthesis.cancel();
     // Chrome drops an utterance queued immediately after cancel().
     setTimeout(function () {
@@ -222,8 +225,19 @@
         }
       }
     };
-    V.rec.onend = function () { if (V.mic) { try { V.rec.start(); } catch (err) {} } };
-    V.rec.onerror = function () {};
+    /* the browser ends a session after silence: restart it, but never in a tight loop and never
+       after a permission/hardware error (that used to retry forever) */
+    V.rec.onend = function () {
+      if (!(V.mic && V.rec)) return;
+      setTimeout(function () { if (V.mic && V.rec) { try { V.rec.start(); } catch (err) {} } }, 250);
+    };
+    V.rec.onerror = function (ev) {
+      var c = ev && ev.error;
+      if (c === 'not-allowed' || c === 'service-not-allowed' || c === 'audio-capture' || c === 'language-not-supported') {
+        V.mic = false; V.rec = null;
+        if (V.host && V.host.onMicError) { try { V.host.onMicError(c); } catch (e2) {} }
+      }
+    };
     try { V.rec.start(); } catch (e) { V.mic = false; V.rec = null; return null; }
     return true;
   }
@@ -235,6 +249,7 @@
 
   function stop() {
     V.speaking = false;
+    V.tok = (V.tok || 0) + 1;
     if (window.speechSynthesis) window.speechSynthesis.cancel();
     if (V.keepalive) { clearInterval(V.keepalive); V.keepalive = null; }
   }

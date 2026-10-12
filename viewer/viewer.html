@@ -71,7 +71,12 @@
   <div class="body">
     <div class="split-wrap" id="splitWrap"></div>
     <div class="image-panel" id="imagePanel">
-      <div id="osd-container"></div>
+      <div id="osd-container">
+        <div id="osdLoading" style="position:absolute;top:0;left:0;width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:var(--card,#faf8f5);color:var(--muted);z-index:10;flex-direction:column;gap:8px">
+          <div style="font-size:24px">📖</div>
+          <div style="font-size:13px">در حال بارگذاری تصویر...</div>
+        </div>
+      </div>
       <div class="page-label" id="pageLabel"></div>
     </div>
 

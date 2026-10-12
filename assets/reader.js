@@ -443,7 +443,7 @@ function setTheme(t){
 function saveReadingProgress(){
   if (!BOOK) return;
   try {
-    var prog = JSON.parse(localStorage.getItem('coreader-progress') || '{}');
+    var prog = lsJSON('coreader-progress',{});
     prog[BOOK.slug] = curPage;
     localStorage.setItem('coreader-progress', JSON.stringify(prog));
   } catch(e){}
@@ -1286,9 +1286,9 @@ function ctxShareAnno(){
 // ===== PDF export with annotations (Feature 10) =====
 function exportAnnotationsPdf(){
   var title = BOOK ? BOOK.title : 'کتاب';
-  var notes = JSON.parse(localStorage.getItem('coreader-notes') || '[]');
-  var highlights = JSON.parse(localStorage.getItem('coreader-highlights') || '[]');
-  var favs = JSON.parse(localStorage.getItem('coreader-favs') || '[]');
+  var notes = lsJSON('coreader-notes',[]);
+  var highlights = lsJSON('coreader-highlights',[]);
+  var favs = lsJSON('coreader-favs',[]);
 
   var html = '<!DOCTYPE html><html lang="fa" dir="rtl"><head><meta charset="UTF-8">' +
     '<title>خروجی حاشیه‌ها — ' + title + '</title>' +
@@ -1409,7 +1409,7 @@ function ctxAddNote(){
   if (!ctxSel){ alert('ابتدا متن را انتخاب کنید'); return; }
   var note = prompt('یادداشت شما:');
   if (!note) return;
-  var notes = JSON.parse(localStorage.getItem('coreader-notes') || '[]');
+  var notes = lsJSON('coreader-notes',[]);
   notes.push({ text: ctxSel, note: note, page: curPage, book: BOOK.title, time: Date.now() });
   localStorage.setItem('coreader-notes', JSON.stringify(notes));
   alert('یادداشت ذخیره شد ✓');
@@ -1425,7 +1425,7 @@ function ctxHighlight(){
   span.style.cssText = 'background:' + color + ';border-radius:3px;padding:1px 2px;';
   try { ctxRange.surroundContents(span); } catch(e){}
   // Save to localStorage with color
-  var hl = JSON.parse(localStorage.getItem('coreader-highlights') || '[]');
+  var hl = lsJSON('coreader-highlights',[]);
   hl.push({ text: ctxSel, page: curPage, book: BOOK.title, color: color, time: Date.now() });
   localStorage.setItem('coreader-highlights', JSON.stringify(hl));
 }
@@ -1434,7 +1434,7 @@ function ctxAddFavorite(){
   _closeCtx();
   if (!ctxSel){ alert('ابتدا متن را انتخاب کنید'); return; }
   var color = prompt('رنگ هایلایت (مثل #ffe08a یا #a5d6a7):', '#ffe08a') || '#ffe08a';
-  var favs = JSON.parse(localStorage.getItem('coreader-favs') || '[]');
+  var favs = lsJSON('coreader-favs',[]);
   if (favs.some(function(f){ return f.text === ctxSel && f.book === BOOK.title; })){
     alert('این متن قبلاً اضافه شده است'); return;
   }
@@ -1462,7 +1462,7 @@ function ctxCopyWithSource(){
 function ctxBookmark(){
   _closeCtx();
   if (!BOOK) return;
-  var bookmarks = JSON.parse(localStorage.getItem('coreader-bookmarks') || '[]');
+  var bookmarks = lsJSON('coreader-bookmarks',[]);
   var exists = bookmarks.some(function(b){ return b.page === curPage && b.book === BOOK.title; });
   if (exists){ alert('این صفحه قبلاً نشانه شده است'); return; }
   bookmarks.push({ page: curPage, book: BOOK.title, title: BOOK.title, time: Date.now() });
@@ -1477,10 +1477,10 @@ function ctxBookmark(){
 // ===== Export annotations as Markdown (Feature 5) =====
 function exportAnnotations(){
   var sections = [];
-  var favs = JSON.parse(localStorage.getItem('coreader-favs') || '[]');
-  var notes = JSON.parse(localStorage.getItem('coreader-notes') || '[]');
-  var highlights = JSON.parse(localStorage.getItem('coreader-highlights') || '[]');
-  var bookmarks = JSON.parse(localStorage.getItem('coreader-bookmarks') || '[]');
+  var favs = lsJSON('coreader-favs',[]);
+  var notes = lsJSON('coreader-notes',[]);
+  var highlights = lsJSON('coreader-highlights',[]);
+  var bookmarks = lsJSON('coreader-bookmarks',[]);
 
   sections.push('# خروجی حاشیه‌نویسی‌ها');
   sections.push('');
@@ -1551,7 +1551,7 @@ function showFavTab(tab){
   });
   var list = document.getElementById('favList');
   var key = tab === 'bookmarks' ? 'coreader-bookmarks' : 'coreader-' + tab;
-  var data = JSON.parse(localStorage.getItem(key) || '[]');
+  var data = lsJSON(key,[]);
   if (!data.length){
     list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted-foreground,#999)">خالی</div>';
     return;
@@ -1574,7 +1574,7 @@ function goToFav(page){
   goPg(page);
 }
 function delFav(tab, idx){
-  var data = JSON.parse(localStorage.getItem('coreader-' + tab) || '[]');
+  var data = lsJSON('coreader-' + tab,[]);
   data.splice(idx, 1);
   localStorage.setItem('coreader-' + tab, JSON.stringify(data));
   showFavTab(tab);

@@ -165,9 +165,11 @@ function ptArchiveId() {
   // The IIIF host is iiif.archive.org/iiif/<id>/manifest.json, so the item id is
   // a path segment.  A manifest served from anywhere else has no such guarantee,
   // hence the check rather than a blind slice.
-  var u = (BOOK && (BOOK.manifestUrl || (BOOK.externalLinks || {}).iiifManifest)) || '';
-  if (!/iiif\.archive\.org\/iiif\/([^/]+)\//.test(u)) return '';
-  return RegExp.$1;
+  /* window.BOOK, not a bare BOOK: the reader loads this file too and has no such global */
+  var b = window.BOOK;
+  var u = (b && (b.manifestUrl || (b.externalLinks || {}).iiifManifest)) || '';
+  var m = /iiif\.archive\.org\/iiif\/([^/]+)\//.exec(u);
+  return m ? m[1] : '';
 }
 
 function ptLoadWholeBook() {

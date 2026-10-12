@@ -17,7 +17,7 @@ const MIME = {
 };
 
 // Proxy IIIF manifests from QDL/BL (Cloudflare-protected) and LOC
-const PROXY_HOSTS = ['www.qdl.qa', 'bl.digirati.io', 'www.loc.gov', 'iiif.vam.ac.uk', 'collections.vam.ac.uk', 'openaccess-cdn.clevelandart.org', 'images.metmuseum.org', 'nrs.harvard.edu', 'ids.lib.harvard.edu', 'mps.lib.harvard.edu', 'harvardartmuseums.org', 'ids.si.edu', 'www.artic.edu', 'media.getty.edu', 'iiif.bnf.fr', 'gallica.bnf.fr', 'wellcomecollection.org', 'iiif.oregon.edu', 'media.art.thewalters.org', 'media.britishmuseum.org', 'api.bl.uk', 'iiif.maximillian-mueller.de', 'iiif.ku.edu', 'iiif.lib.harvard.edu', 'iiif.harvardartmuseums.org', 'digi.ub.rug.nl', 'iiif.library.utoronto.ca', 'iiif.leidenuniv.nl', 'iiif.library.ox.ac.uk', 'iiif.library.jhu.edu', 'iiif.library.nd.edu', 'iiif.library.usc.edu', 'iiif.library.yale.edu', 'iiif.library.princeton.edu', 'iiif.library.columbia.edu', 'iiif.library.chicago.edu', 'iiif.library.duke.edu', 'iiif.library.emory.edu', 'iiif.library.georgetown.edu', 'iiif.library.ndl.gov', 'iiif.library.virginia.edu', 'iiif.library.wisc.edu', 'iiif.library.brown.edu', 'iiif.library.cornell.edu', 'iiif.library.stanford.edu', 'iiif.library.caltech.edu', 'iiif.library.upenn.edu', 'iiif.library.utexas.edu', 'iiif.library.ufl.edu', 'iiif.library.ucla.edu', 'iiif.library.usf.edu', 'iiif.library.vanderbilt.edu', 'iiif.library.tamu.edu', 'iiif.library.okstate.edu', 'iiif.library.illinois.edu', 'iiif.library.psu.edu', 'iiif.library.msu.edu', 'iiif.library.rutgers.edu', 'iiif.library.neu.edu', 'iiif.library.gwu.edu', 'iiif.library.bu.edu', 'iiif.library.bc.edu', 'iiif.library.rochester.edu', 'iiif.library.wustl.edu', 'iiif.library.virginia.edu', 'iiif.library.rice.edu', 'iiif.library.tulane.edu', 'iiif.library.fsu.edu', 'iiif.library.sc.edu', 'iiif.library.uky.edu', 'iiif.library.auburn.edu', 'iiif.library.missouri.edu', 'iiif.library.ku.edu', 'iiif.library.iastate.edu', 'iiif.library.nd.edu', 'iiif.library.okstate.edu', 'iiif.library.vt.edu', 'iiif.library.uga.edu', 'iiif.library.gatech.edu', 'iiif.library.clemson.edu', 'iiif.library.lsu.edu', 'iiif.library.tamu.edu', 'iiif.library.arizona.edu', 'iiif.library.asu.edu', 'iiif.library.nau.edu', 'iiif.library.nmhu.edu', 'iiif.library.nmsu.edu', 'iiif.library.unm.edu', 'iiif.library.unlv.edu', 'iiif.library.unr.edu', 'iiif.library.usu.edu', 'iiif.library.weber.edu', 'iiif.library.byu.edu', 'iiif.library.uwyo.edu', 'iiif.library.csu.edu', 'iiif.library.mines.edu', 'iiif.library.colostate.edu', 'iiif.library.du.edu', 'iiif.library.cudenver.edu', 'iiif.library.msudenver.edu', 'iiif.library.nmsu.edu', 'iiif.library.nmhu.edu', 'iiif.library.su.edu', 'iiif.library.unm.edu', 'iiif.library.unlv.edu', 'iiif.library.unr.edu', 'iiif.library.usu.edu', 'iiif.library.weber.edu', 'iiif.library.byu.edu', 'iiif.library.uwyo.edu', 'iiif.library.csu.edu', 'iiif.library.mines.edu', 'iiif.library.colostate.edu', 'iiif.library.du.edu', 'iiif.library.cudenver.edu', 'iiif.library.msudenver.edu'];
+const PROXY_HOSTS = ['iiif.archive.org', 'archive.org', 'iiif.bodleian.ox.ac.uk', 'tile.loc.gov', 'framemark.vam.ac.uk', 'thumb.wikimedia.org', 'upload.wikimedia.org', 'images.eap.bl.uk', 'api.digitale-sammlungen.de', 'iiif.qdl.qa', 'images.collections.yale.edu', 'images.si.edu', 'www.qdl.qa', 'bl.digirati.io', 'www.loc.gov', 'iiif.vam.ac.uk', 'collections.vam.ac.uk', 'openaccess-cdn.clevelandart.org', 'images.metmuseum.org', 'nrs.harvard.edu', 'ids.lib.harvard.edu', 'mps.lib.harvard.edu', 'harvardartmuseums.org', 'ids.si.edu', 'www.artic.edu', 'media.getty.edu', 'iiif.bnf.fr', 'gallica.bnf.fr', 'wellcomecollection.org', 'iiif.oregon.edu', 'media.art.thewalters.org', 'media.britishmuseum.org', 'api.bl.uk', 'iiif.maximillian-mueller.de', 'iiif.ku.edu', 'iiif.lib.harvard.edu', 'iiif.harvardartmuseums.org', 'digi.ub.rug.nl', 'iiif.library.utoronto.ca', 'iiif.leidenuniv.nl', 'iiif.library.ox.ac.uk', 'iiif.library.jhu.edu', 'iiif.library.nd.edu', 'iiif.library.usc.edu', 'iiif.library.yale.edu', 'iiif.library.princeton.edu', 'iiif.library.columbia.edu', 'iiif.library.chicago.edu', 'iiif.library.duke.edu', 'iiif.library.emory.edu', 'iiif.library.georgetown.edu', 'iiif.library.ndl.gov', 'iiif.library.virginia.edu', 'iiif.library.wisc.edu', 'iiif.library.brown.edu', 'iiif.library.cornell.edu', 'iiif.library.stanford.edu', 'iiif.library.caltech.edu', 'iiif.library.upenn.edu', 'iiif.library.utexas.edu', 'iiif.library.ufl.edu', 'iiif.library.ucla.edu', 'iiif.library.usf.edu', 'iiif.library.vanderbilt.edu', 'iiif.library.tamu.edu', 'iiif.library.okstate.edu', 'iiif.library.illinois.edu', 'iiif.library.psu.edu', 'iiif.library.msu.edu', 'iiif.library.rutgers.edu', 'iiif.library.neu.edu', 'iiif.library.gwu.edu', 'iiif.library.bu.edu', 'iiif.library.bc.edu', 'iiif.library.rochester.edu', 'iiif.library.wustl.edu', 'iiif.library.virginia.edu', 'iiif.library.rice.edu', 'iiif.library.tulane.edu', 'iiif.library.fsu.edu', 'iiif.library.sc.edu', 'iiif.library.uky.edu', 'iiif.library.auburn.edu', 'iiif.library.missouri.edu', 'iiif.library.ku.edu', 'iiif.library.iastate.edu', 'iiif.library.nd.edu', 'iiif.library.okstate.edu', 'iiif.library.vt.edu', 'iiif.library.uga.edu', 'iiif.library.gatech.edu', 'iiif.library.clemson.edu', 'iiif.library.lsu.edu', 'iiif.library.tamu.edu', 'iiif.library.arizona.edu', 'iiif.library.asu.edu', 'iiif.library.nau.edu', 'iiif.library.nmhu.edu', 'iiif.library.nmsu.edu', 'iiif.library.unm.edu', 'iiif.library.unlv.edu', 'iiif.library.unr.edu', 'iiif.library.usu.edu', 'iiif.library.weber.edu', 'iiif.library.byu.edu', 'iiif.library.uwyo.edu', 'iiif.library.csu.edu', 'iiif.library.mines.edu', 'iiif.library.colostate.edu', 'iiif.library.du.edu', 'iiif.library.cudenver.edu', 'iiif.library.msudenver.edu', 'iiif.library.nmsu.edu', 'iiif.library.nmhu.edu', 'iiif.library.su.edu', 'iiif.library.unm.edu', 'iiif.library.unlv.edu', 'iiif.library.unr.edu', 'iiif.library.usu.edu', 'iiif.library.weber.edu', 'iiif.library.byu.edu', 'iiif.library.uwyo.edu', 'iiif.library.csu.edu', 'iiif.library.mines.edu', 'iiif.library.colostate.edu', 'iiif.library.du.edu', 'iiif.library.cudenver.edu', 'iiif.library.msudenver.edu'];
 PROXY_HOSTS.splice(0, PROXY_HOSTS.length, ...new Set(PROXY_HOSTS)); // drop duplicate entries
 // A suffix match without a dot boundary let 'notiiif.vam.ac.uk' through.
 function hostAllowed(h) { return PROXY_HOSTS.some(a => h === a || h.endsWith('.' + a)); }
@@ -56,7 +56,7 @@ function locBrowserFetch(targetUrl, res) {
 function proxyFetch(targetUrl, res, depth) {
   if (depth > 5) { res.writeHead(508); res.end('Too many redirects'); return; }
   const mod = targetUrl.startsWith('https') ? https : http;
-  mod.get(targetUrl, {
+  const req = mod.get(targetUrl, {
     headers: { 'Accept': 'application/ld+json, application/json', 'User-Agent': 'Mozilla/5.0' },
     timeout: 15000
   }, (proxyRes) => {
@@ -67,8 +67,9 @@ function proxyFetch(targetUrl, res, depth) {
       return proxyFetch(loc, res, depth + 1);
     }
     let data = '';
-    proxyRes.on('data', chunk => data += chunk);
+    proxyRes.on('data', chunk => { if (data.length < 30 * 1024 * 1024) data += chunk; });
     proxyRes.on('end', () => {
+      if (res.writableEnded) return;
       res.writeHead(proxyRes.statusCode || 200, {
         'Content-Type': 'application/json; charset=utf-8',
         'Access-Control-Allow-Origin': '*',
@@ -76,10 +77,26 @@ function proxyFetch(targetUrl, res, depth) {
       });
       res.end(data);
     });
-  }).on('error', (err) => {
-    res.writeHead(502, { 'Content-Type': 'text/plain' }); res.end('Proxy error: ' + err.message);
-  }).on('timeout', function() { this.destroy(); res.writeHead(504); res.end('Proxy timeout'); });
+  });
+  req.on('error', (err) => {
+    if (res.writableEnded) return;
+    try { res.writeHead(502, { 'Content-Type': 'text/plain' }); } catch (e) { return; }
+    res.end('Proxy error: ' + String(err.message || err).slice(0, 200));
+  });
+  req.on('timeout', function() {
+    try { this.destroy(); } catch (e) {}
+    if (res.writableEnded) return;
+    try { res.writeHead(504); } catch (e) { return; }
+    res.end('Proxy timeout');
+  });
 }
+
+process.on('uncaughtException', (err) => {
+  console.error('[serve] uncaughtException (kept alive):', err.message);
+});
+process.on('unhandledRejection', (err) => {
+  console.error('[serve] unhandledRejection (kept alive):', err && err.message);
+});
 
 http.createServer((req, res) => {
   let urlPath;
@@ -140,7 +157,7 @@ http.createServer((req, res) => {
       function proxyImg(targetUrl, depth) {
       if (depth > 5) { res.writeHead(508); res.end('Too many redirects'); return; }
       const mod = targetUrl.startsWith('https') ? https : http;
-      mod.get(targetUrl, {
+      const req = mod.get(targetUrl, {
         headers: {
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
           'Accept': 'image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8',
@@ -155,14 +172,11 @@ http.createServer((req, res) => {
           if (redirectBlocked(loc, res)) return;
           return proxyImg(loc, depth + 1);
         }
-        res.writeHead(proxyRes.statusCode, {
-          'Content-Type': proxyRes.headers['content-type'] || 'application/octet-stream',
-          'Access-Control-Allow-Origin': '*'
-        });
-        // Stream chunks directly — never buffer binary into a string
         const chunks = [];
-        proxyRes.on('data', chunk => chunks.push(chunk));
+        let _capped = false;
+        proxyRes.on('data', chunk => { if (!_capped) { chunks.push(chunk); if (chunks.length > 60) _capped = true; } });
         proxyRes.on('end', () => {
+          if (res.writableEnded) return;
           let data = Buffer.concat(chunks);
           // Transcode corrupted Harvard images: nrs.harvard.edu / ids.lib.harvard.edu
           // return JPEG data with \xfd in place of \xff (marker bytes), which browsers
@@ -174,11 +188,23 @@ http.createServer((req, res) => {
             }
             data = out;
           }
+          res.writeHead(proxyRes.statusCode, {
+            'Content-Type': proxyRes.headers['content-type'] || 'application/octet-stream',
+            'Access-Control-Allow-Origin': '*'
+          });
           res.end(data);
         });
-      }).on('error', (err) => {
-        res.writeHead(502, { 'Content-Type': 'text/plain' });
-        res.end('Proxy error: ' + err.message.slice(0, 200));
+      });
+      req.on('error', (err) => {
+        if (res.writableEnded) return;
+        try { res.writeHead(502, { 'Content-Type': 'text/plain' }); } catch (e) { return; }
+        res.end('Proxy error: ' + String(err.message || err).slice(0, 200));
+      });
+      req.on('timeout', function() {
+        try { this.destroy(); } catch (e) {}
+        if (res.writableEnded) return;
+        try { res.writeHead(504); } catch (e) { return; }
+        res.end('Proxy timeout');
       });
     }
     proxyImg(imgUrl, 0);
@@ -187,6 +213,11 @@ http.createServer((req, res) => {
 
   let filePath = path.join(ROOT, urlPath);
   if ((filePath !== ROOT && !filePath.startsWith(ROOT + path.sep)) || urlPath.indexOf('\0') >= 0 || /(^|\/)\.git(\/|$)/.test(urlPath)) { res.writeHead(403); res.end('Forbidden'); return; }
+  // The gateway tokens live in these files: readable from this machine, never over the network.
+  if (/(^|\/)(llm|tts)-config\.json$/i.test(urlPath)) {
+    const ra = req.socket.remoteAddress || '';
+    if (!(ra === '127.0.0.1' || ra === '::1' || ra === '::ffff:127.0.0.1')) { res.writeHead(403); res.end('Forbidden'); return; }
+  }
   if (fs.existsSync(filePath) && fs.statSync(filePath).isDirectory()) {
     filePath = path.join(filePath, 'index.html');
   }
