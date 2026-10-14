@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تنظیم هایلایت‌ها — درون‌سویی</title>
+<style>
+:root{--gold:#d4af37;--bg:#0e0b07;--panel:#1d1710;--line:#3a2e1e}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);color:#e8dcc8;font-family:Vazirmatn,Tahoma,sans-serif}
+#app{display:flex;height:100vh}
+/* sidebar */
+#sb{width:220px;flex:0 0 auto;background:var(--panel);border-left:1px solid var(--line);overflow-y:auto;padding:10px}
+#sb h3{color:var(--gold);font-size:.85rem;margin:0 0 8px}
+.roomBtn{display:block;width:100%;background:none;border:1px solid transparent;color:#c8b898;padding:7px 10px;margin:2px 0;border-radius:5px;cursor:pointer;font:inherit;font-size:.82rem;text-align:right;transition:.15s}
+.roomBtn:hover{border-color:var(--gold);background:#241c13}
+.roomBtn.on{border-color:var(--gold);background:#2a2010;color:var(--gold)}
+.roomBtn small{display:block;opacity:.6;font-size:.7rem}
+/* main */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#topbar{display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:wrap}
+#topbar button{background:#2b2014;color:#f0e2cc;border:1px solid var(--line);padding:5px 12px;border-radius:5px;cursor:pointer;font:inherit;font-size:.8rem}
+#topbar button:hover{border-color:var(--gold);color:var(--gold)}
+#topbar button.on{background:var(--gold);color:#14100c}
+#topbar label{font-size:.78rem;color:#a89;display:flex;align-items:center;gap:4px;cursor:pointer}
+#viewToggle{display:flex;border:1px solid var(--line);border-radius:5px;overflow:hidden}
+#viewToggle button{border:0;border-radius:0;padding:5px 14px}
+#viewToggle button.on{background:var(--gold);color:#14100c}
+/* stage - center image */
+#stage{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#000}
+/* inline-block wraps the image tightly, so 1% of imgBox == 1% of the picture */
+#imgBox{position:relative;display:inline-block;line-height:0;max-width:100%;max-height:100%}
+#roomImg{max-width:100%;max-height:100vh;width:auto;height:auto;object-fit:contain;cursor:default}
+/* hotspots - absolutely positioned inside imgBox, so 1% = 1% of the image */
+.hs-edit{position:absolute;width:36px;height:36px;transform:translate(-50%,-50%);border-radius:50%;cursor:grab;z-index:10;display:grid;place-items:center;transition:transform .15s,box-shadow .15s}
+.hs-edit:hover{transform:translate(-50%,-50%) scale(1.2);z-index:20}
+.hs-edit:active{cursor:grabbing}
+.hs-edit .ring{width:100%;height:100%;border-radius:50%;border:2.5px solid var(--gold);background:rgba(212,175,55,.2);box-shadow:0 0 12px rgba(212,175,55,.5),inset 0 0 6px rgba(255,255,255,.4)}
+.hs-edit.pink .ring{border-color:#e79ab3;background:rgba(231,154,179,.2);box-shadow:0 0 12px rgba(231,154,179,.5),inset 0 0 6px rgba(255,200,220,.4)}
+.hs-edit.art .ring{border-color:#dc7828;background:rgba(220,120,40,.2);box-shadow:0 0 12px rgba(220,120,40,.5),inset 0 0 6px rgba(255,200,150,.4)}
+.hs-edit .lbl{position:absolute;bottom:110%;right:50%;transform:translateX(50%);background:rgba(20,14,8,.92);color:#f3e7cd;padding:3px 8px;border-radius:4px;font-size:.68rem;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .2s;border:1px solid var(--line)}
+.hs-edit:hover .lbl{opacity:1}
+.hs-edit .coords{position:absolute;top:110%;right:50%;transform:translateX(50%);color:var(--gold);font-size:.65rem;opacity:0;transition:opacity .2s;pointer-events:none;background:rgba(20,14,8,.9);padding:1px 5px;border-radius:3px}
+.hs-edit:hover .coords{opacity:1}
+/* info bar */
+#infobar{padding:6px 12px;background:var(--panel);border-top:1px solid var(--line);font-size:.75rem;color:#a89;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+#infobar .key{display:inline-block;background:#2b2014;padding:2px 6px;border-radius:3px;border:1px solid var(--line);font-family:monospace}
+/* toast */
+#toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:99;background:rgba(24,18,10,.95);border:1px solid var(--gold);color:#f3e7cd;padding:6px 16px;border-radius:8px;font-size:.85rem;display:none}
+/* legend */
+.legend{display:flex;gap:12px;align-items:center;font-size:.7rem;color:#a89}
+.legend span{display:flex;align-items:center;gap:3px}
+.legend .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="sb">
+    <h3>اتاق‌ها</h3>
+    <div id="roomList"></div>
+    <h3 style="margin-top:16px">نمایش</h3>
+    <div id="viewToggle" style="display:flex;flex-direction:column;gap:4px">
+      <button id="vDesktop" class="on" onclick="setAspect('desktop')">🖥️ دسکتاپ (افقی)</button>
+      <button id="vMobile" onclick="setAspect('mobile')">📱 موبایل (عمودی)</button>
+    </div>
+    <h3 style="margin-top:16px">خروجی</h3>
+    <button onclick="exportJSON()" style="width:100%;margin-top:4px">📋 کپی مختصات (JSON)</button>
+    <button onclick="resetAll()" style="width:100%;margin-top:4px;border-color:#a33;color:#d88">🔄 بازگردانی همه</button>
+  </div>
+  <div id="main">
+    <div id="topbar">
+      <span id="roomTitle" style="font-weight:600;color:var(--gold);font-size:.9rem"></span>
+      <span id="hsCount" style="font-size:.75rem;color:#a89"></span>
+    </div>
+    <div id="stage">
+      <span id="imgBox"><img id="roomImg" alt=""></span>
+    </div>
+    <div id="infobar">
+      <span>🖱️ بکشید تا جابه‌جا شود</span>
+      <span>📋 خروجی JSON با کلیک روی دکمه</span>
+      <div class="legend">
+        <span><span class="dot" style="background:var(--gold)"></span> قفسه / در</span>
+        <span><span class="dot" style="background:#dc7828"></span> تابلو</span>
+        <span><span class="dot" style="background:#e79ab3"></span> اتاق صورتی</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+<script>
+var MANIFEST='../books/contre-nature/manifest.json';
+var VIEWS='../books/contre-nature/views/';
+var LS_KEY='tour-editor-coords-v2';
+
+var man=null, curRoom=null, aspect='desktop';
+var saved={};
+try{saved=JSON.parse(localStorage.getItem(LS_KEY)||'{}')}catch(e){}
+
+var img=document.getElementById('roomImg'),
+    stage=document.getElementById('stage'),
+    imgBox=document.getElementById('imgBox'),
+    roomTitle=document.getElementById('roomTitle'),
+    hsCount=document.getElementById('hsCount');
+
+function $(id){return document.getElementById(id)}
+function toast(t){var el=$('toast');el.textContent=t;el.style.display='block';clearTimeout(toast._t);toast._t=setTimeout(function(){el.style.display='none'},2500)}
+
+function aspectSuffix(){return aspect==='mobile'?'--hero_mobile.jpg':'--hero.jpg'}
+function setAspect(a){
+  aspect=a;
+  $('vDesktop').classList.toggle('on',a==='desktop');
+  $('vMobile').classList.toggle('on',a==='mobile');
+  if(curRoom) renderRoom();
+}
+
+function loadManifest(){
+  fetch(MANIFEST+'?v='+Date.now()).then(function(r){return r.json()}).then(function(m){
+    man=m;
+    var rl=$('roomList');
+    (man.stops||[]).forEach(function(s){
+      var b=document.createElement('button');
+      b.className='roomBtn';
+      b.dataset.id=s.id;
+      var artN=(s.artworks||[]).length, bkN=(s.books||[]).length;
+      b.innerHTML=s.title+'<small>'+(artN?'🖼 '+artN+' تابلو':'')+(bkN?' 📖 '+bkN:'')+'</small>';
+      b.onclick=function(){selectRoom(s.id)};
+      rl.appendChild(b);
+    });
+    selectRoom(man.stops[0].id);
+  });
+}
+
+function selectRoom(id){
+  curRoom=(man.stops||[]).filter(function(s){return s.id===id})[0]||null;
+  if(!curRoom)return;
+  var btns=document.querySelectorAll('.roomBtn');
+  for(var i=0;i<btns.length;i++) btns[i].classList.toggle('on',btns[i].dataset.id===id);
+  roomTitle.textContent=curRoom.title;
+  renderRoom();
+}
+
+function collectHotspots(room){
+  var out=[];
+  // artworks - these have placedBy=hand coordinates
+  var arts=room.artworks||[];
+  arts.forEach(function(a){
+    var x=a._x||50, y=a._y||40;
+    out.push({id:'art:'+a.id, label:a.titleFa||a.title, cls:'art', artId:a.id, x:x, y:y, r:28, isArt:true, art:a});
+  });
+  // manifest hotspots (shelves, rooms, etc)
+  var hs=room.hotspots||{};
+  var list=hs.hero||[];
+  list.forEach(function(h,i){
+    var cls='';
+    if(h.pink) cls='pink';
+    if(h.kind==='art') cls='art';
+    out.push({id:room.id+':hero:'+i, label:h.title||h.shelf||h.kind, cls:cls, hsIndex:i, x:h.x||50, y:h.y||50, r:h.r||30, isShelf:h.kind==='shelf'});
+  });
+  return out;
+}
+
+function getSavedCoord(key){
+  if(saved[key]) return saved[key];
+  return null;
+}
+
+function renderRoom(){
+  var src=VIEWS+curRoom.id+aspectSuffix();
+  img.src=src;
+  img.onload=function(){drawHotspots()};
+  if(img.complete) drawHotspots();
+}
+
+/* map a pointer position to a percentage of the visible image.
+ * Hotspots are children of imgBox (sized to the rendered image), so
+ * percentages of imgBox == percentages of the picture, no cover-crop math. */
+function toImgPct(ev){
+  var r=imgBox.getBoundingClientRect();
+  var x=Math.round(((ev.clientX-r.left)/r.width)*1000)/10;
+  var y=Math.round(((ev.clientY-r.top)/r.height)*1000)/10;
+  x=Math.max(0,Math.min(100,x));
+  y=Math.max(0,Math.min(100,y));
+  return {x:x,y:y};
+}
+
+function drawHotspots(){
+  // remove old
+  [].forEach.call(stage.querySelectorAll('.hs-edit'),function(n){n.remove()});
+  var hotspots=collectHotspots(curRoom);
+  hsCount.textContent=hotspots.length+' هایلایت';
+
+  hotspots.forEach(function(hs){
+    var key=curRoom.id+':'+hs.id+':'+aspect;
+    var c=getSavedCoord(key);
+    var x=c?c.x:hs.x, y=c?c.y:hs.y;
+
+    var d=document.createElement('div');
+    d.className='hs-edit'+(hs.cls?' '+hs.cls:'');
+    d.style.left=x+'%';
+    d.style.top=y+'%';
+    d.innerHTML='<div class="ring"></div><span class="lbl">'+esc(hs.label)+'</span><span class="coords">'+x.toFixed(1)+', '+y.toFixed(1)+'</span>';
+
+    d.addEventListener('pointerdown',function(e){
+      e.preventDefault();e.stopPropagation();
+      d.setPointerCapture(e.pointerId);
+      function mv(ev){
+        var r=stage.getBoundingClientRect();
+        var nx=Math.round(((ev.clientX-r.left)/r.width)*1000)/10;
+        var ny=Math.round(((ev.clientY-r.top)/r.height)*1000)/10;
+        nx=Math.max(0,Math.min(100,nx));
+        ny=Math.max(0,Math.min(100,ny));
+        d.style.left=nx+'%';d.style.top=ny+'%';
+        d.querySelector('.coords').textContent=nx.toFixed(1)+', '+ny.toFixed(1);
+        saved[key]={x:nx,y:ny};
+      }
+      function up(){
+        d.onpointermove=null;d.onpointerup=null;
+        localStorage.setItem(LS_KEY,JSON.stringify(saved));
+        toast('ذخیره شد: '+hs.label);
+      }
+      d.onpointermove=mv;d.onpointerup=up;
+    });
+    stage.appendChild(d);
+  });
+}
+
+function esc(s){return String(s||'').replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+
+function exportJSON(){
+  var out={};
+  (man.stops||[]).forEach(function(s){
+    var roomOut={artworks:{},hotspots:{}};
+    var hasAny=false;
+    (s.artworks||[]).forEach(function(a){
+      var key=s.id+':art:'+a.id+':'+aspect;
+      var c=saved[key];
+      if(c){roomOut.artworks[a.id]=c;hasAny=true;}
+    });
+    var hs=(s.hotspots||{}).hero||[];
+    hs.forEach(function(h,i){
+      var key=s.id+':hero:'+i+':'+aspect;
+      var c=saved[key];
+      if(c){roomOut.hotspots[i]=c;hasAny=true;}
+    });
+    if(hasAny) out[s.id]=roomOut;
+  });
+  var txt=JSON.stringify(out,null,2);
+  if(navigator.clipboard) navigator.clipboard.writeText(txt);
+  console.log(txt);
+  toast('JSON در کلیپ‌بورد و کنسول');
+}
+
+function resetAll(){
+  if(confirm('مختصات ذخیره‌شده پاک شود؟')){
+    saved={};
+    localStorage.removeItem(LS_KEY);
+    drawHotspots();
+    toast('بازگردانی شد');
+  }
+}
+
+loadManifest();
+</script>
+</body>
+</html>

@@ -23,12 +23,26 @@ function init(){
   loadGlossary();
   loadTheme();
   var params=new URLSearchParams(location.search);
-  var slug=params.get('book');
-  if(!slug){document.body.innerHTML='<div style="text-align:center;padding:60px;color:#999">کتابی انتخاب نشد. <a href="../">بازگشت</a></div>';return}
-  document.title=slug+' — کتابخوان';
-  // Load ganjoor text immediately (don't wait for manifest)
-  preloadGanjoorText(slug);
-  loadBook(slug);
+    var slug=params.get('book');
+    if(!slug){document.body.innerHTML='<div style="text-align:center;padding:60px;color:#999">کتابی انتخاب نشد. <a href="../">بازگشت</a></div>';return}
+
+    // Direct image URL (from tour painting click) — ends with an image extension
+    if (/\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(slug)) {
+      var imgSrc = slug;
+      document.title = 'تصویر — کتابخوان';
+      normalizeBook({
+        source: 'iiif',
+        title: 'تصویر کامل',
+        pages: 1,
+        items: [{num: 1, images: [{id: imgSrc, width: null, height: null}]}]
+      }, slug);
+      return;
+    }
+
+    document.title=slug+' — کتابخوان';
+    // Load ganjoor text immediately (don't wait for manifest)
+    preloadGanjoorText(slug);
+    loadBook(slug);
 }
 
 // Preload ganjoor text in parallel with manifest fetch

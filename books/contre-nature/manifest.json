@@ -53,7 +53,14 @@
      "source": "Wikimedia Commons",
      "imagePage": "https://commons.wikimedia.org/wiki/File:Gustave_Moreau_Salom%C3%A9_1876.jpg",
      "titleFa": "سالومه",
-     "noOpenImage": null
+     "noOpenImage": null,
+     "_x": 34.6,
+     "_y": 17.4,
+     "placedBy": "hand",
+     "_x_desktop": 34.6,
+     "_y_desktop": 17.4,
+     "_x_mobile": 38.5,
+     "_y_mobile": 24.6
     },
     {
      "id": "moreau-apparition",
@@ -68,7 +75,14 @@
      "source": "Wikimedia Commons",
      "imagePage": "https://commons.wikimedia.org/wiki/File:Gustave_Moreau_-_The_Apparition_-_Google_Art_Project.jpg",
      "titleFa": "ظهور",
-     "noOpenImage": null
+     "noOpenImage": null,
+     "_x": 51.8,
+     "_y": 17.2,
+     "placedBy": "hand",
+     "_x_desktop": 51.8,
+     "_y_desktop": 17.2,
+     "_x_mobile": 47.2,
+     "_y_mobile": 24.6
     }
    ],
    "artworkCount": 2,
@@ -109,7 +123,14 @@
      "source": "Wikimedia Commons / Rijksmuseum",
      "imagePage": "https://commons.wikimedia.org/wiki/File:Het_verbranden_van_drie_doopsgezinden_en_hun_boeken_te_Haarlem_op_26_april_1557_afbeelding_door_Jan_Luyken,_Inventarisnummer_NL-HlmNHA_1100_KNA006001824.JPG",
      "titleFa": "آزارهای مذهبی",
-     "noOpenImage": null
+     "noOpenImage": null,
+     "_x": 42.9,
+     "_y": 15.8,
+     "placedBy": "hand",
+     "_x_desktop": 42.9,
+     "_y_desktop": 15.8,
+     "_x_mobile": 43,
+     "_y_mobile": 43.8
     }
    ],
    "artworkCount": 1,
@@ -154,7 +175,14 @@
      "source": "Wikimedia Commons",
      "imagePage": "https://commons.wikimedia.org/wiki/File:El_Greco_016.jpg",
      "titleFa": "مسیح",
-     "noOpenImage": null
+     "noOpenImage": null,
+     "_x": 68.4,
+     "_y": 30.9,
+     "placedBy": "hand",
+     "_x_desktop": 68.4,
+     "_y_desktop": 30.9,
+     "_x_mobile": 38.8,
+     "_y_mobile": 35.4
     }
    ],
    "artworkCount": 1,
@@ -191,7 +219,14 @@
      "source": "Wikimedia Commons",
      "imagePage": "https://commons.wikimedia.org/wiki/File:Plate_1_from_%27Los_Caprichos%27-_Self-portrait_of_Goya_(Franco._Goya_e_Lucientes,_Pintor)_MET_DP816957.jpg",
      "titleFa": "کاپریچوس",
-     "noOpenImage": null
+     "noOpenImage": null,
+     "_x": 46.5,
+     "_y": 64.6,
+     "placedBy": "hand",
+     "_x_desktop": 46.5,
+     "_y_desktop": 64.6,
+     "_x_mobile": 46.9,
+     "_y_mobile": 61.1
     },
     {
      "id": "goya-proverbios",
@@ -206,7 +241,14 @@
      "source": "Wikimedia Commons / The Metropolitan Museum of Art",
      "imagePage": "https://commons.wikimedia.org/wiki/File:Disparates_(Los_Proverbios)_MET_DP817499.jpg",
      "titleFa": "ضرب‌المثل‌ها",
-     "noOpenImage": null
+     "noOpenImage": null,
+     "_x": 48.8,
+     "_y": 78.8,
+     "placedBy": "hand",
+     "_x_desktop": 48.8,
+     "_y_desktop": 78.8,
+     "_x_mobile": 48.1,
+     "_y_mobile": 72.3
     },
     {
      "id": "goya-garroteado",
@@ -221,7 +263,14 @@
      "source": "The Cleveland Museum of Art (open access)",
      "imagePage": "https://www.clevelandart.org/art/1963.470",
      "titleFa": "خفه‌شده با قلندر",
-     "noOpenImage": null
+     "noOpenImage": null,
+     "_x": 76.9,
+     "_y": 24.4,
+     "placedBy": "hand",
+     "_x_desktop": 76.9,
+     "_y_desktop": 24.4,
+     "_x_mobile": 50.9,
+     "_y_mobile": 38.1
     },
     {
      "id": "goya-war",
@@ -236,7 +285,14 @@
      "source": "Wikimedia Commons",
      "imagePage": "https://commons.wikimedia.org/wiki/File:Ser%C3%A1_lo_mismo,_Los_desastres_de_la_guerra_(Francisco_de_Goya).jpg",
      "titleFa": "حکاکی‌های جنگ",
-     "noOpenImage": null
+     "noOpenImage": null,
+     "_x": 38.5,
+     "_y": 77.1,
+     "placedBy": "hand",
+     "_x_desktop": 38.5,
+     "_y_desktop": 77.1,
+     "_x_mobile": 41.6,
+     "_y_mobile": 69.9
     },
     {
      "id": "rembrandts",
@@ -251,7 +307,14 @@
      "source": "Wikimedia Commons",
      "imagePage": "https://commons.wikimedia.org/wiki/File:Rembrandt_van_Rijn_-_Self-Portrait_-_Google_Art_Project.jpg",
      "titleFa": "رامبرانت‌هایش",
-     "noOpenImage": null
+     "noOpenImage": null,
+     "_x": 61.3,
+     "_y": 55.4,
+     "placedBy": "hand",
+     "_x_desktop": 61.3,
+     "_y_desktop": 55.4,
+     "_x_mobile": 53.9,
+     "_y_mobile": 58.5
     }
    ],
    "artworkCount": 5,
@@ -1123,61 +1186,24 @@
       "kind": "shelf",
       "shelf": "religious",
       "title": "قفسهٔ مذهبی — به ترتیب فصل ۱۲",
-      "x": 12,
-      "y": 52,
+      "x": 13,
+      "y": 40,
       "r": 30
      },
      {
       "kind": "shelf",
       "shelf": "profane",
       "title": "قفسهٔ دنیایی — به ترتیب فصل ۱۴",
-      "x": 20,
-      "y": 44,
-      "r": 26
-     },
-     {
-      "kind": "art",
-      "art": "goya-caprichos",
-      "image": "art/goya-caprichos.jpg",
-      "title": "کاپریچوس — portfolios of prints, examined in private",
-      "titleFa": "کاپریچوس",
-      "artist": "Francisco Goya",
-      "medium": "etchings and aquatints, proofs",
-      "placement": "portfolios of prints, examined in private",
-      "quote": "he had recourse to his portfolios of prints and arranged his Goyas; the early states of certain etchings from the Caprichos, which were proofs - distinguishable by their reddish tone - bought at sales long ago for exorbitant prices",
-      "x": 86.505,
-      "y": 23.06,
-      "r": 18,
-      "tilt": 0,
-      "rise": -0.6084,
-      "lift": -0.1217,
-      "title2": "کاپریچوس",
-      "placedBy": "hand",
-      "w": 6.41,
-      "h": 21.56,
-      "tl": [
-       0,
-       18.089
-      ],
-      "tr": [
-       94.54,
-       0
-      ],
-      "br": [
-       100,
-       96.382
-      ],
-      "bl": [
-       5.46,
-       100
-      ]
+      "x": 40,
+      "y": 36,
+      "r": 30
      },
      {
       "kind": "shelf",
       "shelf": "profane",
-      "title": "قفسهٔ دنیایی — به ترتیب فصل ۱۴",
-      "x": 93,
-      "y": 50,
+      "title": "نمای کتابخانه",
+      "x": 84,
+      "y": 60,
       "r": 30
      }
     ]
@@ -1243,7 +1269,14 @@
      "source": "Wikimedia Commons",
      "imagePage": "https://commons.wikimedia.org/wiki/File:Pym_1838_book_title_page.jpg",
      "titleFa": "پیم",
-     "noOpenImage": null
+     "noOpenImage": null,
+     "_x": 55.1,
+     "_y": 69,
+     "placedBy": "hand",
+     "_x_desktop": 55.1,
+     "_y_desktop": 69,
+     "_x_mobile": 42,
+     "_y_mobile": 61.8
     }
    ],
    "artworkCount": 1,
@@ -1303,7 +1336,14 @@
      "source": "Wikimedia Commons",
      "imagePage": "https://commons.wikimedia.org/wiki/File:Rodolphe_Bresdin_-_The_Comedy_of_Death_-_1945.352_-_Cleveland_Museum_of_Art.tif",
      "titleFa": "کمدی مرگ",
-     "noOpenImage": null
+     "noOpenImage": null,
+     "_x": 17,
+     "_y": 55.9,
+     "placedBy": "hand",
+     "_x_desktop": 17,
+     "_y_desktop": 55.9,
+     "_x_mobile": 44.5,
+     "_y_mobile": 84.2
     },
     {
      "id": "bresdin-good-samaritan",
@@ -1318,7 +1358,14 @@
      "source": "Wikimedia Commons",
      "imagePage": "https://commons.wikimedia.org/wiki/File:Brooklyn_Museum_-_The_Good_Samaritan_(Le_bon_samaritain)_-_Rodolphe_Bresdin.jpg",
      "titleFa": "سامری نیکو",
-     "noOpenImage": null
+     "noOpenImage": null,
+     "_x": 70.6,
+     "_y": 58.9,
+     "placedBy": "hand",
+     "_x_desktop": 70.6,
+     "_y_desktop": 58.9,
+     "_x_mobile": 43.8,
+     "_y_mobile": 92.4
     },
     {
      "id": "redon-melancholy",
@@ -1333,7 +1380,14 @@
      "source": "Wikimedia Commons",
      "imagePage": "https://commons.wikimedia.org/wiki/File:Melancholy_(drawing)_by_Odilon_Redon_(Cleveland_Museum_of_Art).jpg",
      "titleFa": "ملانکولی",
-     "noOpenImage": null
+     "noOpenImage": null,
+     "_x": 66.1,
+     "_y": 57.1,
+     "placedBy": "hand",
+     "_x_desktop": 66.1,
+     "_y_desktop": 57.1,
+     "_x_mobile": 44.4,
+     "_y_mobile": 12.9
     },
     {
      "id": "redon-series",
@@ -1348,7 +1402,14 @@
      "source": "The Cleveland Museum of Art (open access)",
      "imagePage": "https://www.clevelandart.org/art/1927.344.3",
      "titleFa": "نوارهای سیاه رِدون",
-     "noOpenImage": null
+     "noOpenImage": null,
+     "_x": 11.7,
+     "_y": 58.5,
+     "placedBy": "hand",
+     "_x_desktop": 11.7,
+     "_y_desktop": 58.5,
+     "_x_mobile": 44.3,
+     "_y_mobile": 22.5
     }
    ],
    "artworkCount": 4,
@@ -1365,8 +1426,8 @@
      {
       "kind": "room",
       "title": "اتاق صورتی",
-      "x": 50,
-      "y": 50,
+      "x": 64,
+      "y": 35,
       "r": 30,
       "pink": true,
       "goesTo": "boudoir"
@@ -1376,8 +1437,8 @@
      {
       "kind": "room",
       "title": "اتاق صورتی",
-      "x": 50,
-      "y": 50,
+      "x": 64,
+      "y": 35,
       "r": 30,
       "pink": true,
       "goesTo": "boudoir"
@@ -1387,8 +1448,8 @@
      {
       "kind": "room",
       "title": "اتاق صورتی",
-      "x": 50,
-      "y": 50,
+      "x": 64,
+      "y": 35,
       "r": 30,
       "pink": true,
       "goesTo": "boudoir"

@@ -115,8 +115,15 @@ function wire() {
     }
   });
   $('light').addEventListener('click', function (e) {
-    if (e.target === $('light') || e.target.closest('#lightX')) closeFull();
-  });
+        if (e.target === $('light') || e.target.closest('#lightX')) closeFull();
+        else if (e.target === $('lightIm')) {
+          var src = e.target.getAttribute('data-src');
+          if (src) {
+            // Open the scan in the viewer like a book
+            window.open('../viewer/viewer.html?book=' + encodeURIComponent(src), '_blank');
+          }
+        }
+      });
   document.addEventListener('keydown', function (e) {
     if (!V.room) return;
     if (e.key === 'ArrowRight') { setView(step(1)); e.preventDefault(); }
@@ -177,6 +184,19 @@ function showList() {
 
 /* ---------- one room ---------- */
 
+/* One source of truth for "am I on a phone-shaped screen right now?".
+ * The room hero, the close-up views and the artwork coordinates all have to
+ * agree on the answer, so it lives here and is read from one place.
+ * `?m=1` forces mobile and `?m=0` forces desktop: the wide desktop preview
+ * pane is the only place a portrait layout can be tested, and it must not
+ * depend on the window being physically narrow. */
+function isMobile() {
+  var m = new URLSearchParams(location.search).get('m');
+  if (m === '1') return true;
+  if (m === '0') return false;
+  return window.innerWidth <= 768 || (window.innerHeight > window.innerWidth);
+}
+
 function openRoom(id) {
   var s = (V.man.stops || []).filter(function (r) { return r.id === id; })[0];
   if (!s) return showList();
@@ -191,10 +211,13 @@ function openRoom(id) {
 
   var a = $('bgA'), b = $('bgB');
   a.className = 'bg'; b.className = 'bg';
-  a.src = VIEWS + id + '--hero.jpg';
+  
+  var suffix = isMobile() ? '--hero_mobile.jpg' : '--hero.jpg';
+  a.src = VIEWS + id + suffix;
   a.classList.add('on');
   V.layer = 'a';
 
+  updateMiniPanel();
   render();
   document.title = s.title + ' — درون‌سویی';
 }
@@ -208,10 +231,11 @@ function setView(view) {
   var a = $('bgA'), b = $('bgB');
   var show = V.layer === 'a' ? b : a;
   var hide = V.layer === 'a' ? a : b;
+  var suffix = isMobile() ? '_mobile.jpg' : '.jpg';
   var img = new Image();
   img.onload = function () {
     V.view = view;
-    show.src = VIEWS + V.room.id + '--' + view + '.jpg';
+    show.src = VIEWS + V.room.id + '--' + view + suffix;
     show.classList.add('on');
     hide.classList.remove('on');
     V.layer = V.layer === 'a' ? 'b' : 'a';
@@ -219,7 +243,7 @@ function setView(view) {
     render();
   };
   img.onerror = function () { V.busy = false; };
-  img.src = VIEWS + V.room.id + '--' + view + '.jpg';
+  img.src = VIEWS + V.room.id + '--' + view + suffix;
 }
 
 function step(dir) {
@@ -261,19 +285,58 @@ function render() {
 }
 
 
+/* Which picture fills the screen right now?  A portrait crop and a landscape
+ * one frame the same wall differently, so an artwork's ring lives at different
+ * x/y for each.  The coordinates the user hand-placed in the manifest carry
+ * both; this picks the pair that matches the current orientation. */
+function artCoord(art) {
+  if (art._x_desktop != null || art._y_desktop != null) {
+    if (isMobile() && art._x_mobile != null) return { x: art._x_mobile, y: art._y_mobile };
+    if (art._x_desktop != null) return { x: art._x_desktop, y: art._y_desktop };
+  }
+  if (art._x != null) return { x: art._x, y: art._y };
+  return null;
+}
+
 function renderHotspots() {
   var sc = $('scrim');
-  // drop the rings only; the panel is a sibling and must survive a re-render
+  // drop previous hotspots
   var rings = sc.querySelectorAll('.hs');
   for (var i = 0; i < rings.length; i++) rings[i].parentNode.removeChild(rings[i]);
   var framed = sc.querySelectorAll('img.painting');
   for (var j = 0; j < framed.length; j++) framed[j].parentNode.removeChild(framed[j]);
   closePanel();
   if (!V.room) return;
+
+  // 1. Render Artwork hotspots (like the underground tour artifacts)
+  var arts = V.room.artworks || [];
+  arts.forEach(function(art, idx) {
+    var c = artCoord(art);
+    if (!c) {
+      // No hand-placed coordinates: spread them across the wall so the ring
+      // still has somewhere to stand rather than piling at the corner.
+      var step = 60 / Math.max(1, arts.length);
+      c = { x: 20 + idx * step, y: 38 };
+    }
+    var p = fixCover(c.x, c.y);
+    var el = document.createElement('div');
+    el.className = 'hs art-hs';
+    el.style.left = Math.max(2, Math.min(98, p[0])) + '%';
+    el.style.top = Math.max(2, Math.min(98, p[1])) + '%';
+    var label = (art.titleFa || art.title) + (art.artist ? ' — ' + art.artist : '');
+    el.title = label;
+    el.addEventListener('click', function(e) {
+      e.stopPropagation();
+      openFull(artURL(art.image), label, art.imagePage);
+    });
+    sc.appendChild(el);
+  });
+
+  // 2. Render manifest shelf & navigation hotspots
   var list = (V.room.hotspots || {})[V.view] || [];
   list.forEach(function (hs) {
-    hs.room = V.room;           // the panel is built from the hotspot, not from
-                                // V.room, which is null on a deep link
+    if (hs.kind === 'art') return; // Handled by artwork hotspots above
+    hs.room = V.room;
     var p = fixCover(hs.x, hs.y);
     var el = document.createElement('div');
     el.className = 'hs';
@@ -281,49 +344,9 @@ function renderHotspots() {
     el.style.top = Math.max(1, Math.min(99, p[1])) + '%';
     el.title = hs.title || '';
     if (hs.r) el.style.setProperty('--r', hs.r + 'px');
-    /* The pink room is the ONE hotspot in the whole tour that does not sit in
-     * the entrance view: it is inside the entrance hall, on the way in.  It is
-     * tagged in CSS so it can be told apart at a glance from the amber rings. */
     if (hs.pink) el.classList.add('pink');
-    if (hs.kind === 'art') {
-      // A picture hangs on a wall seen at an angle, so it needs a keystone:
-      // the far edge shorter, the near edge taller.  fixCover only corrects
-      // the crop, not the perspective, and a flat rectangle on that wall
-      // reads as pasted on - worse than leaving the frame empty.
-      el.classList.add('has-art');
-      var im = document.createElement('img');
-      im.className = 'painting';
-      im.src = artURL(hs.image);
-      im.alt = hs.titleFa || hs.title || '';
-      im.style.left = Math.max(1, Math.min(99, p[0])) + '%';
-      im.style.top = Math.max(1, Math.min(99, p[1])) + '%';
-      im.style.setProperty('--w', (hs.w || 7) + '%');
-      im.style.setProperty('--h', (hs.h || 12) + '%');
-      // The keystone is the four measured corners, not three derived slopes.
-      // The CSS sets --c1..--c4, each a "x% y%" pair in this element's own box.
-      var cs = [hs.tl, hs.tr, hs.br, hs.bl];
-      for (var q = 0; q < 4; q++) {
-        var cc = cs[q];
-        if (!cc) continue;
-        im.style.setProperty('--c' + (q + 1), cc[0] + '% ' + cc[1] + '%');
-      }
-      if (hs.tilt != null) im.style.setProperty('--tilt', hs.tilt);
-      if (hs.rise != null) im.style.setProperty('--rise', hs.rise);
-      if (hs.lift != null) im.style.setProperty('--lift', hs.lift);
-      sc.appendChild(im);
-    }
     el.addEventListener('click', function (e) {
       e.stopPropagation();
-      /* `goesTo`, not `room`: eleven lines above, hs.room is ASSIGNED to the
-     * room currently on screen, so a doorway hotspot carrying `room` had its
-     * destination overwritten with an object and the hash became
-     * "#[object Object]".  The two meanings needed separate names. */
-    /* A doorway hotspot GOES THROUGH on click.  Every other kind opens a
-       * panel first - a shelf lists books, a painting opens full screen, and
-       * neither is a place you can walk into.  The pink room is the one
-       * hotspot that is a room, so the ring is the door: one click and you are
-       * in it.  Showing a panel with a link inside meant the click appeared to
-       * do nothing, which is what the brief reported. */
       if (hs.kind === 'room') { go('#' + hs.goesTo); return; }
       toggle(hs, el);
     });
@@ -437,12 +460,16 @@ function shelfBooks(shelf) {
 /* A panel is 330px wide; the scan is not that small.  Clicking the picture
  * opens it over the room, with the novel's line about it underneath.  No
  * dialog(): the desktop webview throws on that. */
-function openFull(src, cap) {
+function openFull(src, cap, sourceUrl) {
   var box = $('light');
   var im = $('lightIm');
   im.src = src;
   im.alt = cap || '';
   $('lightCap').textContent = cap || '';
+  // The opened painting is clickable: it opens the full-resolution
+  // scan inside the site's own viewer (like a book).
+  im.setAttribute('data-src', src);
+  im.style.cursor = 'zoom-in';
   box.className = 'light in';
   im.focus();
 }
@@ -714,70 +741,118 @@ var DOCK = {
   t: 0
 };
 
+function updateMiniPanel() {
+  var nameEl = $('roomName');
+  if (!nameEl) return;
+  if (!V.room) {
+    nameEl.textContent = 'پلان خانه دِز اسنت';
+    return;
+  }
+  var artCount = (V.room.artworks || []).length;
+  var bkCount = (V.room.books || []).length;
+  var extra = [];
+  if (artCount) extra.push(artCount + ' تابلو');
+  if (bkCount) extra.push(bkCount + ' کتاب');
+  nameEl.textContent = V.room.title + (extra.length ? ' (' + extra.join('، ') + ')' : '');
+}
+
 function dockInit() {
   try {
-    DOCK.pinned = sessionStorage.getItem(DOCK.KEY) === '1';
-    DOCK.closed = sessionStorage.getItem(DOCK.CLOSE_KEY) === '1';
+    DOCK.pinned = localStorage.getItem('bierah-tour-pin') === '1';
   } catch (e) {}
-  var d = $('dock');
-  if (!d) return;
-  if (DOCK.pinned) { d.classList.add('pin'); $('dkPin').classList.add('on'); }
-  else dockArm();
+  var m = $('mini');
+  if (!m) return;
+  var pinBtn = $('pinBtn');
+  if (pinBtn) pinBtn.classList.toggle('on', DOCK.pinned);
 
-  $('dkHome').addEventListener('click', function () { go(''); });
-  $('dkOpen').addEventListener('click', function () { dockShow(); });
-  $('dkClose').addEventListener('click', function () {
-    DOCK.closed = true;
-    try { sessionStorage.setItem(DOCK.CLOSE_KEY, '1'); } catch (e) {}
-    $('dock').classList.add('hide');
-    $('dkOpen').classList.add('on');
-    clearTimeout(DOCK.t);
-  });
-  $('dkPin').addEventListener('click', function () {
-    DOCK.pinned = !DOCK.pinned;
-    try { sessionStorage.setItem(DOCK.KEY, DOCK.pinned ? '1' : '0'); } catch (e) {}
-    $('dkPin').classList.toggle('on', DOCK.pinned);
-    $('dock').classList.toggle('pin', DOCK.pinned);
-    if (DOCK.pinned) clearTimeout(DOCK.t);
-    else dockArm();
-  });
-  if (DOCK.closed) dockHide();
+  // Prev / Next room navigation
+  var prevBtn = $('prevBtn'), nextBtn = $('nextBtn');
+  if (prevBtn) {
+    prevBtn.addEventListener('click', function() {
+      var stops = V.man.stops || [];
+      if (!stops.length) return;
+      var curIdx = stops.findIndex(function(r) { return r.id === (V.room ? V.room.id : ''); });
+      var prevIdx = (curIdx - 1 + stops.length) % stops.length;
+      go('#' + stops[prevIdx].id);
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', function() {
+      var stops = V.man.stops || [];
+      if (!stops.length) return;
+      var curIdx = stops.findIndex(function(r) { return r.id === (V.room ? V.room.id : ''); });
+      var nextIdx = (curIdx + 1) % stops.length;
+      go('#' + stops[nextIdx].id);
+    });
+  }
+
+  // Home / Plan
+  var homeBtn = $('homeBtn');
+  if (homeBtn) homeBtn.addEventListener('click', function () { go(''); });
+
+  // Pin
+  if (pinBtn) {
+    pinBtn.addEventListener('click', function () {
+      DOCK.pinned = !DOCK.pinned;
+      try { localStorage.setItem('bierah-tour-pin', DOCK.pinned ? '1' : '0'); } catch (e) {}
+      pinBtn.classList.toggle('on', DOCK.pinned);
+      if (DOCK.pinned) { clearTimeout(DOCK.t); m.classList.remove('hide'); }
+      else dockArm();
+    });
+  }
+
+  // Side Drawer (books and paintings)
+  var sideBtn = $('sideBtn');
+  if (sideBtn) {
+    sideBtn.addEventListener('click', function () {
+      V.sideOpen ? closeSide() : openSide();
+    });
+  }
+
+  // Catalog / Underground door
+  var catBtn = $('catBtn');
+  if (catBtn) {
+    catBtn.addEventListener('click', function () {
+      location.href = '../tour/index.html';
+    });
+  }
+
+  // Close tour
+  var closeBtn = $('closeBtn');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', function () {
+      location.href = '../index.html';
+    });
+  }
+
+  updateMiniPanel();
+  dockArm();
 }
 
-/* Hide after the pointer has been off the page for a moment.  The listener is
- * on document, not on the dock, because the dock is usually not what the
- * pointer is over. */
 function dockArm() {
-  var d = $('dock');
-  if (!d || DOCK.pinned || DOCK.closed) return;
+  var m = $('mini');
+  if (!m || DOCK.pinned) return;
   clearTimeout(DOCK.t);
-  DOCK.t = setTimeout(dockHide, 1600);
+  DOCK.t = setTimeout(dockHide, 3500);
 }
 
-/* One place that hides the dock, so "closed for the visit" and "out of the way
- * for now" cannot disagree about which classes are on it. */
 function dockHide() {
-  var d = $('dock');
-  if (!d || DOCK.pinned) return;
-  d.classList.add('hide');
+  var m = $('mini');
+  if (!m || DOCK.pinned) return;
+  m.classList.add('hide');
 }
 
 function dockShow() {
-  var d = $('dock');
-  if (!d) return;
-  DOCK.closed = false;
-  try { sessionStorage.removeItem(DOCK.CLOSE_KEY); } catch (e) {}
-  $('dkOpen').classList.remove('on');
-  d.classList.remove('hide');
-  if (!DOCK.pinned) d.classList.add('pin');
-  else clearTimeout(DOCK.t);
+  var m = $('mini');
+  if (!m) return;
+  m.classList.remove('hide');
+  dockArm();
 }
 
 function dockWake() {
-  if (DOCK.closed) return;
-  var d = $('dock');
-  if (!d || DOCK.pinned) return;
-  d.classList.remove('hide');
+  var m = $('mini');
+  if (!m) return;
+  m.classList.remove('hide');
   dockArm();
 }
 

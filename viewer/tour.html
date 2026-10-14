@@ -541,20 +541,52 @@ img.painting{position:absolute;
  outline:2px solid rgba(20,14,8,.85);
  background:#241a11;
  transition:filter .25s}
-/* the ring over a painting pulses, so it reads as tappable */
-.hs.has-art{z-index:3;background:transparent;animation:none}
-.hs.has-art::after{content:'';position:absolute;inset:-6px;
- border:1px solid rgba(217,164,65,0);border-radius:3px;
- animation:ringart 2.6s ease-out infinite}
-@keyframes ringart{
-  0%{border-color:rgba(217,164,65,.85);box-shadow:0 0 12px rgba(217,164,65,.35)}
-  70%{border-color:rgba(217,164,65,0);box-shadow:0 0 0 rgba(217,164,65,0)}
-  100%{border-color:rgba(217,164,65,0);box-shadow:0 0 0 rgba(217,164,65,0)}
+/* mini control panel matching the underground tour */
+#mini{position:fixed;bottom:14px;left:50%;transform:translateX(-50%);z-index:45;display:flex;align-items:center;gap:6px;padding:8px 12px;background:rgba(24,18,10,.94);border:1px solid #5a452a;border-radius:14px;backdrop-filter:blur(8px);transition:opacity .35s,transform .35s;max-width:96vw;flex-wrap:wrap;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,.7)}
+#mini.hide{opacity:0;transform:translateX(-50%) translateY(14px);pointer-events:none}
+#mini button{background:#2b2014;color:#f0e2cc;border:1px solid #5a452a;height:38px;min-width:38px;padding:0 10px;border-radius:10px;cursor:pointer;font-family:inherit;font-size:16px;transition:.18s}
+#mini button:hover{border-color:#d4af37;color:#d4af37;background:#382b1c}
+#mini button.on{background:#d4af37;color:#14100c}
+#roomName{font-size:13px;color:#d4af37;padding:0 8px;white-space:nowrap;font-weight:600}
+.sep{width:1px;height:24px;background:#5a452a;margin:0 2px}
+
+/* Hotspots in Des Esseintes house matching the underground glowing gems */
+.hs{
+  position:absolute;width:30px;height:30px;transform:translate(-50%,-50%);
+  border-radius:50%;
+  background:radial-gradient(circle, rgba(255,235,160,0.95) 0%, rgba(212,175,55,0.85) 45%, rgba(160,110,20,0.4) 75%, transparent 100%);
+  border:1.5px solid rgba(255,245,200,0.95);
+  box-shadow:0 0 15px rgba(212,175,55,0.9), 0 0 30px rgba(212,175,55,0.4), inset 0 0 6px rgba(255,255,255,0.9);
+  cursor:pointer;z-index:25;padding:0;
+  transition:transform .2s ease, filter .2s ease;
 }
-.hs.has-art.sel::after{animation:none;border-color:#f0d090;
- box-shadow:0 0 18px rgba(217,164,65,.6)}
-@media(prefers-reduced-motion:reduce){
- .hs.has-art::after{animation:none;border-color:rgba(217,164,65,.6)}
+.hs:hover{
+  transform:translate(-50%,-50%) scale(1.3);
+  filter:brightness(1.3) drop-shadow(0 0 10px #ffea88);
+}
+.hs::after{
+  content:"";position:absolute;inset:7px;border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 6px #fff, 0 0 12px #d4af37;
+}
+.hs::before{
+  content:"";position:absolute;inset:-8px;border-radius:50%;
+  border:1.5px solid rgba(212,175,55,0.8);
+  animation:pulseRing 2.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+@keyframes pulseRing{
+  0%{transform:scale(0.6);opacity:0.9;border-color:rgba(255,230,130,0.9)}
+  60%{opacity:0.4}
+  100%{transform:scale(1.9);opacity:0;border-color:rgba(212,175,55,0)}
+}
+.hs.art-hs{
+  background:radial-gradient(circle, rgba(255,220,180,0.95) 0%, rgba(220,120,40,0.85) 45%, rgba(140,50,10,0.4) 75%, transparent 100%);
+  border-color:rgba(255,230,200,0.95);
+  box-shadow:0 0 16px rgba(220,120,40,0.9), 0 0 30px rgba(220,120,40,0.5), inset 0 0 6px #fff;
+}
+.hs.art-hs::after{
+  background:#fff;
+  box-shadow:0 0 6px #fff, 0 0 12px #dc7828;
 }
 </style>
 </head>
@@ -565,16 +597,18 @@ img.painting{position:absolute;
   <span class="sp"></span>
 </div>
 
-<!-- the control dock.  Auto-hides; the pin keeps it out.  No words: a caret,
-     a cross, a pin, each with an aria-label for anyone who needs one.  The
-     cross closes the panel for the visit; the little three-bar handle that
-     replaces it is the only way back. -->
-<div class="dock" id="dock">
-  <button type="button" id="dkHome" aria-label="همهٔ اتاق‌ها"></button>
-  <button type="button" id="dkClose" aria-label="بستن پنل"></button>
-  <button type="button" id="dkPin" aria-label="پین کردن پنل"></button>
+<div id="mini">
+  <button id="prevBtn" title="اتاق قبلی">➡️</button>
+  <span id="roomName"></span>
+  <button id="nextBtn" title="اتاق بعدی">⬅️</button>
+  <div class="sep"></div>
+  <button id="homeBtn" title="پلان خانه">🏠</button>
+  <div class="sep"></div>
+  <button id="pinBtn" title="پین پنل">📌</button>
+  <button id="sideBtn" title="فهرست کتاب‌ها و نقاشی‌ها">📚</button>
+  <button id="catBtn" title="کاتالوگ کتابخانه">🏛️</button>
+  <button id="closeBtn" title="بستن تور">✖️</button>
 </div>
-<button type="button" id="dkOpen" aria-label="باز کردن پنل"></button>
 
 <div class="stage" id="stage">
   <div class="plan" id="plan">

@@ -1,0 +1,97 @@
+var ROOMS=[
+ {id:'konj',name:'کنج',img:'rooms/konj.jpg',objs:[
+  {nav:'hammam',t:'راه به گرمابه',x:31.1,y:34.7},
+  {nav:'study',t:'راه به اتاق تحریر',x:31.1,y:41.4},
+  {nav:'mikhane',t:'راه به می‌خانه',x:31.1,y:61.7},
+  {nav:'library',t:'راه به کتابخانه',x:31.1,y:55.4},
+  {nav:'gallery',t:'راه به نگارخانه',x:31.1,y:48.5},
+  {nav:'sky',t:'راه به آسمان‌نما',x:31.1,y:28.1},
+  {slug:'loc-2021667284',t:'نسخهٔ خطی: عجایب المخلوقات',x:53.2,y:66},
+  {slug:'bodleian-9809c716',t:'نسخهٔ خطی: دیوان حافظ',x:49,y:57.6},
+  {slug:'bodleian-cce97ab5',t:'نسخهٔ خطی: لیلی و مجنون',x:53,y:49.4},
+  {slug:'bodleian-bodl-or-716-shahnameh',t:'شاهنامهٔ فردوسی',x:50.1,y:82.3},
+  {slug:'bodleian-greaves-1-jami',t:'نسخهٔ خطی: یوسف و زلیخا',x:36.6,y:56.2},
+  {slug:'bodleian-elliott-254-jami',t:'نسخهٔ خطی: بهارستان جامی',x:49.3,y:49.2},
+  {slug:'loc-zakhirah-khvarazm-shah',t:'ذخیرهٔ خوارزمشاهی',x:49,y:66.4},
+  {slug:'museum-vam-tile-panel-isfahani',t:'کاشی‌های تزیینی اصفهان — علی محمد اصفهانی',x:42.5,y:42.1},
+  {slug:'museum-hermitage-44595',t:'چراغ برنزی',x:45.6,y:75.1},
+  {slug:'museum-met-445977',t:'کاشی‌فهرس با نقش دو شکارچی',x:54.6,y:74.4},
+  {slug:'museum-hermitage-235104',t:'زنی با دستهٔ گل‌های محمدی',x:53.2,y:39.6},
+  {slug:'museum-hermitage-179607',t:'قلیان',x:40.3,y:75.8},
+  {slug:'museum-vam-ardabil-carpet',t:'فرش اردبیل',x:34.4,y:88.6},
+  {href:'../viewer/tour.html',t:'خانهٔ د اسنت',x:31.3,y:74.1}
+ ]},
+ {id:'hammam',name:'گرمابه',img:'rooms/hammam.jpg',objs:[
+  {slug:'museum-hermitage-116419',t:'آبپر برنزی',x:45.5,y:68},
+  {slug:'museum-hermitage-212482',t:'شیشهٔ عطر',x:52.8,y:72.7},
+  {slug:'museum-hermitage-116109',t:'کوزهٔ فیروزه‌ای',x:40.4,y:69.2},
+  {slug:'museum-cleveland-1948.308',t:'عودسوز گربه‌ای',x:44.1,y:90},
+  {slug:'museum-met-450492',t:'آینه',x:48,y:55.2},
+  {slug:'museum-hermitage-91861',t:'چراغ روغنی',x:35.1,y:78.5},
+  {slug:'museum-cleveland-1969.291',t:'سطل حمام',x:54.2,y:59.2},
+  {slug:'museum-hermitage-179484',t:'قمقمهٔ فیروزه‌ای',x:38.9,y:59.6},
+  {slug:'museum-cleveland-1915.589',t:'کاسهٔ پرندگان پرنده',x:30.8,y:89.6},
+  {slug:'museum-hermitage-167063',t:'دیگ مسی',x:32.9,y:62.4}
+ ]},
+ {id:'study',name:'اتاق تحریر',img:'rooms/study.jpg',objs:[
+  {slug:'bodleian-cce97ab5',t:'نسخهٔ خطی: لیلی و مجنون',x:38.6,y:40},
+  {slug:'museum-cleveland-1947.501',t:'یوسف و زلیخا',x:46.2,y:42.4},
+  {slug:'museum-met-447071',t:'مونس‌الاحرار',x:54.9,y:63.6},
+  {slug:'museum-hermitage-228497',t:'قلمدان کشویی',x:47.6,y:86.5},
+  {slug:'museum-hermitage-228522',t:'جعبهٔ نوروز',x:36.3,y:86.1},
+  {slug:'museum-met-451023',t:'عاشقان',x:54.1,y:43},
+  {slug:'museum-hermitage-192831',t:'اسطرلاب',x:50.1,y:61.8},
+  {slug:'museum-hermitage-192530',t:'قلمدان فولادی زرین‌فام',x:40.6,y:77.9},
+  {slug:'museum-hermitage-228573',t:'رحل چوبی',x:45.9,y:74.8},
+  {slug:'bodleian-6b3da54c',t:'نسخهٔ خطی: رباعیات خیام',x:44.2,y:62}
+ ]},
+ {id:'mikhane',name:'می‌خانه',img:'rooms/mikhane.jpg',objs:[
+  {slug:'museum-met-451752',t:'کاسهٔ مجلس کنار حوض',x:49.3,y:49.2},
+  {slug:'museum-met-452079',t:'کاسهٔ دارای کتیبه',x:49.3,y:86.5},
+  {slug:'museum-hermitage-179234',t:'کاسهٔ فیروزه‌ای زرین‌فام',x:54.4,y:80},
+  {slug:'museum-getty-jam-aqiqi',t:'جام عقیقی',x:32.1,y:86.1},
+  {slug:'museum-cleveland-1964.41',t:'ظرف نوشیدن اسبی',x:45.6,y:70.2},
+  {slug:'museum-getty-panzarf',t:'گروه پنج ظرف',x:32.1,y:63.6},
+  {slug:'museum-getty-tekouk-gozn',t:'تکوک گوزن',x:51.5,y:59.7},
+  {slug:'museum-hermitage-69343',t:'کوزهٔ نقره‌ای',x:42.8,y:58.2},
+  {slug:'museum-cleveland-1917.977',t:'پیالهٔ مینایی',x:40,y:83.2},
+  {slug:'museum-cleveland-1964.96',t:'ریتون زن و گاوشیر',x:33.2,y:54.1}
+ ]},
+ {id:'library',name:'کتابخانه',img:'rooms/library.jpg',objs:[
+  {slug:'loc-2021667238',t:'اصول حساب — علم',x:40.6,y:56.4},
+  {slug:'loc-2017454465',t:'عجایب المخلوقات — علم',x:40.3,y:45.4},
+  {slug:'bodleian-ef568d4f',t:'هدایة المتعلمین در طب — علم',x:40.3,y:64.6},
+  {slug:'bodleian-library-ms-elliott-377',t:'تاریخ طبری — گوشهٔ تاریخ',x:53.2,y:64.8},
+  {slug:'loc-2013415253',t:'تاریخ نادری — گوشهٔ تاریخ',x:49.6,y:76.5},
+  {slug:'bodleian-7d185003',t:'خمسهٔ نظامی — ادبیات',x:41.4,y:76.7},
+  {slug:'eap-mantiq-al-tayr',t:'منطق‌الطیر — ادبیات',x:36.6,y:57.5},
+  {slug:'bodleian-9809c716',t:'دیوان حافظ — ادبیات',x:36,y:47.3},
+  {slug:'qdl-add-ms-16659',t:'آثار ابن سینا — فلسفه',x:31,y:49.1},
+  {slug:'bodleian-a1246f80',t:'حدائق الأنوار — فلسفه',x:31.3,y:62}
+ ]},
+ {id:'gallery',name:'نگارخانه',img:'rooms/gallery.jpg',objs:[
+  {slug:'museum-vam-O97147',t:'تک‌چهرهٔ فتح‌علی‌شاه',x:54.4,y:70.6},
+  {slug:'museum-met-447071',t:'مونس‌الاحرار',x:47.8,y:72.5},
+  {slug:'museum-met-451725',t:'همایش پرندگان',x:49.6,y:60.6},
+  {slug:'museum-met-451023',t:'عاشقان',x:49.6,y:44.4},
+  {slug:'museum-cleveland-1947.501.a',t:'یوسف و زلیخا',x:46.5,y:59},
+  {slug:'museum-met-450605',t:'شاهزاده و التماس‌کننده',x:37.1,y:45.6},
+  {slug:'museum-hermitage-82',t:'زنی با تاج',x:36.1,y:58.9},
+  {slug:'museum-met-453250',t:'تصویر پرنده — رضا عباسی',x:30.6,y:61.4},
+  {slug:'museum-met-450722',t:'جوانی با شاهین',x:52.4,y:62.9},
+  {slug:'museum-met-448280',t:'بهمن و گرازها — شاهنامه',x:40,y:58.9}
+ ]},
+ {id:'sky',name:'آسمان‌نما',img:'rooms/sky.jpg',objs:[
+  {slug:'museum-hermitage-192831',t:'اسطرلاب',x:49.7,y:56.4},
+  {slug:'bodleian-19cf9814',t:'نجومیّات — الغ‌بیگ',x:39.9,y:86.7},
+  {slug:'bodleian-library-ms-bodl-or-548',t:'زیجِ جدیدِ سلطانی',x:53.5,y:79},
+  {slug:'loc-2008401028',t:'صورتالکواکب — عبدالرحمن صوفی',x:32,y:71.3},
+  {slug:'qdl-add-ms-7492',t:'چهار رساله در نجوم و تقویم',x:43.4,y:68.5},
+  {slug:'qdl-add-ms-23569',t:'پنج رساله در نجوم و ریاضیات',x:53.8,y:68},
+  {slug:'loc-2017498317',t:'اثر طلسمی کیهانی قاجار',x:49,y:87.7},
+  {slug:'loc-2021667231',t:'مهر و مشتری',x:30.7,y:59.4},
+  {slug:'museum-met-451379',t:'کاسه با ترکیب درباری و نجومی',x:36.3,y:64.1},
+  {slug:'museum-met-449338',t:'چراغ',x:33.5,y:50.8}
+ ]}
+];
+if (typeof module !== 'undefined') module.exports = { ROOMS: ROOMS };
