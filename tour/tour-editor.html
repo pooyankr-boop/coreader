@@ -17,12 +17,9 @@ html,body{height:100%;margin:0;background:var(--bg);color:#e8dcc8;font-family:Va
 .roomBtn small{display:block;opacity:.6;font-size:.7rem}
 #main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#000}
 #topbar{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:wrap}
-#topbar button{background:#2b2014;color:#f0e2cc;border:1px solid var(--line);padding:5px 12px;border-radius:5px;cursor:pointer;font:inherit;font-size:.8rem}
-#topbar button:hover{border-color:var(--gold);color:var(--gold)}
-#topbar button.on{background:var(--gold);color:#14100c}
-#stage{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#000}
-#imgBox{position:relative;display:inline-block;line-height:0;max-width:100%;max-height:100%}
-#roomImg{max-width:100%;max-height:100vh;width:auto;height:auto;object-fit:contain;cursor:default}
+#stage{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#000;position:relative}
+#imgBox{position:relative;display:block;width:100%;height:100%;overflow:hidden}
+#roomImg{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;cursor:default}
 .hs-edit{position:absolute;width:36px;height:36px;transform:translate(-50%,-50%);border-radius:50%;cursor:grab;z-index:10;display:grid;place-items:center;transition:transform .15s,box-shadow .15s;background:transparent}
 .hs-edit:hover{transform:translate(-50%,-50%) scale(1.2);z-index:20}
 .hs-edit:active{cursor:grabbing}
@@ -51,7 +48,7 @@ html,body{height:100%;margin:0;background:var(--bg);color:#e8dcc8;font-family:Va
       <button id="vMobile" class="roomBtn" onclick="setAspect('mobile')">📱 موبایل (عمودی)</button>
     </div>
     <h3 style="margin-top:16px">خروجی</h3>
-    <button class="roomBtn" onclick="exportJSON()" style="border-color:var(--line)">📋 کپی مختصات (JSON)</button>
+    <button class="roomBtn" onclick="exportJSON()" style="border-color:var(--line)">📋 کپی مختصت (JSON)</button>
     <button class="roomBtn" onclick="resetAll()" style="border-color:#a33;color:#d88">🔄 بازگردانی همه</button>
   </div>
   <div id="main">
@@ -60,27 +57,17 @@ html,body{height:100%;margin:0;background:var(--bg);color:#e8dcc8;font-family:Va
       <span id="hsCount" style="font-size:.75rem;color:#a89"></span>
     </div>
     <div id="stage">
-      <span id="imgBox"><img id="roomImg" alt=""></span>
+      <div id="imgBox"><img id="roomImg" alt=""></div>
     </div>
     <div id="infobar">
-      <span>🖱️ بکشید تا جابه‌جا شود</span>
-      <span>📋 خروجی JSON با کلیک روی دکمه</span>
-      <div class="legend">
-        <span><span class="dot" style="background:var(--gold)"></span> شیء / نسخه</span>
-        <span><span class="dot" style="background:#9333ea"></span> درِ اتاق / پیوند</span>
-      </div>
+      <span>🖱️ بکشید تم ...</span>
     </div>
   </div>
 </div>
-<div id="toast"></di<script src="rooms-data.js?v=1"></script>
+<div id="toast"></div>
+<script src="rooms-data.js?v=1"></script>
 <script>
 var LS_KEY='underground-editor-coords-v1';
-
-var ROOMS=ROOMS; // imported from rooms-data.js
-
-var cur=null, aspect='desktop';
-
-
 var cur=null, aspect='desktop';
 var saved={};
 try{saved=JSON.parse(localStorage.getItem(LS_KEY)||'{}')}catch(e){}
@@ -110,7 +97,7 @@ function objKey(o){return o.slug||o.nav||o.href;}
 function hotspotsOf(r){
   return r.objs.map(function(o,i){
     var cls=o.href?'link':(o.nav?'nav':'');
-    return {key:r.id+'/'+objKey(o), i:i, label:o.t, cls:cls, x:o.x, y:o.y};
+    return {key:r.id+'/'+objKey(o), i:i, label:o.t, cls:cls, x:o.x, y:o.y, _x_mobile:o._x_mobile, _y_mobile:o._y_mobile};
   });
 }
 
@@ -121,44 +108,81 @@ function renderRoom(){
   roomTitle.textContent=cur.name;
 }
 
+// Mobile images are 90° CW rotated versions of desktop.
+// Coordinate transform: desktop(x,y) -> mobile(y, 100-x)
+function mobCoords(x, y) {
+  return [y, 100 - x];
+}
+
+function fixCover(hx, hy){
+  if(!img || !img.naturalWidth) return [hx, hy];
+  var cw = img.clientWidth, ch = img.clientHeight;
+  var nw = img.naturalWidth, nh = img.naturalHeight;
+  var sc = Math.max(cw / nw, ch / nh);
+  var rw = nw * sc, rh = nh * sc;
+  var ox = (cw - rw) / 2, oy = (ch - rh) / 2;
+  return [(ox + rw * hx / 100) * 100 / cw, (oy + rh * hy / 100) * 100 / ch];
+}
+
+function unCover(px, py){
+  if(!img || !img.naturalWidth) return [px, py];
+  var cw = img.clientWidth, ch = img.clientHeight;
+  var nw = img.naturalWidth, nh = img.naturalHeight;
+  var sc = Math.max(cw / nw, ch / nh);
+  var rw = nw * sc, rh = nh * sc;
+  var ox = (cw - rw) / 2, oy = (ch - rh) / 2;
+  var screenX = px * cw / 100;
+  var screenY = py * ch / 100;
+  var hx = (screenX - ox) * 100 / rw;
+  var hy = (screenY - oy) * 100 / rh;
+  return [Math.max(0, Math.min(100, hx)), Math.max(0, Math.min(100, hy))];
+}
+
 function toImgPct(ev){
   var r=imgBox.getBoundingClientRect();
-  var x=Math.round(((ev.clientX-r.left)/r.width)*1000)/10;
-  var y=Math.round(((ev.clientY-r.top)/r.height)*1000)/10;
-  x=Math.max(0,Math.min(100,x));
-  y=Math.max(0,Math.min(100,y));
-  return {x:x,y:y};
+  var px=((ev.clientX-r.left)/r.width)*100;
+  var py=((ev.clientY-r.top)/r.height)*100;
+  var u=unCover(px,py);
+  return {x:Math.round(u[0]*10)/10,y:Math.round(u[1]*10)/10};
 }
 
 function drawHotspots(){
-  [].forEach.call(stage.querySelectorAll('.hs-edit'),function(n){n.parentNode.removeChild(n)});
+  [].forEach.call(imgBox.querySelectorAll('.hs-edit'),function(n){n.parentNode.removeChild(n)});
   var hs=hotspotsOf(cur);
   hsCount.textContent=hs.length+' هایلایت';
   hs.forEach(function(h){
     var key=h.key+':'+aspect;
     var c=saved[key];
+    // Validate saved coords are within [0,100]
+    if(c && (c.x<0||c.x>100||c.y<0||c.y>100)) c=null;
     var x=c?c.x:h.x, y=c?c.y:h.y;
+    // Use explicit mobile coords only if nothing was manually saved
+    if(aspect==='mobile' && !c && h._x_mobile != null && h._y_mobile != null){
+      x = h._x_mobile; y = h._y_mobile;
+    } else if(aspect==='mobile' && !c){
+      var mc = mobCoords(x, y);
+      x = mc[0]; y = mc[1];
+    }
+    var pc=fixCover(x,y);
     var d=document.createElement('div');
     d.className='hs-edit'+(h.cls?' '+h.cls:'');
-    d.style.left=x+'%'; d.style.top=y+'%';
+    d.style.left=pc[0]+'%'; d.style.top=pc[1]+'%';
     d.innerHTML='<div class="ring"></div><span class="lbl">'+esc(h.label)+'</span><span class="coords">'+x.toFixed(1)+', '+y.toFixed(1)+'</span>';
     d.addEventListener('pointerdown',function(e){
       e.preventDefault();e.stopPropagation();
       d.setPointerCapture(e.pointerId);
       function mv(ev){
-        var p=toImgPct(ev);
-        d.style.left=p.x+'%'; d.style.top=p.y+'%';
-        d.querySelector('.coords').textContent=p.x.toFixed(1)+', '+p.y.toFixed(1);
-        saved[key]={x:p.x,y:p.y};
+        var pt=toImgPct(ev);
+        var pc=fixCover(pt.x,pt.y);
+        d.style.left=pc[0]+'%'; d.style.top=pc[1]+'%';
+        d.querySelector('.coords').textContent=pt.x.toFixed(1)+', '+pt.y.toFixed(1);
+        // Store coordinates as-is for the current aspect
+        saved[key]={x:pt.x,y:pt.y};
       }
-      function up(){
-        d.onpointermove=null; d.onpointerup=null;
-        localStorage.setItem(LS_KEY,JSON.stringify(saved));
-        toast('ذخیره شد: '+h.label);
-      }
+      function up(){ d.onpointermove=null; d.onpointerup=null; localStorage.setItem(LS_KEY,JSON.stringify(saved)); toast('ذخیره شد: '+h.label); }
       d.onpointermove=mv; d.onpointerup=up;
     });
-    stage.appendChild(d);
+    imgBox.appendChild(d);
   });
 }
 

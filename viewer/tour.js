@@ -27,6 +27,8 @@ function artURL(p) {
 var COVER = '../books/contre-nature/book/';
 var VIEWS = '../books/contre-nature/views/';
 var MANIFEST = '../books/contre-nature/manifest.json';
+var BOOKS_INDEX = '../books-index.json';
+var ART_SLUG_MAP = {}; // titleFa -> bierah-* slug
 
 // hero, then the two close views, named as they are on disk; the arrow keys
 // walk this ring.  The names are the manifest's, not invented here.
@@ -61,6 +63,18 @@ function boot() {
       V.man = m;
   P.man = m;                       // plan.js reads the same stops
       V.base = MANIFEST.replace(/[^/]+$/, '');
+      // Build titleFa -> bierah-* slug map from books-index.json
+      fetch(BOOKS_INDEX + '?v=' + Date.now())
+        .then(function(r){ if(!r.ok) throw new Error(r.status); return r.json(); })
+        .then(function(list){
+          list.forEach(function(b){
+            if(b.slug&&b.slug.startsWith('bierah-')){
+              var t=(b.titleFa||b.title||'').trim();
+              if(t) ART_SLUG_MAP[t]=b.slug;
+            }
+          });
+        })
+        .catch(function(e){ console.warn('[tour] books-index fetch failed:', e); });
       collectViews();
       atmosphere();
       wire();
@@ -117,10 +131,13 @@ function wire() {
   $('light').addEventListener('click', function (e) {
         if (e.target === $('light') || e.target.closest('#lightX')) closeFull();
         else if (e.target === $('lightIm')) {
-          var src = e.target.getAttribute('data-src');
-          if (src) {
-            // Open the scan in the viewer like a book
-            window.open('../viewer/viewer.html?book=' + encodeURIComponent(src), '_blank');
+          var artTitle = e.target.getAttribute('data-title');
+          var slug = artTitle ? (ART_SLUG_MAP[artTitle] || '') : '';
+          if (slug) {
+            window.open('../viewer/viewer.html?book=' + encodeURIComponent(slug), '_blank');
+          } else {
+            var src = e.target.getAttribute('data-src');
+            if (src) window.open('../viewer/viewer.html?book=' + encodeURIComponent(src), '_blank');
           }
         }
       });
@@ -328,6 +345,9 @@ function renderHotspots() {
     el.addEventListener('click', function(e) {
       e.stopPropagation();
       openFull(artURL(art.image), label, art.imagePage);
+      // Store art title for slug lookup in lightbox click handler
+      var lightIm = $('lightIm');
+      if(lightIm) lightIm.setAttribute('data-title', art.titleFa || art.title || '');
     });
     sc.appendChild(el);
   });

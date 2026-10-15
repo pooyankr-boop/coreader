@@ -130,6 +130,18 @@ function init(){
     _filter = (qf === 'against-nature') ? 'tour' : qf;
   }
 
+  // Pre-fill search from ?q= param (e.g., from tour artwork clicks)
+  var qs_q = params.get('q');
+  if(qs_q){
+    var sInput = document.getElementById('searchInput');
+    if(sInput){
+      sInput.value = decodeURIComponent(qs_q);
+      var clearBtn = document.getElementById('searchClearBtn');
+      if(clearBtn) clearBtn.style.display = 'block';
+      sInput.dispatchEvent(new Event('input'));
+    }
+  }
+
   // Section choice
   var qs = params.get('section');
   var stored = null;
