@@ -793,10 +793,17 @@
   /* ------------------------------------------------------- auto-mount hosts */
   function toolbarButton(id) {
     var anchor = document.getElementById('bSettings');
-    var b = el('button', { type: 'button', id: id, text: '🌐 ترجمه', title: 'ترجمهٔ متن این صفحه با مدل‌های رایگان' });
+    var b = el('button', { type: 'button', id: id, text: '🌐 ترجمه', title: 'ترجمهٔ متن این صفحه با مدلهای رایگان' });
     if (anchor) { b.className = anchor.className; anchor.parentNode.insertBefore(b, anchor.nextSibling); }
     else { b.className = 'tr-btn tr-float'; document.body.appendChild(b); }
     return b;
+  }
+  /* If a toolbar button already exists (added by HTML), use it directly.
+     Otherwise fall back to inserting after bSettings or to a floating button. */
+  function getToolbarButton(id) {
+    var existing = document.getElementById(id);
+    if (existing) return existing;
+    return toolbarButton(id);
   }
   /* The toolbar fills up and scrolls sideways, so a button appended to it can
      sit outside the screen. This one goes on the text box itself — at the top
@@ -844,26 +851,31 @@
   function mountHosts() {
     var tc = document.getElementById('textContent');
     if (tc && tc.closest('#pane-text')) {
-      /* viewer: a button in the always-visible toolbar (the text pane itself is closed by default
-         and is moved into the split column when opened), plus a shortcut in the pane header */
-      /* viewer: ONE button, in the text box's own header bar (it never covers the text and it
-         moves with the pane into the split column). The old second button, pinned over the
-         text with position:fixed, is gone. Without a header (unexpected markup) fall back
-         to the pinned one so the feature is never unreachable. */
+      // Viewer: try toolbar button first, fall back to pane header or pinned
+      var tb = getToolbarButton('bTranslate');
       var head = document.querySelector('#pane-text > div');
-      if (head) {
+      if (tb && tb.offsetParent !== null) {
+        // Toolbar button is visible — use it
+        mount({ container: tc, button: tb });
+      } else if (head) {
         var hb = el('button', { type: 'button', class: 'tr-btn', id: 'trToggle', text: '🌐 ترجمه', title: 'ترجمهٔ متن این صفحه' });
         head.appendChild(hb);
         mount({ container: tc, button: hb });
-      } else {
-        var main = inBoxButton(tc, 'trToggle');
-        mount({ container: tc, button: main });
-        pinButton(main, tc);
       }
       return;
     }
     var rc = document.getElementById('tc') || document.querySelector('.ps-txt');
-    if (rc) { var rb = inBoxButton(rc, 'bTranslate'); mount({ container: rc, button: rb }); pinButton(rb, rc); }
+    if (rc) {
+      var rb = getToolbarButton('bTranslate');
+      if (!rb || rb === document.getElementById('bTranslate')) {
+        // Already in toolbar — use it directly
+        mount({ container: rc, button: rb });
+      } else {
+        // Fallback: create inline button
+        mount({ container: rc, button: rb });
+        pinButton(rb, rc);
+      }
+    }
   }
 
   window.CoreaderTranslate = {
