@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ادیتور فارسی IIIF — رونویسی، مقابله و حاشیه نسخ خطی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../catalog/catalog.css?v=22">
+<link rel="stylesheet" href="../assets/polish.css?v=1">
+<link rel="stylesheet" href="panel.css?v=1">
+<style>
+.ed-wrap{max-width:1280px;margin:0 auto;padding:0 16px 60px}
+.ed-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:12px 14px;margin-bottom:12px}
+.ed-bar .inp{flex:1;min-width:200px}
+.ed-main{display:grid;grid-template-columns:1fr 380px;gap:12px}
+.ed-img{background:#000;border:1px solid var(--border);border-radius:16px;min-height:60vh;position:relative;overflow:hidden}
+.ed-img img.osd-fallback{width:100%;height:100%;object-fit:contain;display:block}
+#osd{position:absolute;inset:0}
+.ed-side{display:flex;flex-direction:column;gap:10px;min-width:0}
+.ed-card{background:var(--card-bg);border:1px solid var(--border);border-radius:16px;padding:14px}
+.ed-card h3{margin:0 0 8px;font-size:15px}
+.ed-thumbs{display:flex;gap:6px;overflow-x:auto;padding:8px;background:var(--card-bg);border:1px solid var(--border);border-radius:16px;margin-bottom:12px}
+.ed-thumbs img{width:56px;height:74px;object-fit:cover;border-radius:8px;border:2px solid transparent;cursor:pointer;flex-shrink:0}
+.ed-thumbs img.on{border-color:var(--gold)}
+.ed-prog{height:8px;background:var(--border);border-radius:99px;overflow:hidden}
+.ed-prog i{display:block;height:100%;background:var(--gold-gradient,#c99738)}
+.st-row{display:flex;gap:6px}
+.st{flex:1;padding:7px;border-radius:10px;border:1px solid var(--border);background:var(--cream);font-family:inherit;font-size:12px;cursor:pointer;color:var(--text)}
+.st.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.diff-del{background:#f8d7da;color:#842029;border-radius:4px;padding:0 3px}
+.diff-ins{background:#d1e7dd;color:#0f5132;border-radius:4px;padding:0 3px}
+.collate-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.collate-grid img{width:100%;max-height:240px;object-fit:contain;background:#000;border-radius:10px}
+.tool-link{display:flex;justify-content:space-between;align-items:center;gap:8px;border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-bottom:8px;background:var(--cream);font-size:13px}
+.tool-link small{display:block;color:var(--muted);font-size:11px}
+.ed-imgtools{position:absolute;top:10px;left:10px;z-index:5;display:flex;gap:6px;flex-wrap:wrap}
+.ed-imgtools button{background:rgba(10,10,10,.75);color:#fff;border:1px solid var(--gold);border-radius:10px;padding:7px 11px;font-family:inherit;font-size:12px;cursor:pointer}
+.ed-imgtools button.on{background:var(--gold);color:#14100c}
+#regionLayer{position:absolute;inset:0;z-index:4;pointer-events:none}
+.region-box{position:absolute;border:2px solid var(--gold);background:rgba(212,175,55,.18);border-radius:4px;pointer-events:auto;cursor:pointer}
+#regionDraw{position:absolute;border:2px dashed #fff;background:rgba(255,255,255,.12);display:none;z-index:6;pointer-events:none}
+#presentOverlay{position:fixed;inset:0;background:rgba(0,0,0,.94);z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px}
+#presentOverlay[hidden]{display:none}
+#presentOverlay img{max-width:92vw;max-height:64vh;object-fit:contain;border-radius:12px}
+#presentNote{font-family:'Scheherazade New','Noto Naskh Arabic',serif;font-size:22px;line-height:2.2;color:#f5ead2;max-width:800px;text-align:center}
+#tutOverlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:flex;align-items:flex-end;justify-content:center;padding:20px}
+#tutOverlay[hidden]{display:none}
+#tutCard{background:var(--card-bg);border:1px solid var(--gold);border-radius:18px;max-width:560px;width:100%;padding:20px}
+.tut-ring{outline:3px solid var(--gold)!important;outline-offset:3px;border-radius:8px}
+.meta-row{display:flex;gap:6px;margin-bottom:6px}
+.meta-row .inp{flex:1}
+@media(max-width:900px){.ed-main{grid-template-columns:1fr}.collate-grid{grid-template-columns:1fr}}
+textarea.inp{font-family:'Scheherazade New','Noto Naskh Arabic',serif;font-size:18px;line-height:2.2}
+</style>
+</head>
+<body class="theme-dark">
+<header class="site-header" style="padding-bottom:8px">
+  <div class="header-top-bar" style="justify-content:center">
+    <a class="hdr-btn" href="panel.html">👤 پنل</a>
+    <a class="hdr-btn" href="../index.html">📚 کاتالوگ</a>
+  </div>
+  <h1 class="site-title">✏️ ادیتور فارسی IIIF</h1>
+  <p class="site-subtitle">رونویسی برگ‌به‌برگ، مقابله دو نسخه، حاشیه جمعی و خروجی مانیفست — با الهام از «مینّا ده هونکوکو» ژاپن</p>
+</header>
+
+<div class="ed-wrap">
+  <div class="ed-bar">
+    <input class="inp" id="edManifest" placeholder="نشانی مانیفست IIIF … (مثلاً https://…/manifest.json)" dir="ltr">
+    <button class="btn primary" id="edLoad">بارگذاری</button>
+    <button class="btn" id="edSample">نمونه بودلیان</button>
+    <button class="btn" id="btnTut">🎓 آموزش گام‌به‌گام</button>
+  </div>
+
+  <div class="ed-thumbs" id="edThumbs" hidden></div>
+  <div class="ed-bar" id="edFilterBar" hidden>
+    <select class="inp" id="edFilter" style="max-width:220px">
+      <option value="all">همه برگ‌ها</option>
+      <option value="todo">رونویسی‌نشده</option>
+      <option value="review">در حال بررسی</option>
+      <option value="done">تأییدشده</option>
+      <option value="flag">🚩 پرچم‌دار</option>
+    </select>
+    <span class="kv">پرچم = نیازمند توجه (مثل Canvas Flags در ادیتور Digirati)</span>
+  </div>
+
+  <div class="ed-main">
+    <div>
+      <div class="ed-img" id="edImgBox"><div id="osd"></div><div id="regionLayer"></div><div id="regionDraw"></div>
+        <div class="ed-imgtools">
+          <button id="btnRegionMode" title="کشیدن مستطیل ناحیه روی تصویر">▭ ناحیه</button>
+          <button id="btnView" title="تک‌برگ / دوبرگه (مثل Mirador)">📖 دوبرگه</button>
+          <button id="btnRot" title="چرخش ۹۰ درجه">↻ چرخش</button>
+          <button id="btnFs" title="تمام‌صفحه">⛶</button>
+        </div>
+      </div>
+      <div class="ed-card" style="margin-top:12px" id="edCollateCard">
+        <h3>⚖️ مقابله دو برگ (متن + تصویر)</h3>
+        <div style="display:flex;gap:8px;margin-bottom:8px">
+          <select class="inp" id="colA"></select>
+          <select class="inp" id="colB"></select>
+          <button class="btn" id="colGo">مقایسه</button>
+        </div>
+        <div id="colOut" style="font-size:15px;line-height:2.2"></div>
+      </div>
+    </div>
+    <div class="ed-side">
+      <div class="ed-card">
+        <h3>📄 برگ <span id="edPageNo">—</span></h3>
+        <div class="ed-prog"><i id="edProgBar" style="width:0"></i></div>
+        <div class="kv" id="edProgTx" style="margin:4px 0 8px"></div>
+        <label class="lbl">رونویسی فارسی</label>
+        <textarea class="inp" id="edText" rows="6" placeholder="متن برگ را این‌جا بنویسید…"></textarea>
+        <label class="lbl">ترجمه / توضیح</label>
+        <input class="inp" id="edTr" placeholder="…">
+        <label class="lbl">برچسب</label>
+        <input class="inp" id="edTag" placeholder="تذهیب، مهر، حاشیه…">
+        <label class="lbl">وضعیت</label>
+        <div class="st-row" id="edStatus">
+          <button class="st on" data-s="raw">✏️ خام</button>
+          <button class="st" data-s="review">👀 بررسی</button>
+          <button class="st" data-s="done">✅ تأیید</button>
+        </div>
+        <div class="btn-row">
+          <button class="btn primary" id="edSave">💾 ذخیره برگ</button>
+          <button class="btn" id="edPrev">→ قبلی</button>
+          <button class="btn" id="edNext">بعدی ←</button>
+          <button class="btn ghost" id="edFlag" title="پرچم نیازمند توجه (مثل Canvas Flags)">🚩</button>
+        </div>
+      </div>
+      <div class="ed-card">
+        <h3>▭ حاشیه ناحیه‌ای (روی تصویر بکشید)</h3>
+        <p class="kv">دکمه «▭ ناحیه» روی تصویر را بزنید و مستطیل بکشید؛ بعد متن و برچسب را ثبت کنید. (مثل Annonatate و افزونه حاشیه Mirador)</p>
+        <label class="lbl">متن حاشیه ناحیه</label>
+        <textarea class="inp" id="rgText" rows="2" placeholder="…"></textarea>
+        <div style="display:flex;gap:6px">
+          <select class="inp" id="rgMot">
+            <option value="transcribing">رونویسی</option>
+            <option value="commenting">توضیح</option>
+            <option value="tagging">برچسب</option>
+            <option value="highlighting">هایلایت</option>
+          </select>
+          <input class="inp" id="rgTag" placeholder="برچسب">
+        </div>
+        <div class="btn-row">
+          <button class="btn primary" id="rgAdd">ثبت ناحیه (<span id="rgXywh">—</span>)</button>
+          <button class="btn ghost" id="rgClear">پاک‌کردن مستطیل</button>
+        </div>
+        <div id="rgList" style="margin-top:8px;display:flex;flex-direction:column;gap:6px"></div>
+      </div>
+      <div class="ed-card">
+        <h3>🔍 جست‌وجو در رونویسی‌ها</h3>
+        <div style="display:flex;gap:6px">
+          <input class="inp" id="edSearch" placeholder="واژه…">
+          <input type="color" id="edHlColor" value="#ffe08a" title="رنگ هایلایت" style="width:44px;padding:2px">
+        </div>
+        <div id="edSearchOut" class="kv" style="margin-top:6px"></div>
+      </div>
+      <div class="ed-card">
+        <h3>💬 حاشیه‌های گروه</h3>
+        <div id="edGroup" class="kv">پس از اتصال پروژه، این‌جا نمایش داده می‌شود.</div>
+      </div>
+      <div class="ed-card">
+        <h3>📑 فراداده مانیفست (مثل ادیتور Digirati)</h3>
+        <label class="lbl">عنوان</label><input class="inp" id="mdLabel" placeholder="عنوان نسخه">
+        <label class="lbl">خلاصه</label><textarea class="inp" id="mdSummary" rows="2"></textarea>
+        <label class="lbl">حقوق / منبع</label><input class="inp" id="mdRights" placeholder="مثلاً: مالکیت عمومی">
+        <div id="mdRows"></div>
+        <div class="btn-row"><button class="btn" id="mdAddRow">＋ سطر فراداده</button></div>
+      </div>
+      <div class="ed-card">
+        <h3>📚 فهرست (Ranges — فهرست مندرجات)</h3>
+        <div id="rnList"></div>
+        <div style="display:flex;gap:6px;margin-top:6px">
+          <input class="inp" id="rnTitle" placeholder="عنوان بخش">
+          <input class="inp" id="rnSpan" placeholder="از-تا (مثل 3-10)" dir="ltr" style="max-width:110px">
+          <button class="btn" id="rnAdd">＋</button>
+        </div>
+      </div>
+      <div class="ed-card">
+        <h3>🎬 پرزنتیشن (نمایش مرحله‌ای — مثل Annona Storyboard)</h3>
+        <div id="prSteps"></div>
+        <div class="btn-row">
+          <button class="btn" id="prAdd">＋ افزودن برگ جاری</button>
+          <button class="btn primary" id="prPlay">▶️ اجرا</button>
+        </div>
+      </div>
+      <div class="ed-card">
+        <h3>⬇️ خروجی</h3>
+        <div class="btn-row">
+          <button class="btn" id="edExport">مانیفست IIIF v3</button>
+          <button class="btn" id="edExportWA">Web Annotations</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ed-card" id="tools" style="margin-top:12px">
+    <h3>🌐 ابزارهای رسمی و همکار IIIF (بازکردن محتوای در حال ادیت)</h3>
+    <p style="font-size:12px;color:var(--muted);line-height:2">هر ابزار با همین مانیفست و برگ جاری باز می‌شود. اگر ابزاری ورود/آپلود خواست، دکمه «کپی نشانی» را بزنید و در همان ابزار Paste کنید:</p>
+    <div id="toolList"></div>
+    <p style="font-size:11px;color:var(--muted);line-height:2">الگوی این ادیتور: پلتفرم ژاپنی <b>Minna de Honkoku (みんなで翻刻)</b> — رونویسی جمعی برگ‌به‌برگ با تصویر + متن کنار هم، وضعیت بازبینی، نمای تفاوت (diff)، ترجمه و API باز. امکاناتش این‌جا برای نسخ فارسی بومی شده است.</p>
+  </div>
+
+  <div class="ed-card" id="guide" style="margin-top:12px">
+    <h3>📖 راهنمای کامل ادیتور (مثل راهنمای Digirati)</h3>
+    <div style="font-size:13px;line-height:2.2" id="guideBody"></div>
+  </div>
+</div>
+
+<div id="presentOverlay" hidden>
+  <img id="presentImg" alt="">
+  <div id="presentNote"></div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button class="btn" id="prPrev">→ قبلی</button>
+    <span class="kv" id="prCount"></span>
+    <button class="btn" id="prNext">بعدی ←</button>
+    <button class="btn ghost" id="prClose">✕ بستن</button>
+  </div>
+</div>
+
+<div id="tutOverlay" hidden>
+  <div id="tutCard">
+    <h3 id="tutTitle" style="margin-top:0"></h3>
+    <p id="tutText" style="font-size:13px;line-height:2.2"></p>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="btn primary" id="tutNext">بعدی ←</button>
+      <span class="kv" id="tutCount"></span>
+      <button class="btn ghost" id="tutClose">✕ پایان</button>
+    </div>
+  </div>
+</div>
+
+<script src="../viewer/openseadragon.min.js"></script>
+<script src="iiif-editor.js?v=1"></script>
+</body>
+</html>

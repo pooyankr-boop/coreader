@@ -17,7 +17,8 @@ const MIME = {
 };
 
 // Proxy IIIF manifests from QDL/BL (Cloudflare-protected) and LOC
-const PROXY_HOSTS = ['iiif.archive.org', 'archive.org', 'iiif.bodleian.ox.ac.uk', 'tile.loc.gov', 'framemark.vam.ac.uk', 'thumb.wikimedia.org', 'upload.wikimedia.org', 'images.eap.bl.uk', 'api.digitale-sammlungen.de', 'iiif.qdl.qa', 'images.collections.yale.edu', 'images.si.edu', 'www.qdl.qa', 'bl.digirati.io', 'www.loc.gov', 'iiif.vam.ac.uk', 'collections.vam.ac.uk', 'openaccess-cdn.clevelandart.org', 'images.metmuseum.org', 'nrs.harvard.edu', 'ids.lib.harvard.edu', 'mps.lib.harvard.edu', 'harvardartmuseums.org', 'ids.si.edu', 'www.artic.edu', 'media.getty.edu', 'iiif.bnf.fr', 'gallica.bnf.fr', 'wellcomecollection.org', 'iiif.oregon.edu', 'media.art.thewalters.org', 'media.britishmuseum.org', 'api.bl.uk', 'iiif.maximillian-mueller.de', 'iiif.ku.edu', 'iiif.lib.harvard.edu', 'iiif.harvardartmuseums.org', 'digi.ub.rug.nl', 'iiif.library.utoronto.ca', 'iiif.leidenuniv.nl', 'iiif.library.ox.ac.uk', 'iiif.library.jhu.edu', 'iiif.library.nd.edu', 'iiif.library.usc.edu', 'iiif.library.yale.edu', 'iiif.library.princeton.edu', 'iiif.library.columbia.edu', 'iiif.library.chicago.edu', 'iiif.library.duke.edu', 'iiif.library.emory.edu', 'iiif.library.georgetown.edu', 'iiif.library.ndl.gov', 'iiif.library.virginia.edu', 'iiif.library.wisc.edu', 'iiif.library.brown.edu', 'iiif.library.cornell.edu', 'iiif.library.stanford.edu', 'iiif.library.caltech.edu', 'iiif.library.upenn.edu', 'iiif.library.utexas.edu', 'iiif.library.ufl.edu', 'iiif.library.ucla.edu', 'iiif.library.usf.edu', 'iiif.library.vanderbilt.edu', 'iiif.library.tamu.edu', 'iiif.library.okstate.edu', 'iiif.library.illinois.edu', 'iiif.library.psu.edu', 'iiif.library.msu.edu', 'iiif.library.rutgers.edu', 'iiif.library.neu.edu', 'iiif.library.gwu.edu', 'iiif.library.bu.edu', 'iiif.library.bc.edu', 'iiif.library.rochester.edu', 'iiif.library.wustl.edu', 'iiif.library.virginia.edu', 'iiif.library.rice.edu', 'iiif.library.tulane.edu', 'iiif.library.fsu.edu', 'iiif.library.sc.edu', 'iiif.library.uky.edu', 'iiif.library.auburn.edu', 'iiif.library.missouri.edu', 'iiif.library.ku.edu', 'iiif.library.iastate.edu', 'iiif.library.nd.edu', 'iiif.library.okstate.edu', 'iiif.library.vt.edu', 'iiif.library.uga.edu', 'iiif.library.gatech.edu', 'iiif.library.clemson.edu', 'iiif.library.lsu.edu', 'iiif.library.tamu.edu', 'iiif.library.arizona.edu', 'iiif.library.asu.edu', 'iiif.library.nau.edu', 'iiif.library.nmhu.edu', 'iiif.library.nmsu.edu', 'iiif.library.unm.edu', 'iiif.library.unlv.edu', 'iiif.library.unr.edu', 'iiif.library.usu.edu', 'iiif.library.weber.edu', 'iiif.library.byu.edu', 'iiif.library.uwyo.edu', 'iiif.library.csu.edu', 'iiif.library.mines.edu', 'iiif.library.colostate.edu', 'iiif.library.du.edu', 'iiif.library.cudenver.edu', 'iiif.library.msudenver.edu', 'iiif.library.nmsu.edu', 'iiif.library.nmhu.edu', 'iiif.library.su.edu', 'iiif.library.unm.edu', 'iiif.library.unlv.edu', 'iiif.library.unr.edu', 'iiif.library.usu.edu', 'iiif.library.weber.edu', 'iiif.library.byu.edu', 'iiif.library.uwyo.edu', 'iiif.library.csu.edu', 'iiif.library.mines.edu', 'iiif.library.colostate.edu', 'iiif.library.du.edu', 'iiif.library.cudenver.edu', 'iiif.library.msudenver.edu'];
+// Allow-list shared with the Vercel serverless API (proxy-hosts.json).
+const PROXY_HOSTS = require('./proxy-hosts.json');
 PROXY_HOSTS.splice(0, PROXY_HOSTS.length, ...new Set(PROXY_HOSTS)); // drop duplicate entries
 // A suffix match without a dot boundary let 'notiiif.vam.ac.uk' through.
 function hostAllowed(h) { return PROXY_HOSTS.some(a => h === a || h.endsWith('.' + a)); }
@@ -36,6 +37,12 @@ const { execFile } = require('child_process');
 // loc.gov serves /resource/* only to browsers that pass the Cloudflare
 // challenge — Node https gets 403. Route those through headless Chrome.
 function locBrowserFetch(targetUrl, res) {
+  // src/build/loc_fetch.js is referenced but missing from the repo; fail clearly instead of a confusing exec error
+  if (!fs.existsSync(path.join(__dirname, 'loc_fetch.js'))) {
+    res.writeHead(501, { 'Content-Type': 'text/plain; charset=utf-8' });
+    res.end('loc.gov proxy unavailable: loc_fetch.js is missing');
+    return;
+  }
   execFile(process.execPath, [path.join(__dirname, 'loc_fetch.js'), targetUrl],
     { maxBuffer: 64 * 1024 * 1024, timeout: 120000 },
     (err, stdout, stderr) => {
@@ -98,6 +105,15 @@ process.on('unhandledRejection', (err) => {
   console.error('[serve] unhandledRejection (kept alive):', err && err.message);
 });
 
+// روی هاست آنلاین (Render/Liara/...) ربات با همین پروسس بالا می‌آید تا نیازی به
+// سرویس دوم نباشد: کافی است BOT_TOKEN در متغیرهای محیطی ست شود.
+if (process.env.BOT_TOKEN && !process.env.NO_BOT) {
+  try {
+    require('../../telegram/bot.js');
+    console.log('[serve] telegram bot started in-process');
+  } catch (e) { console.error('[serve] bot failed to start:', e.message); }
+}
+
 http.createServer((req, res) => {
   let urlPath;
   try { urlPath = decodeURIComponent(req.url.split('?')[0]); }
@@ -138,6 +154,192 @@ http.createServer((req, res) => {
     return;
   }
   if (urlPath === '/cache-manifest') { res.writeHead(405); res.end('POST only'); return; }
+
+  // ---- Telegram webhook (حالت هاست: آپدیت‌ها به‌جای polling از این‌جا می‌آیند) ----
+  // مسیر دقیق HOOK_PATH از هش توکن ساخته می‌شود؛ بدون BOT_TOKEN همیشه 404.
+  if (urlPath.startsWith('/telegram/hook/')) {
+    const token = process.env.BOT_TOKEN || '';
+    if (!token) { res.writeHead(404); res.end('no bot'); return; }
+    const crypto = require('crypto');
+    const expect = '/telegram/hook/' + crypto.createHash('sha256').update(token).digest('hex').slice(0, 16);
+    if (urlPath !== expect) { res.writeHead(404); res.end('nope'); return; }
+    let ubody = '';
+    req.on('data', c => { ubody += c; if (ubody.length > 1024 * 1024) req.destroy(); });
+    req.on('end', () => {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ ok: true }));
+      try {
+        const u = JSON.parse(ubody || '{}');
+        const bot = require('../../telegram/bot.js');
+        if (bot && bot.handleUpdate) bot.handleUpdate(u);
+      } catch (e) { console.error('[serve] webhook update error:', e.message); }
+    });
+    return;
+  }
+
+  // ---- coreader user API: auth + sync + annotations + manifests + telegram ----
+  // ذخیره سبک فایل‌محور در data/ (بدون دیتابیس). برای استقرار بزرگ‌تر، همین
+  // قرارداد REST را می‌توان به Postgres وصل کرد.
+  if (urlPath.startsWith('/api/')) {
+    const DATA = path.join(ROOT, 'data');
+    try { fs.mkdirSync(DATA, { recursive: true }); } catch (e) {}
+    const readJ = (f, fb) => { try { return JSON.parse(fs.readFileSync(path.join(DATA, f), 'utf8')); } catch (e) { return fb; } };
+    const writeJ = (f, v) => { fs.writeFileSync(path.join(DATA, f), JSON.stringify(v, null, 2)); };
+    const sendJ = (o, code) => { res.writeHead(code || 200, { 'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Origin': '*' }); res.end(JSON.stringify(o)); };
+    if (req.method === 'OPTIONS') { res.writeHead(204, { 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Methods': 'GET,POST', 'Access-Control-Allow-Headers': 'Content-Type' }); res.end(); return; }
+    let abody = '';
+    const done = (fn) => {
+      if (req.method === 'GET') return fn('');
+      req.on('data', c => { abody += c; if (abody.length > 10 * 1024 * 1024) { res.writeHead(413); res.end('Too large'); req.destroy(); } });
+      req.on('end', () => fn(abody));
+    };
+    // POST /api/auth/request-code {code,name} — پنل کد را نگه می‌دارد تا ربات تایید کند
+    if (urlPath === '/api/auth/request-code') return done((b) => {
+      try {
+        const j = JSON.parse(b || '{}');
+        if (!j.code) return sendJ({ ok: false }, 400);
+        const codes = readJ('tg-codes.json', {});
+        codes[String(j.code)] = { name: j.name || 'کاربر', at: Date.now(), linked: null };
+        writeJ('tg-codes.json', codes);
+        return sendJ({ ok: true });
+      } catch (e) { return sendJ({ ok: false }, 400); }
+    });
+    // GET /api/auth/check-code?code= — پنل هر چند ثانیه poll می‌کند
+    if (urlPath === '/api/auth/check-code') {
+      const code = new URL(req.url, 'http://localhost').searchParams.get('code');
+      const codes = readJ('tg-codes.json', {});
+      const c = codes[String(code)];
+      if (c && c.linked) return sendJ({ user: c.linked });
+      return sendJ({});
+    }
+    // POST /api/auth/login — ثبت/به‌روزرسانی کاربر
+    if (urlPath === '/api/auth/login') return done((b) => {
+      try {
+        const u = JSON.parse(b || '{}');
+        if (!u.id) return sendJ({ ok: false }, 400);
+        const users = readJ('users.json', {});
+        users[String(u.id)] = { id: u.id, name: u.name || 'کاربر', method: u.method || 'local', at: Date.now() };
+        writeJ('users.json', users);
+        return sendJ({ ok: true });
+      } catch (e) { return sendJ({ ok: false }, 400); }
+    });
+    // POST /api/auth/telegram-link {code, telegramUser} — ربات صدا می‌زند
+    if (urlPath === '/api/auth/telegram-link') return done((b) => {
+      try {
+        const j = JSON.parse(b || '{}');
+        const codes = readJ('tg-codes.json', {});
+        const c = codes[String(j.code)];
+        if (!c) return sendJ({ ok: false, error: 'bad-code' }, 404);
+        const user = { id: 'tg-' + (j.telegramUser && j.telegramUser.id), name: (j.telegramUser && (j.telegramUser.first_name || j.telegramUser.username)) || c.name, method: 'telegram', tg: j.telegramUser, created: Date.now() };
+        c.linked = user;
+        writeJ('tg-codes.json', codes);
+        const users = readJ('users.json', {});
+        users[user.id] = user;
+        writeJ('users.json', users);
+        return sendJ({ ok: true, user });
+      } catch (e) { return sendJ({ ok: false }, 400); }
+    });
+    // POST /api/sync — همگام‌سازی قاب‌ها/متن‌ها/پروژه‌ها
+    if (urlPath === '/api/sync') return done((b) => {
+      try {
+        const j = JSON.parse(b || '{}');
+        const uid = (j.user && j.user.id) || 'anon';
+        const store = readJ('sync.json', {});
+        store[String(uid)] = { user: j.user || null, frames: j.frames || [], texts: j.texts || [], projects: j.projects || [], at: Date.now() };
+        writeJ('sync.json', store);
+        const n = (j.frames || []).length + (j.texts || []).length + (j.projects || []).length;
+        return sendJ({ ok: true, saved: n });
+      } catch (e) { return sendJ({ ok: false }, 400); }
+    });
+    // POST /api/manifests — ذخیره مانیفست ساخته‌شده در پنل
+    if (urlPath === '/api/manifests' && req.method === 'POST') return done((b) => {
+      try {
+        const j = JSON.parse(b || '{}');
+        if (!j.manifest) return sendJ({ ok: false }, 400);
+        const ms = readJ('manifests.json', []);
+        ms.unshift({ id: j.manifest.id || ('urn:coreader:' + Date.now()), project: (j.project && j.project.name) || '', user: (j.user && j.user.name) || '', manifest: j.manifest, at: Date.now() });
+        writeJ('manifests.json', ms.slice(0, 200));
+        return sendJ({ ok: true });
+      } catch (e) { return sendJ({ ok: false }, 400); }
+    });
+    // GET /api/manifests — فهرست مانیفست‌های مفید برای غنی‌سازی نسخ
+    if (urlPath === '/api/manifests' && req.method === 'GET') {
+      return sendJ(readJ('manifests.json', []));
+    }
+    // POST /api/annotate {project, text, tag, by} — حاشیه‌گذاری جمعی (ربات/گروه)
+    if (urlPath === '/api/annotate' && req.method === 'POST') return done((b) => {
+      try {
+        const j = JSON.parse(b || '{}');
+        if (!j.project || !j.text) return sendJ({ ok: false, error: 'project+text required' }, 400);
+        const all = readJ('annotations.json', {});
+        const pid = String(j.project);
+        all[pid] = all[pid] || [];
+        const anno = { text: String(j.text).slice(0, 2000), tag: String(j.tag || '').slice(0, 60), by: String(j.by || 'کاربر تلگرام').slice(0, 80), at: Date.now() };
+        all[pid].push(anno);
+        writeJ('annotations.json', all);
+        return sendJ({ ok: true, count: all[pid].length });
+      } catch (e) { return sendJ({ ok: false }, 400); }
+    });
+    // GET /api/annotations?project= — حاشیه‌های یک پروژه
+    if (urlPath === '/api/annotations' && req.method === 'GET') {
+      const pid = new URL(req.url, 'http://localhost').searchParams.get('project');
+      const all = readJ('annotations.json', {});
+      if (pid) return sendJ(all[String(pid)] || []);
+      const counts = {};
+      Object.keys(all).forEach(k => { counts[k] = all[k].length; });
+      return sendJ(counts);
+    }
+    // POST /api/telegram/send {chatId,text} — ارسال از سایت به تلگرام (توکن روی سرور)
+    if (urlPath === '/api/telegram/send') return done(async (b) => {
+      // فقط با هدر x-send-secret برابر SEND_SECRET (بدون این متغیر، این مسیر بسته است)
+      const want = process.env.SEND_SECRET || '';
+      if (!want || req.headers['x-send-secret'] !== want) return sendJ({ ok: false, error: 'forbidden' }, 403);
+      try {
+        const j = JSON.parse(b || '{}');
+        let cfg = {}; try { cfg = JSON.parse(fs.readFileSync(path.join(ROOT, 'telegram', 'config.json'), 'utf8')); } catch (e) {}
+        const botToken = process.env.BOT_TOKEN || cfg.botToken || '';
+        const chatId = j.chatId || process.env.TELEGRAM_CHANNEL_ID || cfg.channelId || cfg.channel || '';
+        if (!botToken) return sendJ({ ok: false, error: 'no-bot-token' }, 501);
+        if (!chatId) return sendJ({ ok: false, error: 'no-chat-id' }, 501);
+        const tgRes = await fetch('https://api.telegram.org/bot' + botToken + '/sendMessage', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ chat_id: chatId, text: String(j.text || '').slice(0, 4000), parse_mode: 'HTML' })
+        });
+        return sendJ({ ok: tgRes.ok });
+      } catch (e) { return sendJ({ ok: false }, 500); }
+    });
+    // GET /api/cron-daily — «اثر روز» را (اگر امروز پست نشده) می‌فرستد.
+    // روی Render پلن رایگان cron داخلی نیست؛ یک سرویس پینگ رایگان
+    // (مثل cron-job.org) این آدرس را روزی یک‌بار ساعت ۰۴:۳۰ UTC صدا می‌زند.
+    // امنیت: اگر CRON_SECRET ست باشد، کلید باید در کوئری `key` بیاید.
+    if (urlPath === '/api/cron-daily') {
+      const secret = process.env.CRON_SECRET || '';
+      let q = '';
+      try { q = new URL(req.url, 'http://localhost').searchParams.get('key') || ''; } catch (e) {}
+      if (secret && q !== secret) { res.writeHead(403); res.end('bad key'); return; }
+      const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tehran', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+      let st = {};
+      try { st = JSON.parse(fs.readFileSync(path.join(DATA, 'daily.json'), 'utf8')); } catch (e) {}
+      if (st.date === today) { res.writeHead(200, { 'Content-Type': 'application/json' }); res.end(JSON.stringify({ ok: true, skipped: 'already' })); return; }
+      // bot-core کاملاً به توکن نیاز دارد و در نبودش process.exit می‌کند؛ اینجا هرگز آن را نصب نکن
+      if (!process.env.BOT_TOKEN && !fs.existsSync(path.join(ROOT, 'telegram', 'config.json'))) {
+        res.writeHead(501, { 'Content-Type': 'application/json' }); res.end(JSON.stringify({ ok: false, error: 'no-bot-token' })); return;
+      }
+      try {
+        const bot = require('../../telegram/bot-core.js');
+        fs.writeFileSync(path.join(DATA, 'daily.json'), JSON.stringify({ date: today }));
+        // اگر ارسال شکست بخورد، نشانه امروز پاک می‌شود تا بار بعدی دوباره تلاش شود
+        bot.postDaily().then(() => {}).catch((err) => {
+          console.error('[serve] daily post failed:', err && err.message);
+          try { fs.writeFileSync(path.join(DATA, 'daily.json'), JSON.stringify({ date: '' })); } catch (e) {}
+        });
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ ok: true }));
+      } catch (e) { res.writeHead(500, { 'Content-Type': 'application/json' }); res.end(JSON.stringify({ ok: false, error: e.message })); }
+      return;
+    }
+    res.writeHead(404); res.end('Unknown api'); return;
+  }
 
   // Image proxy — fetch and relay binary images from external hosts
   if (urlPath === '/proxy-image') {
@@ -214,7 +416,8 @@ http.createServer((req, res) => {
   let filePath = path.join(ROOT, urlPath);
   if ((filePath !== ROOT && !filePath.startsWith(ROOT + path.sep)) || urlPath.indexOf('\0') >= 0 || /(^|\/)\.git(\/|$)/.test(urlPath)) { res.writeHead(403); res.end('Forbidden'); return; }
   // The gateway tokens live in these files: readable from this machine, never over the network.
-  if (/(^|\/)(llm|tts)-config\.json$/i.test(urlPath)) {
+  // telegram/config.json holds the bot token for the same reason.
+  if (/(^|\/)(llm|tts)-config\.json$/i.test(urlPath) || /(^|\/)telegram\/config\.json$/i.test(urlPath)) {
     const ra = req.socket.remoteAddress || '';
     if (!(ra === '127.0.0.1' || ra === '::1' || ra === '::ffff:127.0.0.1')) { res.writeHead(403); res.end('Forbidden'); return; }
   }

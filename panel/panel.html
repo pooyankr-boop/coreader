@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>پنل کاربری — کتابخوان نسخ خطی</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&family=Lalezar&family=Noto+Nastaliq+Urdu:wght@400;700&family=Scheherazade+New:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../catalog/catalog.css?v=22">
+<link rel="stylesheet" href="../assets/polish.css?v=1">
+<link rel="stylesheet" href="panel.css?v=1">
+</head>
+<body class="theme-dark">
+<header class="site-header" style="padding-bottom:12px">
+  <div class="header-top-bar">
+    <a class="hdr-btn" href="../index.html">📚 بازگشت به کاتالوگ</a>
+    <div class="header-actions">
+      <a class="hdr-btn" href="../tour/index.html">🗺️ تور زیرزمین</a>
+      <a class="hdr-btn" href="../viewer/tour.html">🏠 تور خانه</a>
+    </div>
+  </div>
+  <h1 class="site-title font-nastaliq">پنل کاربری</h1>
+  <p class="site-subtitle">قاب‌ها، متن‌ها، حاشیه‌ها، پروژه‌های IIIF و اشتراک‌گذاری زیبا — با ورود محلی یا تلگرام</p>
+</header>
+
+<div class="panel-grid">
+  <aside class="panel-side">
+    <h3 style="margin:0 0 8px">👤 ورود</h3>
+    <div id="authBox"></div>
+    <hr style="border:none;border-top:1px solid var(--border);margin:14px 0">
+    <h3 style="margin:0 0 8px">📑 بخش‌ها</h3>
+    <div class="chip-row" id="navChips">
+      <button class="chip on" data-p="frames">🖼️ قاب‌ها</button>
+      <button class="chip" data-p="texts">📝 متن‌ها</button>
+      <button class="chip" data-p="iiif">📜 پروژه IIIF</button>
+      <button class="chip" data-p="share">📣 اشتراک‌گذاری</button>
+      <button class="chip" data-p="backup">💾 پشتیبان</button>
+    </div>
+    <hr style="border:none;border-top:1px solid var(--border);margin:14px 0">
+    <h3 style="margin:0 0 8px">🎨 قلم نمایشی</h3>
+    <div class="chip-row" id="fontChips">
+      <button class="chip on" data-f="ui">شهرزاد نو</button>
+      <button class="chip" data-f="house">نسخ فارسی (خانه)</button>
+      <button class="chip" data-f="under">نستعلیق ایرانی (زیرزمین)</button>
+      <button class="chip" data-f="naskh">نسخ / امیری</button>
+    </div>
+    <p style="font-size:11px;color:var(--muted);line-height:2;margin-top:10px">قلم پایه شهرزاد نو است. نستعلیق ایرانی اگر نصب نباشد، نستعلیق گوگل نمایش داده می‌شود.</p>
+  </aside>
+
+  <main class="panel-main">
+    <section class="panel-card" id="pane-frames">
+      <h3>🖼️ قاب‌های ذخیره‌شده (از ویور: دکمه 📌 قاب)</h3>
+      <p style="font-size:12px;color:var(--muted)">هر قابی که در نمایشگر نسخ با «ذخیره قاب» نگه می‌دارید این‌جا می‌آید. روی هر قاب: بازکردن در ویور، دانلود کارت، اشتراک در تلگرام/واتساپ/اینستا.</p>
+      <div class="saved-grid" id="framesGrid"></div>
+      <div class="btn-row">
+        <button class="btn" id="btnAddFrame">＋ افزودن قاب دستی (URL تصویر)</button>
+        <button class="btn ghost" id="btnClearFrames">پاک‌سازی</button>
+      </div>
+    </section>
+
+    <section class="panel-card" id="pane-texts" hidden>
+      <h3>📝 متن‌ها و حاشیه‌ها</h3>
+      <label class="lbl">عنوان</label><input class="inp" id="txtTitle" placeholder="مثلاً: بیتی از حافظ درباره میخانه">
+      <label class="lbl">متن</label><textarea class="inp" id="txtBody" rows="4" placeholder="متن، ترجمه یا یادداشت…"></textarea>
+      <label class="lbl">پیوند اثر (اختیاری)</label><input class="inp" id="txtLink" placeholder="viewer/viewer.html?book=..." dir="ltr">
+      <div class="btn-row"><button class="btn primary" id="btnSaveText">ذخیره متن</button></div>
+      <div class="saved-grid" id="textsGrid" style="margin-top:12px"></div>
+    </section>
+
+    <section class="panel-card" id="pane-iiif" hidden>
+      <h3>📜 پروژه IIIF — تولید annotation و مانیفست برای نسخ فارسی و اشیاء موزه‌ای</h3>
+      <p style="font-size:12px;color:var(--muted);line-height:2">یک پروژه بسازید (مثلاً «غزلیات حافظ — نسخه بودلیان»)، سپس برای هر برگ: ناحیه (xywh)، رونویسی، ترجمه و برچسب اضافه کنید. خروجی: Web Annotation + مانیفست IIIF v3 آماده اشتراک و غنی‌سازی نسخ فارسی.</p>
+      <label class="lbl">نام پروژه</label><input class="inp" id="prjName" placeholder="مثلاً: شاهنامه — موزه مت">
+      <label class="lbl">مانیفست پایه (URL)</label><input class="inp" id="prjManifest" placeholder="https://…/manifest.json" dir="ltr">
+      <div class="btn-row"><button class="btn primary" id="btnCreatePrj">ساخت پروژه</button></div>
+      <div id="prjList" style="margin-top:12px;display:flex;flex-direction:column;gap:10px"></div>
+      <div id="prjDetail" style="margin-top:12px"></div>
+    </section>
+
+    <section class="panel-card" id="pane-share" hidden>
+      <h3>📣 اشتراک‌گذاری در همه شبکه‌های اجتماعی</h3>
+      <p style="font-size:12px;color:var(--muted)">یک قاب یا متن را انتخاب کنید، قالب (خانه/زیرزمین/نسخ)، سپس خروجی بگیرید: کارت تصویری (canvas)، متن آماده کپشن، لینک عمیق، یا ارسال مستقیم به ربات تلگرام.</p>
+      <label class="lbl">قالب کارت</label>
+      <select class="inp" id="shareTheme">
+        <option value="">مشکی طلایی (پیش‌فرض)</option>
+        <option value="house">خانه — نسخ فارسی</option>
+        <option value="naskh">نسخ کرم</option>
+      </select>
+      <label class="lbl">عنوان کارت (قابل ویرایش)</label><input class="inp" id="shareTitle" placeholder="— خودکار از قاب/متن —">
+      <label class="lbl">زیرعنوان (قابل ویرایش)</label><input class="inp" id="shareSub" placeholder="— خودکار —">
+      <label class="lbl">نحوه نمایش تصویر</label>
+      <select class="inp" id="shareFit">
+        <option value="cover">پرکردن قاب (cover)</option>
+        <option value="contain">نمایش کامل تصویر (contain)</option>
+      </select>
+      <label class="lbl">کپشن اشتراک (قابل ویرایش)</label><textarea class="inp" id="shareCaption" rows="3" placeholder="— خودکار —"></textarea>
+      <div class="btn-row">
+        <button class="btn primary" id="btnRenderCard">🎨 ساخت کارت تصویری</button>
+        <button class="btn" id="btnCopyCaption">📋 کپی کپشن فارسی</button>
+        <button class="btn" id="btnShareTg">✈️ ارسال به تلگرام</button>
+        <button class="btn" id="btnShareWa">🟢 واتساپ</button>
+        <button class="btn" id="btnShareX">𝕏 ایکس / توییتر</button>
+      </div>
+      <div id="sharePreview" style="margin-top:14px"></div>
+      <canvas id="shareCanvas" width="1080" height="1350" style="display:none"></canvas>
+    </section>
+
+    <section class="panel-card" id="pane-backup" hidden>
+      <h3>💾 پشتیبان‌گیری و همگام‌سازی</h3>
+      <p style="font-size:12px;color:var(--muted);line-height:2">همه‌چیز ابتدا محلی (localStorage) ذخیره می‌شود. با ورود به سرور، روی سرور هم همگام می‌شود. فایل پشتیبان را می‌توانید به ربات تلگرام بفرستید تا همیشه همراه‌تان باشد.</p>
+      <div class="btn-row">
+        <button class="btn primary" id="btnExport">⬇️ دانلود پشتیبان (JSON)</button>
+        <button class="btn" id="btnImport">⬆️ بارگذاری پشتیبان</button>
+        <input type="file" id="importFile" accept=".json" hidden>
+        <button class="btn" id="btnSync">🔄 همگام‌سازی با سرور</button>
+      </div>
+      <div id="syncLog" style="font-size:12px;margin-top:10px;line-height:2"></div>
+    </section>
+  </main>
+</div>
+
+<script src="panel.js?v=1"></script>
+</body>
+</html>

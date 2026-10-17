@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تلگرام coreader — ربات، کانال، گروه</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../catalog/catalog.css?v=22">
+<link rel="stylesheet" href="../assets/polish.css?v=1"></head>
+<body class="theme-dark">
+<header class="site-header"><h1 class="site-title">✈️ تلگرام coreader</h1>
+<p class="site-subtitle">راهنمای راه‌اندازی ربات، کانال و گروه + کاربردهای ابتکاری</p>
+<div class="header-top-bar" style="justify-content:center"><a class="hdr-btn" href="../index.html">📚 کاتالوگ</a><a class="hdr-btn" href="../panel/panel.html">👤 پنل کاربری</a></div></header>
+<main style="max-width:860px;margin:0 auto;padding:0 20px 60px;display:flex;flex-direction:column;gap:16px">
+<section class="panel-card"><h3>۱) ساخت ربات (۵ دقیقه)</h3><div style="font-size:13px;line-height:2">
+۱. در تلگرام به <b dir="ltr">@BotFather</b> پیام <code dir="ltr">/newbot</code> بدهید و توکن را کپی کنید.<br>
+۲. توکن را در <code dir="ltr">telegram/config.json</code> (میدان botToken) یا متغیر محیطی <code dir="ltr">BOT_TOKEN</code> بگذارید.<br>
+۳. اجرا: <code dir="ltr">node telegram/bot.js</code> (روی همان ماشینی که <code dir="ltr">node src/build/serve.js</code> اجرا می‌شود).<br>
+۴. در تلگرام به ربات <code dir="ltr">/start</code> بدهید.
+</div></section>
+<section class="panel-card"><h3>۲) کانال: @coreader_fa (شناسه <code dir="ltr">-1003945662117</code>)</h3><div style="font-size:13px;line-height:2">
+• 🎲 <b>اثر روز خودکار:</b> هر روز ساعت ۸ صبح تهران کارت تصویری در کانال پست می‌شود (زمان‌بند داخلی ربات؛ بدون cron) و در تاپیک «قاب من» گروه هم بازنشر می‌شود.<br>
+• 📜 <b>رشته «یک برگ، یک نکته»:</b> هر پست یک قاب IIIF + رونویسی + ترجمه از پروژه‌های IIIF پنل.<br>
+• 🗺️ <b>شنبه‌های تور:</b> یک اتاق تور زیرزمین/خانه با سه هات‌اسپات منتخب.<br>
+• 🏺 <b>پنجشنبه موزه:</b> یک شیء موزه‌ای با پیوند بازکردن در ویور.
+</div></section>
+<section class="panel-card"><h3>۳) گروه: @coreader_club (شناسه <code dir="ltr">-1004484426695</code>)</h3><div style="font-size:13px;line-height:2">
+• 💬 <b>باشگاه رونویسی:</b> با <code dir="ltr">/projects</code> پروژه را ببینید و با <code dir="ltr">/hashiye id متن #برچسب</code> حاشیه ثبت کنید؛ در پنل ← حاشیه‌های گروه ادغام می‌شود.<br>
+• 🧩 <b>مسابقه حدس اثر:</b> <code dir="ltr">/quiz</code> — اول عکس بدون اسم، بعد نظرسنجی کوییز، بعد کارت مطالعه.<br>
+• 🖼️ <b>کارت من:</b> کارت‌های پنل (📣 اشتراک‌گذاری) را با #قاب_من بفرستید؛ بهترین‌ها در کانال بازنشر می‌شود.<br>
+• 🗂️ <b>تاپیک‌ها:</b> در تنظیمات گروه Topics را فعال کنید و <code dir="ltr">node telegram/setup-topics.js</code> را اجرا کنید تا تاپیک‌های «رونویسی و حاشیه»، «مسابقه»، «قاب من» و «گفت‌وگو» ساخته شوند. فهرست: <code dir="ltr">/topics</code>.
+</div></section>
+<section class="panel-card"><h3>۴) اتصال به سایت (لاگین)</h3><div style="font-size:13px;line-height:2">
+۱. کاربر در <b>پنل کاربری ← کد تلگرامی</b> یک کد ۶رقمی می‌گیرد.<br>
+۲. در ربات می‌فرستد: <code dir="ltr">/link 123456</code> — یا از مینی‌اپ (تب ذخیره‌ها ← دریافت کد) خودکار لینک می‌شود.<br>
+۳. سرور (<code dir="ltr">POST /api/auth/telegram-link</code>) حساب را لینک می‌کند؛ پنل با <code dir="ltr">GET /api/auth/check-code</code> هر ۴ ثانیه بررسی می‌کند.<br>
+۴. بعد از اتصال، پشتیبان‌گیری و ارسال کارت به تلگرام با نام کاربری واقعی انجام می‌شود.<br>
+۵. شناسه عددی هر گفت‌وگو (برای گروه خصوصی): دستور <code dir="ltr">/id</code> در همان گروه.
+</div></section>
+<section class="panel-card"><h3>۵) مینی‌اپ تلگرام (اپلیکیشن داخل تلگرام)</h3><div style="font-size:13px;line-height:2">
+• مسیر: <code dir="ltr">/telegram/webapp/</code> — همان هاست سایت، بدون سرور جدا.<br>
+• امکانات: جست‌وجوی زنده، فیلتر IIIF/موزه/تور، کارت اثر، بازکردن در ویور/ریدر، اثر تصادفی 🎲، تورها، ذخیره‌ها، اتصال پنل، اشتراک به چت.<br>
+• پیش‌نیاز عمومی‌سازی: سایت باید روی <b>HTTPS عمومی</b> باشد (راهنمای کامل: <code dir="ltr">DEPLOY-fa.md</code> — لیارا پیشنهاد اول، Render جایگزین)؛ سپس:<br>
+<code dir="ltr">node telegram/bot-setup.js https://YOUR-DOMAIN</code><br>
+تا دکمه منوی «کتابخانه» به مینی‌اپ وصل شود. برای تست محلی، همین آدرس را در مرورگر باز کنید.<br>
+• اگر دکمه 📱 در ربات باز نشد، دستور <code dir="ltr">/app</code> دلیلش را می‌گوید.
+</div></section>
+<section class="panel-card"><h3>۶) ادیتور فارسی IIIF</h3><div style="font-size:13px;line-height:2">
+• آدرس: پنل کاربری ← پروژه ← <b>✏️ ادیتور</b> (یا مستقیم <code dir="ltr">panel/iiif-editor.html</code>).<br>
+• رونویسی برگ‌به‌برگ با زوم عمیق، وضعیت (خام/بررسی/تأیید)، <b>مقابله دو برگ</b> با نمای تفاوت، ادغام حاشیه‌های گروه، خروجی مانیفست IIIF v3 و Web Annotation.<br>
+• الگو: پلتفرم ژاپنی Minna de Honkoku؛ بخش «🌐 ابزارها»ی ادیتور، همین مانیفست را در Mirador و Universal Viewer و دیگر ابزارهای رسمی باز می‌کند.
+</div></section>
+<section class="panel-card"><h3>۶) گروه و شناسه عددی</h3><div style="font-size:13px;line-height:2">
+گروه عمومی است: <b dir="ltr">t.me/coreader_club</b> (شناسه <code dir="ltr">-1004484426695</code>) و ربات ادمین است ✅<br>
+کانال: <b dir="ltr">t.me/coreader_fa</b> (شناسه <code dir="ltr">-1003945662117</code>).<br>
+دستور <code dir="ltr">/id</code> در هر گفت‌وگو شناسه همان‌جا را می‌دهد (برای اسکریپت‌های ارسال خودکار).
+</div></section>
+<section class="panel-card"><h3>۷) دستورات ربات</h3><div style="font-size:13px;line-height:2" dir="ltr">
+/start · /app · /search حافظ · /book slug · /card slug · /daily · /quiz · /tour · /manifest slug · /projects · /hashiye id متن #برچسب · /topics · /link 123456 · /id · /ping
+</div></section>
+</main>
+</body></html>

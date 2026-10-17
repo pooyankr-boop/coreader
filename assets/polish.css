@@ -1,0 +1,64 @@
+/* polish.css — یکدست‌سازی ظاهر سایت، پنل و تور + ریسپانسیو + فونت‌های فارسی */
+:root{
+  --font-ui:'Scheherazade New','Noto Naskh Arabic','Amiri','Vazirmatn',serif;
+  --font-house:'Noto Naskh Arabic','Scheherazade New','Amiri',serif;
+  --font-nastaliq:'Iran Nastaliq','Noto Nastaliq Urdu','Scheherazade New',serif;
+  --font-naskh:'Scheherazade New','Noto Naskh Arabic','Amiri',serif;
+}
+body{font-family:var(--font-ui)}
+.font-house{font-family:var(--font-house)!important}
+.font-nastaliq{font-family:var(--font-nastaliq)!important;line-height:2.4!important}
+.font-naskh{font-family:var(--font-naskh)!important;line-height:2.2!important}
+
+/* دکمه‌های یکدست هدر */
+.hdr-btn{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:9999px;
+  background:var(--card-bg);border:1px solid var(--border);color:var(--text);
+  font-family:inherit;font-size:13px;font-weight:700;text-decoration:none;cursor:pointer;
+  transition:transform .2s,box-shadow .2s,border-color .2s}
+.hdr-btn:hover{transform:translateY(-2px);border-color:var(--gold);box-shadow:0 6px 20px rgba(0,0,0,.12)}
+.hdr-btn.accent{background:var(--gold-gradient);color:#1a1610;border:none}
+
+/* کارت اشتراک شبکه‌های اجتماعی */
+.share-card{width:640px;max-width:100%;border-radius:20px;overflow:hidden;background:#14100c;color:#f5ead2;
+  border:1px solid #c99738;font-family:var(--font-naskh)}
+.share-card .sc-cover{width:100%;aspect-ratio:16/9;object-fit:cover;display:block;background:#000}
+.share-card .sc-body{padding:18px 20px}
+.share-card .sc-title{font-family:var(--font-nastaliq);font-size:26px;line-height:2;color:#f6d47c;margin:0 0 6px}
+.share-card .sc-sub{font-size:13px;color:#cbbfa7;line-height:2}
+.share-card .sc-brand{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:11px;color:#9c8f76}
+.share-card.house .sc-title{font-family:var(--font-house)}
+.share-card.naskh .sc-title{font-family:var(--font-naskh)}
+
+/* هایلایت‌های تور */
+.tour-hl-house{font-family:var(--font-house);letter-spacing:.2px}
+.tour-hl-under{font-family:var(--font-nastaliq);line-height:2.4}
+
+/* پنل کاربری */
+.panel-grid{display:grid;grid-template-columns:280px 1fr;gap:18px;max-width:1200px;margin:0 auto;padding:0 20px 60px}
+.panel-side{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:18px;position:sticky;top:16px;align-self:start}
+.panel-main{display:flex;flex-direction:column;gap:16px;min-width:0}
+.panel-card{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:20px}
+.panel-card h3{margin:0 0 12px;font-size:16px}
+.chip-row{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:6px 12px;border-radius:9999px;border:1px solid var(--border);background:var(--cream);font-size:12px;cursor:pointer;font-family:inherit}
+.chip.on{background:var(--accent);color:#fff;border-color:var(--accent)}
+.saved-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.saved-item{border:1px solid var(--border);border-radius:14px;overflow:hidden;background:var(--cream)}
+.saved-item img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block}
+.saved-item .sb2{padding:10px;font-size:12px;line-height:1.9}
+.btn-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.btn{padding:9px 16px;border-radius:12px;border:1.5px solid var(--border);background:var(--cream);font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;color:var(--text)}
+.btn.primary{background:var(--gold-gradient,#c99738);color:#fff;border:none}
+.btn.ghost{background:transparent}
+input.inp,select.inp,textarea.inp{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:12px;font-family:inherit;font-size:13px;background:var(--cream);color:var(--text)}
+label.lbl{display:block;font-size:12px;font-weight:700;margin:10px 0 4px}
+@media(max-width:900px){
+  .panel-grid{grid-template-columns:1fr}
+  .panel-side{position:static}
+  .share-card .sc-title{font-size:22px}
+}
+@media(max-width:480px){
+  .panel-grid{padding:0 12px 50px}
+  .panel-card{padding:14px;border-radius:16px}
+  .saved-grid{grid-template-columns:repeat(2,1fr);gap:8px}
+}

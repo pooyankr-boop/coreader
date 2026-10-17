@@ -21,7 +21,7 @@ function queueImage(img, src, urgent){
   if(!img || !src || img.dataset.q) return;
   img.dataset.q = '1';
   var job = { img: img, src: src };
-  if(urgent) _imgQ.unshift(job); else _imgQ.unshift(job);   // newest first: what scrolled into view last is what the user is looking at
+  if(urgent) _imgQ.unshift(job); else _imgQ.push(job);   // newest first: what scrolled into view last is what the user is looking at
   pumpImages();
 }
 function pumpImages(){
@@ -117,6 +117,16 @@ function itemHref(src, slug){
   if(src === 'against-nature') return 'viewer/tour.html';
   if(src === 'local') return 'reader/reader.html?book=' + encodeURIComponent(slug);
   return 'viewer/viewer.html?book=' + encodeURIComponent(slug);
+}
+// proxyBase(): relative proxy root so file:// and GitHub-Pages subpaths keep working.
+// '/proxy-image' absolute breaks on subpath deploys; use current origin-relative base.
+function proxyBase(){
+  try {
+    if(location.protocol === 'file:') return '';
+    var base = location.pathname.replace(/\/[^\/]*$/, '').replace(/\/(catalog|reader|viewer|tour)$/, '');
+    if(base === '/') base = '';
+    return base;
+  } catch(e){ return ''; }
 }
 
 function init(){
@@ -454,7 +464,7 @@ function render(){
     // loading placeholder so the card does not jump straight to error text.
     var coverProxy = '';
     if(coverSrc && /^https?:\/\//.test(coverSrc) && coverSrc.indexOf('/proxy-image')<0){
-      coverProxy = '/proxy-image?url=' + encodeURIComponent(coverSrc);
+      coverProxy = proxyBase() + '/proxy-image?url=' + encodeURIComponent(coverSrc);
     }
     var coverImgSrc = coverProxy || coverSrc || '';
     var coverImg = '';
@@ -478,7 +488,7 @@ function render(){
         slides = thumbs.slice(0, 5).map(function(url, si){
           var su = url;
           if(/^https?:\/\//.test(url) && url.indexOf('/proxy-image')<0){
-            su = '/proxy-image?url=' + encodeURIComponent(url);
+            su = proxyBase() + '/proxy-image?url=' + encodeURIComponent(url);
           }
           return '<div class="slide' + (si === 0 ? ' active' : '') + '"><img data-src="' + esc(su) + '" alt="" decoding="async" onerror="this.parentElement.remove()"></div>';
         }).join('');
@@ -630,7 +640,7 @@ window.openQuickView = function(slug, e){
   var qvImg = document.getElementById('qvCoverImg');
   if(coverSrc) qvImg.src = coverSrc; else qvImg.removeAttribute('src');
 
-  // Thumbs gallery
+  // Thumbs gallery (proxy + lazy, same as cards — raw remote URLs cause CORS slowness)
   var thumbsRow = document.getElementById('qvThumbsRow');
   thumbsRow.innerHTML = '';
   if(book.thumbnail){
@@ -638,8 +648,13 @@ window.openQuickView = function(slug, e){
     thumbs.slice(0, 6).forEach(function(u){
       var img = document.createElement('img');
       img.className = 'qv-thumb';
-      img.src = u;
-      img.onclick = function(){ document.getElementById('qvCoverImg').src = u; };
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      var proxied = (/^https?:\/\//.test(u) && u.indexOf('/proxy-image')<0) ? (proxyBase() + '/proxy-image?url=' + encodeURIComponent(u)) : u;
+      img.dataset.src = proxied;
+      img.src = proxied;
+      img.onerror = function(){ this.style.display='none'; };
+      img.onclick = function(){ document.getElementById('qvCoverImg').src = this.dataset.src || this.src; };
       thumbsRow.appendChild(img);
     });
   }
@@ -725,7 +740,7 @@ window.closeFavsDrawer = function(){
 window.removeFavItem = function(i){
   var favs = lsGet('coreader-favs', []);
   favs.splice(i, 1);
-  localStorage.setItem('coreader-favs', JSON.stringify(favs));
+  try { localStorage.setItem('coreader-favs', JSON.stringify(favs)); } catch(e){ alert('فضای ذخیره‌سازی پر است؛ حذف انجام نشد.'); return; }
   openFavsDrawer();
   render();
 };
@@ -931,12 +946,26 @@ window.saveLocalBook = function(){
       candidateCount: 0,
       cover: '',
       hasPdf: pdfSources && pdfSources.length > 0,
-      pdfSources: pdfSources || []
+      // NOTE: dataUrl های PDF در localStorage ذخیره نمی‌شوند (QuotaExceeded).
+      // فقط متا ذخیره می‌شود؛ فایل اصلی در session نگه داشته شده و از طریق
+      // پنل کاربری/IIIF قابل بارگذاری مجدد است.
+      pdfSources: (pdfSources || []).map(function(p){ return { id: p.id, label: p.label, filename: p.filename }; })
     };
 
     var localBooks = lsGet('coreader-local-books', {});
     localBooks[slug] = bookData;
-    localStorage.setItem('coreader-local-books', JSON.stringify(localBooks));
+    if(!lsSet('coreader-local-books', localBooks)){
+      try {
+        // تلاش دوم: حذف قدیمی‌ترین کتاب محلی برای آزادسازی فضا
+        var keys = Object.keys(localBooks);
+        if(keys.length > 1){ delete localBooks[keys[0]]; }
+        if(!lsSet('coreader-local-books', localBooks)){
+          log.textContent = '⚠️ فضای مرورگر پر است. کتاب متنی ذخیره شد اما PDF حجیم فقط در همین نشست قابل مشاهده است.\nبرای ذخیره دائمی از «پنل کاربری → پشتیبان‌گیری» استفاده کنید.';
+        }
+      } catch(e){ log.textContent = '⚠️ فضای مرورگر پر است.'; }
+    }
+    // نگهداری dataUrl فقط در حافظه (نه localStorage) برای مشاهده PDF در همین نشست
+    try { window._localPdfBlobs = window._localPdfBlobs || {}; (pdfSources||[]).forEach(function(p){ if(p.dataUrl) window._localPdfBlobs[slug+':'+p.id] = p.dataUrl; }); } catch(e){}
 
     custom.push({
       slug: slug,
@@ -947,7 +976,10 @@ window.saveLocalBook = function(){
       cover: '',
       section: _section || 'raah'
     });
-    localStorage.setItem('coreader-custom-books', JSON.stringify(custom));
+    if(!lsSet('coreader-custom-books', custom)){
+      log.textContent += '\n⚠️ فهرست سفارشی ذخیره نشد (فضای مرورگر پر است).';
+      return;
+    }
 
     log.textContent += '\n✓ کتاب «' + title + '» با موفقیت ذخیره شد.';
     setTimeout(function(){ location.reload(); }, 1000);

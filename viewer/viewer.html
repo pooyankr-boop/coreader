@@ -66,6 +66,8 @@
     <button onclick="clearCanvas()" id="bClear" title="پاک کردن همه خطوط">🗑️ پاک</button>
     <button onclick="saveAllChanges()" id="bSave" title="ذخیرهٔ همه تغییرات این کتاب در حافظهٔ مرورگر">💾 ذخیره</button>
     <button onclick="CoreaderTranslate&&CoreaderTranslate.instances.length?CoreaderTranslate.instances[0].translate():null" id="bTranslate" title="ترجمهٔ متن این صفحه">🌐 ترجمه</button>
+    <button onclick="saveFrameToPanel()" id="bFrame" title="ذخیره این قاب در پنل کاربری">📌 قاب</button>
+    <button onclick="location.href='../panel/panel.html'" title="پنل کاربری">👤 پنل</button>
   </div>
   <button class="toolbar-toggle" id="toolbarToggle" onclick="toggleToolbar()" title="بستن نوار ابزار">✕</button>
 
@@ -418,6 +420,8 @@
 <script src="../assets/lexicon.js?v=2"></script>
 <script src="viewer.js?v=32"></script>
 <script src="ui-functions.js?v=5"></script>
+<script src="save-frame.js?v=1"></script>
+<link rel="stylesheet" href="../assets/polish.css?v=1">
 <script>
 // Clean up obsolete service worker registrations if any exist
 if ('serviceWorker' in navigator) {

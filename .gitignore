@@ -18,3 +18,13 @@ llm-config.json
 
 # Local speech gateways; the token never leaves this machine
 tts-config.json
+
+# coreader user data (server-side file store) — never publish
+data/
+
+# Telegram bot token — never publish
+telegram/config.json
+telegram/.daily.json
+
+# Local env files — never publish
+.env

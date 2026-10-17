@@ -80,7 +80,7 @@ var img=document.getElementById('roomImg'),
 
 function $(id){return document.getElementById(id)}
 function toast(t){var el=$('toast');el.textContent=t;el.style.display='block';clearTimeout(toast._t);toast._t=setTimeout(function(){el.style.display='none'},2500)}
-function esc(s){return String(s||'').replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]})}
+function esc(s){var r='';for(var i=0;i<s.length;i++){var c=s[i];if(c==='&')r+='&amp;';else if(c==='<')r+='&lt;';else if(c==='>')r+='&gt;';else if(c==='"')r+='&quot;';else if(c===String.fromCharCode(39))r+='&#39;';else r+=c;}return r;}
 
 function imgSrc(r){
   if(aspect==='mobile') return r.img.replace('.jpg','_mobile.jpg');
@@ -108,7 +108,7 @@ function renderRoom(){
   roomTitle.textContent=cur.name;
 }
 
-// Mobile images are 90° CW rotated versions of desktop.
+// Mobile images are 90 degree CW rotated versions of desktop.
 // Coordinate transform: desktop(x,y) -> mobile(y, 100-x)
 function mobCoords(x, y) {
   return [y, 100 - x];

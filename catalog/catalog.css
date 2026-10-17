@@ -148,7 +148,8 @@ body.theme-light {
 @keyframes floatMedallion { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 
 body {
-  font-family: 'Vazirmatn', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-family: 'Scheherazade New', 'Noto Naskh Arabic', 'Amiri', 'Vazirmatn', serif;
+  font-size: 17px;
   background: var(--bg);
   background-image: var(--bg-gradient);
   background-attachment: fixed;
@@ -1346,26 +1347,67 @@ body {
   color: var(--text-primary);
 }
 
-/* Responsive adjustments */
+/* Responsive adjustments — mobile-first polish */
+@media (max-width: 1024px) {
+  .controls-glass { padding: 16px 18px; }
+  .grid { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+}
 @media (max-width: 768px) {
-  .site-title { font-size: 26px; }
-  .header-top-bar { justify-content: center; }
+  .site-title { font-size: 26px; line-height: 1.5; }
+  .site-subtitle { font-size: 13.5px; padding: 0 8px; }
+  .header-top-bar { justify-content: center; gap: 10px; }
+  .header-actions { justify-content: center; width: 100%; }
+  .segmented-btn { padding: 8px 12px; font-size: 12px; }
+  .search-and-view-row { flex-direction: column; align-items: stretch; }
+  .search-box-wrap { min-width: 0; width: 100%; }
+  .view-and-sort-cluster { justify-content: space-between; width: 100%; }
+  .sort-select { flex: 1; }
+  .filter-tabs-row { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; scrollbar-width: none; }
+  .filter-tabs-row::-webkit-scrollbar { display: none; }
+  .filter-pill { flex-shrink: 0; }
   .grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
   .card-body { padding: 12px; }
-  .card-title { font-size: 12px; }
-  .card-quick-actions { display: none; }
-  .quick-view-dialog { flex-direction: column; padding: 20px; }
+  .card-title { font-size: 12.5px; line-height: 1.7; }
+  .card-author { font-size: 11px; }
+  /* موبایل: دکمه مطالعه همیشه visible ولی جمع‌وجور — قبلاً display:none بود */
+  .card-quick-actions { opacity: 1; transform: none; bottom: 8px; left: 8px; right: 8px; }
+  .quick-action-btn { font-size: 11px; padding: 8px 6px; background: rgba(255,255,255,.94); }
+  .quick-view-dialog { flex-direction: column; padding: 20px; max-height: 92vh; overflow-y: auto; }
   .qv-cover-side { width: 100%; max-width: 220px; margin: 0 auto; }
-  .add-fab { bottom: 20px; left: 20px; width: 50px; height: 50px; font-size: 24px; }
+  .add-fab { bottom: 20px; left: 20px; width: 52px; height: 52px; font-size: 24px; border-radius: 16px; }
+  .modal { padding: 20px; margin: 12px; max-height: 92vh; overflow-y: auto; }
+  .stats-counter-strip { flex-wrap: wrap; justify-content: center; gap: 8px 12px; border-radius: 18px; padding: 8px 16px; }
 }
 
 @media (max-width: 480px) {
-  .site-header { padding: 16px 16px 24px; }
-  .controls-container { padding: 0 16px; }
-  .catalog-content { padding: 0 16px 60px; }
-  .filter-pill { padding: 6px 12px; font-size: 12px; }
-  .stats-counter-strip { flex-direction: column; gap: 6px; border-radius: 16px; }
+  .site-header { padding: 16px 12px 20px; }
+  .controls-container { padding: 0 12px; }
+  .controls-glass { border-radius: 18px; padding: 14px; }
+  .catalog-content { padding: 0 12px 70px; }
+  .grid { gap: 10px; }
+  .filter-pill { padding: 7px 12px; font-size: 12px; }
+  .stats-counter-strip { font-size: 11px; border-radius: 16px; line-height: 2; }
   .stat-sep { display: none; }
+  .card-cover-wrap { aspect-ratio: 3 / 3.6; }
+  .grid.view-list .card { height: auto; min-height: 104px; }
+  .grid.view-list .card-cover-wrap { width: 78px; }
+}
+@media (min-width: 1400px) {
+  .grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+}
+
+/* Compact single-row header (desktop): all controls fit in one strip and
+   scroll horizontally on narrower windows instead of wrapping to 2 rows. */
+@media (min-width: 769px) {
+  .header-top-bar{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:10px;padding-bottom:4px}
+  .header-top-bar::-webkit-scrollbar{display:none}
+  .segmented-control,.header-actions{flex-shrink:0}
+  .header-actions{flex-wrap:nowrap;gap:8px}
+  .segmented-btn{padding:6px 12px;font-size:12px;white-space:nowrap}
+  .tour-header-btn{padding:6px 12px;font-size:12px;white-space:nowrap}
+  .hdr-btn{padding:6px 12px!important;font-size:12px!important;white-space:nowrap}
+  .theme-palette{gap:6px;padding:3px 6px}
+  .theme-pill{width:18px;height:18px}
 }
 
 /* ---- accessibility polish ---- */

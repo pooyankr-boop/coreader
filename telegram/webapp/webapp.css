@@ -1,0 +1,49 @@
+/* webapp.css — مینی‌اپ تلگرام: سبک، سریع، راست‌چین، هماهنگ با تم تلگرام */
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:var(--tg-theme-bg-color,#101216);--card:var(--tg-theme-secondary-bg-color,#181c24);
+--text:var(--tg-theme-text-color,#e8eef5);--muted:var(--tg-theme-hint-color,#8b949e);
+--accent:var(--tg-theme-button-color,#38bdf8);--gold:#d4af37;--border:rgba(128,128,128,.25)}
+html,body{height:100%}
+body{font-family:'Scheherazade New','Noto Naskh Arabic','Amiri',serif;font-size:17px;background:var(--bg);color:var(--text);
+direction:rtl;max-width:640px;margin:0 auto;min-height:100vh;padding-bottom:76px}
+.w-head{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;
+padding:12px 14px;background:var(--bg);border-bottom:1px solid var(--border)}
+.w-title{display:flex;gap:10px;align-items:center}
+.w-logo{font-size:26px}
+.w-title b{font-size:15px;display:block}
+.w-title small{color:var(--muted);font-size:11px}
+.w-icobtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text);font-size:18px}
+.w-search{display:flex;gap:8px;align-items:center;margin:12px 14px 8px;background:var(--card);
+border:1px solid var(--border);border-radius:14px;padding:10px 12px}
+.w-search input{flex:1;background:none;border:none;color:var(--text);font-family:inherit;font-size:14px;outline:none;min-width:0}
+.w-filters{display:flex;gap:8px;padding:0 14px 10px;overflow-x:auto;scrollbar-width:none}
+.w-filters::-webkit-scrollbar{display:none}
+.w-filters button{flex-shrink:0;border:1px solid var(--border);background:var(--card);color:var(--text);
+font-family:inherit;font-size:12px;font-weight:700;border-radius:999px;padding:7px 14px}
+.w-filters button.on{background:var(--accent);color:#fff;border-color:transparent}
+.w-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding:4px 14px}
+.w-card{background:var(--card);border:1px solid var(--border);border-radius:14px;overflow:hidden;text-align:right}
+.w-card img{width:100%;aspect-ratio:3/4;object-fit:cover;display:block;background:#000}
+.w-card .t{font-size:14px;font-weight:700;padding:8px 8px 2px;line-height:1.9;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:52px}
+.w-card .a{font-size:12px;color:var(--muted);padding:0 8px 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.w-tabs{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:640px;
+display:flex;background:var(--card);border-top:1px solid var(--border);padding:8px 8px calc(8px + env(safe-area-inset-bottom));z-index:6}
+.w-tabs button{flex:1;background:none;border:none;color:var(--muted);font-family:inherit;font-size:12px;font-weight:700;padding:8px 4px;border-radius:10px}
+.w-tabs button.on{color:var(--accent)}
+.w-sheet{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:20;display:flex;align-items:flex-end;justify-content:center}
+.w-sheet[hidden]{display:none}
+.w-sheet-card{width:100%;max-width:640px;background:var(--bg);border-radius:20px 20px 0 0;padding:16px 16px calc(20px + env(safe-area-inset-bottom));max-height:88vh;overflow:auto;text-align:center}
+.w-close{float:left;background:none;border:none;color:var(--muted);font-size:18px}
+.w-sheet-card img{width:150px;aspect-ratio:3/4;object-fit:cover;border-radius:12px;border:1px solid var(--gold)}
+.w-sheet-card h2{font-family:'Noto Nastaliq Urdu',serif;font-size:22px;line-height:2.2;margin:8px 0 2px}
+.w-sheet-card p{font-size:12px;color:var(--muted);margin-bottom:12px}
+.w-row{display:flex;gap:8px}
+.w-btn{flex:1;padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--card);color:var(--text);font-family:inherit;font-size:13px;font-weight:700}
+.w-btn.primary{background:var(--accent);color:#fff;border:none}
+.w-sec{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin:4px 14px}
+.w-sec h3{font-size:14px;margin-bottom:8px}
+.w-sec p{font-size:12px;color:var(--muted);line-height:2}
+.w-tour{display:block;text-decoration:none;color:var(--text);background:var(--card);border:1px solid var(--gold);border-radius:14px;padding:14px;margin:4px 14px}
+.w-tour b{font-family:'Scheherazade New','Noto Naskh Arabic','Amiri',serif;font-size:22px;line-height:1.8}
+.w-tour small{display:block;color:var(--muted);font-size:11px;margin-top:4px}
+@media(min-width:520px){.w-grid{grid-template-columns:repeat(4,1fr)}}

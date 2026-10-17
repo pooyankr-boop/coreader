@@ -424,13 +424,15 @@ function setTheme(t){
 }
 (function(){ var t = localStorage.getItem('coreader-theme'); if (t) setTheme(t); })();
 
-// ===== Feature 2: Glass opacity on load =====
+// ===== Feature 2: Glass opacity on load (theme-aware base) =====
 (function(){
   var v = localStorage.getItem('coreader-glass-opacity');
   if (v){
     var alpha = v / 100;
-    document.documentElement.style.setProperty('--glass-bg', 'rgba(250,248,245,' + alpha + ')');
-    document.body.style.setProperty('--glass-bg', 'rgba(250,248,245,' + alpha + ')');
+    var dark = document.body.classList.contains('night') || document.body.classList.contains('dark');
+    var base = dark ? '13,17,23' : '250,248,245';
+    document.documentElement.style.setProperty('--glass-bg', 'rgba(' + base + ',' + alpha + ')');
+    document.body.style.setProperty('--glass-bg', 'rgba(' + base + ',' + alpha + ')');
     var inp = document.getElementById('setGlassOpacity');
     if (inp){ inp.value = v; document.getElementById('setGlassOpacityV').textContent = toFA(v) + '٪'; }
   }

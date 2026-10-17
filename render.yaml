@@ -1,0 +1,47 @@
+# Render Blueprint — one free web service runs site + bot (webhook) + daily posts.
+# Dashboard → New → Blueprint → select repo. Fill env values in the form.
+services:
+  - type: web
+    name: coreader
+    runtime: node
+    plan: free
+    buildCommand: npm install || true
+    startCommand: node src/build/serve.js
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      # ربات با وب‌هوک کار می‌کند (پلن رایگان می‌خوابد؛ پیام تلگرام آن را بیدار می‌کند)
+      - key: TELEGRAM_WEBHOOK
+        value: "1"
+      - key: BOT_TOKEN
+        sync: false
+      # آدرس عمومی سرویس مثل https://coreader.onrender.com — بعد از اولین دیپلوی پر شود
+      - key: SITE_PUBLIC_URL
+        sync: false
+      # کلید اختیاری برای /api/cron-daily (سرویس پینگ روزانه باید ?key=... بفرستد)
+      - key: CRON_SECRET
+        generateValue: true
+      # هدر x-send-secret برای /api/telegram/send (بدون این، این مسیر بسته است)
+      - key: SEND_SECRET
+        generateValue: true
+      # کانال/گروه تلگرام (برای پست روزانه و بازنشر)
+      - key: TELEGRAM_CHANNEL
+        value: "@coreader_fa"
+      - key: TELEGRAM_CHANNEL_ID
+        value: "-1003945662117"
+      - key: TELEGRAM_GROUP
+        value: "@coreader_club"
+      - key: TELEGRAM_GROUP_ID
+        value: "-1004484426695"
+      - key: TELEGRAM_GROUP_LINK
+        value: "https://t.me/coreader_club"
+      # تاپیک‌های گروه
+      - key: TELEGRAM_TOPIC_CHAT
+        value: "43"
+      - key: TELEGRAM_TOPIC_QUIZ
+        value: "39"
+      - key: TELEGRAM_TOPIC_FRAMES
+        value: "41"
+      - key: TELEGRAM_TOPIC_TASHKIL
+        value: "37"

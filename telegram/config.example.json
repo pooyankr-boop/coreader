@@ -1,0 +1,12 @@
+{
+  "botToken": "PUT_BOT_TOKEN_IN_ENV_NOT_HERE",
+  "channel": "@coreader_fa",
+  "channelId": -1003945662117,
+  "group": "@coreader_club",
+  "groupId": -1004484426695,
+  "groupLink": "https://t.me/coreader_club",
+  "siteBase": "http://localhost:8081",
+  "sitePublic": "https://YOUR-PUBLIC-DOMAIN",
+  "topics": {},
+  "adminIds": []
+}

@@ -7,8 +7,9 @@
 <title>کتابخوانهٔ نسخ خطی و اوراق فارسی</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Lalezar&family=Noto+Nastaliq+Urdu:wght@400;700&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="catalog/catalog.css?v=22">
+<link rel="stylesheet" href="assets/polish.css?v=1">
 </head>
 <body class="theme-dark">
 <a class="skip-link" href="#main-content">پرش به محتوا</a>
@@ -18,20 +19,20 @@
   <div class="header-top-bar">
     <!-- Section Switcher Segment -->
     <div class="segmented-control">
-      <button class="segmented-btn active" id="secBtnRaah" onclick="chooseSection('raah')">
-        <span>📜</span> نسخه‌های خطی و اوراق (راه)
+      <button class="segmented-btn active" id="secBtnRaah" onclick="chooseSection('raah')" title="نسخه‌های خطی و اوراق (راه)">
+        <span>📜</span> راه
       </button>
-      <button class="segmented-btn" id="secBtnBierah" onclick="chooseSection('bierah')">
-        <span>🏛️</span> تالار و موزهٔ بیراه
+      <button class="segmented-btn" id="secBtnBierah" onclick="chooseSection('bierah')" title="تالار و موزهٔ بیراه">
+        <span>🏛️</span> بیراه
       </button>
     </div>
 
     <!-- Header Actions (Tour, Themes, Favs) -->
     <div class="header-actions">
       <!-- 360 Tour Button -->
-      <a class="tour-header-btn" id="tourHeaderBtn" href="tour/index.html">
+      <a class="tour-header-btn" id="tourHeaderBtn" href="tour/index.html" title="تور مجازی زیرزمین">
         <span class="tour-pulse-dot"></span>
-        <span id="tourBtnText">تور مجازی زیرزمین</span>
+        <span id="tourBtnText">تور زیرزمین</span>
       </a>
 
       <!-- 6 Themes Palette -->
@@ -46,8 +47,11 @@
 
       <!-- Quick Bookmarks Button -->
       <button class="segmented-btn" onclick="openFavsDrawer()" title="مشاهده نشانه‌ها و علاقه‌مندی‌ها" style="background:var(--card-bg);border:1px solid var(--border)">
-        <span>⭐</span> نشانه‌ها
+        <span>⭐</span>
       </button>
+      <a class="hdr-btn" href="panel/panel.html" title="پنل کاربری: قاب‌ها، متن‌ها، پروژه‌های IIIF">👤 پنل</a>
+      <a class="hdr-btn" href="telegram/webapp/" title="مینی‌اپ تلگرام: نسخه سبک داخل تلگرام">📱 مینی‌اپ</a>
+      <a class="hdr-btn" href="telegram/README.html" title="ربات، کانال و گروه تلگرامی">✈️ تلگرام</a>
     </div>
   </div>
 

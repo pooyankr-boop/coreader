@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>کتابخانه نسخ خطی — مینی‌اپ</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Scheherazade+New:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&family=Amiri:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="webapp.css?v=1">
+</head>
+<body>
+<header class="w-head">
+  <div class="w-title">
+    <span class="w-logo">📜</span>
+    <div><b>کتابخانه نسخ خطی</b><small id="wCount">…</small></div>
+  </div>
+  <button class="w-icobtn" id="wDaily" title="اثر امروز">🎲</button>
+</header>
+
+<div class="w-search"><span>🔍</span><input id="wQ" placeholder="جست‌وجو: حافظ، شاهنامه، عجایب…"></div>
+<div class="w-filters" id="wFilters">
+  <button class="on" data-f="all">همه</button>
+  <button data-f="iiif">📜 IIIF</button>
+  <button data-f="museum">🏺 موزه</button>
+  <button data-f="tour">🗺️ تور</button>
+</div>
+
+<main id="wGrid" class="w-grid"></main>
+
+<nav class="w-tabs">
+  <button class="on" data-t="lib">📚 کتابخانه</button>
+  <button data-t="tours">🗺️ تورها</button>
+  <button data-t="saved">⭐ ذخیره‌ها</button>
+  <button data-t="me">👤 من</button>
+</nav>
+
+<!-- نمای جزئی اثر -->
+<div class="w-sheet" id="wSheet" hidden>
+  <div class="w-sheet-card">
+    <button class="w-close" id="wSheetX">✕</button>
+    <img id="wsCover" alt="">
+    <h2 id="wsTitle"></h2>
+    <p id="wsMeta"></p>
+    <div class="w-row">
+      <button class="w-btn primary" id="wsOpen">📖 بازکردن</button>
+      <button class="w-btn" id="wsSave">⭐ ذخیره</button>
+      <button class="w-btn" id="wsShare">📣 اشتراک</button>
+    </div>
+  </div>
+</div>
+
+<script src="webapp.js?v=1"></script>
+</body>
+</html>
