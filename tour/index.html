@@ -201,6 +201,43 @@ var ROOMS=[
 var LS_KEY='underground-editor-coords-v1';
 var saved={};
 try{saved=JSON.parse(localStorage.getItem(LS_KEY)||'{}')}catch(e){}
+
+// جابه‌جایی‌های ذخیره‌شده وقتی اسلاگ یک آیتم عوض شد: [اتاق، اسلاگ قبلی، عنوان قبلی، اسلاگ جدید]
+var SLUG_MOVES=[
+  ['study','bierah-moreau-salome','قلمدان کشویی','museum-hermitage-228497'],
+  ['study','bierah-moreau-apparition','جعبهٔ نوروز','museum-hermitage-228522'],
+  ['study','bierah-moreau-apparition','عاشقان','museum-met-451023'],
+  ['study','bierah-elgreco-christ','اسطرلاب','museum-hermitage-192831'],
+  ['study','bierah-elgreco-christ','قلمدان فولادی زرینفام','museum-hermitage-192530'],
+  ['study','bierah-luyken-persecutions','رحل چوبی','museum-hermitage-228573'],
+  ['study','bierah-poe-pym','نسخهٔ خطی: رباعیات خیام','bodleian-6b3da54c'],
+  ['study','bierah-rubens-salome','مونسالاحرار','museum-met-447071'],
+  ['study','museum-cleveland-1947.501','یوسف و زلیخa','museum-cleveland-1947.501'],
+  ['gallery','bierah-rubens-salome','مونسالاحرار','museum-met-447071'],
+  ['gallery','bierah-moreau-apparition','همایش پرندگان','museum-met-451725'],
+  ['gallery','bierah-moreau-apparition','عاشقان','museum-met-451023'],
+  ['gallery','bodleian-elliott-254-jami','یوسف و زلیخa','museum-cleveland-1947.501'],
+  ['sky','bierah-elgreco-christ','اسطرلاب','museum-hermitage-192831']
+];
+// مقایسه با نرمال‌سازی (نیم‌فاصله، همزه، یه‌ها) تا اختلاف نویسه‌ها مانع انتقال نشود
+function migrateSaved(){
+  var norm=function(s){return String(s).replace(/[\u200c\u200d\u0640\u064b-\u065f]/g,'').replace(/\u06c0/g,'\u0647').replace(/\u064a/g,'\u06cc').replace(/\s+/g,' ').trim();};
+  var moved=0;
+  SLUG_MOVES.forEach(function(m){
+    var room=ROOMS.filter(function(r){return r.id===m[0];})[0]; if(!room) return;
+    var target=room.objs.filter(function(o){return o.slug===m[3];})[0]; if(!target) return;
+    Object.keys(saved).slice().forEach(function(k){
+      var mm=k.match(/^([^\/]+)\/([^|]+)\|(.*):(desktop|mobile)$/);
+      if(!mm||mm[1]!==m[0]||mm[2]!==m[1]||norm(mm[3])!==norm(m[2])) return;
+      var nk=m[0]+'/'+m[3]+'|'+target.t+':'+mm[4];
+      if(!saved[nk]){ saved[nk]=saved[k]; moved++; }
+      delete saved[k];
+    });
+  });
+  if(moved){ try{localStorage.setItem(LS_KEY,JSON.stringify(saved));}catch(e){} }
+  return moved;
+}
+migrateSaved();
 var cur=ROOMS[0], curIdx=0, editing=false;
 
 var img=document.getElementById('roomImg'),
@@ -410,6 +447,11 @@ document.addEventListener('keydown',function(e){
     var txt=JSON.stringify(saved,null,1);
     if(navigator.clipboard)navigator.clipboard.writeText(txt);
     console.log(txt); showToast('JSON در کلیپ‌بورد/کنسول');
+  }
+  else if(e.key==='i'||e.key==='I'){
+    // ورود مختصات از دستگاه دیگر (JSON کلید C)
+    var raw=prompt('JSON مختصات را اینجا بچسبانید:');
+    if(raw){ try{ var inc=JSON.parse(raw); Object.keys(inc).forEach(function(k){ saved[k]=inc[k]; }); var mv=migrateSaved(); localStorage.setItem(LS_KEY,JSON.stringify(saved)); drawHots(); showToast('وارد شد'+(mv?' ('+mv+' انتقال)':'')); }catch(err){ showToast('JSON نامعتبر است'); } }
   }
   else if(e.key==='r'||e.key==='R'){
     if(confirm('مختصات ذخیره‌شده پاک شود?')){saved={};localStorage.removeItem(LS_KEY);drawHots();showToast('بازگردانی شد')}
