@@ -68,20 +68,16 @@ async function loadManifest(url){
 
 /* ---------- image view ---------- */
 function showImage(){
+  // تک‌برگ: همیشه <img> ساده (OpenSeadragon روی این تصاویر چیزی نشان نمی‌داد)
+  showFallbackImg(pages[cur]?pages[cur].img:'');
+}
+function showFallbackImg(src){
   var box=$('edImgBox');
-  var src=pages[cur]?pages[cur].img:'';
-  if(window.OpenSeadragon && src){
-    try{
-      if(viewer){ viewer.destroy(); viewer=null; }
-      $('osd').innerHTML='';
-      viewer=OpenSeadragon({element:$('osd'),tileSources:{type:'image',url:src},showNavigator:true,rtl:true});
-      if(fallbackImg){ fallbackImg.remove(); fallbackImg=null; }
-      return;
-    }catch(e){}
-  }
   if(viewer){ try{viewer.destroy();}catch(e){} viewer=null; }
+  $('osd').innerHTML='';
   if(!fallbackImg){ fallbackImg=document.createElement('img'); fallbackImg.className='osd-fallback'; fallbackImg.alt=''; box.appendChild(fallbackImg); }
   fallbackImg.src=src||'';
+  applyFallbackTransform();
 }
 
 /* ---------- page UI ---------- */
@@ -272,7 +268,7 @@ $('edSearch').addEventListener('input',function(){
 var bookView=false, rotation=0;
 function setOsdRotation(){
   if(viewer&&viewer.viewport){ try{ viewer.viewport.setRotation(rotation); }catch(e){} }
-  if(fallbackImg) fallbackImg.style.transform='rotate('+rotation+'deg)';
+  applyFallbackTransform();
   renderRegions();
 }
 $('btnView').onclick=function(){
@@ -282,6 +278,27 @@ $('btnView').onclick=function(){
   renderPage();
 };
 $('btnRot').onclick=function(){ rotation=(rotation+90)%360; setOsdRotation(); };
+/* ---------- زوم (OSD یا حالت ساده) ---------- */
+var zoomLvl=1;
+function applyFallbackTransform(){
+  if(fallbackImg) fallbackImg.style.transform='rotate('+rotation+'deg) scale('+zoomLvl+')';
+  $('edImgBox').style.overflow=zoomLvl>1?'auto':'';
+  var bookEl=$('edImgBox')._bookEl;
+  if(bookEl) bookEl.style.transform='scale('+zoomLvl+')';
+}
+function zoomBy(f){
+  if(viewer&&viewer.viewport){ viewer.viewport.zoomBy(f); viewer.viewport.applyConstraints(); return; }
+  zoomLvl=Math.max(1,Math.min(5,+(zoomLvl*f).toFixed(3)));
+  applyFallbackTransform();
+}
+function zoomReset(){
+  zoomLvl=1;
+  if(viewer&&viewer.viewport){ try{ viewer.viewport.goHome(true); }catch(e){} }
+  applyFallbackTransform();
+}
+$('btnZoomIn').onclick=function(){ zoomBy(1.25); };
+$('btnZoomOut').onclick=function(){ zoomBy(0.8); };
+$('btnZoomReset').onclick=function(){ zoomReset(); };
 $('btnFs').onclick=function(){
   var box=$('edImgBox');
   if(document.fullscreenElement) document.exitFullscreen();
@@ -300,6 +317,7 @@ showImage=function(){
     tmp.style.cssText='position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;gap:4px;background:#000';
     tmp.innerHTML='<img class="osd-fallback" src="'+esc(a?a.img:'')+'"><img class="osd-fallback" src="'+esc(b?b.img:'')+'">';
     box.appendChild(tmp); box._bookEl=tmp;
+    applyFallbackTransform();
     $('regionLayer').innerHTML='';
     return;
   }

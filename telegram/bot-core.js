@@ -53,6 +53,8 @@ function cleanPublic(u) {
 }
 const PUBLIC = cleanPublic(process.env.SITE_PUBLIC_URL || CFG.sitePublic || process.env.RENDER_EXTERNAL_URL) || SITE;
 const HAS_PUBLIC_HTTPS = /^https:\/\//i.test(PUBLIC);
+// آدرس صفحات GitHub Pages (همان فایل‌های استاتیک؛ همیشه HTTPS)
+const GH_PAGES = (process.env.GITHUB_PAGES_URL || 'https://pooyankr-boop.github.io/coreader').replace(/\/$/, '');
 const WEBAPP = PUBLIC + '/telegram/webapp/';
 const DATA = path.join(ROOT, 'data');
 try { fs.mkdirSync(DATA, { recursive: true }); } catch (e) {}
@@ -85,12 +87,14 @@ function searchBooks(q, n) {
   const f = foldFa(q);
   return BOOKS.filter(b => foldFa((b.title || '') + ' ' + (b.author || '') + ' ' + (b.provider || '')).includes(f)).slice(0, n || 5);
 }
-function itemLink(b) {
-  const base = HAS_PUBLIC_HTTPS ? PUBLIC : SITE;
-  if (b.source === 'against-nature') return base + '/viewer/tour.html';
-  if (b.source === 'local') return base + '/reader/reader.html?book=' + encodeURIComponent(b.slug);
-  return base + '/viewer/viewer.html?book=' + encodeURIComponent(b.slug);
+function bookPath(b) {
+  if (b.source === 'against-nature') return '/viewer/tour.html';
+  if (b.source === 'local') return '/reader/reader.html?book=' + encodeURIComponent(b.slug);
+  return '/viewer/viewer.html?book=' + encodeURIComponent(b.slug);
 }
+function itemLink(b) { return (HAS_PUBLIC_HTTPS ? PUBLIC : SITE) + bookPath(b); }
+// همان صفحه روی GitHub Pages
+function ghLink(b) { return GH_PAGES + bookPath(b); }
 function esc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
 // دستور + آرگومان‌ها؛ پسوند @botname در گروه‌ها حذف می‌شود
 function parseCmd(text) {
@@ -121,16 +125,12 @@ function bookCaption(b) {
     '\n📄 ' + esc(String(b.pages || '?')) + ' برگ · ' + esc(b.source || '');
 }
 function bookKeyboard(b) {
-  // نکته حیاتی: تلگرام URL داخلی (localhost/HTTP) را در دکمه شیشه‌ای رد می‌کند و
-  // کل پیام fail می‌شود؛ پس دکمه URL فقط وقتی که HTTPS عمومی داریم.
-  if (HAS_PUBLIC_HTTPS) {
-    return { inline_keyboard: [
-      [{ text: '📖 بازکردن در کتابخوان', url: itemLink(b) }],
-      [{ text: '📣 کارت اشتراک', callback_data: 'card:' + b.slug },
-       { text: '📜 مانیفست', callback_data: 'man:' + b.slug }]
-    ] };
-  }
+  // تلگرام URL داخلی/HTTP را رد می‌کند؛ پس دکمه سایت فقط با HTTPS عمومی، و دکمه GitHub همیشه (HTTPS)
+  const links = [];
+  if (HAS_PUBLIC_HTTPS) links.push({ text: '🌐 باز کردن در سایت', url: itemLink(b) });
+  links.push({ text: '🐙 باز کردن از GitHub', url: ghLink(b) });
   return { inline_keyboard: [
+    links,
     [{ text: '📣 کارت اشتراک', callback_data: 'card:' + b.slug },
      { text: '📜 مانیفست', callback_data: 'man:' + b.slug }]
   ] };
@@ -171,11 +171,11 @@ async function sendBook(chatId, b, extra, head) {
       console.error('[bot] sendPhoto-remote failed:', JSON.stringify(r).slice(0, 200));
     } catch (e) { console.error('[bot] sendPhoto-remote error:', e.message); }
   }
-  return api('sendMessage', Object.assign({ text: caption + '\n🔗 <a href="' + itemLink(b) + '">بازکردن</a>', disable_web_page_preview: false }, base));
+  return api('sendMessage', Object.assign({ text: caption + '\n🔗 <a href="' + itemLink(b) + '">بازکردن در سایت</a> · <a href="' + ghLink(b) + '">GitHub</a>', disable_web_page_preview: false }, base));
 }
 // موارد مشابه: لینک کلیک‌پذیر (نه فقط کد slug)
 function similarLinks(hits) {
-  return hits.map(h => '📖 <a href="' + itemLink(h) + '">' + esc(h.title) + '</a> — ' + esc(h.author || '') + '\n<code>/book ' + esc(h.slug) + '</code>').join('\n\n');
+  return hits.map(h => '📖 <a href="' + itemLink(h) + '">' + esc(h.title) + '</a> · <a href="' + ghLink(h) + '">GitHub</a> — ' + esc(h.author || '') + '\n<code>/book ' + esc(h.slug) + '</code>').join('\n\n');
 }
 
 const MAIN_KEYBOARD = { keyboard: [

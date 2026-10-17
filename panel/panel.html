@@ -9,6 +9,22 @@
 <link rel="stylesheet" href="../catalog/catalog.css?v=22">
 <link rel="stylesheet" href="../assets/polish.css?v=1">
 <link rel="stylesheet" href="panel.css?v=1">
+<script>
+(function(){
+  // همان تم‌های کاتالوگ و همان کلید localStorage (coreader-app-theme)
+  var TH=['theme-gold','theme-lapis','theme-sepia','theme-dark','theme-emerald','theme-light'];
+  function apply(t,save){
+    if(TH.indexOf(t)<0) t='theme-dark';
+    if(save){ try{ localStorage.setItem('coreader-app-theme',t); }catch(e){} }
+    document.body.className=document.body.className.replace(/\btheme-\w+\b/g,'').trim();
+    document.body.classList.add(t);
+    document.querySelectorAll('.theme-pill').forEach(function(p){ p.classList.toggle('active',p.dataset.theme===t); });
+  }
+  window.setAppTheme=function(t){ apply(t,true); };
+  var saved=null; try{ saved=localStorage.getItem('coreader-app-theme'); }catch(e){}
+  document.addEventListener('DOMContentLoaded',function(){ apply(saved||'theme-dark',false); });
+})();
+</script>
 </head>
 <body class="theme-dark">
 <header class="site-header" style="padding-bottom:12px">
@@ -17,6 +33,14 @@
     <div class="header-actions">
       <a class="hdr-btn" href="../tour/index.html">🗺️ تور زیرزمین</a>
       <a class="hdr-btn" href="../viewer/tour.html">🏠 تور خانه</a>
+      <div class="theme-palette" title="انتخاب تم رنگی">
+        <div class="theme-pill" data-theme="theme-gold" style="background:#f8f5ee;border-color:#c99738" onclick="setAppTheme('theme-gold')" title="زرین و عاجی"></div>
+        <div class="theme-pill" data-theme="theme-lapis" style="background:#0b1524;border-color:#d4af37" onclick="setAppTheme('theme-lapis')" title="لاجورد و کهربا"></div>
+        <div class="theme-pill" data-theme="theme-sepia" style="background:#f4ecda;border-color:#8a5a3b" onclick="setAppTheme('theme-sepia')" title="کهن و پاپیروس"></div>
+        <div class="theme-pill" data-theme="theme-dark" style="background:#101216;border-color:#38bdf8" onclick="setAppTheme('theme-dark')" title="شب و آبسیدین"></div>
+        <div class="theme-pill" data-theme="theme-emerald" style="background:#091712;border-color:#10b981" onclick="setAppTheme('theme-emerald')" title="زمردین درباری"></div>
+        <div class="theme-pill" data-theme="theme-light" style="background:#ffffff;border-color:#cbd5e1" onclick="setAppTheme('theme-light')" title="روشن مینیمال"></div>
+      </div>
     </div>
   </div>
   <h1 class="site-title font-nastaliq">پنل کاربری</h1>
