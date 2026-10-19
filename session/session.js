@@ -119,11 +119,16 @@ function attachDictation(field) {
   btn.className = 'ghost';
   btn.textContent = '🎤';
   btn.title = 'گفتار به متن (فارسی)';
+  const lang = document.createElement('select');
+  lang.className = 'ghost';
+  lang.style.flex = '0 0 auto';
+  lang.innerHTML = [['fa-IR', 'فارسی'], ['en-US', 'English'], ['ar-SA', 'العربية'], ['fr-FR', 'Français'], ['de-DE', 'Deutsch']]
+    .map(([v, t]) => '<option value="' + v + '">' + t + '</option>').join('');
   let rec = null;
   btn.onclick = () => {
     if (rec) { rec.stop(); return; }
     rec = new SR();
-    rec.lang = 'fa-IR';
+    rec.lang = lang.value;
     rec.continuous = true;
     rec.interimResults = false;
     rec.onresult = (e) => {
@@ -137,8 +142,9 @@ function attachDictation(field) {
     btn.textContent = '⏹';
   };
   field.insertAdjacentElement('afterend', btn);
+  btn.insertAdjacentElement('afterend', lang);
 }
-document.querySelectorAll('textarea, input[type=text], input:not([type])').forEach(attachDictation);
+document.querySelectorAll('[data-dictation]').forEach(attachDictation);
 
 async function enter(user) {
   me = user;
