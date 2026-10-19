@@ -348,7 +348,29 @@ http.createServer((req, res) => {
         .catch((e) => { res.writeHead(500, { 'Content-Type': 'application/json' }); res.end(JSON.stringify({ ok: false, error: e.message })); });
       return;
     }
-    res.writeHead(404); res.end('Unknown api'); return;
+    if (urlPath === '/api/ocr/engines' && req.method === 'GET') {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(require('../../telegram/ocr-engines.js').status()));
+      return;
+    }
+    if (urlPath === '/api/ocr' && req.method === 'POST') {
+      const chunks = [];
+      let size = 0;
+      req.on('data', (c) => { size += c.length; if (size <= 15 * 1024 * 1024) chunks.push(c); });
+      req.on('end', async () => {
+        if (size > 15 * 1024 * 1024) { res.writeHead(413, { 'Content-Type': 'application/json' }); res.end(JSON.stringify({ ok: false, error: 'too large' })); return; }
+        try {
+          const sp = new URL(req.url, 'http://localhost').searchParams;
+          const text = await require('../../telegram/ocr-engines.js').run(sp.get('engine') || 'google', Buffer.concat(chunks), sp.get('lang') || 'fa');
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ ok: true, text: text }));
+        } catch (e) {
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ ok: false, error: e.message }));
+        }
+      });
+      return;
+    }    res.writeHead(404); res.end('Unknown api'); return;
   }
 
   // Image proxy — fetch and relay binary images from external hosts

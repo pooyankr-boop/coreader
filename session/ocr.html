@@ -18,27 +18,33 @@
   button{font:inherit;padding:9px 14px;border:none;border-radius:10px;background:var(--accent);color:#fff;cursor:pointer}
   button.ghost{background:transparent;color:var(--accent);border:1px solid var(--border)}
   button:disabled{opacity:.5;cursor:default}
-  textarea{font:inherit;width:100%;min-height:120px;padding:9px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--fg)}
+  input[type=text],input:not([type]),select{font:inherit;padding:8px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--fg)}
+  input[type=text],input:not([type]){flex:1 1 260px}
+  textarea{font:inherit;width:100%;min-height:110px;padding:9px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--fg)}
   .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
   .muted{color:var(--muted);font-size:13px}
-  table{width:100%;border-collapse:collapse;font-size:13px}
-  td,th{border-bottom:1px solid var(--border);padding:8px;text-align:right;vertical-align:top}
-  .off{opacity:.55}
   .bar{height:8px;background:var(--border);border-radius:6px;overflow:hidden;margin:6px 0}
   .bar>div{height:100%;background:var(--accent);width:0}
 </style>
 </head>
 <body>
 <header>
-  <h1>OCR — استخراج متن از عکس و PDF</h1>
+  <h1>OCR — متن از عکس، PDF و مانیفست IIIF</h1>
   <a href="/session/">نشست</a>
   <a href="/session/studio.html">استودیوی صوت</a>
 </header>
 <main>
   <div class="card">
-    <h2>۱. فایل‌ها</h2>
-    <input id="files" type="file" multiple accept="image/*,application/pdf">
-    <p class="muted">عکس صفحه (JPG، PNG) یا PDF. هر صفحهٔ PDF جداگانه خوانده می‌شود.</p>
+    <h2>۱. موتور OCR</h2>
+    <div class="row">
+      <select id="engine">
+        <option value="tesseract">Tesseract (مرورگر، رایگان)</option>
+        <option value="google">Google Cloud Vision (ابری)</option>
+        <option value="azure">Azure AI Vision Read (ابری)</option>
+      </select>
+      <span id="engineNote" class="muted"></span>
+    </div>
+    <p class="muted">Tesseract روی چاپی خوب است و برای دست‌نویس ضعیف است. Google و Azure دقت بالاتری دارند ولی کلید API لازم دارند و هزینه می‌برند (کلید روی سرور تنظیم می‌شود).</p>
     <h2 style="margin-top:12px">۲. زبان متن</h2>
     <div class="row" id="langs">
       <label><input type="checkbox" value="fas" checked> فارسی</label>
@@ -47,28 +53,32 @@
       <label><input type="checkbox" value="fra"> فرانسوی</label>
       <label><input type="checkbox" value="deu"> آلمانی</label>
     </div>
-    <p class="muted">می‌توانید چند زبان را ترکیب کنید. داده‌های هر زبان در اولین اجرا دانلود می‌شوند.</p>
+    <p class="muted">در Tesseract می‌توانید چند زبان را ترکیب کنید. در موتورهای ابری، زبان اول انتخابی به‌عنوان زبان اصلی استفاده می‌شود.</p>
+  </div>
+
+  <div class="card">
+    <h2>۳. ورودی مانیفست IIIF</h2>
     <div class="row">
-      <button id="btnRun">شروع استخراج متن</button>
-      <span id="status" class="muted"></span>
+      <input type="text" id="murl" placeholder="آدرس مانیفست (https://…/manifest.json)">
+      <button id="btnManifest">خواندن مانیفست</button>
     </div>
+    <div id="mfInfo" class="muted"></div>
+    <div id="mfPages" style="margin:8px 0"></div>
+    <p class="muted">اگر متن از قبل داخل مانیفست باشد (annotation متنی)، همان استفاده می‌شود. وگرنه تصویر هر صفحه خوانده می‌شود.</p>
+    <div class="row"><button id="btnRunManifest" disabled>شروع OCR صفحه‌های انتخابی</button></div>
+  </div>
+
+  <div class="card">
+    <h2>۴. فایل‌های محلی</h2>
+    <input id="files" type="file" multiple accept="image/*,application/pdf">
+    <p class="muted">عکس صفحه (JPG، PNG) یا PDF. هر صفحهٔ PDF جداگانه خوانده می‌شود.</p>
+    <div class="row"><button id="btnRun">شروع OCR فایل‌ها</button></div>
     <div class="bar"><div id="bar"></div></div>
+    <div id="status" class="muted"></div>
   </div>
 
   <div class="card">
-    <h2>۳. ابزارهای OCR</h2>
-    <table>
-      <tr><th>ابزار</th><th>کجا اجرا می‌شود</th><th>برای فارسی و نستعلیق</th><th>وضعیت</th></tr>
-      <tr><td><b>Tesseract</b> (این صفحه)</td><td>مرورگر شما، رایگان</td><td>خوب برای چاپی، ضعیف‌تر برای دست‌نویس و نسخ خطی</td><td>فعال</td></tr>
-      <tr class="off"><td>Google Cloud Vision</td><td>ابری</td><td>دقت بالاتر روی متن چاپی و عکس</td><td>نیاز به کلید API و هزینه؛ بعد از تنظیم کلید</td></tr>
-      <tr class="off"><td>Azure AI Vision</td><td>ابری</td><td>دقت خوب، پشتیبانی از چند زبان</td><td>نیاز به کلید API و هزینه؛ بعد از تنظیم کلید</td></tr>
-      <tr class="off"><td>Kraken / Calamari</td><td>سرور اختصاصی</td><td>بهترین گزینه برای نسخ خطی و خط تحریری</td><td>نیاز به سرور؛ مرحلهٔ بعد</td></tr>
-    </table>
-    <p class="muted">برای نسخ خطی، ابزار ابری یا سرور اختصاصی دقت بهتری دارد. فعلاً Tesseract تنها موتور فعال است.</p>
-  </div>
-
-  <div class="card">
-    <h2>۴. نتیجه (قابل ویرایش)</h2>
+    <h2>۵. نتیجه (قابل ویرایش)</h2>
     <div id="results"><p class="muted">هنوز متنی استخراج نشده است.</p></div>
     <div class="row">
       <button class="ghost" id="btnTxt" disabled>دانلود TXT</button>
