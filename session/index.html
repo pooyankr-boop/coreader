@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>نشست · کتابخوانه</title>
+<style>
+  :root{--bg:#f8f5ee;--card:#fff;--fg:#1a1a1a;--muted:#6b6b6b;--accent:#8a5a3b;--border:#e3dccd}
+  @media(prefers-color-scheme:dark){:root{--bg:#101216;--card:#181b21;--fg:#f2f2f2;--muted:#9aa0a6;--accent:#d4a373;--border:#2a2f38}}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Vazirmatn','Noto Naskh Arabic',sans-serif;background:var(--bg);color:var(--fg);padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
+  header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  header h1{font-size:18px;margin:0;flex:1}
+  main{max-width:960px;margin:0 auto;padding:16px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:14px}
+  h2{font-size:15px;margin:0 0 10px;color:var(--accent)}
+  input,select,textarea{font:inherit;padding:9px 10px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--fg);width:100%}
+  textarea{min-height:60px;resize:vertical}
+  button{font:inherit;padding:9px 14px;border:none;border-radius:10px;background:var(--accent);color:#fff;cursor:pointer}
+  button.ghost{background:transparent;color:var(--accent);border:1px solid var(--border)}
+  button:disabled{opacity:.5;cursor:default}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .row>*{flex:1 1 180px}
+  .row>button{flex:0 0 auto}
+  .list a{display:block;padding:10px;border-bottom:1px solid var(--border);color:var(--fg);text-decoration:none;cursor:pointer}
+  .list a:hover{background:var(--border)}
+  .muted{color:var(--muted);font-size:13px}
+  .err{color:#c0392b;font-size:13px;min-height:18px}
+  .grid{display:grid;grid-template-columns:1fr;gap:14px}
+  @media(min-width:800px){.grid{grid-template-columns:1.4fr 1fr}}
+  #chat{height:380px;overflow:auto;border:1px solid var(--border);border-radius:10px;padding:10px;background:var(--bg)}
+  .msg{margin-bottom:10px;font-size:14px;line-height:1.8}
+  .msg b{color:var(--accent);font-size:13px}
+  .msg.sys{color:var(--muted);font-size:13px;font-style:italic}
+  .tag{display:inline-block;background:var(--border);border-radius:6px;padding:1px 6px;margin:0 2px;font-size:12px}
+  .task{border:1px solid var(--border);border-radius:10px;padding:8px 10px;margin-bottom:8px;font-size:14px}
+  .task .st{font-size:12px;color:var(--muted)}
+  .hidden{display:none !important}
+  .oauth button{flex:1}
+</style>
+</head>
+<body>
+<header>
+  <h1>نشست — کار جمعی روی اثر</h1>
+  <span id="who" class="muted"></span>
+  <button id="btnSignOut" class="ghost hidden">خروج</button>
+</header>
+<main>
+  <!-- ورود -->
+  <section id="viewLogin" class="card hidden">
+    <h2>ورود به نشست</h2>
+    <div class="row">
+      <input id="loginEmail" type="email" placeholder="ایمیل" autocomplete="email">
+      <button id="btnEmail">ارسال کد ورود</button>
+    </div>
+    <p class="muted">یک پیوند ورود به ایمیل شما فرستاده می‌شود.</p>
+    <div class="row oauth">
+      <button class="ghost" data-oauth="github">ورود با گیتهاب</button>
+    </div>
+    <div id="loginMsg" class="err"></div>
+  </section>
+
+  <!-- فهرست نشست‌ها -->
+  <section id="viewHome" class="hidden">
+    <div class="grid">
+      <div>
+        <div class="card">
+          <h2>نشست جدید</h2>
+          <div class="row">
+            <input id="newTitle" placeholder="عنوان نشست">
+            <input id="newBook" placeholder="اسلاگ اثر (اختیاری)">
+          </div>
+          <div class="row" style="margin-top:8px">
+            <select id="newVis">
+              <option value="private">خصوصی (با کد دعوت)</option>
+              <option value="public">عمومی</option>
+            </select>
+            <button id="btnCreate">ساخت نشست</button>
+          </div>
+          <div id="createMsg" class="err"></div>
+        </div>
+        <div class="card">
+          <h2>نشست‌های من و عمومی‌ها</h2>
+          <div id="sessionList" class="list"></div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <h2>ورود با کد دعوت</h2>
+          <div class="row">
+            <input id="joinCode" placeholder="کد دعوت">
+            <button id="btnJoin">ورود</button>
+          </div>
+          <div id="joinMsg" class="err"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- اتاق نشست -->
+  <section id="viewRoom" class="hidden">
+    <div class="card">
+      <div class="row">
+        <div style="flex:2 1 260px">
+          <h2 id="roomTitle" style="margin:0 0 4px;font-size:17px;color:var(--fg)"></h2>
+          <div class="muted" id="roomMeta"></div>
+        </div>
+        <button class="ghost" id="btnBack">بازگشت</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>مانیفست و حاشیه</h2>
+      <div id="mfOwner" class="row hidden">
+        <input id="mfUrl" placeholder="آدرس مانیفست IIIF (https://…/manifest.json)">
+        <button id="btnMf">ثبت مانیفست</button>
+        <button class="ghost" id="btnTitle">تغییر عنوان</button>
+      </div>
+      <div id="mfInfo" class="muted" style="margin:8px 0"></div>
+      <div id="mfPages" style="margin-bottom:8px"></div>
+      <div id="pagePreview" style="text-align:center"></div>
+      <h2 id="pageTitle" style="margin-top:10px"></h2>
+      <div id="annoPage" class="muted"></div>
+      <div id="annoList" style="margin:8px 0"></div>
+      <div class="row">
+        <textarea id="annoInput" placeholder="حاشیه برای این صفحه"></textarea>
+        <button id="btnAnno">ثبت حاشیه</button>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="card">
+        <h2>گفتگو</h2>
+        <div id="chat"></div>
+        <div class="row" style="margin-top:8px">
+          <textarea id="msgInput" placeholder="پیام بنویسید. برای وظیفه: /task متن #هشتگ  — راهنما: /help"></textarea>
+          <button id="btnSend">ارسال</button>
+        </div>
+        <div id="roomErr" class="err"></div>
+      </div>
+      <div>
+        <div class="card">
+          <h2>وظایف</h2>
+          <div id="tasks"></div>
+        </div>
+        <div class="card">
+          <h2>اعضا</h2>
+          <div id="members" class="muted"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+<script src="/session/config.js"></script>
+<script type="module" src="/session/session.js"></script>
+</body>
+</html>
