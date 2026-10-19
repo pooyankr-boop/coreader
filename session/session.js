@@ -47,6 +47,99 @@ document.querySelectorAll('[data-oauth]').forEach((b) => {
 });
 $('btnSignOut').onclick = async () => { await sb.auth.signOut(); location.href = location.pathname; };
 
+// ---------- ورود با تلگرام ----------
+async function tgLogin() {
+  $('loginMsg').textContent = '';
+  const r = await fetch('/api/session-login/start', { method: 'POST' }).then((x) => x.json()).catch(() => ({ ok: false }));
+  if (!r.ok) { $('loginMsg').textContent = 'ورود با تلگرام در دسترس نیست: ' + (r.error || 'خطای سرور'); return; }
+  $('tgBox').classList.remove('hidden');
+  $('tgCode').textContent = r.code;
+  $('tgLink').href = r.link;
+  pollTgLogin(r.code, Date.now());
+}
+async function pollTgLogin(code, started) {
+  if (Date.now() - started > 5 * 60 * 1000) { $('tgState').textContent = 'کد منقضی شد. دوباره شروع کنید.'; return; }
+  const j = await fetch('/api/session-login/status?code=' + encodeURIComponent(code)).then((x) => x.json()).catch(() => ({ ok: false }));
+  if (j.status === 'ok') {
+    $('tgState').textContent = 'در حال ورود…';
+    const { error } = await sb.auth.verifyOtp({ token_hash: j.token_hash, type: j.type });
+    if (error) $('tgState').textContent = 'خطا در ورود: ' + error.message;
+    return;
+  }
+  if (j.status === 'pending') {
+    $('tgState').textContent = 'منتظر تأیید در تلگرام…';
+    setTimeout(() => pollTgLogin(code, started), 2000);
+    return;
+  }
+  $('tgState').textContent = 'این کد دیگر معتبر نیست. دوباره شروع کنید.';
+}
+$('btnTg').onclick = tgLogin;
+
+// ---------- تماس صوتی/تصویری (Jitsi) ----------
+$('btnCall').onclick = () => {
+  if (!room) return;
+  const name = encodeURIComponent('coreader-session-' + room.id);
+  $('callBox').innerHTML = '<iframe src="https://meet.jit.si/' + name + '#config.prejoinPageEnabled=false" ' +
+    'allow="camera; microphone; display-capture; autoplay; fullscreen" ' +
+    'style="width:100%;height:420px;border:0;border-radius:10px;margin-top:8px"></iframe>';
+};
+$('btnCallClose').onclick = () => { $('callBox').innerHTML = ''; };
+
+// ---------- ضبط صدا (روی دستگاه) ----------
+let recorder = null, recChunks = [];
+$('btnRec').onclick = async () => {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    recorder = new MediaRecorder(stream);
+    recChunks = [];
+    recorder.ondataavailable = (e) => { if (e.data && e.data.size) recChunks.push(e.data); };
+    recorder.onstop = () => {
+      const blob = new Blob(recChunks, { type: recorder.mimeType || 'audio/webm' });
+      const url = URL.createObjectURL(blob);
+      $('recOut').innerHTML = '<audio controls src="' + url + '"></audio> <a download="session-record.webm" href="' + url + '">دانلود فایل</a>';
+      stream.getTracks().forEach((t) => t.stop());
+    };
+    recorder.start();
+    $('btnRec').disabled = true;
+    $('btnRecStop').disabled = false;
+  } catch (e) { $('roomErr').textContent = 'ضبط صدا ممکن نشد: ' + e.message; }
+};
+$('btnRecStop').onclick = () => {
+  if (recorder && recorder.state !== 'inactive') recorder.stop();
+  $('btnRec').disabled = false;
+  $('btnRecStop').disabled = true;
+};
+
+// ---------- گفتار به متن (فارسی) کنار هر فیلد متنی ----------
+function attachDictation(field) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return;
+  const btn = document.createElement('button');
+  btn.type = 'button';
+  btn.className = 'ghost';
+  btn.textContent = '🎤';
+  btn.title = 'گفتار به متن (فارسی)';
+  let rec = null;
+  btn.onclick = () => {
+    if (rec) { rec.stop(); return; }
+    rec = new SR();
+    rec.lang = 'fa-IR';
+    rec.continuous = true;
+    rec.interimResults = false;
+    rec.onresult = (e) => {
+      for (const r of e.results) {
+        if (r.isFinal) field.value += (field.value ? ' ' : '') + r[0].transcript.trim();
+      }
+    };
+    rec.onend = () => { rec = null; btn.textContent = '🎤'; };
+    rec.onerror = () => { rec = null; btn.textContent = '🎤'; };
+    rec.start();
+    btn.textContent = '⏹';
+  };
+  field.insertAdjacentElement('afterend', btn);
+}
+document.querySelectorAll('textarea, input[type=text], input:not([type])').forEach(attachDictation);
+
 async function enter(user) {
   me = user;
   const m = user.user_metadata || {};

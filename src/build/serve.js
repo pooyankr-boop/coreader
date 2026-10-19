@@ -335,6 +335,19 @@ http.createServer((req, res) => {
       } catch (e) { res.writeHead(500, { 'Content-Type': 'application/json' }); res.end(JSON.stringify({ ok: false, error: e.message })); }
       return;
     }
+    if (urlPath === '/api/session-login/start' && req.method === 'POST') {
+      require('../../telegram/session-login.js').startLogin()
+        .then((j) => { res.writeHead(200, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(j)); })
+        .catch((e) => { res.writeHead(500, { 'Content-Type': 'application/json' }); res.end(JSON.stringify({ ok: false, error: e.message })); });
+      return;
+    }
+    if (urlPath === '/api/session-login/status' && req.method === 'GET') {
+      const code = new URL(req.url, 'http://localhost').searchParams.get('code') || '';
+      require('../../telegram/session-login.js').statusLogin(code)
+        .then((j) => { res.writeHead(200, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(j)); })
+        .catch((e) => { res.writeHead(500, { 'Content-Type': 'application/json' }); res.end(JSON.stringify({ ok: false, error: e.message })); });
+      return;
+    }
     res.writeHead(404); res.end('Unknown api'); return;
   }
 

@@ -55,7 +55,13 @@
     </div>
     <p class="muted">یک پیوند ورود به ایمیل شما فرستاده می‌شود.</p>
     <div class="row oauth">
+      <button id="btnTg">ورود با تلگرام</button>
       <button class="ghost" data-oauth="github">ورود با گیتهاب</button>
+    </div>
+    <div id="tgBox" class="hidden" style="margin-top:10px">
+      <p class="muted">کد شما: <b id="tgCode" style="font-size:18px;letter-spacing:2px"></b></p>
+      <a id="tgLink" target="_blank" rel="noopener">باز کردن ربات تلگرام</a>
+      <p class="muted" id="tgState"></p>
     </div>
     <div id="loginMsg" class="err"></div>
   </section>
@@ -99,6 +105,22 @@
 
   <!-- اتاق نشست -->
   <section id="viewRoom" class="hidden">
+    <div class="card">
+      <h2>تماس صوتی و تصویری</h2>
+      <div class="row">
+        <button id="btnCall">شروع یا ورود به تماس</button>
+        <button class="ghost" id="btnCallClose">بستن تماس</button>
+      </div>
+      <p class="muted">تماس با Jitsi برگزار می‌شود. میکروفون، وب‌کم و اشتراک صفحه در همان پنجره است.</p>
+      <div id="callBox"></div>
+      <h2 style="margin-top:12px">ضبط صدا</h2>
+      <div class="row">
+        <button id="btnRec">● ضبط</button>
+        <button class="ghost" id="btnRecStop" disabled>■ توقف</button>
+      </div>
+      <div id="recOut" style="margin-top:8px"></div>
+      <p class="muted">فایل ضبط‌شده فقط روی دستگاه شما ذخیره می‌شود. ارسال به دیگران در فاز ذخیره‌سازی مشترک انجام می‌شود.</p>
+    </div>
     <div class="card">
       <div class="row">
         <div style="flex:2 1 260px">

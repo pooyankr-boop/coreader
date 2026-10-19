@@ -2,6 +2,38 @@
 // روی هاست خواب‌آلود به‌جای این فایل از وب‌هوک استفاده کنید (DEPLOY-fa.md بخش ۵).
 const core = require('./bot-core.js');
 const WEBHOOK = process.env.TELEGRAM_WEBHOOK === '1';
+// همگام‌سازی فهرست دستورها و دکمه منوی ربات هنگام راه‌اندازی (دوباره دستی نیاز نیست)
+const MENU_COMMANDS = [
+  { command: 'start', description: 'شروع و راهنما' },
+  { command: 'app', description: 'بازکردن کتابخوان' },
+  { command: 'search', description: 'جست‌وجو: /search متن' },
+  { command: 'book', description: 'کتاب مشخص: /book slug' },
+  { command: 'daily', description: 'اثر روز' },
+  { command: 'quiz', description: 'مسابقه یا پرسش از آثار' },
+  { command: 'hashiye', description: 'حاشیه روی اثر' },
+  { command: 'link', description: 'اتصال حساب: /link کد' },
+  { command: 's_help', description: 'راهنمای نشست' },
+  { command: 's_link', description: 'وصل کردن گروه به نشست' },
+  { command: 's_info', description: 'نشست وصل‌شده' },
+  { command: 's_note', description: 'حاشیه: /s_note صفحه متن' },
+  { command: 's_task', description: 'ثبت وظیفه با #هشتگ' },
+  { command: 's_tasks', description: 'وظایف باز' },
+  { command: 's_done', description: 'انجام‌شد: /s_done شماره' }
+];
+async function syncBotMenu() {
+  try {
+    const a = await core.api('setMyCommands', { commands: MENU_COMMANDS });
+    console.log('[bot] setMyCommands:', a.ok);
+    if (core.HAS_PUBLIC_HTTPS) {
+      const b = await core.api('setChatMenuButton', { menu_button: {
+        type: 'web_app', text: 'کتابخوان',
+        web_app: { url: core.PUBLIC.replace(/\/$/, '') + '/telegram/webapp/' } } });
+      console.log('[bot] setChatMenuButton:', b.ok);
+    }
+  } catch (e) { console.error('[bot] menu sync failed:', e.message); }
+}
+syncBotMenu();
+
 let offset = 0;
 let backoff = 500;
 async function poll() {

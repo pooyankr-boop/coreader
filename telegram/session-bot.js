@@ -35,6 +35,20 @@ const HELP = [
 
 // برمی‌گرداند true اگر پیام یک دستور نشست بود (تا ربات ادامه ندهد)
 async function handle(msg, api) {
+  // ورود به سایت نشست: /start login_کد
+  if (msg && msg.text && /^\/start\s+login_[A-Za-z0-9]{6,12}$/.test(msg.text.trim())) {
+    const code = msg.text.trim().split('login_')[1];
+    try {
+      const ok = await require('./session-login.js').confirmLogin(code.toUpperCase(), msg.from || {});
+      await api('sendMessage', { chat_id: msg.chat.id, text: ok
+        ? 'ورود تأیید شد. به صفحهٔ نشست برگردید.'
+        : 'این کد معتبر نیست یا منقضی شده است. دوباره از صفحهٔ نشست شروع کنید.' });
+    } catch (e) {
+      console.error('[session-login]', e.message);
+      await api('sendMessage', { chat_id: msg.chat.id, text: 'خطا در تأیید ورود. دوباره تلاش کنید.' });
+    }
+    return true;
+  }
   if (!SB_KEY || !msg || !msg.text || msg.text[0] !== '/') return false;
   const m = msg.text.match(/^\/(s_\w+)(?:@\S+)?(?:\s+([\s\S]*))?$/i);
   if (!m) return false;
