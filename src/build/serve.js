@@ -320,18 +320,15 @@ http.createServer((req, res) => {
       const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Tehran', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
       let st = {};
       try { st = JSON.parse(fs.readFileSync(path.join(DATA, 'daily.json'), 'utf8')); } catch (e) {}
-      if (st.date === today) { res.writeHead(200, { 'Content-Type': 'application/json' }); res.end(JSON.stringify({ ok: true, skipped: 'already' })); return; }
       // bot-core کاملاً به توکن نیاز دارد و در نبودش process.exit می‌کند؛ اینجا هرگز آن را نصب نکن
       if (!process.env.BOT_TOKEN && !fs.existsSync(path.join(ROOT, 'telegram', 'config.json'))) {
         res.writeHead(501, { 'Content-Type': 'application/json' }); res.end(JSON.stringify({ ok: false, error: 'no-bot-token' })); return;
       }
       try {
         const bot = require('../../telegram/bot-core.js');
-        fs.writeFileSync(path.join(DATA, 'daily.json'), JSON.stringify({ date: today }));
-        // اگر ارسال شکست بخورد، نشانه امروز پاک می‌شود تا بار بعدی دوباره تلاش شود
-        bot.postDaily().then(() => {}).catch((err) => {
+        // قفل روزانه داخل postDaily (Supabase) است؛ اینجا نیازی به daily.json نیست
+        bot.postDaily().then((r) => console.log('[serve] daily:', r && r.skipped ? 'already posted today' : 'posted')).catch((err) => {
           console.error('[serve] daily post failed:', err && err.message);
-          try { fs.writeFileSync(path.join(DATA, 'daily.json'), JSON.stringify({ date: '' })); } catch (e) {}
         });
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ ok: true }));

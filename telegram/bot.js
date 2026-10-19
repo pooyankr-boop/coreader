@@ -1,7 +1,5 @@
 // telegram/bot.js — اجرای polling ربات + زمان‌بند روزانه (لوکال/سرور همیشه‌روشن)
 // روی هاست خواب‌آلود به‌جای این فایل از وب‌هوک استفاده کنید (DEPLOY-fa.md بخش ۵).
-const fs = require('fs');
-const path = require('path');
 const core = require('./bot-core.js');
 const WEBHOOK = process.env.TELEGRAM_WEBHOOK === '1';
 let offset = 0;
@@ -24,21 +22,21 @@ async function poll() {
   setTimeout(poll, backoff);
 }
 console.log('coreader bot polling… site=' + core.SITE + ' public=' + core.PUBLIC + (core.HAS_PUBLIC_HTTPS ? ' (webapp OK)' : ' (webapp needs https)'));
+
+// اثر روز: از ۸ صبح تهران، اگر امروز هنوز ارسال نشده، ارسال می‌کند.
+// قفل «یک بار در روز» داخل postDaily (Supabase) است، پس راه‌اندازی مجدد یا چند نمونه هم دوباره ارسال نمی‌کند.
+let lastDoneDay = '';
 setInterval(async () => {
   try {
-    if (core.tehranHM() < '08:00') return; // از ۸ صبح به بعد؛ اگر امروز هنوز ارسال نشده، همین‌جا ارسال کن (نه فقط دقیقه ۰۸:۰۰)
-    const st = core.dailyState();
+    if (core.tehranHM() < '08:00') return;
     const today = core.tehranDate();
-    if (st.date === today) return;
-    fs.writeFileSync(path.join(core.DATA, 'daily.json'), JSON.stringify({ date: today }));
-    try { await core.postDaily(); }
-    catch (e) {
-      // ارسال شکست خورد: نشانه امروز را پاک کن تا بار بعدی دوباره تلاش شود
-      console.error('[bot] daily error:', e.message);
-      fs.writeFileSync(path.join(core.DATA, 'daily.json'), JSON.stringify({ date: '' }));
-    }
+    if (lastDoneDay === today) return;
+    const r = await core.postDaily();
+    lastDoneDay = today;
+    console.log('[bot] daily:', r && r.skipped ? 'already posted today' : 'posted');
   } catch (e) { console.error('[bot] daily error:', e.message); }
 }, 60000);
+
 // WEBHOOK_MODE: روی هاست، آپدیت‌ها از مسیر وب‌هوک می‌آیند (poll لازم نیست)
 if (WEBHOOK) {
   console.log('[bot] webhook mode: updates via ' + core.HOOK_PATH);

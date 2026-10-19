@@ -453,7 +453,48 @@ function dailyState() {
   try { return JSON.parse(fs.readFileSync(path.join(DATA, 'daily.json'), 'utf8')); }
   catch (e) { return {}; }
 }
+// قفل روزانهٔ ارسال: در Supabase (جدول daily_posts) تا با راه‌اندازی مجدد یا دیپلوی پاک نشود.
+// اگر SUPABASE_SERVICE_KEY ست نباشد (لوکال)، از daily.json استفاده می‌شود.
+const SB_URL = (process.env.SUPABASE_URL || 'https://adchcwdrtmyxczdlcqou.supabase.co').replace(/\/$/, '');
+const SB_KEY = process.env.SUPABASE_SERVICE_KEY || '';
+async function claimDaily(day) {
+  if (SB_KEY) {
+    const r = await fetch(SB_URL + '/rest/v1/daily_posts', {
+      method: 'POST',
+      headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY, 'Content-Type': 'application/json',
+        Prefer: 'resolution=ignore-duplicates,return=representation' },
+      body: JSON.stringify({ day: day })
+    });
+    if (!r.ok) throw new Error('daily claim HTTP ' + r.status);
+    const rows = await r.json();
+    return Array.isArray(rows) && rows.length > 0;
+  }
+  if (dailyState().date === day) return false;
+  fs.writeFileSync(path.join(DATA, 'daily.json'), JSON.stringify({ date: day }));
+  return true;
+}
+async function releaseDaily(day) {
+  if (SB_KEY) {
+    await fetch(SB_URL + '/rest/v1/daily_posts?day=eq.' + day, {
+      method: 'DELETE', headers: { apikey: SB_KEY, Authorization: 'Bearer ' + SB_KEY }
+    }).catch(() => {});
+    return;
+  }
+  fs.writeFileSync(path.join(DATA, 'daily.json'), JSON.stringify({ date: '' }));
+}
+// ورودی اصلی: فقط یک بار در روز ارسال می‌کند، حتی اگر چند بار صدا زده شود یا ربات راه‌اندازی مجدد شود
 async function postDaily() {
+  const day = tehranDate();
+  if (!(await claimDaily(day))) return { skipped: 'already', day: day };
+  try {
+    await postDailyInner();
+    return { ok: true, day: day };
+  } catch (e) {
+    await releaseDaily(day);   // شکست ارسال: قفل امروز آزاد می‌شود تا بار بعد دوباره تلاش شود
+    throw e;
+  }
+}
+async function postDailyInner() {
   if (!BOOKS.length) return;
   const day = Math.floor(Date.now() / 86400000);
   const b = BOOKS[day % BOOKS.length];
