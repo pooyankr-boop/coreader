@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OCR · نشست</title>
+<style>
+  :root{--bg:#f8f5ee;--card:#fff;--fg:#1a1a1a;--muted:#6b6b6b;--accent:#8a5a3b;--border:#e3dccd}
+  @media(prefers-color-scheme:dark){:root{--bg:#101216;--card:#181b21;--fg:#f2f2f2;--muted:#9aa0a6;--accent:#d4a373;--border:#2a2f38}}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:'Vazirmatn','Noto Naskh Arabic',sans-serif;background:var(--bg);color:var(--fg)}
+  header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+  header h1{font-size:18px;margin:0;flex:1}
+  header a{color:var(--accent)}
+  main{max-width:1000px;margin:0 auto;padding:16px}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:14px}
+  h2{font-size:15px;margin:0 0 10px;color:var(--accent)}
+  button{font:inherit;padding:9px 14px;border:none;border-radius:10px;background:var(--accent);color:#fff;cursor:pointer}
+  button.ghost{background:transparent;color:var(--accent);border:1px solid var(--border)}
+  button:disabled{opacity:.5;cursor:default}
+  textarea{font:inherit;width:100%;min-height:120px;padding:9px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--fg)}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
+  .muted{color:var(--muted);font-size:13px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  td,th{border-bottom:1px solid var(--border);padding:8px;text-align:right;vertical-align:top}
+  .off{opacity:.55}
+  .bar{height:8px;background:var(--border);border-radius:6px;overflow:hidden;margin:6px 0}
+  .bar>div{height:100%;background:var(--accent);width:0}
+</style>
+</head>
+<body>
+<header>
+  <h1>OCR — استخراج متن از عکس و PDF</h1>
+  <a href="/session/">نشست</a>
+  <a href="/session/studio.html">استودیوی صوت</a>
+</header>
+<main>
+  <div class="card">
+    <h2>۱. فایل‌ها</h2>
+    <input id="files" type="file" multiple accept="image/*,application/pdf">
+    <p class="muted">عکس صفحه (JPG، PNG) یا PDF. هر صفحهٔ PDF جداگانه خوانده می‌شود.</p>
+    <h2 style="margin-top:12px">۲. زبان متن</h2>
+    <div class="row" id="langs">
+      <label><input type="checkbox" value="fas" checked> فارسی</label>
+      <label><input type="checkbox" value="ara"> عربی</label>
+      <label><input type="checkbox" value="eng"> انگلیسی</label>
+      <label><input type="checkbox" value="fra"> فرانسوی</label>
+      <label><input type="checkbox" value="deu"> آلمانی</label>
+    </div>
+    <p class="muted">می‌توانید چند زبان را ترکیب کنید. داده‌های هر زبان در اولین اجرا دانلود می‌شوند.</p>
+    <div class="row">
+      <button id="btnRun">شروع استخراج متن</button>
+      <span id="status" class="muted"></span>
+    </div>
+    <div class="bar"><div id="bar"></div></div>
+  </div>
+
+  <div class="card">
+    <h2>۳. ابزارهای OCR</h2>
+    <table>
+      <tr><th>ابزار</th><th>کجا اجرا می‌شود</th><th>برای فارسی و نستعلیق</th><th>وضعیت</th></tr>
+      <tr><td><b>Tesseract</b> (این صفحه)</td><td>مرورگر شما، رایگان</td><td>خوب برای چاپی، ضعیف‌تر برای دست‌نویس و نسخ خطی</td><td>فعال</td></tr>
+      <tr class="off"><td>Google Cloud Vision</td><td>ابری</td><td>دقت بالاتر روی متن چاپی و عکس</td><td>نیاز به کلید API و هزینه؛ بعد از تنظیم کلید</td></tr>
+      <tr class="off"><td>Azure AI Vision</td><td>ابری</td><td>دقت خوب، پشتیبانی از چند زبان</td><td>نیاز به کلید API و هزینه؛ بعد از تنظیم کلید</td></tr>
+      <tr class="off"><td>Kraken / Calamari</td><td>سرور اختصاصی</td><td>بهترین گزینه برای نسخ خطی و خط تحریری</td><td>نیاز به سرور؛ مرحلهٔ بعد</td></tr>
+    </table>
+    <p class="muted">برای نسخ خطی، ابزار ابری یا سرور اختصاصی دقت بهتری دارد. فعلاً Tesseract تنها موتور فعال است.</p>
+  </div>
+
+  <div class="card">
+    <h2>۴. نتیجه (قابل ویرایش)</h2>
+    <div id="results"><p class="muted">هنوز متنی استخراج نشده است.</p></div>
+    <div class="row">
+      <button class="ghost" id="btnTxt" disabled>دانلود TXT</button>
+      <button id="btnToStudio" disabled>ارسال خط‌ها به استودیوی صوت</button>
+    </div>
+    <div id="msg" class="muted"></div>
+  </div>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
+<script src="/session/ocr.js"></script>
+</body>
+</html>

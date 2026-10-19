@@ -19,7 +19,7 @@
     $('fileName').textContent = f.name;
     if (audio.src) URL.revokeObjectURL(audio.src);
     audio.src = URL.createObjectURL(f);
-    ['btnPlay', 'btnBack5', 'btnFwd5', 'btnMark', 'btnExport'].forEach((id) => { $(id).disabled = false; });
+    ['btnPlay', 'btnBack5', 'btnFwd5', 'btnMark', 'btnExport', 'btnSuggest'].forEach((id) => { $(id).disabled = false; });
     try {
       const Ctx = window.AudioContext || window.webkitAudioContext;
       const ctx = new Ctx();
@@ -154,6 +154,47 @@
     if (e.code === 'Space') { e.preventDefault(); togglePlay(); }
     if (e.key === 'm' || e.key === 'M') markNext();
   });
+
+  // پیشنهاد خودکار نشانه‌ها: مکث‌های بلند صدا را پیدا می‌کند و خط‌ها را بین آن‌ها پخش می‌کند
+  function suggestMarkers() {
+    if (!buf) { $('nextLbl').textContent = 'ابتدا فایل صوتی را انتخاب کنید.'; return; }
+    if (!lines.length) { $('nextLbl').textContent = 'ابتدا متن خطوط را وارد و «شروع» را بزنید.'; return; }
+    const data = buf.getChannelData(0), sr = buf.sampleRate, step = 0.05, win = Math.floor(sr * step);
+    const env = [];
+    let max = 0;
+    for (let i = 0; i + win <= data.length; i += win) {
+      let s = 0;
+      for (let j = 0; j < win; j++) s += data[i + j] * data[i + j];
+      const r = Math.sqrt(s / win);
+      env.push(r);
+      if (r > max) max = r;
+    }
+    const thr = max * 0.03;
+    const gaps = [];
+    let start = -1;
+    env.forEach((r, k) => {
+      if (r < thr) { if (start < 0) start = k; }
+      else if (start >= 0) {
+        const len = (k - start) * step;
+        if (len >= 0.3) gaps.push({ from: start * step, to: k * step, len: len });
+        start = -1;
+      }
+    });
+    const chosen = gaps.sort((a, b) => b.len - a.len).slice(0, lines.length - 1).sort((a, b) => a.from - b.from);
+    const times = [0].concat(chosen.map((g) => (g.from + g.to) / 2));
+    const d = buf.duration;
+    while (times.length < lines.length) times.push((d * times.length) / lines.length);
+    marks = lines.map((text, i) => ({ t: times[i], line: i, text: text })).sort((a, b) => a.t - b.t);
+    ptr = lines.length;
+    renderMarks();
+    $('nextLbl').textContent = 'پیشنهاد خودکار: ' + gaps.length + ' مکث پیدا شد. زمان‌ها را بررسی و در صورت نیاز جابه‌جا کنید.';
+    render();
+  }
+  $('btnSuggest').onclick = suggestMarkers;
+
+  // خط‌های آماده از OCR (اگر از صفحهٔ OCR فرستاده شده باشند)
+  const ocrLines = localStorage.getItem('coreader-ocr-lines');
+  if (ocrLines) $('lines').value = ocrLines;
 
   window.addEventListener('resize', () => { if (buf) { drawWaveImage(); render(); } });
 
