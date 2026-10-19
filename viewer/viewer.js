@@ -1605,12 +1605,64 @@ window.delBookmark=function(i){
  * cached manifest) says so plainly instead of pretending it searched. */
 var _searchPages=[], _searchIdxBuilding=false;
 
+// جست‌وجو مستقیم در متن صفحه‌هایی که در خود فایل هستند (pages.json / گنجور) — نمایه آنوتاسیون لازم نیست
+function __normS(s){
+  var T=window.__coreaderText;
+  if(T&&T.ptNorm) return T.ptNorm(s);
+  return String(s).replace(/[\u200c\u200d\u064b-\u065f]/g,'').replace(/\u064a/g,'\u06cc').replace(/\u0643/g,'\u06a9').replace(/\s+/g,'').toLowerCase();
+}
+function __stripS(h){ return String(h||'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim(); }
+function __escS(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function ganjoorPageTexts(){
+  var out={}, fi=0;
+  (_ganjoor||[]).forEach(function(ch){ (ch.poems||[]).forEach(function(poem){ (poem.lines||[]).forEach(function(line){
+    var pg=(typeof findPageForLine==='function')?findPageForLine(fi):1;
+    (out[pg]=out[pg]||[]).push(String(line));
+    fi++;
+  }); }); });
+  return Object.keys(out).map(function(k){ return {page:+k, text:out[k].join(' ')}; });
+}
+// null = این کتاب متن محلی ندارد (مسیر قدیمی نمایه آنوتاسیون استفاده می‌شود)
+function localSearchHits(q){
+  var terms=String(q||'').trim().split(/\s+/).map(__normS).filter(Boolean);
+  if(!terms.length) return null;
+  var src=[];
+  if(_texts && _texts.length){ _texts.forEach(function(p){ src.push({page:p.page, text:__stripS(p.html)}); }); }
+  else if(typeof _ganjoor!=='undefined' && _ganjoor){ src=ganjoorPageTexts(); }
+  if(!src.length) return null;
+  var hits=[];
+  src.forEach(function(p){
+    if(!p.text) return;
+    var joined=__normS(p.text);
+    if(terms.every(function(t){ return joined.indexOf(t)!==-1; })) hits.push({page:p.page, text:p.text});
+  });
+  return hits;
+}
+function localSnippet(text, term){
+  var w=text.split(/[\s\u060c\u061b:.,!?()\u00ab\u00bb"]+/).filter(Boolean), nt=__normS(term), ix=0;
+  for(var i=0;i<w.length;i++){ if(__normS(w[i]).indexOf(nt)!==-1){ ix=i; break; } }
+  return __escS(w.slice(Math.max(0,ix-6), ix+10).join(' '))+'\u2026';
+}
+function renderLocalSearch(q, hits){
+  var el=document.getElementById('searchResults');
+  _searchPages=hits.map(function(h){ return h.page; });
+  if(!hits.length){ el.innerHTML='<p style="color:var(--muted);font-size:13px">نتیجه‌ای یافت نشد</p>'; return; }
+  var term=String(q).trim().split(/\s+/)[0];
+  var html=hits.slice(0,80).map(function(h){
+    return '<div class="search-result" onclick="goPage('+h.page+')"><span class="sr-page">صفحهٔ '+toFA(h.page)+'</span>'+
+      '<div style="font-size:12px;color:var(--muted);line-height:1.7">'+localSnippet(h.text, term)+'</div></div>';
+  }).join('');
+  var more=hits.length>80?'<p style="color:var(--muted);font-size:12px;padding:6px 8px">'+toFA(hits.length-80)+' نتیجهٔ دیگر</p>':'';
+  el.innerHTML='<div style="padding:4px 8px;color:var(--muted);font-size:12px">'+toFA(hits.length)+' صفحه</div>'+html+more;
+}
 window.doSearch=function(){
   var el=document.getElementById('searchResults');
   var input=document.getElementById('searchInput');
   var q=(input?input.value:'').trim();
   var T=window.__coreaderText;
   if(!q){el.innerHTML='';_searchPages=[];return}
+  var localHits=localSearchHits(q);
+  if(localHits){ renderLocalSearch(q, localHits); return; }
   if(!T){
     el.innerHTML='<p style="color:var(--muted);font-size:13px">موتور جستجو بارگذاری نشد</p>';
     return;
@@ -1740,8 +1792,22 @@ function hlEnsureLayer(){
  *
  * ponytail: this is a workaround for one library version, not a general
  * coordinate system.  Drop it when OSD is upgraded and the single call works. */
+// نسبت اندازهٔ تصویری که OSD نشان می‌دهد به عرض تصویری که مختصات کلمه‌ها روی آن ساخته شده‌اند.
+// اگر سرور نسخهٔ کوچک‌تر از صفحه را نشان بدهد، بدون این نسبت كلمه‌ها جایی اشتباه می‌شوند.
+function hlSourceScale(){
+  try{
+    var it=BOOK&&BOOK.items&&BOOK.items[_curPage-1];
+    var ref=it&&it.images&&it.images[0]&&+it.images[0].width;
+    var item=_osd&&_osd.world&&_osd.world.getItemAt(0);
+    var cw=item&&item.getContentSize?item.getContentSize().x:0;
+    if(ref&&cw&&isFinite(ref)&&isFinite(cw)) return cw/ref;
+  }catch(e){}
+  return 1;
+}
 function hlProject(box){
   if(!_osd || !_osd.viewport) return null;
+  var k=hlSourceScale();
+  if(k!==1) box={x:box.x*k, y:box.y*k, w:box.w*k, h:box.h*k};
   var vp;
   try {
     vp=_osd.viewport.imageToViewportRectangle(

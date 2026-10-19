@@ -460,6 +460,7 @@ async function postDaily() {
   const chatId = CFG.channelId || CFG.channel;
   const r = await sendBook(chatId, b, null, '🎲 <b>اثر امروز</b>');
   console.log('[bot] daily posted:', r && r.ok ? 'OK' : 'FAIL');
+  if (!r || !r.ok) throw new Error('daily send failed: ' + ((r && r.description) || 'no response'));
   // بازنشر در تاپیک «قاب من»
   const thread = CFG.topics && CFG.topics.frames;
   if (thread && r && r.ok && r.result && r.result.message_id) {

@@ -26,12 +26,17 @@ async function poll() {
 console.log('coreader bot polling… site=' + core.SITE + ' public=' + core.PUBLIC + (core.HAS_PUBLIC_HTTPS ? ' (webapp OK)' : ' (webapp needs https)'));
 setInterval(async () => {
   try {
-    if (core.tehranHM() !== '08:00') return;
+    if (core.tehranHM() < '08:00') return; // از ۸ صبح به بعد؛ اگر امروز هنوز ارسال نشده، همین‌جا ارسال کن (نه فقط دقیقه ۰۸:۰۰)
     const st = core.dailyState();
     const today = core.tehranDate();
     if (st.date === today) return;
     fs.writeFileSync(path.join(core.DATA, 'daily.json'), JSON.stringify({ date: today }));
-    await core.postDaily();
+    try { await core.postDaily(); }
+    catch (e) {
+      // ارسال شکست خورد: نشانه امروز را پاک کن تا بار بعدی دوباره تلاش شود
+      console.error('[bot] daily error:', e.message);
+      fs.writeFileSync(path.join(core.DATA, 'daily.json'), JSON.stringify({ date: '' }));
+    }
   } catch (e) { console.error('[bot] daily error:', e.message); }
 }, 60000);
 // WEBHOOK_MODE: روی هاست، آپدیت‌ها از مسیر وب‌هوک می‌آیند (poll لازم نیست)

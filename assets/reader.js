@@ -240,7 +240,11 @@ function hlToc(){
     item.classList.toggle('cur', curPage >= sp && curPage < next);
   });
 }
-function toggleSidebar(){ document.getElementById('sb').classList.toggle('off'); }
+function toggleSidebar(){
+  if (isMobileReader()){ document.body.classList.toggle('sb-open'); return; }
+  document.getElementById('sb').classList.toggle('off');
+}
+function isMobileReader(){ return !!(window.matchMedia && window.matchMedia('(max-width:900px)').matches); }
 
 // ===== Settings (theme, font, size, line-height) — persisted globally,
 // not per-book, since reading preferences carry across books =====
@@ -413,7 +417,8 @@ function loadMagSettings(){
   document.getElementById('setMagZoomV').textContent = (+MAG_SCALE).toFixed(1) + '×';
   document.getElementById('setMagAutoFollow').checked = magAutoFollow;
 }
-function setTheme(t){
+function setTheme(t){ setThemeInner(t); autoFgForTheme(); }
+function setThemeInner(t){
   document.body.className = t || '';
   document.querySelectorAll('.theme-btn').forEach(function(b){ b.classList.toggle('on', b.dataset.theme === t); });
   localStorage.setItem('coreader-theme', t || '');
@@ -783,7 +788,56 @@ document.addEventListener('keydown', function(e){
 });
 
 // ===== Search =====
+// جست‌وجو در تمام صفحه‌های کتاب (بدون نمایه و بدون وابستگی به buildSearchIndex)
+function openBookSearch(){
+  var sb = document.getElementById('sb');
+  if (!sb) return;
+  if (isMobileReader()) document.body.classList.add('sb-open'); else sb.classList.remove('off');
+  var inp = sb.querySelector('input[type=search]');
+  if (inp){ inp.focus(); inp.select(); }
+}
+function escapeHtmlR(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function bookSnippet(plain, term){
+  var words = plain.split(/[\s،؛:.,!?()«»"]+/).filter(Boolean);
+  var ix = 0;
+  for (var i = 0; i < words.length; i++){ if (normW(words[i]).indexOf(term) !== -1){ ix = i; break; } }
+  return escapeHtmlR(words.slice(Math.max(0, ix - 6), ix + 10).join(' ')) + '…';
+}
 function searchBook(q){
+  var resultsEl = document.getElementById('searchResults');
+  q = (q || '').trim();
+  if (!q){ resultsEl.innerHTML = ''; return; }
+  if (!BOOK || !BOOK.pages || !BOOK.pages.length){ resultsEl.innerHTML = '<div style="padding:8px;color:#999">متنی برای جست‌وجو نیست</div>'; return; }
+  var terms = q.split(/\s+/).map(normW).filter(Boolean);
+  if (!terms.length){ resultsEl.innerHTML = ''; return; }
+  var hits = [];
+  BOOK.pages.forEach(function(p){
+    var plain = String(p.html || '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    if (!plain) return;
+    var joined = normW(plain);
+    if (terms.every(function(t){ return joined.indexOf(t) !== -1; })) hits.push({ page: p.page, plain: plain });
+  });
+  if (!hits.length){ resultsEl.innerHTML = '<div style="padding:8px;color:#999">نتیجه‌ای یافت نشد</div>'; return; }
+  resultsEl.innerHTML = '<div style="padding:4px 8px;color:#999;font-size:12px">' + toFA(hits.length) + ' صفحه</div>' +
+    hits.slice(0, 80).map(function(h){
+      return '<a onclick="goPg(' + h.page + ')">صفحه ' + toFA(h.page) + ' — ' + bookSnippet(h.plain, terms[0]) + '</a>';
+    }).join('');
+}
+// رنگ پیش‌فرض متن با تم: تم تیره → سفید، تم روشن → سیاه (اگر کاربر رنگ نشانیش را ذخیره نکرده باشد)
+function autoFgForTheme(){
+  if (localStorage.getItem('coreader-fg-color')) return;
+  var bg = getComputedStyle(document.body).backgroundColor || '';
+  var m = bg.match(/[\d.]+/g) || [];
+  var dark = false;
+  if (m.length >= 3 && !(m.length >= 4 && +m[3] === 0)){
+    dark = (0.299 * +m[0] + 0.587 * +m[1] + 0.114 * +m[2]) / 255 < 0.5;
+  }
+  var c = dark ? '#ffffff' : '#000000';
+  document.documentElement.style.setProperty('--fg-color', c);
+  document.body.style.setProperty('--fg-color', c);
+}
+// نسخه قدیمی جست‌وجو (استفاده نمی‌شود)
+function searchBookOld(q){
   var resultsEl = document.getElementById('searchResults');
   q = q.trim();
   if (!q){ resultsEl.innerHTML = ''; return; }
@@ -2752,7 +2806,7 @@ window.switchPdfSource = switchPdfSource;
 window.toggleMic = toggleMic; window.toggleRecording = toggleRecording;
 window.getCurPage = function(){ return curPage; };
 window.openSettings = openSettings; window.closeSettings = closeSettings;
-window.applySetting = applySetting; window.setTheme = setTheme;
+window.openBookSearch = openBookSearch; window.applySetting = applySetting; window.setTheme = setTheme;
 window.ctxAddAnno = ctxAddAnno; window.ctxEditAnno = ctxEditAnno; window.ctxDeleteAnno = ctxDeleteAnno;
 window.ctxEditText = ctxEditText; window.ctxToggleTashkil = ctxToggleTashkil; window.applyEditStyle = applyEditStyle;
 window.toggleTashkilBar = toggleTashkilBar; window.insertTashkil = insertTashkil;
