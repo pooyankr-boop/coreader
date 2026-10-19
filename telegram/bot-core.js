@@ -201,6 +201,7 @@ async function serverManifests() {
 
 async function handle(msg) {
   if (!msg || !msg.text) return;
+  if (await require('./session-bot.js').handle(msg, api)) return;   // دستورهای s_* نشست
   const chatId = msg.chat.id;
   const text = msg.text.trim();
   const tgUser = { id: msg.from.id, first_name: msg.from.first_name, username: msg.from.username };
