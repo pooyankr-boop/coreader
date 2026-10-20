@@ -22,7 +22,7 @@
 
   var path = location.pathname;
   var links = [['/', 'کاتالوگ'], ['/session/', 'نشست'], ['/session/live.html', 'نشست‌های زنده'],
-    ['/session/studio.html', 'استودیوی صوت'], ['/session/ocr.html', 'OCR']];
+    ['/session/studio.html', 'استودیوی صوت'], ['/session/ocr.html', 'OCR'], ['/session/tutorial.html', 'آموزش']];
   var nav = links.map(function (l) {
     var active = (l[0] === '/') ? (path === '/' || path === '/index.html') : (path.indexOf(l[0]) === 0);
     return '<a class="nav-link' + (active ? ' active' : '') + '" href="' + l[0] + '">' + l[1] + '</a>';

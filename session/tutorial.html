@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>آموزش نشست · کتابخوانه</title>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/catalog/catalog.css?v=22">
+<link rel="stylesheet" href="/assets/polish.css?v=1">
+<link rel="stylesheet" href="/session/session.css">
+<style>
+  .tut { display: grid; gap: 16px; grid-template-columns: 1fr; }
+  @media (min-width: 900px) { .tut { grid-template-columns: 300px 1fr; } }
+  .steps a { display: flex; gap: 8px; align-items: center; padding: 10px 12px; border-radius: 12px; color: var(--text); text-decoration: none; cursor: pointer; }
+  .steps a:hover { background: var(--cream); }
+  .steps a.current { background: var(--gold-gradient); color: #fff; }
+  .steps a.done .mark { color: #16a34a; }
+  .steps a.current .mark { color: #fff; }
+  .mark { width: 22px; text-align: center; font-weight: 800; }
+  .progress { height: 8px; border-radius: 999px; background: var(--border); overflow: hidden; margin: 8px 0 12px; }
+  .progress > div { height: 100%; background: var(--gold-gradient); width: 0; transition: width .3s; }
+  .step-title { font-size: 20px; font-weight: 800; color: var(--accent); margin: 0 0 8px; }
+  .step-body { line-height: 2; font-size: 15px; }
+  .step-body ol { padding-inline-start: 20px; }
+  .tip { background: var(--cream); border: 1px dashed var(--border); border-radius: 12px; padding: 10px 14px; margin: 12px 0; font-size: 14px; }
+  .nav-row { display: flex; gap: 10px; justify-content: space-between; flex-wrap: wrap; margin-top: 16px; }
+  .check { display: flex; gap: 8px; align-items: center; margin-top: 12px; font-weight: 600; }
+</style>
+</head>
+<body>
+<div id="siteHeader"></div>
+<main>
+  <div class="card">
+    <h2>آموزش تعاملی نشست</h2>
+    <p class="muted">این آموزش گام‌به‌گام شما را از ورود تا کار جمعی روی یک اثر راهنمایی می‌کند. پیشرفت شما در همین مرورگر ذخیره می‌شود.</p>
+    <div class="progress"><div id="prog"></div></div>
+    <div id="progText" class="muted"></div>
+  </div>
+  <div class="tut">
+    <div class="card steps" id="stepList"></div>
+    <div class="card" id="stepBox"></div>
+  </div>
+</main>
+<script src="/session/shell.js"></script>
+<script src="/session/tutorial.js"></script>
+</body>
+</html>

@@ -61,6 +61,39 @@ function preloadGanjoorText(slug){
   });
 }
 
+// آیتم‌های افزوده‌شده (db-…) از جدول catalog_items خوانده می‌شوند.
+// پیش‌نویس‌ها فقط با ورود همان کاربر دیده می‌شوند (توکن از localStorage).
+function fetchCommunityBook(slug){
+  var id = slug.slice(3);
+  var base = 'https://adchcwdrtmyxczdlcqou.supabase.co';
+  var key = 'sb_publishable_1zC3sjNidZuZ8_t15jEkeA_t5E3NWPT';
+  var token = null;
+  try {
+    var k = Object.keys(localStorage).filter(function(x){ return /^sb-.*-auth-token$/.test(x); })[0];
+    if (k) token = JSON.parse(localStorage.getItem(k)).access_token;
+  } catch (e) {}
+  var headers = { apikey: key, Authorization: 'Bearer ' + (token || key) };
+  return fetch(base + '/rest/v1/catalog_items?id=eq.' + encodeURIComponent(id) + '&select=*', { headers: headers })
+    .then(function(r){ return r.json(); })
+    .then(function(rows){
+      var r = rows && rows[0];
+      if (!r) throw new Error('Book not found');
+      var srcUrl = r.source_url || r.pdf_url || '';
+      if (!r.iiif_manifest) {
+        // بدون مانیفست IIIF: مستقیم به منبع اصلی برو
+        if (srcUrl) { location.href = srcUrl; return new Promise(function(){}); }
+        throw new Error('Book not found');
+      }
+      var entry = { slug: slug, title: (r.visible ? '' : '(پیش‌نویس) ') + (r.title || ''), author: r.author || '',
+        source: 'community', manifestUrl: r.iiif_manifest, externalLinks: { digitalObject: srcUrl } };
+      return fetch(r.iiif_manifest).then(function(x){ return x.json(); })
+        .catch(function(){
+          return fetch('/proxy-manifest?url=' + encodeURIComponent(r.iiif_manifest)).then(function(x){ return x.json(); });
+        })
+        .then(function(d){ d._entry = entry; return d; });
+    });
+}
+
 function loadBook(slug){
   // Try local book first
   fetch('../books/'+encodeURIComponent(slug)+'/book.json').then(function(r){
@@ -80,7 +113,7 @@ function loadBook(slug){
     return fetch('../books-index.json').then(function(r){return r.json()}).then(function(list){
       var custom=JSON.parse(localStorage.getItem('coreader-custom-books')||'[]');
       var all=list.concat(custom);
-      var entry=all.find(function(b){return b.slug===slug});
+      var entry=(list||[]).find(function(b){return b.slug===slug})||(all||[]).find(function(b){return b.slug===slug});
       if(entry && entry.manifestUrl){
         // Proxy QDL/BL/LOC manifests through local server (Cloudflare blocks direct fetch)
         var manifestUrl = entry.manifestUrl;
@@ -127,6 +160,7 @@ function loadBook(slug){
           return { source: 'iiif', title: entry.title || slug, pages: entry.pages || 100, _entry: entry };
         });
       }
+      if (slug.indexOf('db-') === 0) return fetchCommunityBook(slug);
       throw new Error('Book not found');
     });
   }).then(function(data){
