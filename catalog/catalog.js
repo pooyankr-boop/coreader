@@ -298,7 +298,7 @@ function showCatalog(){
 function filterCatalogBySection(){
   var raw = window._allRawBooks || [];
   _books = raw.filter(function(b){
-    return b.source === 'against-nature' || sectionOf(b) === _section;
+    return b.source === 'against-nature' || b.source === 'community' || sectionOf(b) === _section;
   });
 
   updateBadgesAndStats();
@@ -318,6 +318,7 @@ function updateBadgesAndStats(){
     else if(b.source === 'against-nature') tourCount++;
   });
 
+  var bCom = document.getElementById('badgeCommunity'); if(bCom) bCom.textContent = toFA(_books.filter(function(b){ return b.source === 'community'; }).length);
   var bAll = document.getElementById('badgeAll'); if(bAll) bAll.textContent = toFA(total);
   var bIiif = document.getElementById('badgeIiif'); if(bIiif) bIiif.textContent = toFA(iiifCount);
   var bMus = document.getElementById('badgeMuseum'); if(bMus) bMus.textContent = toFA(museumCount);

@@ -1,0 +1,78 @@
+/* theme.css — زیباسازی یکدست صفحه‌های نشست (index, live, studio, ocr) */
+:root{
+  --bg:#f6f2ea; --bg2:#efe9dd; --card:#ffffff; --fg:#1d1a16; --muted:#7a7166;
+  --accent:#8a5a3b; --accent2:#c08a5b; --border:#e6dfd0; --ring:rgba(138,90,59,.22);
+  --danger:#c0392b; --live:#dc2626; --radius:16px; --shadow:0 1px 2px rgba(40,30,20,.06),0 8px 24px rgba(40,30,20,.06);
+}
+@media (prefers-color-scheme:dark){
+  :root{ --bg:#0e1014; --bg2:#15181f; --card:#181c24; --fg:#f1efea; --muted:#9aa0a8;
+    --accent:#d4a373; --accent2:#e6b98b; --border:#2a2f3a; --ring:rgba(212,163,115,.25);
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 10px 28px rgba(0,0,0,.35); }
+}
+html{-webkit-text-size-adjust:100%}
+body{background:radial-gradient(1200px 600px at 10% -10%,var(--bg2),transparent 60%),var(--bg);color:var(--fg);
+  font-family:var(--font-app);line-height:1.8;min-height:100vh}
+header{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--card) 82%,transparent);
+  backdrop-filter:saturate(1.4) blur(10px);border-bottom:1px solid var(--border)}
+header h1{font-size:17px;font-weight:700;letter-spacing:.2px}
+header a{color:var(--accent);text-decoration:none;font-size:14px;padding:6px 10px;border-radius:10px}
+header a:hover{background:var(--bg2)}
+main{padding:20px 16px 48px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);
+  padding:18px;margin-bottom:16px;transition:box-shadow .2s}
+h2{font-size:15px;font-weight:700;color:var(--accent);margin:0 0 12px;letter-spacing:.1px}
+.muted{color:var(--muted);font-size:13px}
+.err{color:var(--danger);font-size:13px;min-height:18px}
+input[type=text],input[type=email],input:not([type]),textarea,select{
+  font:inherit;color:var(--fg);background:var(--bg);border:1px solid var(--border);border-radius:12px;
+  padding:10px 12px;outline:none;transition:border-color .15s,box-shadow .15s;width:100%}
+input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 4px var(--ring)}
+textarea{min-height:76px;resize:vertical}
+button{font:inherit;font-weight:600;border:none;border-radius:12px;padding:10px 16px;cursor:pointer;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;
+  box-shadow:0 4px 14px color-mix(in srgb,var(--accent) 30%,transparent);transition:transform .12s,box-shadow .2s,opacity .2s}
+button:hover:not(:disabled){transform:translateY(-1px)}
+button:active:not(:disabled){transform:translateY(0)}
+button:disabled{opacity:.5;cursor:default;box-shadow:none}
+button.ghost{background:transparent;color:var(--accent);border:1px solid var(--border);box-shadow:none}
+button.ghost:hover:not(:disabled){background:var(--bg2)}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.row>*{min-width:0}
+.tag{display:inline-block;font-size:12px;padding:2px 9px;border-radius:999px;background:var(--bg2);
+  color:var(--muted);border:1px solid var(--border);margin:2px}
+.live{color:var(--live);font-weight:700}
+.list a{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 14px;border-radius:12px;
+  border:1px solid transparent;color:var(--fg);text-decoration:none;transition:background .15s,border-color .15s}
+.list a:hover{background:var(--bg2);border-color:var(--border)}
+.task{border:1px solid var(--border);border-radius:14px;padding:12px 14px;margin-bottom:10px;background:var(--card)}
+.task .st{color:var(--muted);font-size:12px;margin-top:4px}
+.msg{padding:8px 12px;border-radius:12px;background:var(--bg2);margin-bottom:8px;font-size:14px;line-height:1.9}
+.msg b{color:var(--accent)}
+.msg.sys{background:transparent;color:var(--muted);font-style:italic;font-size:13px;border:1px dashed var(--border)}
+#chat{border-radius:14px;background:var(--bg);border:1px solid var(--border);padding:12px}
+.pw{position:relative;display:inline-block;max-width:100%;touch-action:none;user-select:none;border-radius:12px;overflow:hidden;
+  box-shadow:0 6px 20px rgba(40,30,20,.12);cursor:crosshair}
+.pw img{display:block;max-width:100%;height:auto}
+#regionLayer,#regionDraft{position:absolute;inset:0;pointer-events:none}
+.rbox{position:absolute;border:2px solid #2563eb;background:rgba(37,99,235,.12);border-radius:6px}
+.rbox.draft{border:2px dashed var(--danger);background:rgba(192,57,43,.1)}
+.rbox span{position:absolute;top:-10px;right:-10px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;
+  background:#2563eb;color:#fff;font-size:11px;line-height:20px;text-align:center;font-weight:700}
+.regform{margin-top:10px;padding:12px;border:1px dashed var(--accent);border-radius:14px;background:var(--bg2)}
+@media (max-width:640px){
+  header{padding:10px 12px}
+  .card{padding:14px;border-radius:14px}
+  .row>button{flex:1 1 auto}
+}
+/* ---- فونت پیش‌فرض نشست: شهرزاد نو ----
+   فایل را در assets/fonts/shahrzad-nu.woff2 بگذارید، سپس خطوط زیر را فعال کنید. */
+/* @font-face { font-family: 'Shahrzad Nu'; src: url('/assets/fonts/shahrzad-nu.woff2') format('woff2'); font-display: swap; } */
+:root { --font-app: 'Shahrzad Nu', 'Vazirmatn Local', 'Vazirmatn', 'Noto Naskh Arabic', system-ui, sans-serif; }
+body, input, textarea, select, button, label, h1, h2, a { font-family: var(--font-app) !important; }
+mark{background:#fde68a;color:inherit;border-radius:4px;padding:0 2px}
+
+.ocr-menu{display:inline-block;position:relative;margin:4px 0}
+.ocr-menu summary{cursor:pointer;list-style:none;padding:8px 12px;border:1px solid var(--border);border-radius:12px;background:var(--bg);color:var(--fg)}
+.ocr-menu summary::-webkit-details-marker{display:none}
+.ocr-menu-body{position:absolute;z-index:30;top:calc(100% + 6px);right:0;background:var(--card);border:1px solid var(--border);border-radius:14px;padding:10px 12px;display:grid;grid-template-columns:repeat(2,minmax(150px,1fr));gap:6px 14px;box-shadow:var(--shadow);min-width:340px}
+.ocr-menu-body label{font-size:13px;display:flex;gap:6px;align-items:center}

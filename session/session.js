@@ -1,4 +1,6 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm';
+import { mountSourceSearch } from './source-search.js';
+import { setOcrContext, initSessionOcr } from './ocr-session.js';
 
 const cfg = window.COREADER_SUPABASE;
 const sb = createClient(cfg.url, cfg.key, {
@@ -84,6 +86,158 @@ $('btnCall').onclick = () => {
     'style="width:100%;height:420px;border:0;border-radius:10px;margin-top:8px"></iframe>';
 };
 $('btnCallClose').onclick = () => { $('callBox').innerHTML = ''; };
+
+// ---------- پخش زنده (Jitsi) ----------
+// ---------- ناحیه روی تصویر صفحه ----------
+let regionMode = false, regionDrag = null, pendingRect = null;
+const clamp01 = (v) => Math.max(0, Math.min(1, v));
+function drawRegions() {
+  const wrap = document.getElementById('pageWrap');
+  if (!wrap) return;
+  const pageNo = curPage + 1;
+  $('regionLayer').innerHTML = annos.filter((a) => a.page === pageNo && a.x != null).map((a, i) =>
+    '<div class="rbox" title="' + esc(a.body) + '" style="left:' + (a.x * 100) + '%;top:' + (a.y * 100) + '%;width:' + (a.w * 100) + '%;height:' + (a.h * 100) + '%"><span>' + (i + 1) + '</span></div>').join('');
+  drawDraft();
+  if (wrap.dataset.bound) return;
+  wrap.dataset.bound = '1';
+  wrap.addEventListener('pointerdown', (e) => {
+    if (!regionMode) return;
+    const r = wrap.getBoundingClientRect();
+    regionDrag = { r: r, x0: clamp01((e.clientX - r.left) / r.width), y0: clamp01((e.clientY - r.top) / r.height) };
+    wrap.setPointerCapture(e.pointerId);
+    e.preventDefault();
+  });
+  wrap.addEventListener('pointermove', (e) => {
+    if (!regionDrag) return;
+    const x = clamp01((e.clientX - regionDrag.r.left) / regionDrag.r.width);
+    const y = clamp01((e.clientY - regionDrag.r.top) / regionDrag.r.height);
+    pendingRect = { x: Math.min(regionDrag.x0, x), y: Math.min(regionDrag.y0, y), w: Math.abs(x - regionDrag.x0), h: Math.abs(y - regionDrag.y0) };
+    drawDraft();
+  });
+  wrap.addEventListener('pointerup', () => {
+    if (!regionDrag) return;
+    regionDrag = null;
+    if (pendingRect && pendingRect.w > 0.01 && pendingRect.h > 0.01) {
+      $('regionForm').classList.remove('hidden');
+      $('regionInfo').textContent = 'ناحیهٔ انتخاب‌شده روی صفحهٔ ' + (curPage + 1);
+      $('regionText').focus();
+    } else { pendingRect = null; drawDraft(); }
+  });
+}
+function drawDraft() {
+  const d = $('regionDraft');
+  if (!d) return;
+  d.innerHTML = pendingRect
+    ? '<div class="rbox draft" style="left:' + (pendingRect.x * 100) + '%;top:' + (pendingRect.y * 100) + '%;width:' + (pendingRect.w * 100) + '%;height:' + (pendingRect.h * 100) + '%"></div>'
+    : '';
+}
+function hideRegionForm() { $('regionForm').classList.add('hidden'); $('regionText').value = ''; }
+$('btnRegion').onclick = () => {
+  regionMode = !regionMode;
+  $('btnRegion').textContent = regionMode ? 'پایان کشیدن ناحیه' : 'کشیدن ناحیه روی صفحه';
+  if (!regionMode) { pendingRect = null; hideRegionForm(); drawDraft(); }
+};
+$('btnRegionSave').onclick = async () => {
+  const body = $('regionText').value.trim();
+  if (!body || !pendingRect || !room) return;
+  const r = pendingRect;
+  const { error } = await sb.from('annotations').insert({
+    session_id: room.id, page: curPage + 1, body: body, created_by: me.id, x: r.x, y: r.y, w: r.w, h: r.h
+  });
+  if (error) { $('roomErr').textContent = error.message; return; }
+  pendingRect = null; hideRegionForm(); drawDraft();
+};
+$('btnRegionCancel').onclick = () => { pendingRect = null; hideRegionForm(); drawDraft(); };
+// ---------- فایل‌های صوتی نشست و جستجوی عمیق OCR ----------
+const escapeRe = (s) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const normQ = (s) => (window.CoreaderOcrNorm ? window.CoreaderOcrNorm(s) : String(s).trim().toLowerCase());
+function snippet(body, q) {
+  const raw = q.trim();
+  const at = body.indexOf(raw);
+  const start = Math.max(0, (at >= 0 ? at : 0) - 60);
+  const text = body.slice(start, start + 200);
+  return (start > 0 ? '…' : '') + esc(text).replace(new RegExp(escapeRe(esc(raw)), 'gi'), (m) => '<mark>' + m + '</mark>') + '…';
+}
+async function loadMedia() {
+  if (!room) return;
+  const { data, error } = await sb.from('session_media')
+    .select('id,file_name,size,created_by,created_at,storage_path')
+    .eq('session_id', room.id).order('created_at', { ascending: false });
+  if (error) { $('mediaList').textContent = error.message; return; }
+  const list = data || [];
+  await loadNames(list.map((m) => m.created_by));
+  $('mediaList').innerHTML = list.length ? list.map((m) => `
+    <div class="task">
+      <div><b>${esc(m.file_name)}</b> <span class="tag">${((m.size || 0) / 1048576).toFixed(1)} MB</span></div>
+      <div class="st">${esc(nm(m.created_by))} · ${new Date(m.created_at).toLocaleString('fa-IR')}</div>
+      <div class="row" style="margin-top:6px">
+        <button class="ghost" data-play="${m.id}">پخش</button>
+        <a class="ghost" href="/session/studio.html?media=${m.id}" style="padding:9px 14px;border-radius:12px;border:1px solid var(--border);color:var(--accent);text-decoration:none">ویرایش و همگام‌سازی</a>
+      </div>
+      <div id="p-${m.id}"></div>
+    </div>`).join('') : '<p class="muted">هنوز فایل صوتی نیست.</p>';
+  $('mediaList').querySelectorAll('button[data-play]').forEach((b) => {
+    b.onclick = async () => {
+      const item = list.find((m) => m.id === b.dataset.play);
+      const { data: u, error: e } = await sb.storage.from('session-media').createSignedUrl(item.storage_path, 3600);
+      if (e) { $('roomErr').textContent = e.message; return; }
+      $('p-' + item.id).innerHTML = '<audio controls preload="none" style="width:100%;margin-top:8px" src="' + u.signedUrl + '"></audio>';
+    };
+  });
+}
+$('btnMediaUpload').onclick = async () => {
+  const file = $('mediaFile').files[0];
+  if (!file || !room) { $('roomErr').textContent = 'ابتدا یک فایل صوتی انتخاب کنید.'; return; }
+  $('btnMediaUpload').disabled = true;
+  try {
+    const ext = ((file.name.split('.').pop() || 'mp3').replace(/[^a-z0-9]/gi, '') || 'mp3').toLowerCase();
+    const path = room.id + '/' + Date.now() + '.' + ext;
+    const up = await sb.storage.from('session-media').upload(path, file, { contentType: file.type || 'audio/mpeg' });
+    if (up.error) throw up.error;
+    const { error } = await sb.from('session_media').insert({
+      session_id: room.id, storage_path: path, file_name: file.name, mime: file.type, size: file.size, created_by: me.id
+    });
+    if (error) throw error;
+    $('mediaFile').value = '';
+    await loadMedia();
+  } catch (e) { $('roomErr').textContent = 'بارگذاری ناموفق بود: ' + e.message; }
+  $('btnMediaUpload').disabled = false;
+};
+$('btnOcrSearch').onclick = async () => {
+  const q = $('ocrQuery').value.trim();
+  if (!q || !room) return;
+  const { data, error } = await sb.rpc('search_ocr', { p_session: room.id, p_query: normQ(q) });
+  if (error) { $('ocrResults').innerHTML = '<p class="err">' + esc(error.message) + '</p>'; return; }
+  const rows = data || [];
+  $('ocrResults').innerHTML = rows.length
+    ? '<p class="muted">' + rows.length + ' نتیجه</p>' + rows.map((r) => `
+        <div class="task"><div class="st">${esc(r.source || '')} · صفحهٔ ${r.page_no || '?'}</div>
+        <div>${snippet(r.body, q)}</div></div>`).join('')
+    : '<p class="muted">نتیجه‌ای پیدا نشد.</p>';
+};
+$('btnCatalogSession').onclick = async () => {
+  if (!room || !me) return;
+  const { error } = await sb.from('catalog_items').insert({
+    kind: 'manuscript', title: room.title, source: 'نشست', source_url: location.origin + '/session/?s=' + room.id,
+    iiif_manifest: room.manifest_url || null, visible: false, submitted_by: me.id, session_id: room.id
+  });
+  $('roomErr').textContent = error ? 'خطا: ' + error.message : 'این نشست به‌عنوان پیش‌نویس به کاتالوگ اضافه شد.';
+};
+function paintLive() {
+  $('btnLive').textContent = room && room.is_live ? 'پایان پخش زنده' : 'شروع پخش زنده';
+}
+$('btnLive').onclick = async () => {
+  if (!room) return;
+  const turnOn = !room.is_live;
+  const pw = $('livePw').value.trim();
+  const { error } = await sb.rpc('set_live', { p_session: room.id, p_live: turnOn, p_password: turnOn ? pw : null });
+  if (error) { $('roomErr').textContent = error.message; return; }
+  room.is_live = turnOn;
+  paintLive();
+  $('liveState').textContent = turnOn
+    ? 'پخش زنده فعال است' + (pw ? ' (با گذرواژه)' : ' (بدون گذرواژه)') + '. برای پخش، روی «تماس» بزنید تا اتاق باز شود؛ بینندگان از فهرست نشست‌های زنده وارد می‌شوند.'
+    : 'پخش زنده متوقف شد.';
+};
 
 // ---------- ضبط صدا (روی دستگاه) ----------
 let recorder = null, recChunks = [];
@@ -226,6 +380,9 @@ async function openSession(id) {
     (s.book_slug ? ' · اثر: ' + s.book_slug : '') + ' · کد دعوت: ' + s.invite_code;
   $('roomErr').textContent = '';
   curPage = 0; manifest = null; annos = [];
+  paintLive();
+  loadMedia();
+  setOcrContext(room, me, sb);
   await Promise.all([loadMembers(), loadMessages(), loadTasks(), loadManifest(), loadAnnotations()]);
   subscribe();
   history.replaceState(null, '', '?s=' + id);
@@ -407,7 +564,7 @@ function showPage(i) {
   curPage = i;
   const c = manifest.canvases[i];
   $('pagePreview').innerHTML = c && c.img
-    ? `<img src="${esc(c.img)}" alt="${esc(c.label)}" style="max-width:100%;border-radius:10px">`
+    ? `<div class="pw" id="pageWrap"><img src="${esc(c.img)}" alt="${esc(c.label)}"><div id="regionLayer"></div><div id="regionDraft"></div></div>`
     : '<p class="muted">تصویر این صفحه پیدا نشد.</p>';
   $('pageTitle').textContent = (c ? c.label : '') + ' (' + (i + 1) + ')';
   renderAnnotations();
@@ -415,7 +572,7 @@ function showPage(i) {
 
 async function loadAnnotations() {
   const { data, error } = await sb.from('annotations')
-    .select('id,page,body,created_by,created_at')
+    .select('id,page,body,created_by,created_at,x,y,w,h')
     .eq('session_id', room.id).order('created_at', { ascending: true });
   if (error) { $('roomErr').textContent = error.message; return; }
   annos = data || [];
@@ -424,6 +581,7 @@ async function loadAnnotations() {
 }
 
 function renderAnnotations() {
+  drawRegions();
   const pageNo = curPage + 1;
   $('annoPage').textContent = manifest ? 'حاشیه‌های صفحهٔ ' + pageNo : 'ابتدا مانیفست را ثبت کنید.';
   const list = annos.filter((a) => a.page === pageNo);
@@ -519,4 +677,27 @@ async function init() {
     if (ev === 'SIGNED_OUT') { me = null; show('viewLogin'); }
   });
 }
+mountSourceSearch($('homeSearch'), {
+  actions: [
+    { id: 'session', label: 'ساخت نشست با این منبع' },
+    { id: 'catalog', label: 'افزودن به کاتالوگ (پیش‌نویس)' }
+  ],
+  onAction: async (id, x) => {
+    if (!me) { $('createMsg').textContent = 'برای این کار ابتدا وارد شوید.'; return; }
+    if (id === 'session') {
+      const { data: sid, error } = await sb.rpc('create_session', { p_title: x.title || 'نشست جدید', p_book: null, p_visibility: 'private' });
+      if (error) { $('createMsg').textContent = error.message; return; }
+      if (x.iiif) await sb.from('sessions').update({ manifest_url: x.iiif }).eq('id', sid);
+      openSession(sid);
+    } else if (id === 'catalog') {
+      const { error } = await sb.from('catalog_items').insert({
+        kind: x.kind || 'book', title: x.title || 'بی‌عنوان', author: x.author || null, language: x.lang || null,
+        year: x.year || null, source: x.source, source_url: x.url, iiif_manifest: x.iiif || null,
+        pdf_url: x.pdf || null, visible: false, submitted_by: me.id
+      });
+      $('createMsg').textContent = error ? 'خطا: ' + error.message : 'به‌عنوان پیش‌نویس به کاتالوگ اضافه شد.';
+    }
+  }
+});
+initSessionOcr();
 init();

@@ -2,8 +2,8 @@
 (function () {
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-  const LANG_MAP = { fas: 'fa', ara: 'ar', eng: 'en', fra: 'fr', deu: 'de' };
-  const ENGINE_NAME = { tesseract: 'Tesseract', google: 'Google Vision', azure: 'Azure Read' };
+  const LANG_MAP = { fas: 'fa', prs: 'fa', ara: 'ar', eng: 'en', fra: 'fr', deu: 'de', san: 'sa', grc: 'el', lat: 'la', urd: 'ur', heb: 'he' };
+  const ENGINE_NAME = { tesseract: 'Tesseract', 'tesseract-best': 'Tesseract (داده‌های بهتر)', google: 'Google Vision', azure: 'Azure Read' };
   let results = [];
   let manifest = null;
   let tessWorker = null, tessLangs = '';
@@ -19,7 +19,7 @@
   async function loadEngines() {
     let st = { tesseract: true, google: false, azure: false };
     try { st = await fetch('/api/ocr/engines').then((r) => r.json()); } catch (e) {}
-    [...$('engine').options].forEach((o) => { if (o.value !== 'tesseract') o.disabled = !st[o.value]; });
+    [...$('engine').options].forEach((o) => { if (o.value.indexOf('tesseract') !== 0) o.disabled = !st[o.value]; });
     if ($('engine').selectedOptions[0].disabled) $('engine').value = 'tesseract';
     $('engineNote').textContent = (st.google || st.azure) ? '' : 'موتورهای ابری روی سرور هنوز کلید ندارند؛ فعلاً Tesseract فعال است.';
   }
@@ -27,12 +27,13 @@
   async function releaseTess() {
     if (tessWorker) { await tessWorker.terminate(); tessWorker = null; }
   }
-  async function tesseract(input) {
+  async function tesseract(input, best) {
     if (!window.Tesseract) throw new Error('کتابخانهٔ Tesseract بارگذاری نشد.');
-    if (!tessWorker || tessLangs !== tessLangsNow()) {
+    const key = tessLangsNow() + (best ? "|best" : "");
+    if (!tessWorker || tessLangs !== key) {
       await releaseTess();
-      tessLangs = tessLangsNow();
-      tessWorker = await Tesseract.createWorker(tessLangs, 1);
+      tessLangs = key;
+      tessWorker = await Tesseract.createWorker(tessLangsNow(), 1, best ? { langPath: "https://tessdata.projectnaptha.com/4.0.0_best" } : {});
     }
     const { data } = await tessWorker.recognize(input);
     return data.text.trim();
@@ -46,7 +47,7 @@
     return j.text.trim();
   }
   async function recognize(engine, input) {
-    if (engine === 'tesseract') return tesseract(input);
+    if (engine.indexOf('tesseract') === 0) return tesseract(input, engine === 'tesseract-best');
     const blob = input instanceof Blob ? input : await new Promise((res) => input.toBlob(res, 'image/png'));
     return cloud(engine, blob);
   }
@@ -222,5 +223,6 @@
     $('msg').textContent = lines.length + ' خط ذخیره شد. در استودیوی صوت بارگذاری می‌شود.';
   };
 
+  window.CoreaderOcr = { getResults: () => results };
   loadEngines();
 })();

@@ -1446,3 +1446,14 @@ main:focus { outline: none; }
     scroll-behavior: auto !important;
   }
 }
+
+/* دکمهٔ نشست (قرینهٔ دکمهٔ افزودن، سمت راست) */
+.session-fab {
+  position: fixed; bottom: 32px; right: 32px; width: 60px; height: 60px; border-radius: 20px;
+  background: linear-gradient(135deg, #2563eb, #14b8a6); color: #fff; display: flex;
+  align-items: center; justify-content: center; font-size: 26px; text-decoration: none;
+  box-shadow: 0 8px 30px rgba(37, 99, 235, 0.35); z-index: 100;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.session-fab:hover { transform: translateY(-4px) scale(1.08); box-shadow: 0 14px 40px rgba(37, 99, 235, 0.5); }
+@media (max-width: 640px) { .session-fab { bottom: 20px; right: 20px; width: 52px; height: 52px; font-size: 24px; border-radius: 16px; } }

@@ -36,7 +36,7 @@ async function getBotUsername() {
 
 // مرحلهٔ ۱: ساخت کد و لینک ربات
 async function startLogin() {
-  if (!SB_KEY || !TG_TOKEN) throw new Error('server not configured');
+  if (!SB_KEY || !TG_TOKEN) throw new Error('تنظیمات سرور (BOT_TOKEN و SUPABASE_SERVICE_KEY) روی این اجرا نیست. ورود با تلگرام روی Render کار می‌کند.');
   const code = newCode();
   const expires = new Date(Date.now() + CODE_TTL_MS).toISOString();
   await rest('POST', 'tg_login_codes', { code, status: 'pending', expires_at: expires });

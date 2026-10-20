@@ -4,41 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>OCR · نشست</title>
-<style>
-  :root{--bg:#f8f5ee;--card:#fff;--fg:#1a1a1a;--muted:#6b6b6b;--accent:#8a5a3b;--border:#e3dccd}
-  @media(prefers-color-scheme:dark){:root{--bg:#101216;--card:#181b21;--fg:#f2f2f2;--muted:#9aa0a6;--accent:#d4a373;--border:#2a2f38}}
-  *{box-sizing:border-box}
-  body{margin:0;font-family:'Vazirmatn','Noto Naskh Arabic',sans-serif;background:var(--bg);color:var(--fg)}
-  header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-  header h1{font-size:18px;margin:0;flex:1}
-  header a{color:var(--accent)}
-  main{max-width:1000px;margin:0 auto;padding:16px}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:14px}
-  h2{font-size:15px;margin:0 0 10px;color:var(--accent)}
-  button{font:inherit;padding:9px 14px;border:none;border-radius:10px;background:var(--accent);color:#fff;cursor:pointer}
-  button.ghost{background:transparent;color:var(--accent);border:1px solid var(--border)}
-  button:disabled{opacity:.5;cursor:default}
-  input[type=text],input:not([type]),select{font:inherit;padding:8px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--fg)}
-  input[type=text],input:not([type]){flex:1 1 260px}
-  textarea{font:inherit;width:100%;min-height:110px;padding:9px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--fg)}
-  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
-  .muted{color:var(--muted);font-size:13px}
-  .bar{height:8px;background:var(--border);border-radius:6px;overflow:hidden;margin:6px 0}
-  .bar>div{height:100%;background:var(--accent);width:0}
-</style>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/catalog/catalog.css?v=22">
+<link rel="stylesheet" href="/assets/polish.css?v=1">
+<link rel="stylesheet" href="/session/session.css">
 </head>
 <body>
-<header>
-  <h1>OCR — متن از عکس، PDF و مانیفست IIIF</h1>
-  <a href="/session/">نشست</a>
-  <a href="/session/studio.html">استودیوی صوت</a>
-</header>
+<div id="siteHeader"></div>
 <main>
   <div class="card">
     <h2>۱. موتور OCR</h2>
     <div class="row">
       <select id="engine">
         <option value="tesseract">Tesseract (مرورگر، رایگان)</option>
+        <option value="tesseract-best">Tesseract (داده‌های بهتر برای فارسی)</option>
         <option value="google">Google Cloud Vision (ابری)</option>
         <option value="azure">Azure AI Vision Read (ابری)</option>
       </select>
@@ -52,6 +33,13 @@
       <label><input type="checkbox" value="eng"> انگلیسی</label>
       <label><input type="checkbox" value="fra"> فرانسوی</label>
       <label><input type="checkbox" value="deu"> آلمانی</label>
+      <label><input type="checkbox" value="san"> سانسکریت</label>
+      <label><input type="checkbox" value="grc"> یونانی (باستان و کلاسیک)</label>
+      <label><input type="checkbox" value="lat"> لاتین</label>
+      <label><input type="checkbox" value="urd"> اردو</label>
+      <label><input type="checkbox" value="heb"> عبری</label>
+      <label><input type="checkbox" value="prs" title="برای دری از مدل فارسی استفاده می‌شود"> دری (با مدل فارسی)</label>
+      <label class="off" title="مدل Tesseract برای این خط وجود ندارد؛ از موتورهای ابری استفاده کنید"><input type="checkbox" disabled> اوستایی، پهلوی باستان و پهلوی میانه (فقط ابری)</label>
     </div>
     <p class="muted">در Tesseract می‌توانید چند زبان را ترکیب کنید. در موتورهای ابری، زبان اول انتخابی به‌عنوان زبان اصلی استفاده می‌شود.</p>
   </div>
@@ -82,6 +70,7 @@
     <div id="results"><p class="muted">هنوز متنی استخراج نشده است.</p></div>
     <div class="row">
       <button class="ghost" id="btnTxt" disabled>دانلود TXT</button>
+      <input type="text" id="ocrSession" placeholder="شناسهٔ نشست (از آدرس صفحهٔ نشست ?s=...)"><button class="ghost" id="btnSaveSession">ذخیره در نشست و جستجوی عمیق</button>
       <button id="btnToStudio" disabled>ارسال خط‌ها به استودیوی صوت</button>
     </div>
     <div id="msg" class="muted"></div>
@@ -90,5 +79,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
 <script src="/session/ocr.js"></script>
+<script type="module" src="/session/ocr-cloud.js"></script>
+<script src="/session/shell.js"></script>
 </body>
 </html>

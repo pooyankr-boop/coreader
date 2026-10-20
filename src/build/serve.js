@@ -370,6 +370,16 @@ http.createServer((req, res) => {
         }
       });
       return;
+    }    if (urlPath === '/api/search' && req.method === 'GET') {
+      const q = (new URL(req.url, 'http://localhost').searchParams.get('q') || '').trim().slice(0, 200);
+      if (!q) { res.writeHead(400, { 'Content-Type': 'application/json' }); res.end(JSON.stringify({ results: [], errors: { query: 'عبارت جستجو خالی است' } })); return; }
+      const sp = new URL(req.url, 'http://localhost').searchParams;
+      const list = (k) => (sp.get(k) || '').split(',').map((x) => x.trim()).filter(Boolean);
+      const opts = { kinds: list('kinds'), sources: list('sources'), lang: sp.get('lang') || '', yearFrom: sp.get('yearFrom') || '', yearTo: sp.get('yearTo') || '', iiif: sp.get('iiif') === '1', pdf: sp.get('pdf') === '1', limit: +sp.get('limit') || 12, historicOnly: sp.get('historic') !== '0' };
+      require('../../telegram/search-sources.js').search(q, opts)
+        .then((j) => { res.writeHead(200, { 'Content-Type': 'application/json' }); res.end(JSON.stringify(j)); })
+        .catch((e) => { res.writeHead(500, { 'Content-Type': 'application/json' }); res.end(JSON.stringify({ results: [], errors: { server: e.message } })); });
+      return;
     }    res.writeHead(404); res.end('Unknown api'); return;
   }
 

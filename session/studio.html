@@ -4,38 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>استودیوی صوت · نشست</title>
-<style>
-  :root{--bg:#f8f5ee;--card:#fff;--fg:#1a1a1a;--muted:#6b6b6b;--accent:#8a5a3b;--border:#e3dccd}
-  @media(prefers-color-scheme:dark){:root{--bg:#101216;--card:#181b21;--fg:#f2f2f2;--muted:#9aa0a6;--accent:#d4a373;--border:#2a2f38}}
-  *{box-sizing:border-box}
-  body{margin:0;font-family:'Vazirmatn','Noto Naskh Arabic',sans-serif;background:var(--bg);color:var(--fg)}
-  header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-  header h1{font-size:18px;margin:0;flex:1}
-  header a{color:var(--accent)}
-  main{max-width:1000px;margin:0 auto;padding:16px}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:14px}
-  h2{font-size:15px;margin:0 0 10px;color:var(--accent)}
-  button{font:inherit;padding:9px 14px;border:none;border-radius:10px;background:var(--accent);color:#fff;cursor:pointer}
-  button.ghost{background:transparent;color:var(--accent);border:1px solid var(--border)}
-  button:disabled{opacity:.5;cursor:default}
-  textarea{font:inherit;width:100%;min-height:120px;padding:9px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--fg)}
-  canvas#wave{width:100%;height:160px;background:var(--bg);border:1px solid var(--border);border-radius:10px;cursor:pointer;display:block}
-  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:8px 0}
-  .muted{color:var(--muted);font-size:13px}
-  .mark{display:flex;gap:8px;align-items:center;border-bottom:1px solid var(--border);padding:6px 0;font-size:14px}
-  .mark .t{font-family:monospace;min-width:72px;color:var(--accent)}
-  .mark .x{flex:1}
-  .cur{background:var(--border);border-radius:6px}
-  .grid{display:grid;grid-template-columns:1fr;gap:14px}
-  @media(min-width:800px){.grid{grid-template-columns:1fr 1fr}}
-</style>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/catalog/catalog.css?v=22">
+<link rel="stylesheet" href="/assets/polish.css?v=1">
+<link rel="stylesheet" href="/session/session.css">
 </head>
 <body>
-<header>
-  <h1>استودیوی صوت — همگام‌سازی خط‌ها با صدا</h1>
-  <a href="/session/ocr.html">OCR</a>
-  <a href="/session/">بازگشت به نشست</a>
-</header>
+<div id="siteHeader"></div>
 <main>
   <div class="card">
     <h2>۱. فایل صوتی</h2>
@@ -56,11 +33,9 @@
   <div class="grid">
     <div class="card">
       <h2>۲. متن خطوط</h2>
-      <p class="muted">هر خط متن را در یک سطر جدا بنویسید (مثلاً هر بیت یا هر جمله).</p>
+      <p class="muted">هر خط متن را در یک سطر جدا بنویسید. متن از OCR هم پر می‌شود.</p>
       <textarea id="lines" placeholder="خط اول&#10;خط دوم&#10;خط سوم"></textarea>
-      <div class="row">
-        <button id="btnStart">شروع همگام‌سازی از خط اول</button>
-      </div>
+      <div class="row"><button id="btnStart">شروع همگام‌سازی از خط اول</button></div>
       <div class="muted" id="nextLbl"></div>
     </div>
     <div class="card">
@@ -73,7 +48,30 @@
       <div id="markList"></div>
     </div>
   </div>
+
+  <div class="card">
+    <h2>۴. برش صوت</h2>
+    <div class="row">
+      <label class="muted">از ثانیهٔ <input id="trimStart" type="number" step="0.1" min="0" value="0" style="width:110px"></label>
+      <label class="muted">تا ثانیهٔ <input id="trimEnd" type="number" step="0.1" min="0" value="0" style="width:110px"></label>
+    </div>
+    <p class="muted">نشانه‌ها در بازهٔ برش نگه داشته می‌شوند و زمانشان نسبت به شروع برش تنظیم می‌شود.</p>
+    <div class="row">
+      <button class="ghost" id="btnWav" disabled>دانلود WAV برش‌خورده</button>
+    </div>
+  </div>
+
+  <div class="card" id="cloudBox">
+    <h2>۵. نشست</h2>
+    <div id="cloudState" class="muted">در حال بررسی ورود…</div>
+    <div class="row">
+      <button id="btnSaveTrim">برش و ذخیره به‌عنوان نسخهٔ جدید در نشست</button>
+      <button id="btnSaveSync">ذخیرهٔ همگام‌سازی در نشست</button>
+    </div>
+  </div>
 </main>
 <script src="/session/studio.js"></script>
+<script type="module" src="/session/studio-cloud.js"></script>
+<script src="/session/shell.js"></script>
 </body>
 </html>

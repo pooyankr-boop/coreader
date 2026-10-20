@@ -4,48 +4,15 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>نشست · کتابخوانه</title>
-<style>
-  :root{--bg:#f8f5ee;--card:#fff;--fg:#1a1a1a;--muted:#6b6b6b;--accent:#8a5a3b;--border:#e3dccd}
-  @media(prefers-color-scheme:dark){:root{--bg:#101216;--card:#181b21;--fg:#f2f2f2;--muted:#9aa0a6;--accent:#d4a373;--border:#2a2f38}}
-  *{box-sizing:border-box}
-  body{margin:0;font-family:'Vazirmatn','Noto Naskh Arabic',sans-serif;background:var(--bg);color:var(--fg);padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0)}
-  header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-  header h1{font-size:18px;margin:0;flex:1}
-  main{max-width:960px;margin:0 auto;padding:16px}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:14px}
-  h2{font-size:15px;margin:0 0 10px;color:var(--accent)}
-  input,select,textarea{font:inherit;padding:9px 10px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--fg);width:100%}
-  textarea{min-height:60px;resize:vertical}
-  button{font:inherit;padding:9px 14px;border:none;border-radius:10px;background:var(--accent);color:#fff;cursor:pointer}
-  button.ghost{background:transparent;color:var(--accent);border:1px solid var(--border)}
-  button:disabled{opacity:.5;cursor:default}
-  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-  .row>*{flex:1 1 180px}
-  .row>button{flex:0 0 auto}
-  .list a{display:block;padding:10px;border-bottom:1px solid var(--border);color:var(--fg);text-decoration:none;cursor:pointer}
-  .list a:hover{background:var(--border)}
-  .muted{color:var(--muted);font-size:13px}
-  .err{color:#c0392b;font-size:13px;min-height:18px}
-  .grid{display:grid;grid-template-columns:1fr;gap:14px}
-  @media(min-width:800px){.grid{grid-template-columns:1.4fr 1fr}}
-  #chat{height:380px;overflow:auto;border:1px solid var(--border);border-radius:10px;padding:10px;background:var(--bg)}
-  .msg{margin-bottom:10px;font-size:14px;line-height:1.8}
-  .msg b{color:var(--accent);font-size:13px}
-  .msg.sys{color:var(--muted);font-size:13px;font-style:italic}
-  .tag{display:inline-block;background:var(--border);border-radius:6px;padding:1px 6px;margin:0 2px;font-size:12px}
-  .task{border:1px solid var(--border);border-radius:10px;padding:8px 10px;margin-bottom:8px;font-size:14px}
-  .task .st{font-size:12px;color:var(--muted)}
-  .hidden{display:none !important}
-  .oauth button{flex:1}
-</style>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/catalog/catalog.css?v=22">
+<link rel="stylesheet" href="/assets/polish.css?v=1">
+<link rel="stylesheet" href="/session/session.css">
 </head>
 <body>
-<header>
-  <h1>نشست — کار جمعی روی اثر</h1>
-  <span id="who" class="muted"></span>
-  <a href="/session/studio.html" style="color:var(--accent)">استودیوی صوت</a>
-  <button id="btnSignOut" class="ghost hidden">خروج</button>
-</header>
+<div id="siteHeader"></div>
 <main>
   <!-- ورود -->
   <section id="viewLogin" class="card hidden">
@@ -69,6 +36,11 @@
 
   <!-- فهرست نشست‌ها -->
   <section id="viewHome" class="hidden">
+    <div class="card">
+      <h2>جستجوی کتاب، دست‌نوشته، شیء موزه‌ای و نقاشی</h2>
+      <p class="muted">منابع باز، آرشیوها و موزه‌ها. پیش‌فرض: آثار تاریخی و ارزشمند. از هر نتیجه می‌توانید نشست بسازید یا آن را به کاتالوگ پیشنهاد دهید.</p>
+      <div id="homeSearch"></div>
+    </div>
     <div class="grid">
       <div>
         <div class="card">
@@ -107,12 +79,26 @@
   <!-- اتاق نشست -->
   <section id="viewRoom" class="hidden">
     <div class="card">
+      <div class="row">
+        <div style="flex:2 1 260px">
+          <h2 id="roomTitle" style="margin:0 0 4px;font-size:17px;color:var(--fg)"></h2>
+          <div class="muted" id="roomMeta"></div>
+        </div>
+        <button class="ghost" id="btnBack">بازگشت</button>
+      </div>
+    </div>
+    <div class="card">
       <h2>تماس صوتی و تصویری</h2>
       <div class="row">
         <button id="btnCall">شروع یا ورود به تماس</button>
         <button class="ghost" id="btnCallClose">بستن تماس</button>
       </div>
       <p class="muted">تماس با Jitsi برگزار می‌شود. میکروفون، وب‌کم و اشتراک صفحه در همان پنجره است.</p>
+      <div class="row" style="margin-top:8px">
+        <input id="livePw" type="text" placeholder="گذرواژهٔ پخش (اختیاری)">
+        <button id="btnLive">شروع پخش زنده</button>
+      </div>
+      <div id="liveState" class="muted"></div>
       <div id="callBox"></div>
       <h2 style="margin-top:12px">ضبط صدا</h2>
       <div class="row">
@@ -123,13 +109,13 @@
       <p class="muted">فایل ضبط‌شده فقط روی دستگاه شما ذخیره می‌شود. ارسال به دیگران در فاز ذخیره‌سازی مشترک انجام می‌شود.</p>
     </div>
     <div class="card">
+      <h2>فایل‌های صوتی نشست</h2>
       <div class="row">
-        <div style="flex:2 1 260px">
-          <h2 id="roomTitle" style="margin:0 0 4px;font-size:17px;color:var(--fg)"></h2>
-          <div class="muted" id="roomMeta"></div>
-        </div>
-        <button class="ghost" id="btnBack">بازگشت</button>
+        <input id="mediaFile" type="file" accept="audio/*">
+        <button id="btnMediaUpload">بارگذاری صوت</button>
       </div>
+      <div id="mediaList" style="margin-top:8px"></div>
+      <p class="muted">فایل‌ها در فضای خصوصی ذخیره می‌شوند و فقط اعضای نشست آن‌ها را می‌بینند.</p>
     </div>
     <div class="card">
       <h2>مانیفست و حاشیه</h2>
@@ -138,16 +124,55 @@
         <button id="btnMf">ثبت مانیفست</button>
         <button class="ghost" id="btnTitle">تغییر عنوان</button>
       </div>
+      <div class="row" style="margin-bottom:8px"><button class="ghost" id="btnCatalogSession">افزودن این نشست به کاتالوگ (پیش‌نویس)</button></div>
       <div id="mfInfo" class="muted" style="margin:8px 0"></div>
       <div id="mfPages" style="margin-bottom:8px"></div>
       <div id="pagePreview" style="text-align:center"></div>
       <h2 id="pageTitle" style="margin-top:10px"></h2>
       <div id="annoPage" class="muted"></div>
+      <div class="row" style="margin:10px 0">
+        <button class="ghost" id="btnRegion">کشیدن ناحیه روی صفحه</button>
+        <span class="muted">روی تصویر کلیک‌کشیدن کنید تا ناحیه انتخاب شود، سپس متن حاشیه را بنویسید.</span>
+      </div>
+      <div id="regionForm" class="regform hidden">
+        <div class="muted" id="regionInfo"></div>
+        <textarea id="regionText" placeholder="متن یا حاشیهٔ این ناحیه"></textarea>
+        <div class="row" style="margin-top:8px"><button id="btnRegionSave">ثبت ناحیه</button><button class="ghost" id="btnRegionCancel">انصراف</button></div>
+      </div>
       <div id="annoList" style="margin:8px 0"></div>
       <div class="row">
         <textarea data-dictation id="annoInput" placeholder="حاشیه برای این صفحه"></textarea>
         <button id="btnAnno">ثبت حاشیه</button>
       </div>
+    </div>
+    <div class="card">
+      <h2>تولید متن با OCR (مانیفست یا PDF)</h2>
+      <p class="muted">کل کتاب یا صفحه‌های انتخابی را با موتور دلخواه بخوانید. متن ذخیره‌شده در جستجوی OCR نشست قابل پیدا کردن است.</p>
+      <div class="row">
+        <select id="ocrgSource"><option value="manifest">مانیفست نشست</option><option value="pdf">فایل PDF</option></select>
+        <input type="file" id="ocrgPdf" accept="application/pdf">
+        <select id="ocrgPageMode"><option value="all">همه صفحه‌ها</option><option value="custom">صفحه‌های سفارشی</option></select><input type="text" id="ocrgPages" value="همه" placeholder="مثلاً 1-5,8" style="display:none;width:180px">
+      </div>
+      <div class="row">
+        <select id="ocrgEngine"></select>
+        <button class="ghost" id="ocrgLoad">خواندن اطلاعات مانیفست</button>
+      </div>
+      <details class="ocr-menu" id="ocrgLangMenu"><summary id="ocrgLangSum">زبان: فارسی</summary><div id="ocrgLangs" class="ocr-menu-body"></div></details>
+      <div class="row">
+        <button id="btnOcrRun">شروع تولید متن</button>
+        <button class="ghost" id="btnOcrSave">ذخیره در نشست (برای جستجو)</button>
+      </div>
+      <div style="height:6px;background:var(--border);border-radius:6px;overflow:hidden;margin:6px 0"><div id="ocrgBar" style="height:100%;width:0;background:var(--accent)"></div></div>
+      <div id="ocrgStatus" class="muted"></div>
+      <div id="ocrgOut" style="margin-top:8px"></div>
+    </div>
+    <div class="card">
+      <h2>جستجوی عمیق در متن OCR نشست</h2>
+      <div class="row">
+        <input id="ocrQuery" type="text" placeholder="عبارت مورد جستجو در همهٔ صفحه‌های OCR">
+        <button id="btnOcrSearch">جستجو</button>
+      </div>
+      <div id="ocrResults" style="margin-top:8px"></div>
     </div>
     <div class="grid">
       <div class="card">
@@ -174,5 +199,8 @@
 </main>
 <script src="/session/config.js"></script>
 <script type="module" src="/session/session.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
+<script src="/session/shell.js"></script>
 </body>
 </html>

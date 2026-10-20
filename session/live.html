@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>نشست‌های زنده · کتابخوانه</title>
+
+
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/catalog/catalog.css?v=22">
+<link rel="stylesheet" href="/assets/polish.css?v=1">
+<link rel="stylesheet" href="/session/session.css">
+</head>
+<body>
+<div id="siteHeader"></div>
+<main>
+  <div class="card">
+    <h2>پخش‌های فعال <span class="live">● زنده</span></h2>
+    <div id="list"><p class="muted">در حال بارگذاری…</p></div>
+    <div id="err" class="err"></div>
+  </div>
+  <div class="card" id="playerCard" style="display:none">
+    <h2 id="playerTitle"></h2>
+    <p class="muted">برای تماشا، میکروفون و وب‌کم شما خاموش است. داخل پنجره می‌توانید دربارهٔ پخش گفتگو کنید.</p>
+    <iframe id="player" allow="camera; microphone; display-capture; autoplay; fullscreen"></iframe>
+  </div>
+</main>
+<script src="/session/config.js"></script>
+<script type="module" src="/session/live.js"></script>
+<script src="/session/shell.js"></script>
+</body>
+</html>

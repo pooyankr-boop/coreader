@@ -133,7 +133,8 @@
       <button class="filter-pill" data-filter="local" onclick="setFilter('local')">
         💾 کتاب‌های ذخیره‌شده <span class="badge" id="badgeLocal">۰</span>
       </button>
-      <button class="filter-pill" data-filter="tour" onclick="setFilter('tour')">
+      <button class="filter-pill" data-filter="community" onclick="setFilter('community')"> ➕ افزوده‌شده‌ها <span class="badge" id="badgeCommunity">۰</span></button>
+<button class="filter-pill" data-filter="tour" onclick="setFilter('tour')">
         🗺️ تورهای مجازی <span class="badge" id="badgeTour">۱</span>
       </button>
     </div>
@@ -155,6 +156,7 @@
 
 <!-- Floating Action Button: Add Book -->
 <button class="add-fab" onclick="openAddModal()" title="افزودن نسخهٔ خطی یا کتاب محلی">+</button>
+<a class="session-fab" href="/session/" title="نشست‌های کتابخوانی" aria-label="نشست">&#128101;</a>
 
 <!-- Add Manuscript / Book Modal -->
 <div class="modal-overlay" id="addOverlay">
@@ -169,10 +171,12 @@
 
     <div class="modal-tabs">
       <div class="modal-tab active" data-tab="iiif" onclick="switchAddTab('iiif')">نسخه خطی یا شیء (IIIF)</div>
-      <div class="modal-tab" data-tab="local" onclick="switchAddTab('local')">فایل متنی یا PDF محلی</div>
+      <div class="modal-tab" data-tab="search" onclick="switchAddTab('search')">جستجوی منابع و فیلترها</div>
+<div class="modal-tab" data-tab="local" onclick="switchAddTab('local')">فایل متنی یا PDF محلی</div>
     </div>
 
-    <div class="modal-pane active" id="tab-iiif">
+    <div class="modal-pane" id="tab-search"><div id="addSearch" style="padding:4px 0"></div></div>
+<div class="modal-pane active" id="tab-iiif">
       <div class="form-group">
         <label>نوع اثر</label>
         <select id="iiifKind" class="form-select">
@@ -278,5 +282,7 @@
 
 <script src="assets/translate.js?v=2"></script>
 <script src="catalog/catalog.js?v=24"></script>
+<script src="/session/config.js"></script>
+<script type="module" src="/catalog/catalog-search.js"></script>
 </body>
 </html>
