@@ -28,3 +28,4 @@ telegram/.daily.json
 
 # Local env files — never publish
 .env
+*.backup.json

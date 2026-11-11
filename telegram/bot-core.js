@@ -180,6 +180,7 @@ function similarLinks(hits) {
 
 const MAIN_KEYBOARD = { keyboard: [
   [{ text: '🔍 جست‌وجو' }, { text: '🎲 اثر روز' }],
+  [{ text: '🏛️ کاتالوگ آثار' }, { text: '👥 کارگاه‌ها و نشست‌ها' }],
   [{ text: '🧩 مسابقه' }, { text: '🗺️ تورها' }],
   [{ text: '📱 مینی‌اپ' }, { text: '📜 پروژه‌ها' }]
 ], resize_keyboard: true };
@@ -211,10 +212,12 @@ async function handle(msg) {
 
   // دکمه‌های کیبورد اصلی
   if (text === '🎲 اثر روز') return handle({ ...msg, text: '/daily' });
-  if (text === '🗺️ تورها') return handle({ ...msg, text: '/tour' });
+  if (text === '🗺️ تورها' || text === '🗺️ تورهای مجازی') return handle({ ...msg, text: '/tour' });
   if (text === '🧩 مسابقه') return handle({ ...msg, text: '/quiz' });
-  if (text === '📱 مینی‌اپ') return handle({ ...msg, text: '/app' });
-  if (text === '📜 پروژه‌ها') return handle({ ...msg, text: '/projects' });
+  if (text === '📱 مینی‌اپ' || text === '📱 مینی‌اپ کتابخوان') return handle({ ...msg, text: '/app' });
+  if (text === '📜 پروژه‌ها' || text === '📜 پروژه‌های IIIF') return handle({ ...msg, text: '/projects' });
+  if (text === '🏛️ کاتالوگ آثار' || text === '🏛️ کاتالوگ') return handle({ ...msg, text: '/catalog' });
+  if (text === '👥 کارگاه‌ها و نشست‌ها' || text === '👥 نشست‌ها') return handle({ ...msg, text: '/sessions' });
   if (text === '🔍 جست‌وجو') return send('🔍 نام اثر، مؤلف یا موزه را بفرستید. مثال:\n<code>حافظ</code> یا <code>/search شاهنامه</code>');
 
   if (cmd === '/start') {
@@ -241,6 +244,52 @@ async function handle(msg) {
   }
   if (cmd === '/tour') {
     return send('🗺️ <b>تورهای مجازی</b>\n\n🌌 <a href="' + PUBLIC + '/tour/index.html">تور زیرزمین (نستعلیق)</a>\n🏠 <a href="' + PUBLIC + '/viewer/tour.html">تور خانه د اسنت (نسخ فارسی)</a>');
+  }
+  if (cmd === '/catalog') {
+    const total = BOOKS.length;
+    return send('🏛️ <b>کاتالوگ جامع کتابخوانه</b>\n\n' +
+      'بیش از <b>' + total + ' اثر</b> شامل نسخه‌های خطی نفیس، اشیاء موزه‌ای، دیوان‌های مصور و متون کهن.\n\n' +
+      '🔗 <a href="' + PUBLIC + '/">ورود به کاتالوگ در وب</a> · <a href="' + GH_PAGES + '/">GitHub Pages</a>\n\n' +
+      '💡 برای جستجوی مستقیم نام هر اثر را بنویسید (مثلاً: <code>حافظ</code> یا <code>شاهنامه</code>).');
+  }
+  if (cmd === '/sessions' || cmd === '/session') {
+    return send('👥 <b>تالار کارگاه‌ها و نشست‌های پژوهشی</b>\n\n' +
+      'فضای تعاملی تصحیح نسخه‌های خطی، پایپ‌لاین مرحله‌به‌مرحله، آزمایشگاه چندزبانه OCR و ترجمه تطبیقی:\n\n' +
+      '🔗 <a href="' + PUBLIC + '/session/">ورود به صفحه نشست‌ها</a>\n' +
+      '🔴 <a href="' + PUBLIC + '/session/live.html">مشاهده نشست‌های زنده</a>\n' +
+      '🎙️ <a href="' + PUBLIC + '/session/studio.html">استودیوی صوت و برش نشانه‌دار</a>\n' +
+      '📖 <a href="' + PUBLIC + '/session/tutorial.html">آموزش گام‌به‌گام نشست</a>\n\n' +
+      '💡 در گروه‌ها می‌توانید با دستور <code>/s_link کد_دعوت</code> گروه را به نشست متصل کنید.');
+  }
+  if (cmd === '/live') {
+    return send('🔴 <b>نشست‌های زنده</b>\n\n' +
+      'پخش‌های زنده کارگاه‌های نسخه‌شناسی، مقابله و خوانش جمعی آثار:\n' +
+      '🔗 <a href="' + PUBLIC + '/session/live.html">مشاهده و ورود به پخش‌های زنده</a>');
+  }
+  if (cmd === '/help') {
+    return send('📚 <b>راهنمای جامع ربات کتابخوانه:</b>\n\n' +
+      '🔍 <b>جستجو:</b> نام اثر را بفرستید یا <code>/search نام_اثر</code>\n' +
+      '🎲 <b>اثر روز:</b> <code>/daily</code> — دریافت اثر تصادفی با کارت تصویری\n' +
+      '🧩 <b>مسابقه:</b> <code>/quiz</code> — چالش حدس نسخه خطی\n' +
+      '🏛️ <b>کاتالوگ:</b> <code>/catalog</code> — مرور آثار\n' +
+      '👥 <b>نشست‌ها:</b> <code>/sessions</code> — کارگاه‌های گروهی و تصحیح\n' +
+      '🗺️ <b>تورها:</b> <code>/tour</code> — تورهای سه‌بعدی خانه‌های تاریخی\n' +
+      '📜 <b>پروژه‌ها:</b> <code>/projects</code> — پروژه‌های IIIF\n' +
+      '📝 <b>حاشیه‌نویسی:</b> <code>/hashiye کد_پروژه متن #هشتگ</code>\n' +
+      '🔑 <b>اتصال پنل:</b> <code>/link کد_ورود</code>\n' +
+      '📊 <b>وضعیت ربات و سرور:</b> <code>/ping</code> یا <code>/stats</code>\n\n' +
+      '👥 <b>دستورهای گروه:</b> <code>/s_help</code>');
+  }
+  if (cmd === '/stats') {
+    const total = BOOKS.length;
+    const iiifCount = BOOKS.filter(b => b.manifest || b.manifestUrl || b.source !== 'local').length;
+    const localCount = BOOKS.filter(b => b.source === 'local').length;
+    return send('📊 <b>آمار کتابخوانه:</b>\n\n' +
+      '📚 کل آثار در کاتالوگ: <b>' + total + '</b>\n' +
+      '🖼️ مانیفست‌های باز IIIF: <b>' + iiifCount + '</b>\n' +
+      '📖 کتاب‌های متنی و محلی: <b>' + localCount + '</b>\n' +
+      '🏛️ موزه‌ها و مخازن همکار: <b>بیش از ۱۵ کتابخانه و موزه جهانی</b>\n' +
+      '🌐 سایت: <a href="' + PUBLIC + '">' + esc(PUBLIC) + '</a>');
   }
   if (cmd === '/id') {
     return send('🆔 شناسه این گفت‌وگو:\n<code>' + chatId + '</code>\nنوع: ' + (msg.chat.type || '?') + '\nعنوان: ' + esc(msg.chat.title || msg.chat.username || '-'));

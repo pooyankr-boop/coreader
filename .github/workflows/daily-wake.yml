@@ -1,0 +1,30 @@
+name: Daily Morning Wakeup & Keep-Alive
+
+on:
+  schedule:
+    # 04:15 UTC = 07:45 صبح تهران (دقیقاً ربع ساعت قبل از ۸ صبح به وقت ایران)
+    # سرور را بیدار و ران می‌کند تا روی هاست‌های ابری (Render/...) متوقف نشود
+    - cron: '15 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  wake-server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wake Up Server 15 Minutes Before 8:00 AM Tehran
+        run: |
+          TARGET_URL="${{ secrets.SITE_PUBLIC_URL }}"
+          if [ -z "$TARGET_URL" ]; then
+            TARGET_URL="https://coreader.onrender.com"
+          fi
+          echo "Waking up server at $TARGET_URL (Tehran 07:45 AM)..."
+          
+          # پینگ مسیر اصلی سایت برای فعال‌سازی کامل سرور (Spin-up)
+          curl -s -L -m 60 "$TARGET_URL/" > /dev/null || true
+          
+          # پینگ اندپوینت اختصاصی بیدارباش صبحگاهی
+          RESPONSE=$(curl -s -L -m 60 "$TARGET_URL/api/wake-daily" || echo '{"ok":false}')
+          echo "Wakeup response: $RESPONSE"
+          
+          # تأیید زنده ماندن تا ارسال پست
+          echo "Server successfully awakened and running for daily routine."

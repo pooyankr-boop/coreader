@@ -3,8 +3,15 @@
 import { mountSourceSearch } from '/session/source-search.js';
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm';
 
-const cfg = window.COREADER_SUPABASE;
-const sb = createClient(cfg.url, cfg.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
+let sb = null;
+try {
+  const cfg = window.COREADER_SUPABASE;
+  if (cfg && cfg.url && cfg.key) {
+    sb = createClient(cfg.url, cfg.key, { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } });
+  }
+} catch (e) {
+  console.warn('Supabase client init skipped:', e.message);
+}
 let mounted = false;
 
 function toBook(r) {
@@ -37,10 +44,23 @@ function localBooks() {
 // آیتم‌های صحافی را به فهرست اصلی کاتالوگ اضافه می‌کند (بدون تکرار)
 async function loadCommunity() {
   await new Promise((resolve) => {
-    const t = setInterval(() => { if (Array.isArray(window._allRawBooks)) { clearInterval(t); resolve(); } }, 300);
+    let elapsed = 0;
+    const t = setInterval(() => {
+      elapsed += 300;
+      if (Array.isArray(window._allRawBooks) || elapsed > 6000) {
+        clearInterval(t);
+        resolve();
+      }
+    }, 300);
   });
-  const { data, error } = await sb.from('catalog_items').select('*').order('created_at', { ascending: false });
-  if (error) console.warn('catalog_items:', error.message);
+  let data = [];
+  if (sb) {
+    try {
+      const res = await sb.from('catalog_items').select('*').order('created_at', { ascending: false });
+      if (res.data) data = res.data;
+      if (res.error) console.warn('catalog_items:', res.error.message);
+    } catch (e) {}
+  }
   const local = localBooks();
   const localSlugs = new Set(local.map((b) => b.slug));
   const base = (window._allRawBooks || []).filter((b) => b.source !== 'community' && !localSlugs.has(b.slug));
@@ -55,6 +75,7 @@ function mount() {
     actions: [{ id: 'catalog', label: 'افزودن به صحافی (پیش‌نویس)' }],
     onAction: async (id, x) => {
       if (id !== 'catalog') return;
+      if (!sb) { alert('سرویس ابری در دسترس نیست.'); return; }
       const { data } = await sb.auth.getSession();
       const user = data.session && data.session.user;
       if (!user) { alert('برای افزودن به صحافی، ابتدا از صفحهٔ نشست وارد شوید: /session/'); return; }

@@ -266,6 +266,88 @@ http.createServer((req, res) => {
     if (urlPath === '/api/manifests' && req.method === 'GET') {
       return sendJ(readJ('manifests.json', []));
     }
+    // ---- Catalog Card Management APIs (حذف، اضافه، ویرایش و همگام‌سازی کارتهای کاتالوگ) ----
+    // GET /api/catalog/books — دریافت فهرست زنده کارتهای کاتالوگ
+    if (urlPath === '/api/catalog/books' && req.method === 'GET') {
+      const idxPath = path.join(ROOT, 'books-index.json');
+      try {
+        const books = JSON.parse(fs.readFileSync(idxPath, 'utf8'));
+        return sendJ({ ok: true, books });
+      } catch (e) {
+        return sendJ({ ok: false, error: e.message }, 500);
+      }
+    }
+    // POST /api/catalog/save — ذخیره کامل فهرست کارتهای کاتالوگ
+    if (urlPath === '/api/catalog/save' && req.method === 'POST') return done((b) => {
+      try {
+        const j = JSON.parse(b || '{}');
+        const books = j.books;
+        if (!Array.isArray(books)) return sendJ({ ok: false, error: 'books array required' }, 400);
+        const idxPath = path.join(ROOT, 'books-index.json');
+        const bakPath = path.join(ROOT, 'books-index.backup.json');
+        // بک‌آپ اولیه قبل از اولین بازنویسی ذخیره می‌شود
+        if (!fs.existsSync(bakPath) && fs.existsSync(idxPath)) {
+          try { fs.copyFileSync(idxPath, bakPath); } catch (e) {}
+        }
+        fs.writeFileSync(idxPath, JSON.stringify(books, null, 2), 'utf8');
+        return sendJ({ ok: true, count: books.length });
+      } catch (e) {
+        return sendJ({ ok: false, error: e.message }, 500);
+      }
+    });
+    // POST /api/catalog/item — افزودن یا به‌روزرسانی تک‌کارت در کاتالوگ
+    if (urlPath === '/api/catalog/item' && req.method === 'POST') return done((b) => {
+      try {
+        const j = JSON.parse(b || '{}');
+        const item = j.item;
+        if (!item || !item.slug || !item.title) return sendJ({ ok: false, error: 'valid item with slug & title required' }, 400);
+        const idxPath = path.join(ROOT, 'books-index.json');
+        let list = [];
+        try { list = JSON.parse(fs.readFileSync(idxPath, 'utf8')); } catch (e) { list = []; }
+        const idx = list.findIndex(x => x.slug === item.slug);
+        if (idx >= 0) {
+          list[idx] = Object.assign({}, list[idx], item);
+        } else {
+          list.unshift(item);
+        }
+        fs.writeFileSync(idxPath, JSON.stringify(list, null, 2), 'utf8');
+        return sendJ({ ok: true, action: idx >= 0 ? 'updated' : 'added', total: list.length });
+      } catch (e) {
+        return sendJ({ ok: false, error: e.message }, 500);
+      }
+    });
+    // POST /api/catalog/delete — حذف تک‌کارت بر اساس slug
+    if (urlPath === '/api/catalog/delete' && req.method === 'POST') return done((b) => {
+      try {
+        const j = JSON.parse(b || '{}');
+        const slug = j.slug;
+        if (!slug) return sendJ({ ok: false, error: 'slug required' }, 400);
+        const idxPath = path.join(ROOT, 'books-index.json');
+        let list = [];
+        try { list = JSON.parse(fs.readFileSync(idxPath, 'utf8')); } catch (e) { list = []; }
+        const origLen = list.length;
+        list = list.filter(x => x.slug !== slug);
+        fs.writeFileSync(idxPath, JSON.stringify(list, null, 2), 'utf8');
+        return sendJ({ ok: true, deleted: origLen !== list.length, total: list.length });
+      } catch (e) {
+        return sendJ({ ok: false, error: e.message }, 500);
+      }
+    });
+    // POST /api/catalog/reset — بازگرداندن کاتالوگ از فایل پشتیبان اولیه
+    if (urlPath === '/api/catalog/reset' && req.method === 'POST') return done(() => {
+      try {
+        const idxPath = path.join(ROOT, 'books-index.json');
+        const bakPath = path.join(ROOT, 'books-index.backup.json');
+        if (fs.existsSync(bakPath)) {
+          fs.copyFileSync(bakPath, idxPath);
+          const list = JSON.parse(fs.readFileSync(idxPath, 'utf8'));
+          return sendJ({ ok: true, restored: true, total: list.length });
+        }
+        return sendJ({ ok: false, error: 'backup not found' }, 404);
+      } catch (e) {
+        return sendJ({ ok: false, error: e.message }, 500);
+      }
+    });
     // POST /api/annotate {project, text, tag, by} — حاشیه‌گذاری جمعی (ربات/گروه)
     if (urlPath === '/api/annotate' && req.method === 'POST') return done((b) => {
       try {
@@ -333,6 +415,23 @@ http.createServer((req, res) => {
         res.writeHead(200, { 'Content-Type': 'application/json' });
         res.end(JSON.stringify({ ok: true }));
       } catch (e) { res.writeHead(500, { 'Content-Type': 'application/json' }); res.end(JSON.stringify({ ok: false, error: e.message })); }
+      return;
+    }
+    // GET /api/wake-daily — بیدارباش روزانه (ساعت ۰۷:۴۵ صبح تهران؛ ۱۵ دقیقه قبل از پست روزانه)
+    // این اندپوینت سرور را گرم و بیدار می‌کند تا پلن رایگان به خواب نرود و در ساعت ۸ صبح پست با موفقیت ران شود.
+    if (urlPath === '/api/wake-daily') {
+      const tehranTime = new Intl.DateTimeFormat('fa-IR', { timeZone: 'Asia/Tehran', hour: '2-digit', minute: '2-digit', second: '2-digit' }).format(new Date());
+      console.log('[serve] wake-daily ping received at Tehran time:', tehranTime);
+      // اجرای پیش‌گرمایش حافظه و کش کتاب‌ها
+      try {
+        const idx = JSON.parse(fs.readFileSync(path.join(ROOT, 'books-index.json'), 'utf8'));
+        const total = (idx.books || idx || []).length;
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ ok: true, status: 'awake', tehranTime, booksCount: total, message: 'سرور با موفقیت ربع ساعت قبل از ۸ صبح بیدار شد و آماده است.' }));
+      } catch (e) {
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ ok: true, status: 'awake', tehranTime, error: e.message }));
+      }
       return;
     }
     if (urlPath === '/api/session-login/start' && req.method === 'POST') {

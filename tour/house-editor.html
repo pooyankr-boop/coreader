@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>تنظیم هایلایتها — خانه د اسنت</title>
+<style>
+:root{--gold:#d4af37;--bg:#0e0b07;--panel:#1d1710;--line:#3a2e1e}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);color:#e8dcc8;font-family:Vazirmatn,Tahoma,sans-serif}
+#app{display:flex;height:100vh}
+#sb{width:230px;flex:0 0 auto;background:var(--panel);border-left:1px solid var(--line);overflow-y:auto;padding:10px}
+#sb h3{color:var(--gold);font-size:.85rem;margin:0 0 8px}
+.roomBtn{display:block;width:100%;background:none;border:1px solid transparent;color:#c8b898;padding:7px 10px;margin:2px 0;border-radius:5px;cursor:pointer;font:inherit;font-size:.82rem;text-align:right;transition:.15s}
+.roomBtn:hover{border-color:var(--gold);background:#241c13}
+.roomBtn.on{border-color:var(--gold);background:#2a2010;color:var(--gold)}
+.roomBtn small{display:block;opacity:.6;font-size:.7rem}
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#000}
+#topbar{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--panel);border-bottom:1px solid var(--line);flex-wrap:wrap}
+#stage{flex:1;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#000;position:relative}
+#imgBox{position:relative;display:block;width:100%;height:100%;overflow:hidden}
+#roomImg{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;cursor:default}
+.hs-edit{position:absolute;width:36px;height:36px;transform:translate(-50%,-50%);border-radius:50%;cursor:grab;z-index:10;display:grid;place-items:center;transition:transform .15s,box-shadow .15s;background:transparent}
+.hs-edit:hover{transform:translate(-50%,-50%) scale(1.2);z-index:20}
+.hs-edit:active{cursor:grabbing}
+.hs-edit .ring{width:100%;height:100%;border-radius:50%;border:2.5px solid var(--gold);background:rgba(212,175,55,.2);box-shadow:0 0 12px rgba(212,175,55,.5),inset 0 0 6px rgba(255,255,255,.4)}
+.hs-edit.nav .ring{border-color:#d4af37;background:rgba(212,175,55,.18)}
+.hs-edit.link .ring{border-color:#9333ea;background:rgba(147,51,234,.2);box-shadow:0 0 12px rgba(147,51,234,.5),inset 0 0 6px rgba(220,180,255,.4)}
+.hs-edit .lbl{position:absolute;bottom:110%;right:50%;transform:translateX(50%);background:rgba(20,14,8,.92);color:#f3e7cd;padding:3px 8px;border-radius:4px;font-size:.68rem;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .2s;border:1px solid var(--line)}
+.hs-edit:hover .lbl{opacity:1}
+.hs-edit .coords{position:absolute;top:110%;right:50%;transform:translateX(50%);color:var(--gold);font-size:.65rem;opacity:0;transition:opacity .2s;pointer-events:none;background:rgba(20,14,8,.9);padding:1px 5px;border-radius:3px}
+.hs-edit:hover .coords{opacity:1}
+#infobar{padding:6px 12px;background:var(--panel);border-top:1px solid var(--line);font-size:.75rem;color:#a89;display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+#toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:99;background:rgba(24,18,10,.95);border:1px solid var(--gold);color:#f3e7cd;padding:6px 16px;border-radius:8px;font-size:.85rem;display:none}
+.legend{display:flex;gap:12px;align-items:center;font-size:.7rem;color:#a89}
+.legend span{display:flex;align-items:center;gap:3px}
+.legend .dot{width:10px;height:10px;border-radius:50%;display:inline-block}
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="sb">
+    <h3>اتاقهای خانه</h3>
+    <div id="roomList"></div>
+    <h3 style="margin-top:16px">نمایش</h3>
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <button id="vDesktop" class="roomBtn on" onclick="setAspect('desktop')">🖥️ دسکتاپ (افقی)</button>
+      <button id="vMobile" class="roomBtn" onclick="setAspect('mobile')">📱 موبایل (عمودی)</button>
+    </div>
+    <h3 style="margin-top:16px">خروجی</h3>
+    <button class="roomBtn" onclick="exportJSON()" style="border-color:var(--line)">📋 کپی مختصات (JSON)</button>
+    <button class="roomBtn" onclick="resetAll()" style="border-color:#a33;color:#d88">🔄 بازگردانی همه</button>
+  </div>
+  <div id="main">
+    <div id="topbar">
+      <span id="roomTitle" style="font-weight:600;color:var(--gold);font-size:.9rem"></span>
+      <span id="hsCount" style="font-size:.75rem;color:#a89"></span>
+    </div>
+    <div id="stage">
+      <div id="imgBox"><img id="roomImg" alt=""></div>
+    </div>
+    <div id="infobar">
+      <span>🖱️ بکشید تنظیم ...</span>
+    </div>
+  </div>
+</div>
+<div id="toast"></div>
+<script src="house-rooms-data.js?v=1"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+var LS_KEY='house-editor-coords-v1';
+var cur=null, aspect='desktop';
+var saved={};
+try{saved=JSON.parse(localStorage.getItem(LS_KEY)||'{}')}catch(e){}
+
+var img=document.getElementById('roomImg'),
+    stage=document.getElementById('stage'),
+    imgBox=document.getElementById('imgBox'),
+    roomTitle=document.getElementById('roomTitle'),
+    hsCount=document.getElementById('hsCount');
+
+function $(id){return document.getElementById(id)}
+function toast(t){var el=$('toast');el.textContent=t;el.style.display='block';clearTimeout(toast._t);toast._t=setTimeout(function(){el.style.display='none'},2500)}
+function esc(s){var r='';for(var i=0;i<s.length;i++){var c=s[i];if(c==='&')r+='&amp;';else if(c==='<')r+='&lt;';else if(c==='>')r+='&gt;';else if(c==='"')r+='&quot;';else if(c===String.fromCharCode(39))r+='&#39;';else r+=c;}return r;}
+
+function imgSrc(r){
+  if(aspect==='mobile') return r.img.replace('.jpg','_mobile.jpg');
+  return r.img;
+}
+function setAspect(a){
+  aspect=a;
+  $('vDesktop').classList.toggle('on',a==='desktop');
+  $('vMobile').classList.toggle('on',a==='mobile');
+  if(cur) renderRoom();
+}
+
+function objKey(o){return o.slug||o.nav||o.href;}
+function hotspotsOf(r){
+  return r.objs.map(function(o,i){
+    var cls=o.href?'link':(o.nav?'nav':'');
+    return {key:r.id+'/'+objKey(o), i:i, label:o.t, cls:cls, x:o.x, y:o.y, _x_mobile:o._x_mobile, _y_mobile:o._y_mobile};
+  });
+}
+
+function renderRoom(){
+  console.log('renderRoom called');
+  console.log('img element:', img);
+  console.log('img before src:', img ? img.src : 'null');
+  var src = imgSrc(cur);
+  console.log('imgSrc result:', src);
+  if(img) {
+    img.src = src;
+    console.log('img.src set to:', img.src);
+  } else {
+    console.error('img element is null!');
+  }
+  img.onload=function(){
+    console.log('img loaded:', img.naturalWidth, 'x', img.naturalHeight);
+    drawHotspots();
+  };
+  img.onerror=function(e){
+    console.error('img load error:', e);
+  };
+  if(img && img.complete) {
+    console.log('img already complete:', img.naturalWidth);
+    drawHotspots();
+  }
+  roomTitle.textContent=cur.name;
+}
+
+// Mobile images are 90 degree CW rotated versions of desktop.
+// Coordinate transform: desktop(x,y) -> mobile(y, 100-x)
+function mobCoords(x, y) {
+  return [y, 100 - x];
+}
+
+function fixCover(hx, hy){
+  if(!img || !img.naturalWidth) return [hx, hy];
+  var cw = img.clientWidth, ch = img.clientHeight;
+  var nw = img.naturalWidth, nh = img.naturalHeight;
+  var sc = Math.max(cw / nw, ch / nh);
+  var rw = nw * sc, rh = nh * sc;
+  var ox = (cw - rw) / 2, oy = (ch - rh) / 2;
+  return [(ox + rw * hx / 100) * 100 / cw, (oy + rh * hy / 100) * 100 / ch];
+}
+
+function unCover(px, py){
+  if(!img || !img.naturalWidth) return [px, py];
+  var cw = img.clientWidth, ch = img.clientHeight;
+  var nw = img.naturalWidth, nh = img.naturalHeight;
+  var sc = Math.max(cw / nw, ch / nh);
+  var rw = nw * sc, rh = nh * sc;
+  var ox = (cw - rw) / 2, oy = (ch - rh) / 2;
+  var screenX = px * cw / 100;
+  var screenY = py * ch / 100;
+  var hx = (screenX - ox) * 100 / rw;
+  var hy = (screenY - oy) * 100 / rh;
+  return [Math.max(0, Math.min(100, hx)), Math.max(0, Math.min(100, hy))];
+}
+
+function toImgPct(ev){
+  var r=imgBox.getBoundingClientRect();
+  var px=((ev.clientX-r.left)/r.width)*100;
+  var py=((ev.clientY-r.top)/r.height)*100;
+  var u=unCover(px,py);
+  return {x:Math.round(u[0]*10)/10,y:Math.round(u[1]*10)/10};
+}
+
+function drawHotspots(){
+  [].forEach.call(imgBox.querySelectorAll('.hs-edit'),function(n){n.parentNode.removeChild(n)});
+  var hs=hotspotsOf(cur);
+  hsCount.textContent=hs.length+' هایلایت';
+  hs.forEach(function(h){
+    var key=h.key+':'+aspect;
+    var c=saved[key];
+    // Validate saved coords are within [0,100]
+    if(c && (c.x<0||c.x>100||c.y<0||c.y>100)) c=null;
+    var x=c?c.x:h.x, y=c?c.y:h.y;
+    // Use explicit mobile coords only if nothing was manually saved
+    if(aspect==='mobile' && !c && h._x_mobile != null && h._y_mobile != null){
+      x = h._x_mobile; y = h._y_mobile;
+    } else if(aspect==='mobile' && !c){
+      var mc = mobCoords(x, y);
+      x = mc[0]; y = mc[1];
+    }
+    var pc=fixCover(x,y);
+    var d=document.createElement('div');
+    d.className='hs-edit'+(h.cls?' '+h.cls:'');
+    d.style.left=pc[0]+'%'; d.style.top=pc[1]+'%';
+    d.innerHTML='<div class="ring"></div><span class="lbl">'+esc(h.label)+'</span><span class="coords">'+x.toFixed(1)+', '+y.toFixed(1)+'</span>';
+    d.addEventListener('pointerdown',function(e){
+      e.preventDefault();e.stopPropagation();
+      d.setPointerCapture(e.pointerId);
+      function mv(ev){
+        var pt=toImgPct(ev);
+        var pc=fixCover(pt.x,pt.y);
+        d.style.left=pc[0]+'%'; d.style.top=pc[1]+'%';
+        d.querySelector('.coords').textContent=pt.x.toFixed(1)+', '+pt.y.toFixed(1);
+        // Store coordinates as-is for the current aspect
+        saved[key]={x:pt.x,y:pt.y};
+      }
+      function up(){ d.onpointermove=null; d.onpointerup=null; localStorage.setItem(LS_KEY,JSON.stringify(saved)); toast('ذخیره شد: '+h.label); }
+      d.onpointermove=mv; d.onpointerup=up;
+    });
+    imgBox.appendChild(d);
+  });
+}
+
+function exportJSON(){
+  var out={};
+  HOUSE_ROOMS.forEach(function(r){
+    var roomOut={};
+    r.objs.forEach(function(o,i){
+      var key=r.id+'/'+objKey(o)+':'+aspect;
+      if(saved[key]) roomOut[objKey(o)]=saved[key];
+    });
+    if(Object.keys(roomOut).length) out[r.id]=roomOut;
+  });
+  var txt=JSON.stringify(out,null,2);
+  if(navigator.clipboard) navigator.clipboard.writeText(txt);
+  console.log(txt);
+  toast('JSON در کلیپبورد و کنسول');
+}
+
+function resetAll(){
+  if(confirm('مختصات ذخیرهشده پاک شود؟')){
+    saved={};
+    localStorage.removeItem(LS_KEY);
+    drawHotspots();
+    toast('بازگردانی شد');
+  }
+}
+
+// build room list
+(function(){
+  if(!document.getElementById('roomList')) return;
+  var rl=document.getElementById('roomList');
+  HOUSE_ROOMS.forEach(function(r){
+    var b=document.createElement('button');
+    b.className='roomBtn'; b.dataset.id=r.id;
+    b.innerHTML=r.name+'<small>'+r.objs.length+' هایلایت</small>';
+    b.onclick=function(){
+      cur=r;
+      var btns=document.querySelectorAll('.roomBtn[data-id]');
+      for(var i=0;i<btns.length;i++) btns[i].classList.toggle('on',btns[i].dataset.id===r.id);
+      renderRoom();
+    };
+    rl.appendChild(b);
+  });
+  cur=HOUSE_ROOMS[0];
+  document.querySelector('.roomBtn[data-id="'+cur.id+'"]').classList.add('on');
+  renderRoom();
+})();
+});
+</script>
+</body>
+</html>

@@ -19,7 +19,8 @@ services:
       # آدرس عمومی سرویس مثل https://coreader.onrender.com — بعد از اولین دیپلوی پر شود
       - key: SITE_PUBLIC_URL
         sync: false
-      # کلید اختیاری برای /api/cron-daily (سرویس پینگ روزانه باید ?key=... بفرستد)
+      # بیدارباش صبحگاهی و پینگ روزانه: ربع ساعت قبل از ۸ صبح تهران (07:45 تهران = 04:15 UTC)
+      # با GitHub Actions یا cron-job.org مسیرهای /api/wake-daily و /api/cron-daily را ران می‌کند
       - key: CRON_SECRET
         generateValue: true
       # هدر x-send-secret برای /api/telegram/send (بدون این، این مسیر بسته است)

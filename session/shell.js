@@ -26,7 +26,7 @@
   var nav = links.map(function (l) {
     var active = (l[0] === '/') ? (path === '/' || path === '/index.html') : (path.indexOf(l[0]) === 0);
     return '<a class="nav-link' + (active ? ' active' : '') + '" href="' + l[0] + '">' + l[1] + '</a>';
-  }).join('');
+  }).join(' ');
   var pills = THEMES.map(function (t) {
     return '<div class="theme-pill" data-theme="' + t[0] + '" style="background:' + t[1] + ';border-color:' + t[2] +
       '" onclick="setAppTheme(\'' + t[0] + '\')" title="' + t[3] + '"></div>';

@@ -10,6 +10,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700&family=El+Messiri:wght@400;500;600;700&family=Lalezar&family=Lateef&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Reem+Kufi:wght@400;500;600;700&family=Sakkal+Majalla&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="viewer.css?v=3">
+<link rel="stylesheet" href="../assets/virtual-light.css?v=1">
 <style>
 /* Loading spinner */
 .loading-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:var(--bg,#faf8f5);z-index:900;transition:opacity .3s}
@@ -57,6 +58,7 @@
     <button onclick="zoomOut()" title="کوچک‌نمایی">−</button>
     <button onclick="toggleFullscreen()" id="bFullscreen" title="تمام صفحه">⛶</button>
     <div class="spacer"></div>
+    <button onclick="window.CoreaderVirtualLight &amp;&amp; window.CoreaderVirtualLight.togglePanel()" id="bVirtualLight" class="btn-vlight" title="انواع نور سنتی و مدرن، شمع، مشعل، مادون‌قرمز، فرابنفش، اشعه ایکس و نور متحرک">💡 تنظیم نور</button>
     <button onclick="toggleAdjustPanel()" id="bAdjust" title="تنظیم نور، رنگ، کنتراست و معکوس تصویر">◐ تنظیم تصویر</button>
     <button onclick="setTool('cursor')" id="bCursor" title="نشانگر عادی" class="tool-btn on">🖱️</button>
     <button onclick="setTool('arrow')" id="bArrow" title="فلش (پرزنټیشن)">➡️</button>
@@ -421,6 +423,7 @@
 <script src="viewer.js?v=32"></script>
 <script src="ui-functions.js?v=5"></script>
 <script src="save-frame.js?v=1"></script>
+<script src="../assets/virtual-light.js?v=1"></script>
 <link rel="stylesheet" href="../assets/polish.css?v=1">
 <script>
 // Clean up obsolete service worker registrations if any exist

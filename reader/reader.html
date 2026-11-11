@@ -25,12 +25,38 @@
 <link rel="stylesheet" href="../assets/fonts.css">
 <link rel="stylesheet" href="../assets/translate.css?v=4">
 <link rel="stylesheet" href="../assets/polish.css?v=1">
+<link rel="stylesheet" href="../assets/virtual-light.css?v=1">
 </head>
 <body class="night">
 <div class="loading-overlay" id="loadingOverlay">
   <div class="loading-spinner"></div>
 </div>
 <div class="pbar" id="pbar"></div>
+
+<div class="toolbar" id="toolbar">
+  <button onclick="location.href='../'" title="بازگشت به صفحه اصلی">◀ خانه</button>
+  <button class="sb-tog" onclick="toggleSidebar()">☰ فهرست</button>
+  <div class="pg-jump">
+    <input type="number" id="pgInput" min="1" value="1" onkeydown="if(event.key==='Enter'){goPg(+this.value)}">
+    <span id="pgTotal">از ۰</span>
+  </div>
+  <button onclick="toggleAnno()" id="bAnno" class="on">حاشیه</button>
+  <button onclick="openPdfAt(getCurPage())" id="bPdf">📄 PDF</button>
+  <button onclick="toggleMic()" id="bMic">خط‌بَر</button>
+  <button onclick="toggleTts()" id="bTts">🔊 خوانش</button>
+  <button onclick="openSettings()" id="bSettings">⚙️ تنظیمات</button>
+  <button onclick="toggleMagnifier()" id="bMag">🔍 ذره‌بین</button>
+  <button onclick="openBookSearch()" title="جست‌وجو در کل کتاب">🔎 جست‌وجو</button>
+  <button onclick="showFavPanel()">⭐ علاقه‌مندی</button>
+  <div class="spacer"></div>
+  <button onclick="zoomText(-1)" title="کوچک‌نمایی متن">−</button>
+  <button onclick="zoomText(1)" title="بزرگ‌نمایی متن">+</button>
+  <button onclick="toggleFullscreen()" id="bFullscreen" title="تمام صفحه">⛶</button>
+  <button onclick="window.CoreaderVirtualLight &amp;&amp; window.CoreaderVirtualLight.togglePanel()" id="bVirtualLight" class="btn-vlight" title="تنظیم انواع نورهای سنتی و مدرن (شمع، چراغ، مشعل، مادون‌قرمز، فرابنفش، اشعه ایکس)">💡 تنظیم نور</button>
+  <button onclick="CoreaderTranslate&amp;&amp;CoreaderTranslate.instances.length?CoreaderTranslate.instances[0].translate():null" id="bTranslate" title="ترجمهٔ متن این صفحه">🌐 ترجمه</button>
+</div>
+<button class="toolbar-toggle" id="toolbarToggle" onclick="toggleToolbar()">☰</button>
+
 <div class="app">
   <div class="sb" id="sb">
     <h1 id="bookTitle">در حال بارگذاری...</h1>
@@ -59,28 +85,6 @@
     <div class="toc" id="toc"></div>
   </div>
   <div class="main">
-    <div class="toolbar" id="toolbar">
-      <button onclick="location.href='../'" title="بازگشت به صفحه اصلی">◀ خانه</button>
-      <button class="sb-tog" onclick="toggleSidebar()">☰ فهرست</button>
-      <div class="pg-jump">
-        <input type="number" id="pgInput" min="1" value="1" onkeydown="if(event.key==='Enter'){goPg(+this.value)}">
-        <span id="pgTotal">از ۰</span>
-      </div>
-      <button onclick="toggleAnno()" id="bAnno" class="on">حاشیه</button>
-      <button onclick="openPdfAt(getCurPage())" id="bPdf">📄 PDF</button>
-      <button onclick="toggleMic()" id="bMic">خط‌بَر</button>
-      <button onclick="toggleTts()" id="bTts">🔊 خوانش</button>
-      <button onclick="openSettings()" id="bSettings">⚙️ تنظیمات</button>
-      <button onclick="toggleMagnifier()" id="bMag">🔍 ذره‌بین</button>
-      <button onclick="openBookSearch()" title="جست‌وجو در کل کتاب">🔎 جست‌وجو</button>
-      <button onclick="showFavPanel()">⭐ علاقه‌مندی</button>
-      <div class="spacer"></div>
-      <button onclick="zoomText(-1)" title="کوچک‌نمایی متن">−</button>
-      <button onclick="zoomText(1)" title="بزرگ‌نمایی متن">+</button>
-      <button onclick="toggleFullscreen()" id="bFullscreen" title="تمام صفحه">⛶</button>
-      <button onclick="CoreaderTranslate&&CoreaderTranslate.instances.length?CoreaderTranslate.instances[0].translate():null" id="bTranslate" title="ترجمهٔ متن این صفحه">🌐 ترجمه</button>
-    </div>
-    <button class="toolbar-toggle" id="toolbarToggle" onclick="toggleToolbar()">☰</button>
     <div class="tc" id="tc"></div>
     <div class="page-divider">
       <svg width="180" height="20" viewBox="0 0 180 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -428,6 +432,7 @@
 <script src="../assets/translate.js?v=14"></script>
 <script src="../assets/lexicon.js?v=3"></script>
   <script src="../assets/reader.js?v=9"></script>
+  <script src="../assets/virtual-light.js?v=1"></script>
 <script>
   // Clean up obsolete service worker registrations if any exist (same policy as viewer/tour): the old worker pre-cached a blank root and served static files cache-first, which kept stale pages after an update.
   if(navigator.serviceWorker && navigator.serviceWorker.getRegistrations){

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head><title>CORS Test</title></head>
+<body>
+<div id="info">Testing image from same origin...</div>
+<img id="testImg" src="/books/contre-nature/views/study--hero.jpg" style="max-width:100%">
+<script>
+var info = document.getElementById('info');
+var img = document.getElementById('testImg');
+img.onload = function() {
+  info.textContent = 'SUCCESS: ' + this.naturalWidth + 'x' + this.naturalHeight;
+  info.style.color = 'green';
+};
+img.onerror = function() {
+  info.textContent = 'ERROR: Failed to load';
+  info.style.color = 'red';
+};
+</script>
+</body>
+</html>

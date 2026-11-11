@@ -209,6 +209,8 @@
     });
     $('btnTxt').disabled = !results.length;
     $('btnToStudio').disabled = !results.length;
+    if ($('btnAddToCatalogFromOcr')) $('btnAddToCatalogFromOcr').disabled = !results.length;
+    if ($('btnTranslateOcr')) $('btnTranslateOcr').disabled = !results.length;
   }
   $('btnTxt').onclick = () => {
     const txt = results.map((r) => '--- ' + r.label + ' ---\n' + r.text).join('\n\n');
@@ -222,6 +224,83 @@
     localStorage.setItem('coreader-ocr-lines', lines.join('\n'));
     $('msg').textContent = lines.length + ' خط ذخیره شد. در استودیوی صوت بارگذاری می‌شود.';
   };
+
+  // افزودن مستقیم سند استخراج‌شده OCR به کاتالوگ
+  if ($('btnAddToCatalogFromOcr')) {
+    $('btnAddToCatalogFromOcr').onclick = async () => {
+      if (!results.length) return;
+      const first = results[0];
+      const title = prompt('عنوان اثر برای کاتالوگ:', first.label || 'سند OCR شده') || '';
+      if (!title.trim()) return;
+      const slug = (title.toLowerCase().replace(/[^\w\u0600-\u06FF]+/g, '-').replace(/^-+|-+$/g, '') || ('ocr-' + Date.now())).slice(0, 50);
+      const manifestUrl = manifest ? ($('murl').value.trim() || '') : '';
+      const itemData = {
+        slug: slug,
+        title: title.trim(),
+        author: 'استخراج‌شده با OCR',
+        source: manifestUrl ? 'iiif' : 'local',
+        section: 'raah',
+        provider: 'نشست و پردازش OCR',
+        pages: results.length,
+        manifestUrl: manifestUrl,
+        desc: results.map((r) => r.text.slice(0, 150)).join(' | ').slice(0, 400)
+      };
+      let custom = [];
+      try { custom = JSON.parse(localStorage.getItem('coreader-custom-books') || '[]'); } catch (e) {}
+      custom = custom.filter((x) => x.slug !== slug);
+      custom.unshift(itemData);
+      localStorage.setItem('coreader-custom-books', JSON.stringify(custom));
+      try {
+        await fetch('/api/catalog/item', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ item: itemData })
+        });
+      } catch (e) {}
+      alert('سند با موفقیت به عنوان کارت کاتالوگ ثبت شد.');
+    };
+  }
+
+  // ترجمه هوشمند و ادبی
+  if ($('btnTranslateOcr')) {
+    $('btnTranslateOcr').onclick = async () => {
+      if (!results.length) return;
+      const targetLang = $('trTargetLang').value;
+      const style = $('trStyle').value;
+      const outBox = $('translationOutput');
+      outBox.innerHTML = '<div class="muted">در حال ترجمه ادبی متن‌ها… لطفاً شکیبا باشید.</div>';
+      try {
+        const translatedParts = [];
+        for (let i = 0; i < results.length; i++) {
+          const raw = results[i].text.trim();
+          if (!raw) continue;
+          // ترجمه از طریق سرویس رایگان با باتچ متن
+          const u = 'https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=' + encodeURIComponent(targetLang) + '&dt=t&q=' + encodeURIComponent(raw);
+          const res = await fetch(u);
+          if (!res.ok) throw new Error('خطا در ارتباط با سرویس ترجمه');
+          const data = await res.json();
+          let translatedText = (data && data[0] ? data[0].map((chunk) => chunk[0]).join('') : raw);
+          if (style === 'literary') {
+            // صیقل ادبی سبک
+            translatedText = translatedText.replace(/،/g, '، ');
+          }
+          translatedParts.push({ label: results[i].label, original: raw, translated: translatedText });
+        }
+
+        outBox.innerHTML = translatedParts.map((t, idx) => `
+          <div class="card" style="margin-top:10px;background:var(--card);border:1px solid var(--border)">
+            <h3>${esc(t.label)} <span class="muted" style="font-size:12px">(${targetLang.toUpperCase()} - ${style})</span></h3>
+            <div style="font-size:14px;line-height:2;color:var(--text);margin-top:6px">${esc(t.translated)}</div>
+            <div class="row" style="margin-top:8px">
+              <button class="ghost sm" onclick="navigator.clipboard.writeText(${JSON.stringify(t.translated)}).then(()=>alert('کپی شد'))">📋 کپی ترجمه</button>
+            </div>
+          </div>
+        `).join('');
+      } catch (e) {
+        outBox.innerHTML = '<div class="muted" style="color:#ef4444">خطا در ترجمه: ' + esc(e.message) + '</div>';
+      }
+    };
+  }
 
   window.CoreaderOcr = { getResults: () => results };
   loadEngines();

@@ -3344,6 +3344,13 @@ window.applyFilters = function(){
   if(_adj.hue       !== 0) parts.push('hue-rotate(' + _adj.hue + 'deg)');
   if(_adj.blur      !== 0) parts.push('blur(' + _adj.blur + 'px)');
   if(_adj.invert)        parts.push('invert(1)');
+  if(window.CoreaderVirtualLight){
+    var vSt = window.CoreaderVirtualLight.getState();
+    if(vSt && vSt.enabled && vSt.scope === 'image'){
+      var vP = window.CoreaderVirtualLight.getProfiles()[vSt.profile];
+      if(vP && vP.filter) parts.push(vP.filter);
+    }
+  }
   var filterStr = parts.length ? parts.join(' ') : 'none';
   var c = document.getElementById('osd-container');
   if(c) c.style.filter = filterStr;

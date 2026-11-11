@@ -130,7 +130,7 @@ button:focus-visible,input:focus-visible,select:focus-visible,a:focus-visible{ou
 .sb.off~.main{margin-right:0}
 body.pdf-open .main{margin-left:min(44vw,620px)}
 /* Floating toolbar panel */
-.toolbar{position:fixed;top:10px;left:50%;transform:translateX(-50%);z-index:900;
+.toolbar{position:fixed !important;top:10px !important;left:50% !important;transform:translateX(-50%) !important;z-index:900 !important;
   display:flex;gap:5px;padding:8px 16px;border-radius:18px;
   background:var(--glass-bg);backdrop-filter:blur(20px) saturate(1.6);-webkit-backdrop-filter:blur(20px) saturate(1.6);
   border:1px solid var(--glass-border);box-shadow:0 8px 32px rgba(0,0,0,.08),0 1px 3px rgba(0,0,0,.06);

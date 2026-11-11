@@ -96,12 +96,17 @@ const CONNECTORS = {
 
 // ---- منابع موزه‌ای فعلی کتابخانه که API عمومی ندارند: جستجوی مستقیم در سایت خودشان ----
 const MANUAL = [
+  { name: "Anna's Archive (کتاب و مقالات PDF)", url: 'https://annas-archive.org/search?q=' },
   { name: 'Smithsonian (Freer/Sackler)', url: 'https://www.si.edu/search/collection-images?edan_q=' },
-  { name: 'Getty Museum', url: 'https://www.getty.edu/search/?q=' },
-  { name: 'Hermitage', url: 'https://www.hermitagemuseum.org/wps/portal/hermitage/digital-collection/search?q=' },
+  { name: 'Gallica BNF (کتابخانه ملی فرانسه)', url: 'https://gallica.bnf.fr/services/engine/search/sru?operation=searchRetrieve&version=1.2&query=' },
+  { name: 'British Library (کتابخانه بریتانیا)', url: 'https://www.bl.uk/manuscripts/BriefDisplay.aspx?searchType=CustomSearch&query=' },
   { name: 'Bodleian Digital Library', url: 'https://digital.bodleian.ox.ac.uk/search/?q=' },
-  { name: 'Bayerische Staatsbibliothek (digitale-sammlungen)', url: 'https://www.digitale-sammlungen.de/en/search?query=' },
-  { name: 'Qatar Digital Library', url: 'https://www.qdl.qa/en/search/site/' }
+  { name: 'Cambridge Digital Library', url: 'https://cudl.lib.cam.ac.uk/search?keyword=' },
+  { name: 'Bayerische Staatsbibliothek (BSB)', url: 'https://www.digitale-sammlungen.de/en/search?query=' },
+  { name: 'Qatar Digital Library', url: 'https://www.qdl.qa/en/search/site/' },
+  { name: 'HathiTrust (آرشیو کتب PDF)', url: 'https://catalog.hathitrust.org/Search/Home?lookfor=' },
+  { name: 'Getty Museum', url: 'https://www.getty.edu/search/?q=' },
+  { name: 'Hermitage', url: 'https://www.hermitagemuseum.org/wps/portal/hermitage/digital-collection/search?q=' }
 ];
 
 function normalizeOptions(o) {

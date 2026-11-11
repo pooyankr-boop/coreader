@@ -3,204 +3,351 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>نشست · کتابخوانه</title>
-
+<title>نشست پژوهشی و تصحیح نسخه · کتابخوانه</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Scheherazade+New:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/catalog/catalog.css?v=22">
-<link rel="stylesheet" href="/assets/polish.css?v=1">
-<link rel="stylesheet" href="/session/session.css">
+<link rel="stylesheet" href="/assets/polish.css?v=2">
+<link rel="stylesheet" href="/session/session.css?v=3">
 </head>
 <body>
 <div id="siteHeader"></div>
+
 <main>
   <!-- ورود -->
   <section id="viewLogin" class="card hidden">
-    <h2>ورود به نشست</h2>
-    <div class="row">
-      <input id="loginEmail" type="email" placeholder="ایمیل" autocomplete="email">
-      <button id="btnEmail">ارسال کد ورود</button>
+    <h2>🔐 ورود به فضای نشست</h2>
+    <p class="muted">برای ساخت نشست جدید، ویرایش مراحل پروژه و ذخیره حواشی، وارد حساب کاربری خود شوید.</p>
+    <div class="row" style="margin-top:14px">
+      <input id="loginEmail" type="email" placeholder="ایمیل خود را وارد کنید" autocomplete="email">
+      <button id="btnEmail">ارسال پیوند ورود</button>
     </div>
-    <p class="muted">یک پیوند ورود به ایمیل شما فرستاده می‌شود.</p>
-    <div class="row oauth">
-      <button id="btnTg">ورود با تلگرام</button>
-      <button class="ghost" data-oauth="github">ورود با گیتهاب</button>
+    <div class="row oauth" style="margin-top:12px">
+      <button id="btnTg">✈️ ورود با تلگرام</button>
+      <button class="ghost" data-oauth="github">🐙 ورود با گیتهاب</button>
     </div>
-    <div id="tgBox" class="hidden" style="margin-top:10px">
-      <p class="muted">کد شما: <b id="tgCode" style="font-size:18px;letter-spacing:2px"></b></p>
-      <a id="tgLink" target="_blank" rel="noopener">باز کردن ربات تلگرام</a>
-      <p class="muted" id="tgState"></p>
+    <div id="tgBox" class="hidden" style="margin-top:14px;padding:14px;background:var(--cream);border-radius:14px;border:1px dashed var(--accent)">
+      <p class="muted">کد شما: <b id="tgCode" style="font-size:20px;letter-spacing:3px;color:var(--accent)"></b></p>
+      <a id="tgLink" class="ghost" target="_blank" rel="noopener" style="margin-top:8px">باز کردن ربات تلگرام</a>
+      <p class="muted" id="tgState" style="margin-top:8px"></p>
     </div>
     <div id="loginMsg" class="err"></div>
   </section>
 
-  <!-- فهرست نشست‌ها -->
+  <!-- فهرست نشست‌ها و خانه -->
   <section id="viewHome" class="hidden">
-    <div class="card">
-      <h2>جستجوی کتاب، دست‌نوشته، شیء موزه‌ای و نقاشی</h2>
-      <p class="muted">منابع باز، آرشیوها و موزه‌ها. پیش‌فرض: آثار تاریخی و ارزشمند. از هر نتیجه می‌توانید نشست بسازید یا آن را به کاتالوگ پیشنهاد دهید.</p>
-      <div id="homeSearch"></div>
+    <!-- بخش معرفی و راهنمای ابتکاری -->
+    <div class="card" style="background:linear-gradient(135deg, rgba(201,151,56,0.15) 0%, rgba(138,90,59,0.08) 100%)">
+      <div class="row" style="justify-content:space-between;align-items:center">
+        <div>
+          <h2 style="font-size:20px;margin-bottom:6px">🏛️ تالار نشست‌ها و کارگاه‌های تصحیح نسخه</h2>
+          <p class="muted">فضای اشتراکی نسخه‌شناسی، مقابله تطبیقی، بازخوانی OCR چندزبانه، حاشیه‌نویسی و پیشبرد پروژه‌ها به صورت مرحله‌به‌مرحله.</p>
+        </div>
+        <a href="/session/tutorial.html" class="ghost" style="font-size:13px">📖 آموزش گام‌به‌گام</a>
+      </div>
     </div>
+
+    <!-- جستجوی منابع باز و آرشیوها -->
+    <div class="card">
+      <h2>🔍 جستجوی جامع منابع باز، نسخه‌های خطی و اشیاء موزه‌ای</h2>
+      <p class="muted">جستجو در اینترنت‌آرشیو، موزه متروپولیتن، کتابخانه کنگره، ویکی‌نبشته، و مانیفست‌های باز IIIF. از هر اثر می‌توانید مستقیماً نشست بسازید یا آن را به کاتالوگ پیشنهاد دهید.</p>
+      <div id="homeSearch" style="margin-top:12px"></div>
+    </div>
+
     <div class="grid">
       <div>
+        <!-- فرم ساخت نشست و پروژه مرحله‌به‌مرحله -->
         <div class="card">
-          <h2>نشست جدید</h2>
+          <h2>✨ ساخت نشست یا پروژه جدید</h2>
           <div class="row">
-            <input id="newTitle" placeholder="عنوان نشست">
-            <input id="newBook" placeholder="اسلاگ اثر (اختیاری)">
+            <input id="newTitle" placeholder="عنوان نشست (مثلاً: تصحیح و مقابله گلستان سعدی نسخه پاریس)">
+            <input id="newBook" placeholder="اسلاگ یا شناسه اثر (اختیاری)">
           </div>
-          <div class="row" style="margin-top:8px">
+          <div class="row" style="margin-top:10px">
             <select id="newVis">
-              <option value="private">خصوصی (با کد دعوت)</option>
-              <option value="public">عمومی</option>
+              <option value="private">🔒 خصوصی (تنها با کد دعوت اعضا)</option>
+              <option value="public">🌐 عمومی (قابل مشاهده برای همه)</option>
             </select>
-            <button id="btnCreate">ساخت نشست</button>
+            <button id="btnCreate">🚀 ساخت نشست و شروع پروژه</button>
           </div>
           <div id="createMsg" class="err"></div>
         </div>
+
+        <!-- فهرست نشست‌ها -->
         <div class="card">
-          <h2>نشست‌های من و عمومی‌ها</h2>
+          <h2>📚 نشست‌ها و پروژه‌های جاری</h2>
           <div id="sessionList" class="list"></div>
         </div>
       </div>
+
       <div>
+        <!-- ورود با کد دعوت -->
         <div class="card">
-          <h2>ورود با کد دعوت</h2>
-          <div class="row">
-            <input id="joinCode" placeholder="کد دعوت">
-            <button id="btnJoin">ورود</button>
+          <h2>🔑 ورود با کد دعوت</h2>
+          <p class="muted">اگر کد دعوت یک نشست خصوصی را دارید، برای پیوستن آن را وارد کنید:</p>
+          <div class="row" style="margin-top:10px">
+            <input id="joinCode" placeholder="کد دعوت اختصاصی">
+            <button id="btnJoin">ورود به اتاق</button>
           </div>
           <div id="joinMsg" class="err"></div>
+        </div>
+
+        <!-- ابزارهای سریع -->
+        <div class="card">
+          <h2>⚡ میانبرهای کارگاهی</h2>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <a href="/session/ocr.html" class="ghost">🔬 آزمایشگاه مستقل OCR چندزبانه</a>
+            <a href="/session/studio.html" class="ghost">🎙️ استودیوی صوت و برش نشانه‌دار</a>
+            <a href="/session/live.html" class="ghost">🔴 تالار نشست‌های زنده عمومی</a>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- اتاق نشست -->
+  <!-- اتاق نشست (کارگاه تخصصی و مرحله‌به‌مرحله) -->
   <section id="viewRoom" class="hidden">
-    <div class="card">
-      <div class="row">
-        <div style="flex:2 1 260px">
-          <h2 id="roomTitle" style="margin:0 0 4px;font-size:17px;color:var(--fg)"></h2>
+    <!-- هدر اتاق -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="row" style="justify-content:space-between;align-items:center">
+        <div style="flex:2 1 300px">
+          <h2 id="roomTitle" style="margin:0 0 6px;font-size:19px;color:var(--text)"></h2>
           <div class="muted" id="roomMeta"></div>
         </div>
-        <button class="ghost" id="btnBack">بازگشت</button>
+        <div class="row">
+          <button class="ghost" id="btnCatalogSession">📥 افزودن به کاتالوگ</button>
+          <button class="ghost" id="btnBack">🔙 خروج به فهرست</button>
+        </div>
       </div>
     </div>
-    <div class="card">
-      <h2>تماس صوتی و تصویری</h2>
-      <div class="row">
-        <button id="btnCall">شروع یا ورود به تماس</button>
-        <button class="ghost" id="btnCallClose">بستن تماس</button>
-      </div>
-      <p class="muted">تماس با Jitsi برگزار می‌شود. میکروفون، وب‌کم و اشتراک صفحه در همان پنجره است.</p>
-      <div class="row" style="margin-top:8px">
-        <input id="livePw" type="text" placeholder="گذرواژهٔ پخش (اختیاری)">
-        <button id="btnLive">شروع پخش زنده</button>
-      </div>
-      <div id="liveState" class="muted"></div>
-      <div id="callBox"></div>
-      <h2 style="margin-top:12px">ضبط صدا</h2>
-      <div class="row">
-        <button id="btnRec">● ضبط</button>
-        <button class="ghost" id="btnRecStop" disabled>■ توقف</button>
-      </div>
-      <div id="recOut" style="margin-top:8px"></div>
-      <p class="muted">فایل ضبط‌شده فقط روی دستگاه شما ذخیره می‌شود. ارسال به دیگران در فاز ذخیره‌سازی مشترک انجام می‌شود.</p>
-    </div>
-    <div class="card">
-      <h2>فایل‌های صوتی نشست</h2>
-      <div class="row">
-        <input id="mediaFile" type="file" accept="audio/*">
-        <button id="btnMediaUpload">بارگذاری صوت</button>
-      </div>
-      <div id="mediaList" style="margin-top:8px"></div>
-      <p class="muted">فایل‌ها در فضای خصوصی ذخیره می‌شوند و فقط اعضای نشست آن‌ها را می‌بینند.</p>
-    </div>
-    <div class="card">
-      <h2>مانیفست و حاشیه</h2>
-      <div id="mfOwner" class="row hidden">
-        <input id="mfUrl" placeholder="آدرس مانیفست IIIF (https://…/manifest.json)">
-        <button id="btnMf">ثبت مانیفست</button>
-        <button class="ghost" id="btnTitle">تغییر عنوان</button>
-      </div>
-      <div class="row" style="margin-bottom:8px"><button class="ghost" id="btnCatalogSession">افزودن این نشست به کاتالوگ (پیش‌نویس)</button></div>
-      <div id="mfInfo" class="muted" style="margin:8px 0"></div>
-      <div id="mfPages" style="margin-bottom:8px"></div>
-      <div id="pagePreview" style="text-align:center"></div>
-      <h2 id="pageTitle" style="margin-top:10px"></h2>
-      <div id="annoPage" class="muted"></div>
-      <div class="row" style="margin:10px 0">
-        <button class="ghost" id="btnRegion">کشیدن ناحیه روی صفحه</button>
-        <span class="muted">روی تصویر کلیک‌کشیدن کنید تا ناحیه انتخاب شود، سپس متن حاشیه را بنویسید.</span>
-      </div>
-      <div id="regionForm" class="regform hidden">
-        <div class="muted" id="regionInfo"></div>
-        <textarea id="regionText" placeholder="متن یا حاشیهٔ این ناحیه"></textarea>
-        <div class="row" style="margin-top:8px"><button id="btnRegionSave">ثبت ناحیه</button><button class="ghost" id="btnRegionCancel">انصراف</button></div>
-      </div>
-      <div id="annoList" style="margin:8px 0"></div>
-      <div class="row">
-        <textarea data-dictation id="annoInput" placeholder="حاشیه برای این صفحه"></textarea>
-        <button id="btnAnno">ثبت حاشیه</button>
-      </div>
-    </div>
-    <div class="card">
-      <h2>تولید متن با OCR (مانیفست یا PDF)</h2>
-      <p class="muted">کل کتاب یا صفحه‌های انتخابی را با موتور دلخواه بخوانید. متن ذخیره‌شده در جستجوی OCR نشست قابل پیدا کردن است.</p>
-      <div class="row">
-        <select id="ocrgSource"><option value="manifest">مانیفست نشست</option><option value="pdf">فایل PDF</option></select>
-        <input type="file" id="ocrgPdf" accept="application/pdf">
-        <select id="ocrgPageMode"><option value="all">همه صفحه‌ها</option><option value="custom">صفحه‌های سفارشی</option></select><input type="text" id="ocrgPages" value="همه" placeholder="مثلاً 1-5,8" style="display:none;width:180px">
-      </div>
-      <div class="row">
-        <select id="ocrgEngine"></select>
-        <button class="ghost" id="ocrgLoad">خواندن اطلاعات مانیفست</button>
-      </div>
-      <details class="ocr-menu" id="ocrgLangMenu"><summary id="ocrgLangSum">زبان: فارسی</summary><div id="ocrgLangs" class="ocr-menu-body"></div></details>
-      <div class="row">
-        <button id="btnOcrRun">شروع تولید متن</button>
-        <button class="ghost" id="btnOcrSave">ذخیره در نشست (برای جستجو)</button>
-      </div>
-      <div style="height:6px;background:var(--border);border-radius:6px;overflow:hidden;margin:6px 0"><div id="ocrgBar" style="height:100%;width:0;background:var(--accent)"></div></div>
-      <div id="ocrgStatus" class="muted"></div>
-      <div id="ocrgOut" style="margin-top:8px"></div>
-    </div>
-    <div class="card">
-      <h2>جستجوی عمیق در متن OCR نشست</h2>
-      <div class="row">
-        <input id="ocrQuery" type="text" placeholder="عبارت مورد جستجو در همهٔ صفحه‌های OCR">
-        <button id="btnOcrSearch">جستجو</button>
-      </div>
-      <div id="ocrResults" style="margin-top:8px"></div>
-    </div>
-    <div class="grid">
+
+    <!-- تب‌های اصلی میز کار نشست -->
+    <nav class="session-tabs">
+      <button class="session-tab-btn active" data-tab="tabCanvas">📑 پیش‌نمایش و حاشیه‌نگاری</button>
+      <button class="session-tab-btn" data-tab="tabPipeline">🎯 پروژه مرحله‌به‌مرحله</button>
+      <button class="session-tab-btn" data-tab="tabOcr">🔬 آزمایشگاه OCR و ترجمه</button>
+      <button class="session-tab-btn" data-tab="tabMedia">🎙️ استودیو صوت و تماس</button>
+      <button class="session-tab-btn" data-tab="tabChat">💬 گفتگو و وظایف</button>
+    </nav>
+
+    <!-- تب ۱: پیش‌نمایش و حاشیه‌نگاری -->
+    <div id="tabCanvas" class="tab-pane active">
       <div class="card">
-        <h2>گفتگو</h2>
-        <div id="chat"></div>
-        <div class="row" style="margin-top:8px">
-          <textarea id="msgInput" placeholder="پیام بنویسید. برای وظیفه: /task متن #هشتگ  — راهنما: /help"></textarea>
-          <button id="btnSend">ارسال</button>
+        <div class="row" style="justify-content:space-between;align-items:center;margin-bottom:14px">
+          <h2>🖼️ مانیفست IIIF و ورق‌زن نسخه</h2>
+          <div id="mfOwner" class="row hidden">
+            <input id="mfUrl" placeholder="آدرس مانیفست IIIF (https://…/manifest.json)" style="max-width:320px">
+            <button id="btnMf">ثبت مانیفست</button>
+            <button class="ghost" id="btnTitle">ویرایش عنوان</button>
+          </div>
         </div>
-        <div id="roomErr" class="err"></div>
+        <div id="mfInfo" class="muted" style="margin-bottom:12px"></div>
+        <div id="mfPages" style="margin-bottom:14px;display:flex;flex-wrap:wrap;gap:4px"></div>
+        <div id="pagePreview" style="text-align:center;margin-bottom:14px"></div>
+        <h2 id="pageTitle" style="margin-top:14px"></h2>
+        <div id="annoPage" class="muted"></div>
+
+        <div class="row" style="margin:14px 0">
+          <button class="ghost" id="btnRegion">📐 کشیدن ناحیه روی صفحه</button>
+          <span class="muted">روی تصویر کلیک و درگ کنید تا کادر انتخاب شود، سپس متن حاشیه را بنویسید.</span>
+        </div>
+
+        <div id="regionForm" class="regform hidden">
+          <div class="muted" id="regionInfo"></div>
+          <textarea id="regionText" placeholder="متن یا حاشیهٔ تخصصی این ناحیه"></textarea>
+          <div class="row" style="margin-top:10px">
+            <button id="btnRegionSave">ثبت ناحیه</button>
+            <button class="ghost" id="btnRegionCancel">انصراف</button>
+          </div>
+        </div>
+
+        <div id="annoList" style="margin:14px 0"></div>
+
+        <div class="row">
+          <textarea data-dictation id="annoInput" placeholder="حاشیه یا یادداشت برای این صفحه (پشتیبانی از گفتار به متن)"></textarea>
+          <button id="btnAnno">ثبت حاشیه صفحه</button>
+        </div>
       </div>
-      <div>
-        <div class="card">
-          <h2>وظایف</h2>
-          <div id="tasks"></div>
+    </div>
+
+    <!-- تب ۲: پروژه مرحله‌به‌مرحله (ابتکاری) -->
+    <div id="tabPipeline" class="tab-pane">
+      <div class="card">
+        <div class="pipeline-header">
+          <div>
+            <h2>🎯 مراحل پیشبرد پروژه و چرخه تصحیح نسخه</h2>
+            <p class="muted">مدیریت گام‌به‌گام فرایند بررسی، تصویربرداری طیفی، بازخوانی، تصحیح، تعلیق و انتشار نهایی اثر.</p>
+          </div>
+          <div class="row">
+            <button id="btnAddCustomStep" class="ghost">➕ افزودن مرحله سفارشی</button>
+          </div>
         </div>
+
+        <div style="margin-top:14px">
+          <div class="row" style="justify-content:space-between;align-items:center">
+            <span class="muted">پیشرفت کلی پروژه:</span>
+            <b id="pipelinePercent" style="color:var(--gold);font-size:16px">۰٪</b>
+          </div>
+          <div class="pipeline-progress-bar">
+            <div id="pipelineProgressFill" class="pipeline-progress-val"></div>
+          </div>
+        </div>
+
+        <div id="pipelineStepsList" class="pipeline-container" style="margin-top:16px"></div>
+      </div>
+    </div>
+
+    <!-- تب ۳: آزمایشگاه OCR و ترجمه تطبیقی -->
+    <div id="tabOcr" class="tab-pane">
+      <div class="card">
+        <h2>🔬 استخراج متن با موتور OCR چندزبانه</h2>
+        <p class="muted">استخراج خودکار متن از مانیفست IIIF یا فایل PDF با موتورهای متنوع و زبان‌های تاریخی و معاصر.</p>
+        <div class="row" style="margin-top:12px">
+          <select id="ocrgSource" style="width:160px"><option value="manifest">مانیفست نشست</option><option value="pdf">فایل PDF</option></select>
+          <input type="file" id="ocrgPdf" accept="application/pdf" style="flex:1">
+          <select id="ocrgPageMode" style="width:160px"><option value="all">همه صفحه‌ها</option><option value="custom">صفحه‌های سفارشی</option></select>
+          <input type="text" id="ocrgPages" value="همه" placeholder="مثلاً 1-5,8" style="display:none;width:140px">
+        </div>
+        <div class="row" style="margin-top:10px">
+          <select id="ocrgEngine" style="flex:1"></select>
+          <button class="ghost" id="ocrgLoad">خواندن اطلاعات مانیفست</button>
+        </div>
+        <details class="ocr-menu" id="ocrgLangMenu" style="margin:10px 0"><summary id="ocrgLangSum">زبان‌های OCR: فارسی، عربی، پهلوی، سنسکریت…</summary><div id="ocrgLangs" class="ocr-menu-body"></div></details>
+        <div class="row" style="margin-top:10px">
+          <button id="btnOcrRun">🚀 شروع تولید متن</button>
+          <button class="ghost" id="btnOcrSave">💾 ذخیره در متن‌های نشست</button>
+        </div>
+        <div style="height:6px;background:var(--border);border-radius:6px;overflow:hidden;margin:12px 0"><div id="ocrgBar" style="height:100%;width:0;background:var(--gold-gradient)"></div></div>
+        <div id="ocrgStatus" class="muted"></div>
+        <div id="ocrgOut" style="margin-top:10px"></div>
+      </div>
+
+      <!-- ماژول ترجمه ادبی تطبیقی (/literary-translation) -->
+      <div class="card">
+        <h2>🌐 ترجمه ادبی و تطبیقی هوشمند (/literary-translation)</h2>
+        <p class="muted">ترجمه متون کهن، ادبی، شعر و نثر از هر زبانی به زبان‌های دیگر با رعایت وزن، صنایع بلاغی و انتقال دقیق مفهوم.</p>
+        <div class="trans-box">
+          <div class="trans-header">
+            <div class="row">
+              <label class="muted">زبان مبدأ:
+                <select id="transSrcLang" style="width:140px;display:inline-block;margin-right:6px">
+                  <option value="fa">فارسی</option>
+                  <option value="pal">پهلوی میانه</option>
+                  <option value="ave">اوستایی</option>
+                  <option value="ar">عربی</option>
+                  <option value="sa">سانسکریت</option>
+                  <option value="el">یونانی</option>
+                  <option value="la">لاتین</option>
+                  <option value="en">انگلیسی</option>
+                  <option value="fr">فرانسوی</option>
+                  <option value="de">آلمانی</option>
+                  <option value="ur">اردو</option>
+                  <option value="he">عبری</option>
+                </select>
+              </label>
+              <label class="muted">زبان مقصد:
+                <select id="transDstLang" style="width:140px;display:inline-block;margin-right:6px">
+                  <option value="fa">فارسی</option>
+                  <option value="en" selected>انگلیسی</option>
+                  <option value="ar">عربی</option>
+                  <option value="fr">فرانسوی</option>
+                  <option value="de">آلمانی</option>
+                  <option value="ur">اردو</option>
+                </select>
+              </label>
+              <label class="muted">سبک ترجمه:
+                <select id="transStyle" style="width:160px;display:inline-block;margin-right:6px">
+                  <option value="literary">ادبی و بلاغی (فاخر)</option>
+                  <option value="scholarly">انتقادی و دانشگاهی</option>
+                  <option value="poetic">منظوم / شاعرانه</option>
+                  <option value="plain">روان و معاصر</option>
+                </select>
+              </label>
+            </div>
+            <button id="btnRunTranslation" class="ghost">✨ ترجمه هوشمند</button>
+          </div>
+          <div class="grid" style="grid-template-columns:1fr 1fr;gap:12px">
+            <textarea id="transInputText" placeholder="متن استخراج‌شده یا دست‌نوشته را اینجا بچسبانید..."></textarea>
+            <div id="transOutputText" style="min-height:90px;background:var(--card-bg);border:1.5px solid var(--border);border-radius:14px;padding:12px;font-size:14px;line-height:2">نتیجه ترجمه اینجا نمایش می‌یابد...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- جستجوی عمیق -->
+      <div class="card">
+        <h2>🔎 جستجوی عمیق در متن OCR نشست</h2>
+        <div class="row">
+          <input id="ocrQuery" type="text" placeholder="عبارت مورد نظر را برای جستجو در کل صفحه‌های OCR بنویسید">
+          <button id="btnOcrSearch">جستجو</button>
+        </div>
+        <div id="ocrResults" style="margin-top:10px"></div>
+      </div>
+    </div>
+
+    <!-- تب ۴: صوت و رسانه -->
+    <div id="tabMedia" class="tab-pane">
+      <div class="card">
+        <h2>📞 ارتباط زنده، تماس صوتی و تصویری</h2>
+        <div class="row">
+          <button id="btnCall">📹 ورود به اتاق تماس</button>
+          <button class="ghost" id="btnCallClose">✕ بستن تماس</button>
+        </div>
+        <div class="row" style="margin-top:12px">
+          <input id="livePw" type="text" placeholder="گذرواژهٔ پخش زنده (اختیاری)" style="max-width:240px">
+          <button id="btnLive">🔴 شروع پخش زنده</button>
+        </div>
+        <div id="liveState" class="muted" style="margin-top:6px"></div>
+        <div id="callBox"></div>
+
+        <h2 style="margin-top:20px">🎙️ ضبط زنده صدا روی مرورگر</h2>
+        <div class="row">
+          <button id="btnRec">● شروع ضبط</button>
+          <button class="ghost" id="btnRecStop" disabled>■ توقف</button>
+        </div>
+        <div id="recOut" style="margin-top:10px"></div>
+      </div>
+
+      <div class="card">
+        <h2>🎵 آرشیو فایل‌های صوتی نشست</h2>
+        <div class="row">
+          <input id="mediaFile" type="file" accept="audio/*">
+          <button id="btnMediaUpload">بارگذاری فایل صوتی</button>
+        </div>
+        <div id="mediaList" style="margin-top:12px"></div>
+      </div>
+    </div>
+
+    <!-- تب ۵: گفتگو و وظایف -->
+    <div id="tabChat" class="tab-pane">
+      <div class="grid">
         <div class="card">
-          <h2>اعضا</h2>
-          <div id="members" class="muted"></div>
+          <h2>💬 گفتگوی متنی اعضا</h2>
+          <div id="chat"></div>
+          <div class="row" style="margin-top:10px">
+            <textarea id="msgInput" placeholder="پیام بنویسید. برای ثبت وظیفه: /task عنوان #هشتگ  — راهنما: /help"></textarea>
+            <button id="btnSend">ارسال</button>
+          </div>
+          <div id="roomErr" class="err"></div>
+        </div>
+        <div>
+          <div class="card">
+            <h2>📋 وظایف اعضای پروژه</h2>
+            <div id="tasks"></div>
+          </div>
+          <div class="card">
+            <h2>👥 اعضای نشست</h2>
+            <div id="members" class="muted"></div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 </main>
+
 <script src="/session/config.js"></script>
-<script type="module" src="/session/session.js"></script>
+<script src="/session/shell.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js"></script>
-<script src="/session/shell.js"></script>
+<script type="module" src="/session/session.js"></script>
 </body>
 </html>

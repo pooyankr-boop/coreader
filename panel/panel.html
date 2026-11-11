@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>پنل کاربری — کتابخوان نسخ خطی</title>
+<title>پنل کاربری و مدیریت کاتالوگ — کتابخوان نسخ خطی</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&family=Lalezar&family=Noto+Nastaliq+Urdu:wght@400;700&family=Scheherazade+New:wght@400;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700;800&family=Lalezar&family=Noto+Nastaliq+Urdu:wght@400;700&family=Scheherazade+New:wght@400;700&family=Amiri:wght@400;700&family=Noto+Naskh+Arabic:wght@400;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../catalog/catalog.css?v=22">
 <link rel="stylesheet" href="../assets/polish.css?v=1">
-<link rel="stylesheet" href="panel.css?v=1">
+<link rel="stylesheet" href="panel.css?v=2">
 <script>
 (function(){
   // همان تم‌های کاتالوگ و همان کلید localStorage (coreader-app-theme)
@@ -33,6 +33,7 @@
     <div class="header-actions">
       <a class="hdr-btn" href="../tour/index.html">🗺️ تور زیرزمین</a>
       <a class="hdr-btn" href="../viewer/tour.html">🏠 تور خانه</a>
+      <a class="hdr-btn" href="../session/index.html">👥 نشست هم‌خوانی</a>
       <div class="theme-palette" title="انتخاب تم رنگی">
         <div class="theme-pill" data-theme="theme-gold" style="background:#f8f5ee;border-color:#c99738" onclick="setAppTheme('theme-gold')" title="زرین و عاجی"></div>
         <div class="theme-pill" data-theme="theme-lapis" style="background:#0b1524;border-color:#d4af37" onclick="setAppTheme('theme-lapis')" title="لاجورد و کهربا"></div>
@@ -43,8 +44,8 @@
       </div>
     </div>
   </div>
-  <h1 class="site-title font-nastaliq">پنل کاربری</h1>
-  <p class="site-subtitle">قاب‌ها، متن‌ها، حاشیه‌ها، پروژه‌های IIIF و اشتراک‌گذاری زیبا — با ورود محلی یا تلگرام</p>
+  <h1 class="site-title font-nastaliq">پنل کاربری و مدیریت کاتالوگ</h1>
+  <p class="site-subtitle">مدیریت کارت‌های کاتالوگ، قاب‌ها، متن‌ها، حاشیه‌ها، پروژه‌های IIIF و اشتراک‌گذاری زیبا</p>
 </header>
 
 <div class="panel-grid">
@@ -54,25 +55,91 @@
     <hr style="border:none;border-top:1px solid var(--border);margin:14px 0">
     <h3 style="margin:0 0 8px">📑 بخش‌ها</h3>
     <div class="chip-row" id="navChips">
-      <button class="chip on" data-p="frames">🖼️ قاب‌ها</button>
+      <button class="chip on" data-p="catalog">🗂️ مدیریت کاتالوگ</button>
+      <button class="chip" data-p="frames">🖼️ قاب‌ها</button>
       <button class="chip" data-p="texts">📝 متن‌ها</button>
       <button class="chip" data-p="iiif">📜 پروژه IIIF</button>
       <button class="chip" data-p="share">📣 اشتراک‌گذاری</button>
-      <button class="chip" data-p="backup">💾 پشتیبان</button>
+      <button class="chip" data-p="backup">💾 پشتیبان و همگام‌سازی</button>
     </div>
-    <hr style="border:none;border-top:1px solid var(--border);margin:14px 0">
-    <h3 style="margin:0 0 8px">🎨 قلم نمایشی</h3>
-    <div class="chip-row" id="fontChips">
-      <button class="chip on" data-f="ui">شهرزاد نو</button>
-      <button class="chip" data-f="house">نسخ فارسی (خانه)</button>
-      <button class="chip" data-f="under">نستعلیق ایرانی (زیرزمین)</button>
-      <button class="chip" data-f="naskh">نسخ / امیری</button>
-    </div>
-    <p style="font-size:11px;color:var(--muted);line-height:2;margin-top:10px">قلم پایه شهرزاد نو است. نستعلیق ایرانی اگر نصب نباشد، نستعلیق گوگل نمایش داده می‌شود.</p>
   </aside>
 
   <main class="panel-main">
-    <section class="panel-card" id="pane-frames">
+    <!-- بخش جدید و قدرتمند: مدیریت کارت‌های کاتالوگ -->
+    <section class="panel-card" id="pane-catalog">
+      <h3>🗂️ مدیریت کارت‌های کاتالوگ (نسخ خطی، اشیاء، کتب و نقاشی‌ها)</h3>
+      <p style="font-size:12px;color:var(--muted);line-height:2">در این بخش می‌توانید کارت‌های کاتالوگ را حذف، اضافه یا ویرایش نمایید. تمام تغییرات بلافاصله هم در کاتالوگ نمایش داده می‌شوند و با سرور همگام می‌گردند.</p>
+
+      <!-- آمار کاتالوگ -->
+      <div class="cat-stats-row">
+        <div class="cat-stat-card">
+          <div class="cat-stat-val" id="catStatTotal">۰</div>
+          <div class="cat-stat-lbl">کل آثار کاتالوگ</div>
+        </div>
+        <div class="cat-stat-card">
+          <div class="cat-stat-val" id="catStatIiif">۰</div>
+          <div class="cat-stat-lbl">نسخ خطی IIIF</div>
+        </div>
+        <div class="cat-stat-card">
+          <div class="cat-stat-val" id="catStatMuseum">۰</div>
+          <div class="cat-stat-lbl">اشیاء موزه‌ای</div>
+        </div>
+        <div class="cat-stat-card">
+          <div class="cat-stat-val" id="catStatLocal">۰</div>
+          <div class="cat-stat-lbl">کتب متنی / ریدر</div>
+        </div>
+        <div class="cat-stat-card">
+          <div class="cat-stat-val" id="catStatBierah">۰</div>
+          <div class="cat-stat-lbl">مجموعه بیراه</div>
+        </div>
+        <div class="cat-stat-card">
+          <div class="cat-stat-val" id="catStatCustom">۰</div>
+          <div class="cat-stat-lbl">کارت‌های سفارشی</div>
+        </div>
+      </div>
+
+      <!-- نوار ابزار و فیلترها -->
+      <div class="cat-toolbar">
+        <div class="search-box">
+          <input class="inp" id="catSearchInput" placeholder="🔍 جستجو در عنوان، پدیدآورنده، موزه یا شناسه...">
+        </div>
+        <div class="cat-filters">
+          <select class="inp" id="catFilterSource">
+            <option value="all">همه دسته‌ها</option>
+            <option value="iiif">📜 نسخه‌های خطی (IIIF)</option>
+            <option value="museum">🏛️ آثار موزه‌ای</option>
+            <option value="local">📖 کتاب‌های متنی و محلی</option>
+            <option value="against-nature">🏰 تور و رمان بیراه</option>
+            <option value="community">👤 آثار کاربری و سفارشی</option>
+          </select>
+          <select class="inp" id="catFilterSection">
+            <option value="all">همه بخش‌ها (راه و بیراه)</option>
+            <option value="raah">📜 راه — نفایس فارسی و اسلامی</option>
+            <option value="bierah">🏛️ بیراه — تالار دِزِ اِسِنت</option>
+          </select>
+        </div>
+        <button class="btn primary" id="btnOpenAddModal">＋ افزودن کارت جدید</button>
+        <button class="btn" id="btnSyncCatalog" title="همگام‌سازی و ذخیره روی سرور محلی">🔄 همگام‌سازی با سرور</button>
+        <button class="btn ghost" id="btnExportCatalogJson" title="دانلود خروجی JSON">⬇️ خروجی JSON</button>
+        <button class="btn ghost" id="btnImportCatalogJson" title="بارگذاری از فایل JSON">⬆️ بارگذاری JSON</button>
+        <input type="file" id="catImportFile" accept=".json" hidden>
+        <button class="btn ghost danger" id="btnResetCatalog" title="بازنشانی کاتالوگ به فایل اولیه">↺ بازنشانی پیش‌فرض</button>
+      </div>
+
+      <!-- وضعیت جستجو / نتایج -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+        <span class="kv" id="catMatchCount">در حال بارگذاری آثار…</span>
+        <span class="kv" id="catSyncStatus"></span>
+      </div>
+
+      <!-- شبکه کارت‌ها -->
+      <div class="cat-cards-grid" id="catCardsContainer"></div>
+
+      <!-- صفحه‌بندی -->
+      <div class="cat-pagination" id="catPagination"></div>
+    </section>
+
+    <section class="panel-card" id="pane-frames" hidden>
       <h3>🖼️ قاب‌های ذخیره‌شده (از ویور: دکمه 📌 قاب)</h3>
       <p style="font-size:12px;color:var(--muted)">هر قابی که در نمایشگر نسخ با «ذخیره قاب» نگه می‌دارید این‌جا می‌آید. روی هر قاب: بازکردن در ویور، دانلود کارت، اشتراک در تلگرام/واتساپ/اینستا.</p>
       <div class="saved-grid" id="framesGrid"></div>
@@ -143,6 +210,115 @@
   </main>
 </div>
 
-<script src="panel.js?v=1"></script>
+<!-- مدال حرفه‌ای افزودن / ویرایش کارت کاتالوگ -->
+<div class="cat-modal-backdrop" id="catModal">
+  <div class="cat-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="catModalTitle">
+    <div class="cat-modal-header">
+      <h3 id="catModalTitle">➕ افزودن کارت اثر جدید به کاتالوگ</h3>
+      <button class="btn ghost sm" id="btnCloseCatModal" style="font-size:16px">✕</button>
+    </div>
+    <div class="cat-modal-body">
+      <input type="hidden" id="cardEditOriginalSlug" value="">
+      
+      <div class="cat-form-grid">
+        <div>
+          <label class="lbl">عنوان اثر (فارسی / اصلی) *</label>
+          <input class="inp" id="cardInpTitle" placeholder="مثلاً: کلیات سعدی — نسخه مصور شیراز">
+        </div>
+        <div>
+          <label class="lbl">پدیدآورنده / نگارنده / کاتب / هنرمند</label>
+          <input class="inp" id="cardInpAuthor" placeholder="مثلاً: سعدی شیرازی / منسوب به رضا عباسی">
+        </div>
+      </div>
+
+      <div class="cat-form-grid">
+        <div>
+          <label class="lbl">نوع اثر (دسته‌بندی) *</label>
+          <select class="inp" id="cardInpSource">
+            <option value="iiif">📜 نسخه خطی استاندارد (IIIF)</option>
+            <option value="museum">🏛️ شیء موزه‌ای و عتیقه</option>
+            <option value="local">📖 کتاب متنی / محلی</option>
+            <option value="against-nature">🏰 تالار و آثار رمان بیراه</option>
+            <option value="community">👤 دست‌نویس / اثر کاربری</option>
+          </select>
+        </div>
+        <div>
+          <label class="lbl">بخش کاتالوگ *</label>
+          <select class="inp" id="cardInpSection">
+            <option value="raah">📜 راه — نفایس و نسخ خطی اسلامی/شرقی</option>
+            <option value="bierah">🏛️ بیراه — تالار و کتب دِزِ اِسِنت</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="cat-form-grid">
+        <div>
+          <label class="lbl">کتابخانه / موزه / موسسه دارنده</label>
+          <input class="inp" id="cardInpProvider" placeholder="مثلاً: کتابخانه بریتانیا، موزه لوور، آستان قدس...">
+        </div>
+        <div>
+          <label class="lbl">شناسه یکتا (slug انگلیسی) *</label>
+          <input class="inp" id="cardInpSlug" placeholder="مثلاً: bl-kulliyat-saadi" dir="ltr">
+        </div>
+      </div>
+
+      <div class="cat-form-grid">
+        <div>
+          <label class="lbl">تعداد برگ / صفحات</label>
+          <input class="inp" id="cardInpPages" type="number" min="1" placeholder="مثلاً: 342">
+        </div>
+        <div>
+          <label class="lbl">دوره / سده / تاریخ</label>
+          <input class="inp" id="cardInpDate" placeholder="مثلاً: سده نهم هجری / دوره صفوی">
+        </div>
+      </div>
+
+      <div>
+        <label class="lbl">نشانی تصویر جلد یا بندانگشتی (URL یا مسیر محلی)</label>
+        <input class="inp" id="cardInpCover" placeholder="مثلاً: https://.../cover.jpg یا books/.../cover.jpg" dir="ltr">
+      </div>
+
+      <div>
+        <label class="lbl">نشانی مانیفست IIIF (manifest.json)</label>
+        <input class="inp" id="cardInpManifest" placeholder="https://.../manifest.json یا books/.../manifest.json" dir="ltr">
+      </div>
+
+      <div>
+        <label class="lbl">پیوند خارجی شیء (Digital Object / سایت موزه)</label>
+        <input class="inp" id="cardInpLink" placeholder="https://..." dir="ltr">
+      </div>
+
+      <div>
+        <label class="lbl">توضیحات و یادداشت معرفی اثر</label>
+        <textarea class="inp" id="cardInpDesc" rows="3" placeholder="توضیحاتی درباره خط، تذهیب، اصالت و ویژگی‌های نسخه..."></textarea>
+      </div>
+
+      <!-- پیش‌نمایش زنده کارت -->
+      <div>
+        <label class="lbl">پیش‌نمایش زنده کارت اثر:</label>
+        <div class="cat-preview-box">
+          <div class="cat-preview-thumb" id="cardPreviewThumb">
+            <span class="thumb-fallback">📜</span>
+          </div>
+          <div style="flex:1;min-width:0">
+            <h4 id="cardPreviewTitle" style="margin:0 0 4px;font-size:15px;color:var(--text)">عنوان اثر</h4>
+            <div id="cardPreviewAuthor" style="font-size:12px;color:var(--accent);margin-bottom:4px">پدیدآورنده</div>
+            <div id="cardPreviewMeta" style="font-size:11px;color:var(--muted)">موسسه · نوع اثر</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="cat-modal-footer">
+      <button class="btn ghost" id="btnCancelCatModal">انصراف</button>
+      <button class="btn primary" id="btnSaveCard">💾 ذخیره کارت اثر</button>
+    </div>
+  </div>
+</div>
+
+<!-- تست نوتیفیکیشن پیامی -->
+<div class="cat-toast" id="catToast">پیام سیستم</div>
+
+<script src="panel.js?v=2"></script>
 </body>
 </html>

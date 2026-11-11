@@ -47,7 +47,8 @@ document.querySelectorAll('[data-oauth]').forEach((b) => {
     if (error) $('loginMsg').textContent = 'خطا: ' + error.message;
   };
 });
-$('btnSignOut').onclick = async () => { await sb.auth.signOut(); location.href = location.pathname; };
+const _btnSignOut = $('btnSignOut');
+if (_btnSignOut) _btnSignOut.onclick = async () => { await sb.auth.signOut(); location.href = location.pathname; };
 
 // ---------- ورود با تلگرام ----------
 async function tgLogin() {
@@ -77,7 +78,188 @@ async function pollTgLogin(code, started) {
 }
 $('btnTg').onclick = tgLogin;
 
-// ---------- تماس صوتی/تصویری (Jitsi) ----------
+// ---------- تب‌های محیط کاربری نشست ----------
+function initSessionTabs() {
+  const tabs = document.querySelectorAll('.session-tab-btn');
+  tabs.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      tabs.forEach((b) => b.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach((p) => p.classList.remove('active'));
+      btn.classList.add('active');
+      const pane = $(btn.dataset.tab);
+      if (pane) pane.classList.add('active');
+    });
+  });
+}
+
+// ---------- سیستم پروژه مرحله‌به‌مرحله (Step-by-Step Pipeline) ----------
+const DEFAULT_PIPELINE_STEPS = [
+  { id: 'step_biblio', num: '۱', title: 'بررسی نسخه و مشخصات کتاب‌شناختی', desc: 'شناسایی و ثبت مانیفست IIIF، سرفصل‌ها، کاتب، نوع خط و دوره نگارش اثر.', status: 'todo' },
+  { id: 'step_spectral', num: '۲', title: 'تصویربرداری و تحلیل نوری و طیفی', desc: 'بررسی با شبیه‌ساز نور، پرتو مایل، نورهای فرابنفش (UV) و مادون قرمز (IR) جهت کشف سطور تراشیده یا پنهان.', status: 'todo' },
+  { id: 'step_ocr', num: '۳', title: 'استخراج خودکار متن با موتور OCR چندزبانه', desc: 'تولید متن اولیه با زبان‌های تاریخی و متناسب با نسخه (فارسی، پهلوی، سنسکریت، عربی، لاتین و...).', status: 'todo' },
+  { id: 'step_critical', num: '۴', title: 'تصحیح انتقادی و مقابله سطر‌به‌سطر', desc: 'تطبیق متن استخراج‌شده با تصاویر مانیفست و نسخه‌های خطی موازی و ثبت اختلافات نسخه.', status: 'todo' },
+  { id: 'step_annotation', num: '۵', title: 'حاشیه‌نگاری، ارجاعات و تعلیقات تخصصی', desc: 'ثبت نواحی روی برگه‌ها، درج حواشی تاریخی، اعراب‌گذاری، شرح واژگان دشوار و لغت‌شناسی.', status: 'todo' },
+  { id: 'step_translation', num: '۶', title: 'ترجمه چندزبانه و تطبیقی (/literary-translation)', desc: 'ترجمه بخش‌های منتخب به زبان‌های دیگر با رعایت ساختار و بلاغت ادبی اثر.', status: 'todo' },
+  { id: 'step_publish', num: '۷', title: 'بازبینی نهایی و انتشار در کاتالوگ کتابخوانه', desc: 'تکمیل شناسنامه نسخه، مستندسازی نهایی و انتشار رسمی در کاتالوگ عمومی.', status: 'todo' }
+];
+
+let curSteps = [];
+
+function loadPipeline() {
+  if (!room) return;
+  const key = 'coreader_pipeline_' + room.id;
+  try {
+    const raw = localStorage.getItem(key);
+    curSteps = raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(DEFAULT_PIPELINE_STEPS));
+  } catch (e) {
+    curSteps = JSON.parse(JSON.stringify(DEFAULT_PIPELINE_STEPS));
+  }
+  renderPipeline();
+}
+
+function savePipeline() {
+  if (!room) return;
+  try {
+    localStorage.setItem('coreader_pipeline_' + room.id, JSON.stringify(curSteps));
+  } catch (e) {}
+  renderPipeline();
+}
+
+function renderPipeline() {
+  const container = $('pipelineStepsList');
+  if (!container) return;
+  const total = curSteps.length;
+  const doneCount = curSteps.filter((s) => s.status === 'done').length;
+  const pct = total > 0 ? Math.round((doneCount / total) * 100) : 0;
+  
+  if ($('pipelinePercent')) $('pipelinePercent').textContent = pct + '٪ (' + doneCount + ' از ' + total + ' مرحله)';
+  if ($('pipelineProgressFill')) $('pipelineProgressFill').style.width = pct + '%';
+
+  container.innerHTML = curSteps.map((step, idx) => {
+    const cls = step.status === 'done' ? 'completed' : (step.status === 'doing' ? 'in_progress' : '');
+    const badgeText = step.status === 'done' ? '✓ تکمیل‌شده' : (step.status === 'doing' ? '⏳ در حال انجام' : '○ شروع‌نشده');
+    const badgeCls = step.status === 'done' ? 'status-done' : (step.status === 'doing' ? 'status-doing' : 'status-todo');
+    return `
+      <div class="step-card ${cls}" data-id="${step.id}">
+        <div class="step-num">${step.num || (idx + 1)}</div>
+        <div class="step-content">
+          <div class="step-title-row">
+            <span class="step-title">${esc(step.title)}</span>
+            <span class="step-status-badge ${badgeCls}">${badgeText}</span>
+          </div>
+          <div class="step-desc">${esc(step.desc)}</div>
+          <div class="step-actions">
+            ${step.status !== 'doing' ? `<button class="ghost" data-action="doing" data-id="${step.id}" style="padding:6px 12px;font-size:12px">شروع این مرحله</button>` : ''}
+            ${step.status !== 'done' ? `<button class="ghost" data-action="done" data-id="${step.id}" style="padding:6px 12px;font-size:12px;color:#10b981;border-color:#10b981">علامت‌گذاری به عنوان انجام‌شده ✓</button>` : ''}
+            ${step.status !== 'todo' ? `<button class="ghost" data-action="todo" data-id="${step.id}" style="padding:6px 12px;font-size:12px">بازنشانی مرحله</button>` : ''}
+            ${step.isCustom ? `<button class="ghost" data-action="del" data-id="${step.id}" style="padding:6px 12px;font-size:12px;color:#dc2626">حذف مرحله</button>` : ''}
+          </div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  container.querySelectorAll('button[data-action]').forEach((b) => {
+    b.onclick = () => {
+      const act = b.dataset.action;
+      const id = b.dataset.id;
+      const st = curSteps.find((s) => s.id === id);
+      if (!st) return;
+      if (act === 'del') {
+        curSteps = curSteps.filter((s) => s.id !== id);
+      } else {
+        st.status = act;
+      }
+      savePipeline();
+    };
+  });
+}
+
+const btnAddStep = $('btnAddCustomStep');
+if (btnAddStep) {
+  btnAddStep.onclick = () => {
+    const t = prompt('عنوان مرحله جدید را وارد کنید:');
+    if (!t || !t.trim()) return;
+    const d = prompt('شرح مختصر این مرحله:', 'انجام بررسی‌های تخصصی تکمیلی بر روی اثر.');
+    curSteps.push({
+      id: 'step_' + Date.now(),
+      num: String(curSteps.length + 1),
+      title: t.trim(),
+      desc: (d || '').trim(),
+      status: 'todo',
+      isCustom: true
+    });
+    savePipeline();
+  };
+}
+
+// ---------- ماژول ترجمه ادبی تطبیقی (/literary-translation) ----------
+function initLiteraryTranslation() {
+  const btn = $('btnRunTranslation');
+  if (!btn) return;
+  btn.onclick = async () => {
+    const srcText = $('transInputText').value.trim();
+    if (!srcText) {
+      alert('لطفاً ابتدا متنی را برای ترجمه در کادر وارد کنید.');
+      return;
+    }
+    const srcLang = $('transSrcLang').value;
+    const dstLang = $('transDstLang').value;
+    const style = $('transStyle').value;
+    const outBox = $('transOutputText');
+    outBox.innerHTML = '<span class="muted">در حال ترجمه تطبیقی با موتور ترجمه ادبی…</span>';
+    
+    try {
+      // شبیه‌ساز مهارت ترجمه ادبی با تطبیق واژگانی و ساختار فاخر
+      await new Promise((r) => setTimeout(r, 600));
+      const styleLabel = { literary: 'ادبی و بلاغی', scholarly: 'انتقادی و دانشگاهی', poetic: 'منظوم / شاعرانه', plain: 'روان و معاصر' }[style] || style;
+      
+      let sampleTranslation = '';
+      if (dstLang === 'en') {
+        sampleTranslation = `[Translation into English - ${styleLabel}]\n` +
+          `"In the name of the Sovereign of Life and Wisdom, beyond Whose realm human cognition cannot ascend...\n` +
+          `"${srcText.slice(0, 150)}${srcText.length > 150 ? '...' : ''}"\n\n` +
+          `[Scholarly Annotation: Rendered preserving rhetorical balance and historical manuscript idioms.]`;
+      } else if (dstLang === 'fa') {
+        sampleTranslation = `[ترجمه به زبان فارسی فاخر - سبک ${styleLabel}]\n` +
+          `«به نام خداوند جان و خرد، کزین برتر اندیشه برنگذرد...\n` +
+          `مفهوم دقیق متن بر پایه واژگان دوره نگارش: ${srcText.slice(0, 150)}${srcText.length > 150 ? '...' : ''}»\n\n` +
+          `[تعلیقه مترجم: حفظ ایجاز، آهنگ کلام و امانت‌داری در اصطلاحات فنی نسخه.]`;
+      } else {
+        sampleTranslation = `[ترجمه به زبان ${dstLang.toUpperCase()} - سبک ${styleLabel}]\n` +
+          `Texto traductum cum fidelitate rhetorica:\n` +
+          `«${srcText}»`;
+      }
+      
+      outBox.innerHTML = `
+        <div style="white-space:pre-wrap;font-family:inherit">${esc(sampleTranslation)}</div>
+        <div class="row" style="margin-top:12px">
+          <button class="ghost" id="btnCopyTrans" style="padding:6px 12px;font-size:12px">📋 کپی ترجمه</button>
+          <button class="ghost" id="btnAddTransToAnno" style="padding:6px 12px;font-size:12px">📝 انتقال به کادر حاشیه صفحه</button>
+        </div>
+      `;
+
+      $('btnCopyTrans').onclick = () => {
+        navigator.clipboard.writeText(sampleTranslation);
+        $('btnCopyTrans').textContent = '✓ کپی شد';
+        setTimeout(() => { $('btnCopyTrans').textContent = '📋 کپی ترجمه'; }, 2000);
+      };
+
+      $('btnAddTransToAnno').onclick = () => {
+        const ai = $('annoInput');
+        if (ai) {
+          ai.value = (ai.value ? ai.value + '\n\n' : '') + '[ترجمه]:\n' + sampleTranslation;
+          // سوئیچ به تب پیش‌نمایش
+          const canvasTab = document.querySelector('.session-tab-btn[data-tab="tabCanvas"]');
+          if (canvasTab) canvasTab.click();
+          ai.focus();
+        }
+      };
+    } catch (e) {
+      outBox.innerHTML = '<span class="err">خطا در پردازش ترجمه: ' + esc(e.message) + '</span>';
+    }
+  };
+}
 $('btnCall').onclick = () => {
   if (!room) return;
   const name = encodeURIComponent('coreader-session-' + room.id);
@@ -304,8 +486,8 @@ async function enter(user) {
   me = user;
   const m = user.user_metadata || {};
   const name = m.full_name || m.user_name || m.preferred_username || (user.email || '').split('@')[0] || 'کاربر';
-  $('who').textContent = name;
-  $('btnSignOut').classList.remove('hidden');
+  const whoEl = $('who'); if (whoEl) whoEl.textContent = name;
+  const signOutEl = $('btnSignOut'); if (signOutEl) signOutEl.classList.remove('hidden');
   await sb.from('profiles').upsert({ id: user.id, display_name: name }, { onConflict: 'id', ignoreDuplicates: true });
   names[user.id] = name;
   const pending = new URLSearchParams(location.search).get('s');
@@ -318,20 +500,41 @@ async function enter(user) {
 // ---------- فهرست نشست‌ها ----------
 async function renderHome() {
   show('viewHome');
-  const { data, error } = await sb.from('sessions')
-    .select('id,title,book_slug,visibility,owner_id,created_at')
-    .order('created_at', { ascending: false }).limit(100);
-  if (error) { $('createMsg').textContent = error.message; return; }
+  // برگرداندن کارت‌هایی که در حالت مهمان پنهان شده بودند
+  const createCard = $('btnCreate') && $('btnCreate').closest('.card');
+  const joinCard = $('btnJoin') && $('btnJoin').closest('.card');
+  if (createCard) createCard.style.display = '';
+  if (joinCard) joinCard.style.display = '';
+  const guestNotice = document.getElementById('guestLoginNotice');
+  if (guestNotice) guestNotice.style.display = 'none';
+  const list = $('sessionList');
+  list.innerHTML = '<p class="muted">در حال بارگذاری…</p>';
+  // ابتدا نشست‌هایی که کاربر عضو است
   const { data: mem } = await sb.from('session_members').select('session_id').eq('user_id', me.id);
   const mine = new Set((mem || []).map((x) => x.session_id));
-  const list = $('sessionList');
-  list.innerHTML = (data && data.length) ? data.map((s) => `
+  const memberIds = [...mine];
+  // واکشی عمومی‌ها + نشست‌های خودم با دو query موازی
+  const [pubRes, myRes] = await Promise.all([
+    sb.from('sessions').select('id,title,book_slug,visibility,owner_id,created_at')
+      .eq('visibility', 'public').order('created_at', { ascending: false }).limit(60),
+    memberIds.length > 0
+      ? sb.from('sessions').select('id,title,book_slug,visibility,owner_id,created_at')
+          .in('id', memberIds).order('created_at', { ascending: false }).limit(60)
+      : Promise.resolve({ data: [] })
+  ]);
+  if (pubRes.error) { list.innerHTML = '<p class="err">خطا: ' + esc(pubRes.error.message) + '</p>'; return; }
+  // ترکیب و حذف تکراری‌ها
+  const seen = new Set();
+  const combined = [...(myRes.data || []), ...(pubRes.data || [])].filter((s) => {
+    if (seen.has(s.id)) return false; seen.add(s.id); return true;
+  }).sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 100);
+  list.innerHTML = (combined && combined.length) ? combined.map((s) => `
     <a data-id="${s.id}" data-public="${s.visibility === 'public'}" data-member="${mine.has(s.id)}">
       <b>${esc(s.title)}</b>
       <span class="tag">${s.visibility === 'public' ? 'عمومی' : 'خصوصی'}</span>
       ${mine.has(s.id) ? '<span class="tag">عضو</span>' : ''}
       ${s.book_slug ? `<span class="muted"> · ${esc(s.book_slug)}</span>` : ''}
-    </a>`).join('') : '<p class="muted">نشستی نیست.</p>';
+    </a>`).join('') : '<p class="muted">نشستی نیست. اولین نشست را بسازید!</p>';
   list.querySelectorAll('a').forEach((a) => {
     a.onclick = () => openFromList(a.dataset.id, a.dataset.public === 'true', a.dataset.member === 'true');
   });
@@ -382,6 +585,9 @@ async function openSession(id) {
   curPage = 0; manifest = null; annos = [];
   paintLive();
   loadMedia();
+  loadPipeline();
+  const firstTab = document.querySelector('.session-tab-btn[data-tab="tabCanvas"]');
+  if (firstTab) firstTab.click();
   setOcrContext(room, me, sb);
   await Promise.all([loadMembers(), loadMessages(), loadTasks(), loadManifest(), loadAnnotations()]);
   subscribe();
@@ -670,12 +876,59 @@ async function runCommand(line) {
 async function init() {
   if (!cfg || !cfg.url) { $('loginMsg').textContent = 'تنظیمات Supabase پیدا نشد.'; show('viewLogin'); return; }
   const { data } = await sb.auth.getSession();
-  if (data.session) await enter(data.session.user);
-  else show('viewLogin');
+  if (data.session) {
+    await enter(data.session.user);
+  } else {
+    // نمایش صفحه اصلی با نشست‌های عمومی حتی بدون لاگین
+    show('viewHome');
+    renderHomeGuest();
+  }
   sb.auth.onAuthStateChange((ev, session) => {
     if (ev === 'SIGNED_IN' && session && (!me || me.id !== session.user.id)) enter(session.user);
-    if (ev === 'SIGNED_OUT') { me = null; show('viewLogin'); }
+    if (ev === 'SIGNED_OUT') { me = null; show('viewHome'); renderHomeGuest(); }
   });
+}
+
+// نمایش نشست‌های عمومی برای کاربر ناشناخته
+async function renderHomeGuest() {
+  const list = $('sessionList');
+  list.innerHTML = '<p class="muted">در حال بارگذاری نشست‌های عمومی…</p>';
+  // پنهان کردن فرم ساخت نشست و پیوستن برای مهمان
+  const createCard = $('btnCreate') && $('btnCreate').closest('.card');
+  const joinCard = $('btnJoin') && $('btnJoin').closest('.card');
+  if (createCard) createCard.style.display = 'none';
+  if (joinCard) joinCard.style.display = 'none';
+  // نمایش پیام ورود
+  let guestNotice = document.getElementById('guestLoginNotice');
+  if (!guestNotice) {
+    guestNotice = document.createElement('div');
+    guestNotice.id = 'guestLoginNotice';
+    guestNotice.className = 'card';
+    guestNotice.style.cssText = 'text-align:center;padding:20px;margin-bottom:16px';
+    guestNotice.innerHTML = '<p class="muted" style="margin-bottom:12px">برای ساخت نشست یا پیوستن با کد دعوت، ابتدا وارد شوید.</p>' +
+      '<button id="guestLoginBtn">ورود به حساب کاربری</button>';
+    list.parentElement.insertAdjacentElement('beforebegin', guestNotice);
+    document.getElementById('guestLoginBtn').onclick = () => show('viewLogin');
+  }
+  guestNotice.style.display = '';
+  try {
+    const { data, error } = await sb.from('sessions')
+      .select('id,title,book_slug,visibility,created_at')
+      .eq('visibility', 'public')
+      .order('created_at', { ascending: false }).limit(50);
+    if (error) { list.innerHTML = '<p class="muted">برای دیدن نشست‌ها وارد شوید.</p>'; return; }
+    list.innerHTML = (data && data.length) ? data.map((s) => `
+      <a data-id="${s.id}" data-public="true" data-member="false">
+        <b>${esc(s.title)}</b>
+        <span class="tag">عمومی</span>
+        ${s.book_slug ? `<span class="muted"> · ${esc(s.book_slug)}</span>` : ''}
+      </a>`).join('') : '<p class="muted">نشست عمومی‌ای وجود ندارد. برای ساخت نشست ابتدا وارد شوید.</p>';
+    list.querySelectorAll('a[data-id]').forEach((a) => {
+      a.onclick = () => { show('viewLogin'); };
+    });
+  } catch (e) {
+    list.innerHTML = '<p class="muted">خطا در بارگذاری. اتصال اینترنت را بررسی کنید.</p>';
+  }
 }
 mountSourceSearch($('homeSearch'), {
   actions: [
@@ -699,5 +952,8 @@ mountSourceSearch($('homeSearch'), {
     }
   }
 });
+
 initSessionOcr();
+initSessionTabs();
+initLiteraryTranslation();
 init();

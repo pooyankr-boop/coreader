@@ -510,6 +510,36 @@ $('edExport').onclick=function(){
   toast('مانیفست ساخته و روی سرور ذخیره شد ✅');
 };
 $('edExportWA').onclick=function(){ dl('annotations.json',buildWA()); toast('حاشیه‌ها دانلود شد ✅'); };
+$('edAddToCatalog').onclick=async function(){
+  var title=(edMeta.label||$('mdLabel').value||'').trim();
+  if(!title){
+    title=prompt('عنوان اثر برای نمایش در کاتالوگ:')||'';
+    if(!title.trim()){ toast('عنوان اثر الزامی است'); return; }
+  }
+  var slug=(title.toLowerCase().replace(/[^\w\u0600-\u06FF]+/g,'-').replace(/^-+|-+$/g,'')||('iiif-'+Date.now())).slice(0,50);
+  var coverImg=(pages[0]&&pages[0].img)?pages[0].img:'';
+  var itemData={
+    slug:slug,
+    title:title,
+    author:edMeta.rights||'ادیتور فارسی',
+    source:'iiif',
+    section:'raah',
+    provider:'پروژه ادیتور IIIF',
+    pages:pages.length||1,
+    cover:coverImg,
+    coverThumb:coverImg,
+    manifestUrl:manifestUrl||'',
+    desc:(edMeta.summary||$('mdSummary').value||'نسخه خطی رونویسی‌شده در ادیتور فارسی IIIF')
+  };
+  var custom=lsGet('coreader-custom-books',[]);
+  custom=custom.filter(function(x){ return x.slug!==slug; });
+  custom.unshift(itemData);
+  lsSet('coreader-custom-books',custom);
+  try{
+    await fetch(apiBase()+'/api/catalog/item',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({item:itemData})});
+  }catch(e){}
+  toast('اثر با موفقیت به فهرست کارت‌های کاتالوگ اضافه شد ✅');
+};
 
 /* ---------- official tools (deep links to current content) ---------- */
 function pageCanvasUrl(){

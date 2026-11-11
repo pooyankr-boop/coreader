@@ -1,0 +1,513 @@
+/* virtual-light.css — شبیه‌ساز پریمیوم نورهای سنتی و مدرن با رابط کاربری لوکس */
+
+/* دکمه تنظیم نور در نوار ابزار */
+.btn-vlight {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  border-radius: 9999px;
+  padding: 8px 16px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid var(--border, rgba(201, 151, 56, 0.25));
+  background: var(--card-bg, rgba(255, 255, 255, 0.08));
+  color: var(--text, #f0e6d2);
+}
+
+.btn-vlight:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold, #c99738);
+  box-shadow: 0 8px 24px rgba(201, 151, 56, 0.25);
+  color: var(--gold, #f6d47c);
+}
+
+.btn-vlight.active {
+  background: var(--gold-gradient, linear-gradient(135deg, #e5b842 0%, #b8860b 50%, #8a5a3b 100%)) !important;
+  color: #16120b !important;
+  border-color: transparent !important;
+  box-shadow: 0 0 20px rgba(229, 184, 66, 0.65), 0 4px 14px rgba(0, 0, 0, 0.3) !important;
+  font-weight: 800;
+}
+
+/* لایه پوشش منبع نور متحرک روی کادر تصویر (با امتداد امن به حاشیه‌ها جهت جلوگیری از هرگونه خط لبه) */
+.vlight-layer {
+  position: absolute;
+  inset: -20px;
+  pointer-events: none;
+  z-index: 25;
+  mix-blend-mode: multiply;
+  opacity: 0;
+  display: none !important;
+  visibility: hidden !important;
+  transition: opacity 0.35s ease;
+}
+
+.vlight-layer.is-fixed {
+  position: fixed !important;
+  inset: -20px !important;
+  z-index: 25 !important;
+}
+
+.vlight-layer.active {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1;
+}
+
+/* پرتو نور بالایی (Highlight / Specular Layer) */
+.vlight-highlight-layer {
+  position: absolute;
+  inset: -20px;
+  pointer-events: none;
+  z-index: 26;
+  mix-blend-mode: screen;
+  opacity: 0;
+  display: none !important;
+  visibility: hidden !important;
+  transition: opacity 0.35s ease;
+}
+
+.vlight-highlight-layer.is-fixed {
+  position: fixed !important;
+  inset: -20px !important;
+  z-index: 26 !important;
+}
+
+.vlight-highlight-layer.active {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1;
+}
+
+.vlight-torch-cursor.is-fixed {
+  position: fixed !important;
+  z-index: 27 !important;
+}
+
+/* پنل شناور تنظیم نور (Glassmorphic Luxury Panel) */
+.vlight-panel {
+  position: fixed;
+  top: 68px;
+  left: 24px;
+  width: 420px;
+  max-width: calc(100vw - 32px);
+  max-height: calc(100vh - 90px);
+  background: var(--card-bg, rgba(20, 24, 33, 0.94));
+  border: 1.5px solid var(--gold, #c99738);
+  border-radius: 22px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.65), 0 0 35px rgba(201, 151, 56, 0.35);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  color: var(--text, #f0e6d2);
+  font-family: inherit;
+  direction: rtl;
+  user-select: none;
+  transform: translateY(-12px) scale(0.97);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  overflow: hidden;
+}
+
+.vlight-panel.open {
+  transform: translateY(0) scale(1);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.vlight-header {
+  padding: 16px 20px;
+  background: linear-gradient(135deg, rgba(201, 151, 56, 0.28), rgba(138, 90, 59, 0.2));
+  border-bottom: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vlight-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--gold, #f6d47c);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.vlight-close {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+  color: var(--muted, #9bb0cd);
+  font-size: 16px;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 10px;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vlight-close:hover {
+  color: #fff;
+  background: rgba(239, 68, 68, 0.7);
+  border-color: rgba(239, 68, 68, 0.9);
+  transform: rotate(90deg);
+}
+
+.vlight-body {
+  padding: 18px 20px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold, #c99738) transparent;
+}
+
+.vlight-body::-webkit-scrollbar {
+  width: 6px;
+}
+.vlight-body::-webkit-scrollbar-thumb {
+  background: var(--gold, #c99738);
+  border-radius: 6px;
+}
+
+/* تب‌ها / دسته‌بندی‌های نور */
+.vlight-cat-tabs {
+  display: flex;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 5px;
+  border-radius: 14px;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+}
+
+.vlight-cat-tab {
+  flex: 1;
+  padding: 8px 6px;
+  font-size: 12px;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--muted, #9bb0cd);
+  cursor: pointer;
+  transition: all 0.22s ease;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.vlight-cat-tab:hover {
+  color: var(--text, #fff);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.vlight-cat-tab.active {
+  background: var(--gold-gradient, linear-gradient(135deg, #e5b842 0%, #b8860b 100%));
+  color: #16120b;
+  font-weight: 800;
+  box-shadow: 0 4px 12px rgba(201, 151, 56, 0.4);
+}
+
+/* شبکه کارت‌های انتخاب نور */
+.vlight-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.vlight-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  text-align: right;
+  position: relative;
+  overflow: hidden;
+}
+
+.vlight-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3px;
+  height: 0;
+  background: var(--gold, #c99738);
+  transition: height 0.25s ease;
+}
+
+.vlight-card:hover {
+  border-color: var(--gold, #c99738);
+  transform: translateY(-2px);
+  background: rgba(201, 151, 56, 0.12);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.vlight-card:hover::before {
+  height: 100%;
+}
+
+.vlight-card.active {
+  border-color: var(--gold, #f6d47c);
+  background: linear-gradient(135deg, rgba(201, 151, 56, 0.3), rgba(138, 90, 59, 0.22));
+  box-shadow: 0 0 20px rgba(201, 151, 56, 0.35);
+}
+
+.vlight-card.active::before {
+  height: 100%;
+}
+
+.vlight-card-icon {
+  font-size: 22px;
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5));
+}
+
+.vlight-card-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  gap: 2px;
+}
+
+.vlight-card-name {
+  font-size: 13px;
+  font-weight: 800;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--text, #fff);
+}
+
+.vlight-card-desc {
+  font-size: 11px;
+  color: var(--muted, #9bb0cd);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* اسلایدرها و بخش تنظیمات */
+.vlight-section-title {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--accent, #e5b842);
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.vlight-slider-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.22);
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.08));
+}
+
+.vlight-slider-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted, #9bb0cd);
+}
+
+.vlight-slider-meta span.val {
+  color: var(--gold, #f6d47c);
+  font-weight: 800;
+  background: rgba(201, 151, 56, 0.18);
+  padding: 2px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(201, 151, 56, 0.3);
+}
+
+.vlight-slider-row input[type="range"] {
+  width: 100%;
+  accent-color: var(--gold, #c99738);
+  cursor: pointer;
+  height: 6px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  outline: none;
+}
+
+/* سوئیچ‌ها و دکمه‌های کنترلی */
+.vlight-switches {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: rgba(0, 0, 0, 0.28);
+  padding: 12px 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.1));
+}
+
+.vlight-switch-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 4px 0;
+  transition: color 0.18s;
+}
+
+.vlight-switch-label:hover {
+  color: var(--gold, #f6d47c);
+}
+
+.vlight-switch-label input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--gold, #c99738);
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+/* انتخاب دامنه اثر (Scope) */
+.vlight-scope-row {
+  display: flex;
+  gap: 8px;
+}
+
+.vlight-scope-btn {
+  flex: 1;
+  padding: 8px 6px;
+  font-size: 12px;
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+  border-radius: 10px;
+  color: var(--muted, #9bb0cd);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.vlight-scope-btn:hover {
+  color: #fff;
+  border-color: var(--gold, #c99738);
+  background: rgba(201, 151, 56, 0.1);
+}
+
+.vlight-scope-btn.active {
+  background: var(--gold-gradient, #c99738);
+  color: #14100c;
+  border-color: transparent;
+  font-weight: 800;
+  box-shadow: 0 4px 14px rgba(201, 151, 56, 0.35);
+}
+
+/* فوتر پنل نور */
+.vlight-footer {
+  padding: 14px 20px;
+  border-top: 1px solid var(--border, rgba(255, 255, 255, 0.12));
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.vlight-btn {
+  padding: 9px 18px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  border: 1px solid var(--border, rgba(255, 255, 255, 0.18));
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text, #fff);
+  cursor: pointer;
+  transition: all 0.22s ease;
+}
+
+.vlight-btn:hover {
+  border-color: var(--gold, #c99738);
+  background: rgba(201, 151, 56, 0.2);
+  transform: translateY(-1px);
+}
+
+.vlight-btn.primary {
+  background: var(--gold-gradient, linear-gradient(135deg, #e5b842 0%, #b8860b 50%, #8a5a3b 100%));
+  color: #151009;
+  border: none;
+  font-weight: 800;
+  box-shadow: 0 4px 16px rgba(201, 151, 56, 0.45);
+}
+
+.vlight-btn.primary.is-off {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: #e0d0b0 !important;
+  border: 1px solid rgba(201, 151, 56, 0.4) !important;
+  box-shadow: none !important;
+}
+
+.vlight-btn.primary.is-off:hover {
+  background: rgba(201, 151, 56, 0.25) !important;
+  border-color: var(--gold, #c99738) !important;
+  color: #fff !important;
+}
+
+/* هاله شناور نشانگر نور متحرک هنگام فعال بودن */
+.vlight-torch-cursor {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 215, 0, 0.9);
+  box-shadow: 0 0 20px rgba(255, 175, 45, 0.95), inset 0 0 10px rgba(255, 255, 255, 0.9);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+  z-index: 30;
+  display: none;
+  transition: width 0.15s, height 0.15s, opacity 0.15s, border-color 0.2s;
+}
+
+.vlight-torch-cursor.pinned {
+  border-color: #ef4444;
+  box-shadow: 0 0 24px rgba(239, 68, 68, 0.95), inset 0 0 10px #fff;
+}
+
+.vlight-torch-cursor.pinned::after {
+  content: "📌";
+  position: absolute;
+  top: -26px;
+  right: -8px;
+  font-size: 18px;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,0.85));
+}
+
+/* انیمیشن سوسوزدن ارگانیک و طبیعی شمع و مشعل (بدون هرگونه جابجایی هندسی لبه‌ها) */
+@keyframes vlightFlicker {
+  0%   { opacity: 0.98; filter: brightness(1.0); }
+  20%  { opacity: 0.92; filter: brightness(0.96); }
+  40%  { opacity: 1.04; filter: brightness(1.03); }
+  60%  { opacity: 0.94; filter: brightness(0.97); }
+  80%  { opacity: 1.02; filter: brightness(1.02); }
+  100% { opacity: 0.98; filter: brightness(1.0); }
+}
+
+.vlight-flickering {
+  animation: vlightFlicker 0.22s infinite alternate ease-in-out;
+  transform: none !important;
+}

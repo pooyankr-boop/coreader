@@ -262,12 +262,27 @@ function showCatalog(){
       return r.json();
     })
     .then(function(list){
+      // اعمال حذف‌های ثبت‌شده در پنل
+      var deleted = []; try { deleted = lsGet('coreader-catalog-deleted', []); } catch(e){}
+      var delMap = {}; (deleted || []).forEach(function(s){ delMap[s] = 1; });
+      if(deleted && deleted.length){
+        list = list.filter(function(b){ return !delMap[b.slug]; });
+      }
+
+      // اعمال ویرایش‌های ثبت‌شده در پنل
+      var overrides = {}; try { overrides = lsGet('coreader-catalog-overrides', {}); } catch(e){}
+      if(overrides && typeof overrides === 'object'){
+        list = list.map(function(b){ return overrides[b.slug] ? Object.assign({}, b, overrides[b.slug]) : b; });
+      }
+
       var custom = [];
       try { custom = lsGet('coreader-custom-books', []); } catch(e){}
       var indexSlugs = {};
       list.forEach(function(b){ indexSlugs[b.slug] = 1; });
       custom = custom.filter(function(c){
-        return !indexSlugs[c.slug] && !list.some(function(b){ return b.manifestUrl && b.manifestUrl === c.manifestUrl; });
+        return !delMap[c.slug] && !indexSlugs[c.slug] && !list.some(function(b){ return b.manifestUrl && b.manifestUrl === c.manifestUrl; });
+      }).map(function(c){
+        return overrides[c.slug] ? Object.assign({}, c, overrides[c.slug]) : c;
       });
 
       window._allRawBooks = list.concat(custom);

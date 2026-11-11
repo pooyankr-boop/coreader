@@ -72,8 +72,35 @@
       <button class="ghost" id="btnTxt" disabled>دانلود TXT</button>
       <input type="text" id="ocrSession" placeholder="شناسهٔ نشست (از آدرس صفحهٔ نشست ?s=...)"><button class="ghost" id="btnSaveSession">ذخیره در نشست و جستجوی عمیق</button>
       <button id="btnToStudio" disabled>ارسال خط‌ها به استودیوی صوت</button>
+      <button id="btnAddToCatalogFromOcr" class="ghost" disabled>➕ افزودن این سند به کاتالوگ</button>
     </div>
     <div id="msg" class="muted"></div>
+  </div>
+
+  <div class="card" id="cardTranslation">
+    <h2>۶. ترجمه ادبی هوشمند (Literary Translation)</h2>
+    <p class="muted">ترجمه متن‌های استخراج‌شده از هر زبانی به زبان دیگر با حفظ فصاحت ادبی، سبک تاریخی و تمثیلات.</p>
+    <div class="row">
+      <label>زبان مقصد:
+        <select id="trTargetLang">
+          <option value="fa">فارسی</option>
+          <option value="en">انگلیسی (English)</option>
+          <option value="fr">فرانسوی (Français)</option>
+          <option value="ar">عربی (العربية)</option>
+          <option value="de">آلمانی (Deutsch)</option>
+          <option value="ur">اردو</option>
+        </select>
+      </label>
+      <label>سبک ترجمه:
+        <select id="trStyle">
+          <option value="literary">ادبی و ادیبانه (حفظ لحن کهن و فاخر)</option>
+          <option value="fluent">روان و امروزی</option>
+          <option value="literal">مقابله‌ای و واژه‌به‌واژه</option>
+        </select>
+      </label>
+      <button id="btnTranslateOcr" class="primary" disabled>✨ ترجمه هوشمند متون</button>
+    </div>
+    <div id="translationOutput" style="margin-top:12px"></div>
   </div>
 </main>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>

@@ -4,21 +4,21 @@ const core = require('./bot-core.js');
 const WEBHOOK = process.env.TELEGRAM_WEBHOOK === '1';
 // همگام‌سازی فهرست دستورها و دکمه منوی ربات هنگام راه‌اندازی (دوباره دستی نیاز نیست)
 const MENU_COMMANDS = [
-  { command: 'start', description: 'شروع و راهنما' },
-  { command: 'app', description: 'بازکردن کتابخوان' },
-  { command: 'search', description: 'جست‌وجو: /search متن' },
-  { command: 'book', description: 'کتاب مشخص: /book slug' },
-  { command: 'daily', description: 'اثر روز' },
-  { command: 'quiz', description: 'مسابقه یا پرسش از آثار' },
-  { command: 'hashiye', description: 'حاشیه روی اثر' },
-  { command: 'link', description: 'اتصال حساب: /link کد' },
-  { command: 's_help', description: 'راهنمای نشست' },
-  { command: 's_link', description: 'وصل کردن گروه به نشست' },
-  { command: 's_info', description: 'نشست وصل‌شده' },
-  { command: 's_note', description: 'حاشیه: /s_note صفحه متن' },
-  { command: 's_task', description: 'ثبت وظیفه با #هشتگ' },
-  { command: 's_tasks', description: 'وظایف باز' },
-  { command: 's_done', description: 'انجام‌شد: /s_done شماره' }
+  { command: 'start', description: '🏛️ شروع و منوی اصلی' },
+  { command: 'app', description: '📱 بازکردن مینی‌اپ کتابخوان' },
+  { command: 'search', description: '🔍 جست‌وجوی هوشمند آثار' },
+  { command: 'daily', description: '🎲 اثر تصادفی روز' },
+  { command: 'quiz', description: '🧩 مسابقه حدس نسخه خطی' },
+  { command: 'catalog', description: '📚 کاتالوگ جامع کتابخوانه' },
+  { command: 'sessions', description: '👥 تالار کارگاه‌ها و نشست‌ها' },
+  { command: 'live', description: '🔴 نشست‌های زنده فعال' },
+  { command: 'tour', description: '🗺️ تورهای مجازی سه‌بعدی' },
+  { command: 'projects', description: '📜 پروژه‌های IIIF و حاشیه‌نگاری' },
+  { command: 'book', description: '📖 مشاهده اثر: /book slug' },
+  { command: 'hashiye', description: '📝 ثبت حاشیه: /hashiye' },
+  { command: 'link', description: '🔑 اتصال به پنل: /link کد' },
+  { command: 'help', description: '❓ راهنمای جامع دستورها' },
+  { command: 's_help', description: '👥 راهنمای نشست‌های گروهی' }
 ];
 async function syncBotMenu() {
   try {
@@ -55,18 +55,29 @@ async function poll() {
 }
 console.log('coreader bot polling… site=' + core.SITE + ' public=' + core.PUBLIC + (core.HAS_PUBLIC_HTTPS ? ' (webapp OK)' : ' (webapp needs https)'));
 
-// اثر روز: از ۸ صبح تهران، اگر امروز هنوز ارسال نشده، ارسال می‌کند.
-// قفل «یک بار در روز» داخل postDaily (Supabase) است، پس راه‌اندازی مجدد یا چند نمونه هم دوباره ارسال نمی‌کند.
+// سازوکار آماده‌باش و بیدارباش صبحگاهی (از ۰۷:۴۵ صبح تهران؛ ربع ساعت قبل از ۸)
+// این فرآیند از به خواب رفتن سرور جلوگیری می‌کند تا پست رأس ساعت ۸ بدون وقفه ارسال شود.
 let lastDoneDay = '';
 setInterval(async () => {
   try {
-    if (core.tehranHM() < '08:00') return;
+    const hm = core.tehranHM();
     const today = core.tehranDate();
-    if (lastDoneDay === today) return;
-    const r = await core.postDaily();
-    lastDoneDay = today;
-    console.log('[bot] daily:', r && r.skipped ? 'already posted today' : 'posted');
-  } catch (e) { console.error('[bot] daily error:', e.message); }
+
+    // ربع ساعت قبل از هشت صبح (۰۷:۴۵ تا ۰۸:۰۰): پینگ آماده‌باش و گرم نگه‌داشتن سرور
+    if (hm >= '07:45' && hm < '08:00') {
+      try {
+        await fetch(core.SITE + '/api/wake-daily').catch(() => {});
+      } catch (e) {}
+    }
+
+    // ارسال پست روزانه رأس ساعت ۸ صبح به بعد
+    if (hm >= '08:00') {
+      if (lastDoneDay === today) return;
+      const r = await core.postDaily();
+      lastDoneDay = today;
+      console.log('[bot] daily:', r && r.skipped ? 'already posted today' : 'posted');
+    }
+  } catch (e) { console.error('[bot] daily timer error:', e.message); }
 }, 60000);
 
 // WEBHOOK_MODE: روی هاست، آپدیت‌ها از مسیر وب‌هوک می‌آیند (poll لازم نیست)
