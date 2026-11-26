@@ -1,0 +1,657 @@
+/* digital-pen.css — استایل‌های قلم نوری، پد دست‌خط فارسی و حاشیه‌نویسی دیجیتال */
+
+/* ===== دکمه‌ها و گزینه‌های نوار ابزار ویرایش (#editToolbar) ===== */
+.edit-toolbar .pen-tool-btn{
+  background: var(--bg);
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  padding: 3px 10px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all .2s var(--ease-out-expo);
+}
+.edit-toolbar .pen-tool-btn:hover,
+.edit-toolbar .pen-tool-btn.active{
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 0 10px rgba(139,69,19,.4);
+}
+
+/* ===== پد شناور دست‌خط فارسی (#hwPadModal) ===== */
+#hwPadModal{
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  width: min(94vw, 720px);
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  box-shadow: 0 20px 50px rgba(0,0,0,.25), 0 2px 8px rgba(0,0,0,.1);
+  z-index: 10000;
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+  direction: rtl;
+  font-family: var(--ff);
+  opacity: 0;
+  transition: opacity .25s ease, transform .25s var(--ease-out-expo);
+}
+#hwPadModal.on{
+  display: flex;
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* نوار عنوان و جابجایی پد */
+.hw-header{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  background: rgba(0,0,0,.04);
+  border-bottom: 1px solid var(--border);
+  cursor: grab;
+  user-select: none;
+}
+.hw-header:active{
+  cursor: grabbing;
+}
+.hw-title{
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--fg-color);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.hw-status{
+  font-size: 11px;
+  color: var(--accent);
+  margin-right: 8px;
+  font-weight: normal;
+}
+.hw-controls{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.hw-icon-btn{
+  background: none;
+  border: none;
+  color: var(--fg-color);
+  opacity: .75;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 6px;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .15s;
+}
+.hw-icon-btn:hover{
+  opacity: 1;
+  background: var(--hover);
+  color: var(--accent);
+}
+
+/* نوار کلمات پیشنهادی (Candidates Bar) */
+.hw-candidates-bar{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 12px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  min-height: 40px;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: thin;
+}
+.hw-candidate-pill{
+  background: var(--bg);
+  color: var(--fg-color);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px 12px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all .15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.hw-candidate-pill:hover{
+  border-color: var(--accent);
+  background: var(--hover);
+  color: var(--accent);
+}
+.hw-candidate-pill.primary{
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  font-weight: bold;
+}
+.hw-candidate-hint{
+  font-size: 12px;
+  color: var(--text);
+  opacity: .6;
+  margin-right: auto;
+}
+
+/* بوم کشیدن دست‌خط */
+.hw-canvas-wrap{
+  position: relative;
+  width: 100%;
+  height: 180px;
+  background: var(--bg);
+  cursor: crosshair;
+  touch-action: none; /* جلوگیری از اسکرول صفحه هنگام نوشتن */
+  overflow: hidden;
+}
+.hw-canvas{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+}
+/* خط کرسی (راهنمای سطرنویسی فارسی) */
+.hw-guideline{
+  position: absolute;
+  top: 68%;
+  left: 5%;
+  right: 5%;
+  height: 1px;
+  border-bottom: 1px dashed rgba(181,131,78,.45);
+  pointer-events: none;
+  z-index: 1;
+}
+.hw-guideline-top{
+  position: absolute;
+  top: 28%;
+  left: 5%;
+  right: 5%;
+  height: 1px;
+  border-bottom: 1px dotted rgba(181,131,78,.25);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* نوار ابزار قلم و سرقلم‌ها */
+.hw-nib-bar{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  overflow-x: auto;
+  flex-wrap: wrap;
+}
+.hw-nib-btn{
+  background: var(--bg);
+  color: var(--fg-color);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 4px 9px;
+  font-size: 12px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all .15s;
+}
+.hw-nib-btn:hover{
+  border-color: var(--accent);
+  background: var(--hover);
+}
+.hw-nib-btn.active{
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.hw-sep{
+  width: 1px;
+  height: 20px;
+  background: var(--border);
+  margin: 0 4px;
+}
+.hw-color-dot{
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: transform .15s;
+}
+.hw-color-dot:hover{
+  transform: scale(1.15);
+}
+.hw-color-dot.active{
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--bg);
+}
+.hw-slider-label{
+  font-size: 11px;
+  color: var(--text);
+  opacity: .8;
+}
+.hw-slider{
+  width: 70px;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+/* نوار کلیدهای عملیاتی و اعراب‌گذاری */
+.hw-actions-bar{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.hw-act-group{
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.hw-act-btn{
+  background: var(--card);
+  color: var(--fg-color);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 5px 11px;
+  font-size: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all .15s;
+}
+.hw-act-btn:hover{
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.hw-act-btn.primary{
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.hw-act-btn.danger{
+  color: #c0392b;
+  border-color: rgba(192,57,43,.3);
+}
+.hw-act-btn.danger:hover{
+  background: #c0392b;
+  color: #fff;
+}
+.hw-diacritic-btn{
+  background: var(--card);
+  color: var(--fg-color);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all .15s;
+}
+.hw-diacritic-btn:hover{
+  background: var(--hover);
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* ===== لایه حاشیه‌نگاری و اصلاح مستقیم روی متن صفحه (On-Page Ink Layer) ===== */
+.page-ink-container{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+  overflow: visible;
+}
+.page-ink-canvas{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+/* در حالت نوشتن مستقیم، دریافت رویدادهای قلم روی بوم فعال می‌شود */
+body.ink-mode-active .page-ink-canvas{
+  pointer-events: auto;
+  cursor: crosshair;
+}
+/* خط‌کش و راهنمای دیجیتال حاشیه */
+.page-ink-margin-guide{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  border-inline-start: 1px dashed rgba(181,131,78,.25);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity .2s;
+}
+body.ink-mode-active .page-ink-margin-guide{
+  opacity: 1;
+}
+
+/* جعبه ابزار شناور حاشیه‌نویسی روی صفحه (#pageInkPalette) */
+#pageInkPalette{
+  position: fixed;
+  top: 65px;
+  right: 20px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 8px 10px;
+  box-shadow: 0 12px 35px rgba(0,0,0,.15);
+  z-index: 9999;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  direction: rtl;
+  user-select: none;
+  animation: fade-slide-down .25s var(--ease-out-expo);
+}
+#pageInkPalette.on{
+  display: flex;
+}
+.pip-row{
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pip-btn{
+  background: var(--bg);
+  color: var(--fg-color);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 13px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: all .15s;
+}
+.pip-btn:hover{
+  border-color: var(--accent);
+  background: var(--hover);
+}
+.pip-btn.active{
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+/* ===== نشانگر کشویی بالای صفحه در موبایل (Bottom Sheet Drag Pill) ===== */
+.hw-drag-pill{
+  width: 44px;
+  height: 5px;
+  border-radius: 3px;
+  background: var(--border);
+  margin: 6px auto 2px;
+  display: block;
+  opacity: .6;
+  cursor: grab;
+}
+
+/* ===== دکمه شناور موبایل برای دسترسی سریع به قلم نوری (#penMobileFab) ===== */
+.pen-mobile-fab{
+  position: fixed;
+  bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  left: 20px;
+  z-index: 9990;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 10px;
+  user-select: none;
+  direction: rtl;
+}
+.fab-main-btn{
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: #fff;
+  border: 2px solid rgba(255,255,255,.3);
+  box-shadow: 0 6px 20px rgba(0,0,0,.28);
+  font-size: 22px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .25s var(--spring), background .2s, box-shadow .2s;
+  touch-action: manipulation;
+}
+.fab-main-btn:active{
+  transform: scale(.92);
+}
+.fab-main-btn.open{
+  transform: rotate(45deg);
+  background: #c0392b;
+}
+.fab-menu{
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
+  animation: fade-slide-up .25s var(--ease-out-expo);
+}
+.fab-menu.on{
+  display: flex;
+}
+.fab-item-btn{
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  color: var(--fg-color);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: bold;
+  font-family: var(--ff);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,.15);
+  white-space: nowrap;
+  transition: all .15s;
+}
+.fab-item-btn:hover,
+.fab-item-btn:active{
+  background: var(--hover);
+  color: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.04);
+}
+.fab-item-icon{
+  font-size: 16px;
+}
+
+/* دکمه قلم در نوار ابزار اصلی بالای صفحه (.toolbar) */
+.toolbar .btn-handwriting{
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: bold;
+}
+.toolbar .btn-handwriting.active{
+  background: var(--accent);
+  color: #fff;
+}
+
+/* ===== بهینه‌سازی‌های جامع نسخه موبایل و تبلت (Responsive Mobile Handwriting) ===== */
+@media (max-width: 900px) {
+  /* تبدیل پد دست‌خط به کشوی زیرین بومی در موبایل (Mobile Bottom Sheet) */
+  #hwPadModal {
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    width: 100vw !important;
+    max-width: 100vw !important;
+    border-radius: 22px 22px 0 0 !important;
+    border-inline: none !important;
+    border-bottom: none !important;
+    box-shadow: 0 -10px 40px rgba(0,0,0,.35) !important;
+    padding-bottom: max(10px, env(safe-area-inset-bottom, 0px)) !important;
+    transform: translateY(100%) !important;
+    max-height: 85vh !important;
+  }
+  #hwPadModal.on {
+    transform: translateY(0) !important;
+  }
+  #hwPadModal.minimized {
+    transform: translateY(calc(100% - 48px)) !important;
+  }
+  #hwPadModal.minimized .hw-candidates-bar,
+  #hwPadModal.minimized .hw-canvas-wrap,
+  #hwPadModal.minimized .hw-nib-bar,
+  #hwPadModal.minimized .hw-actions-bar {
+    display: none !important;
+  }
+
+  .hw-canvas-wrap {
+    height: clamp(140px, 24vh, 190px) !important;
+  }
+
+  /* نوار کلمات پیشنهادی در موبایل با اسکرول لمسی روان */
+  .hw-candidates-bar {
+    padding: 6px 10px;
+    min-height: 44px;
+    -webkit-overflow-scrolling: touch;
+    gap: 6px;
+  }
+  .hw-candidate-pill {
+    padding: 6px 14px;
+    font-size: 15px;
+    min-height: 34px;
+    flex-shrink: 0;
+  }
+
+  /* نوار انتخاب سرقلم‌ها و رنگ‌ها در موبایل */
+  .hw-nib-bar {
+    padding: 6px 10px;
+    gap: 6px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+  }
+  .hw-nib-bar::-webkit-scrollbar {
+    display: none;
+  }
+  .hw-nib-btn {
+    padding: 5px 9px;
+    font-size: 12px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .hw-color-dot {
+    width: 22px;
+    height: 22px;
+    flex-shrink: 0;
+  }
+
+  /* نوار کلیدهای عملیاتی در موبایل */
+  .hw-actions-bar {
+    padding: 6px 10px;
+    gap: 6px;
+    flex-direction: column;
+  }
+  .hw-act-group {
+    width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 3px;
+    gap: 5px;
+    scrollbar-width: none;
+  }
+  .hw-act-group::-webkit-scrollbar {
+    display: none;
+  }
+  .hw-act-btn {
+    padding: 7px 11px;
+    font-size: 12px;
+    flex-shrink: 0;
+    min-height: 36px;
+  }
+  .hw-diacritic-btn {
+    width: 34px;
+    height: 34px;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  /* پالت حاشیه‌نویسی مستقیم روی صفحه در موبایل */
+  #pageInkPalette {
+    top: auto !important;
+    bottom: calc(75px + env(safe-area-inset-bottom, 0px)) !important;
+    left: 10px !important;
+    right: 10px !important;
+    width: calc(100vw - 20px) !important;
+    border-radius: 16px !important;
+    box-shadow: 0 10px 35px rgba(0,0,0,.3) !important;
+  }
+  .pip-row {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 2px;
+    gap: 5px;
+  }
+  .pip-btn {
+    padding: 6px 10px;
+    font-size: 13px;
+    min-height: 36px;
+    flex-shrink: 0;
+  }
+}
+
+
+/* ===== بهینه‌سازی سرعت در موبایل: حذف افکت‌های سنگین (blur و انیمیشن طولانی) ===== */
+@media (max-width: 900px) {
+  #hwPadModal, .pen-mobile-fab, .ctx-menu, .sb, .toolbar, .mic-bar, .tts-bar {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    filter: none !important;
+  }
+  #hwPadModal, .fab-menu, .ctx-menu, .ctx-item {
+    transition-duration: .12s !important;
+  }
+  .ps-txt, .ps { -webkit-touch-callout: none; }
+}
+
+/* ===== منوی دکمهٔ شناور: هماهنگ با کلاس open که در JS تنظیم می‌شود ===== */
+.pen-mobile-fab.open .fab-menu { display: flex; }
+.pen-mobile-fab.open .fab-main-btn { transform: rotate(45deg); }

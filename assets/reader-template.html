@@ -24,6 +24,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Aref+Ruqaa:wght@400;700&family=Cairo:wght@400;600;700&family=El+Messiri:wght@400;500;600;700&family=Lalezar&family=Lateef&family=Noto+Naskh+Arabic:wght@400;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Reem+Kufi:wght@400;500;600;700&family=Sakkal+Majalla&family=Scheherazade+New:wght@400;700&family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../../assets/fonts.css">
 <link rel="stylesheet" href="../assets/translate.css?v=4">
+<link rel="stylesheet" href="../../assets/digital-pen.css?v=1">
 </head>
 <body class="night">
 <div class="loading-overlay" id="loadingOverlay">
@@ -71,6 +72,7 @@
       <button onclick="openSettings()" id="bSettings">⚙️ تنظیمات</button>
       <button onclick="toggleMagnifier()" id="bMag">🔍 ذره‌بین</button>
       <button onclick="openBookSearch()" title="جست‌وجو در کل کتاب">🔎 جست‌وجو</button><button onclick="showFavPanel()">⭐ علاقه‌مندی</button>
+      <button onclick="window.DigitalPen &amp;&amp; DigitalPen.togglePad()" id="bHandwriting" class="btn-handwriting" title="دست‌خط و قلم دیجیتال">✍️ قلم</button>
     </div>
     <button class="toolbar-toggle" id="toolbarToggle" onclick="toggleToolbar()">☰</button>
     <div class="tc" id="tc"></div>
@@ -159,12 +161,23 @@
 <!-- Floating edit toolbar (shown in edit mode) -->
 <div class="edit-toolbar" id="editToolbar">
   <select id="editFont" onchange="applyEditStyle('fontName', this.value)">
-    <option value="'Scheherazade New',serif">شهرزاد نو</option>
-    <option value="'Noto Naskh Arabic',serif">Noto Naskh Arabic</option>
-    <option value="Tahoma,sans-serif">Tahoma</option>
-    <option value="Arial,sans-serif">Arial</option>
-    <option value="'Times New Roman',serif">Times New Roman</option>
-    <option value="Verdana,sans-serif">Verdana</option>
+    <optgroup label="✍️ دست‌خط و خطاطی فارسی">
+      <option value="'Noto Nastaliq Urdu Local','Noto Nastaliq Urdu','Iran Nastaliq',serif">✒️ نستعلیق سنتی</option>
+      <option value="'Aref Ruqaa Local','Aref Ruqaa',serif">✍️ دست‌نویس رقعی</option>
+      <option value="'Dastnevis',cursive,sans-serif">🖊️ دست‌نویس خودکاری</option>
+      <option value="'Shakasteh Beta',serif">🎨 شکسته نستعلیق</option>
+      <option value="'Scheherazade New Local','Scheherazade New',serif">📜 نسخ سنتی (شهرزاد نو)</option>
+      <option value="'Vazirmatn Local','Vazirmatn',sans-serif">📖 قلم روان (وزیر متن)</option>
+      <option value="'Reem Kufi Local','Reem Kufi',sans-serif">🏛️ خط کوفی مدرن</option>
+      <option value="'Lalezar Local','Lalezar',sans-serif">🖋️ خط عنوان / لاله زار</option>
+    </optgroup>
+    <optgroup label="قلم‌های استاندارد">
+      <option value="'Noto Naskh Arabic',serif">Noto Naskh Arabic</option>
+      <option value="Tahoma,sans-serif">Tahoma</option>
+      <option value="Arial,sans-serif">Arial</option>
+      <option value="'Times New Roman',serif">Times New Roman</option>
+      <option value="Verdana,sans-serif">Verdana</option>
+    </optgroup>
   </select>
   <select id="editSize" onchange="applyEditStyle('fontSize', this.value)">
     <option value="2">۱۰</option>
@@ -186,6 +199,9 @@
   <button onclick="applyEditStyle('justifyFull')" title="تمام‌پهنا">▬</button>
   <button onclick="applyEditStyle('justifyLeft')" title="چپ‌چین">▶</button>
   <span class="edit-sep"></span>
+  <button id="btnToggleHwPad" class="pen-tool-btn" onclick="window.DigitalPen && DigitalPen.togglePad()" title="باز کردن پد دست‌خط با قلم نوری (Alt+P)">✍️ پد دست‌خط</button>
+  <button id="btnToggleOnPageInk" class="pen-tool-btn" onclick="window.DigitalPen && DigitalPen.toggleOnPageInk()" title="حاشیه‌نویسی و تصحیح مستقیم با قلم روی صفحه">✒️ قلم روی متن</button>
+  <span class="edit-sep"></span>
   <button onclick="ctxEditText()" class="edit-close" title="پایان ویرایش">✕</button>
 </div>
 
@@ -202,6 +218,8 @@
   <div class="ctx-item" onclick="ctxCopyWithSource()">📋 کپی با ذکر منبع</div>
   <div class="ctx-item ctx-sep"></div>
   <div class="ctx-item" onclick="ctxEditText()">📄 ویرایش متن</div>
+  <div class="ctx-item" onclick="window.DigitalPen && DigitalPen.togglePad(true)">✍️ نوشتن با قلم نوری (دست‌خط)</div>
+  <div class="ctx-item" onclick="window.DigitalPen && DigitalPen.toggleOnPageInk(true)">✒️ حاشیه‌نگاری مستقیم با قلم روی متن</div>
   <div class="ctx-item" onclick="ctxToggleTashkil()">🔤 اعراب‌گذاری</div>
   <div class="ctx-item ctx-sep"></div>
   <div class="ctx-item" onclick="ctxSearchEnc()">🔍 جستجو در فرهنگ لغت</div>
@@ -407,6 +425,7 @@
 <script>window.pdfjsLib && (pdfjsLib.GlobalWorkerOptions.workerSrc='');</script>
 <script src="../../assets/translate.js?v=14"></script>
 <script src="../../assets/lexicon.js?v=3"></script>
+<script src="../../assets/digital-pen.js?v=1"></script>
 <script src="../../assets/reader.js?v=9"></script>
 <script>
   // Clean up obsolete service worker registrations (same policy as viewer/tour): the old worker pre-cached a blank root and served static files cache-first, which kept stale pages after an update.

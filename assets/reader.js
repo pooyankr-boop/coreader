@@ -18,6 +18,19 @@
 (function () {
 'use strict';
 
+// بارگذاری خودکار سامانه قلم نوری و دست‌خط فارسی
+(function loadDigitalPenSuite(){
+  if (window.DigitalPen || document.getElementById('digitalPenScript')) return;
+  var s = document.createElement('script');
+  s.id = 'digitalPenScript';
+  var isSubdir = window.location.pathname.indexOf('/books/') !== -1 || window.location.pathname.indexOf('/reader/') !== -1;
+  s.src = (isSubdir ? '../assets/' : 'assets/') + 'digital-pen.js?v=1';
+  s.onload = function(){
+    if (typeof loadUserEdits === 'function') loadUserEdits();
+  };
+  document.head.appendChild(s);
+})();
+
 var BOOK = null;
 var curPage = 1, annoOn = true;
 
@@ -1141,6 +1154,10 @@ function ctxEditText(){
     txtEl.contentEditable = 'false';
     txtEl.style.outline = 'none'; txtEl.style.background = 'none';
     toolbar.classList.remove('on');
+    if (window.DigitalPen) {
+      window.DigitalPen.togglePad(false);
+      window.DigitalPen.toggleOnPageInk(false);
+    }
     saveUserEdits();
   } else {
     editingText = true;
@@ -1148,6 +1165,9 @@ function ctxEditText(){
     txtEl.style.outline = '2px dashed var(--accent)'; txtEl.style.background = 'var(--hover)';
     txtEl.focus();
     toolbar.classList.add('on');
+    if (window.DigitalPen) {
+      window.DigitalPen.togglePad(true);
+    }
   }
 }
 function applyEditStyle(cmd, val){
@@ -1243,20 +1263,28 @@ function saveUserEdits(){
       var clean = sanitizeEditableHTML(txtEl.innerHTML);
       if (orig && clean !== sanitizeEditableHTML(orig.html)) edits.textEdits[pg] = clean;
     });
+    if (window.DigitalPen && typeof window.DigitalPen.exportEdits === 'function') {
+      edits.inkEdits = window.DigitalPen.exportEdits();
+    }
     localStorage.setItem(editsKey(), JSON.stringify(edits));
   } catch (e) {}
 }
 function loadUserEdits(){
   try {
     var edits = JSON.parse(localStorage.getItem(editsKey()));
-    if (!edits || !edits.textEdits) return;
-    Object.keys(edits.textEdits).forEach(function(pg){
-      var pgEl = document.getElementById('pg_' + pg);
-      var txtEl = pgEl && pgEl.querySelector('.ps-txt');
-      // the same scrub on the way in: anything saved before this fix is
-      // cleaned the moment the book opens
-      if (txtEl) txtEl.innerHTML = sanitizeEditableHTML(edits.textEdits[pg]);
-    });
+    if (!edits) return;
+    if (edits.textEdits) {
+      Object.keys(edits.textEdits).forEach(function(pg){
+        var pgEl = document.getElementById('pg_' + pg);
+        var txtEl = pgEl && pgEl.querySelector('.ps-txt');
+        // the same scrub on the way in: anything saved before this fix is
+        // cleaned the moment the book opens
+        if (txtEl) txtEl.innerHTML = sanitizeEditableHTML(edits.textEdits[pg]);
+      });
+    }
+    if (edits.inkEdits && window.DigitalPen && typeof window.DigitalPen.importEdits === 'function') {
+      window.DigitalPen.importEdits(edits.inkEdits);
+    }
   } catch (e) {}
 }
 setInterval(function(){ if (!editingText) saveUserEdits(); }, 30000);

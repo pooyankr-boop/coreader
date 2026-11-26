@@ -71,6 +71,39 @@ body.edit .hot{cursor:move}
 #zoomPct{font-size:12px;color:#a99;min-width:38px;text-align:center}
 .sep{width:1px;height:24px;background:#4a3a24;margin:0 2px}
 #toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:30;background:rgba(24,18,10,.95);border:1px solid var(--gold);color:#f3e7cd;padding:6px 14px;border-radius:8px;font-size:13px;display:none}
+
+/* رصدخانه فرابنفش کیهان و گالری تصاویر آسماننما */
+#skyGal{display:none;position:fixed;inset:0;z-index:40;background:rgba(8,6,4,.88);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:12px;box-sizing:border-box}
+#skyGalBox{display:flex;flex-direction:column;width:min(96vw,1080px);height:min(92vh,780px);background:#130e09;border:1px solid var(--gold);border-radius:16px;box-shadow:0 16px 50px rgba(0,0,0,.85);overflow:hidden;position:relative}
+.sg-head{display:flex;align-items:center;justify-content:space-between;padding:10px 16px;background:#20170e;border-bottom:1px solid #4a3a24;gap:12px;flex-wrap:wrap}
+.sg-tabs{display:flex;gap:6px;background:#140e08;padding:3px;border-radius:10px;border:1px solid #3d2e1b}
+.sg-tab{background:transparent;color:#bcae97;border:0;padding:6px 14px;border-radius:8px;font-size:13px;cursor:pointer;font-family:inherit;transition:all .2s}
+.sg-tab.active{background:var(--gold);color:#140e08;font-weight:bold}
+.sg-actions{display:flex;align-items:center;gap:8px}
+.sg-btn{background:#2a1f13;color:#e8dcc8;border:1px solid #4a3a24;border-radius:8px;padding:5px 12px;font-size:13px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:4px;font-family:inherit;transition:all .2s}
+.sg-btn:hover{border-color:var(--gold);color:var(--gold)}
+.sg-close{width:32px;height:32px;border-radius:8px;background:#2a1f13;color:#e8dcc8;border:1px solid #4a3a24;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.sg-close:hover{background:#932020;color:#fff;border-color:#ff5555}
+.sg-body{flex:1;position:relative;display:flex;flex-direction:column;overflow:hidden;background:#050403}
+.sg-view{display:none;width:100%;height:100%;position:relative;flex-direction:column}
+.sg-view.active{display:flex}
+.sg-stage{flex:1;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;min-height:0;user-select:none;padding:12px}
+.sg-img{max-width:96%;max-height:96%;object-fit:contain;transition:transform .18s ease-out;box-shadow:0 0 25px rgba(0,0,0,.7);border-radius:6px}
+.sg-nav-arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:rgba(20,14,8,.75);border:1px solid #4a3a24;color:#f3e7cd;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;z-index:5;transition:all .2s;backdrop-filter:blur(4px)}
+.sg-nav-arrow:hover{border-color:var(--gold);color:var(--gold);background:rgba(33,23,14,.9)}
+.sg-prev{right:16px}
+.sg-next{left:16px}
+.sg-info{padding:10px 16px;background:rgba(20,14,8,.94);border-top:1px solid #3d2e1b;display:flex;flex-direction:column;gap:4px}
+.sg-title-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.sg-title{color:var(--gold);font-size:15px;font-weight:bold}
+.sg-meta{color:#a99;font-size:12px}
+.sg-desc{color:#ded2be;font-size:13px;line-height:1.6;margin:0}
+.sg-toolbar{display:flex;align-items:center;gap:8px;padding:8px 14px;background:#1a130b;border-top:1px solid #382816;overflow-x:auto;flex-wrap:wrap}
+.sg-slider-group{display:flex;align-items:center;gap:6px;font-size:12px;color:#c9baa1}
+.sg-slider-group input[type=range]{width:80px;accent-color:var(--gold);cursor:pointer}
+.sg-frame-wrap{flex:1;width:100%;height:100%;position:relative;display:flex;flex-direction:column}
+.sg-frame{flex:1;width:100%;height:100%;border:0;background:#0b0805}
+.sg-frame-hint{padding:8px 14px;background:#181109;border-top:1px solid #3d2e1b;color:#a99;font-size:12px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
 </style>
 </head>
 <body>
@@ -99,6 +132,71 @@ body.edit .hot{cursor:move}
 </div>
 
 <div id="toast"></div>
+
+<!-- رصدخانه فرابنفش کیهان و گالری تصاویر آسماننما -->
+<div id="skyGal" role="dialog" aria-label="رصدخانه فرابنفش کیهان">
+  <div id="skyGalBox">
+    <div class="sg-head">
+      <div class="sg-tabs">
+        <button class="sg-tab active" id="sgTabGallery">🌌 تصاویر رصدخانهٔ فرابنفش (آفلاین)</button>
+        <button class="sg-tab" id="sgTabOnline">🌐 نقشهٔ برخط کیهان (UV Map)</button>
+      </div>
+      <div class="sg-actions">
+        <a id="sgExternalLink" class="sg-btn" target="_blank" rel="noopener" href="https://menard.pha.jhu.edu/uvmap/">باز کردن نقشه در تب جدید ↗</a>
+        <button class="sg-close" id="sgCloseBtn" title="بستن (Esc)">✖</button>
+      </div>
+    </div>
+    <div class="sg-body">
+      <!-- تب گالری آفلاین -->
+      <div id="sgViewGallery" class="sg-view active">
+        <div class="sg-stage">
+          <button class="sg-nav-arrow sg-prev" id="sgArrowPrev" title="تصویر قبلی (جهت راست)">➡️</button>
+          <img id="sgImg" class="sg-img" alt="تصویر فرابنفش کیهان">
+          <button class="sg-nav-arrow sg-next" id="sgArrowNext" title="تصویر بعدی (جهت چپ)">⬅️</button>
+        </div>
+        <div class="sg-info">
+          <div class="sg-title-row">
+            <span id="sgImgTitle" class="sg-title"></span>
+            <span id="sgImgMeta" class="sg-meta"></span>
+          </div>
+          <p id="sgImgDesc" class="sg-desc"></p>
+        </div>
+        <div class="sg-toolbar">
+          <button class="sg-btn" id="sgBtnPrev">قبلی</button>
+          <button class="sg-btn" id="sgBtnNext">بعدی</button>
+          <div class="sep"></div>
+          <button class="sg-btn" id="sgBtnRot" title="چرخش ۹۰ درجه">چرخش ۹۰°</button>
+          <button class="sg-btn" id="sgBtnFlipH" title="آینه افقی">آینه ↔️</button>
+          <button class="sg-btn" id="sgBtnFlipV" title="آینه عمودی">آینه ↕️</button>
+          <button class="sg-btn" id="sgBtnZin" title="بزرگ‌نمایی">زوم ➕</button>
+          <button class="sg-btn" id="sgBtnZout" title="کوچک‌نمایی">زوم ➖</button>
+          <button class="sg-btn" id="sgBtnReset" title="بازنشانی فیلترها و مقیاس">بازنشانی 🔄</button>
+          <div class="sep"></div>
+          <div class="sg-slider-group"><span>روشنایی</span><input id="sgSliderB" type="range" min="40" max="200" value="100"></div>
+          <div class="sg-slider-group"><span>کنتراست</span><input id="sgSliderC" type="range" min="40" max="220" value="100"></div>
+          <div class="sg-slider-group"><span>اشباع</span><input id="sgSliderS" type="range" min="0" max="300" value="100"></div>
+          <div class="sg-slider-group"><span>طیف</span><input id="sgSliderH" type="range" min="0" max="360" value="0"></div>
+          <div class="sg-slider-group"><span>خاکستری</span><input id="sgSliderG" type="range" min="0" max="100" value="0"></div>
+          <div class="sep"></div>
+          <button class="sg-btn" id="sgPreNorm">عادی</button>
+          <button class="sg-btn" id="sgPreUV">UV کاذب‌رنگ</button>
+          <button class="sg-btn" id="sgPreGray">سیاه‌وسفید</button>
+          <button class="sg-btn" id="sgPreInv">نگاتیو</button>
+        </div>
+      </div>
+      <!-- تب نقشه برخط -->
+      <div id="sgViewOnline" class="sg-view">
+        <div class="sg-frame-wrap">
+          <iframe id="sgFrame" class="sg-frame" title="نقشه فرابنفش کیهان" allow="fullscreen; clipboard-read; clipboard-write"></iframe>
+          <div class="sg-frame-hint">
+            <span>نقشهٔ تعاملی فرابنفش کیهان (توسعه‌یافته در دانشگاه جانز هاپکینز). در صورت عدم دسترسی به اینترنت یا مسدود بودن چارچوب، از تب «تصاویر رصدخانهٔ فرابنفش (آفلاین)» استفاده نمایید.</span>
+            <span>کلید Esc کادر را می‌بندد.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script src="../assets/translate.js?v=2"></script>
 <script>
@@ -194,7 +292,8 @@ var ROOMS=[
   {slug:'loc-2017498317',t:'اثر طلسمی کیهانی قاجار',x:74.2,y:78.2,_x_mobile:87.2,_y_mobile:9.9},
   {slug:'loc-2021667231',t:'مهر و مشتری',x:89.4,y:48.9,_x_mobile:50.2,_y_mobile:91},
   {slug:'museum-met-451379',t:'کاسه با ترکیب درباری و نجومی',x:24.1,y:54.6,_x_mobile:53.6,_y_mobile:73.4},
-  {slug:'museum-met-449338',t:'چراغ',x:76.4,y:54.4,_x_mobile:52.6,_y_mobile:47.7}
+  {slug:'museum-met-449338',t:'چراغ',x:76.4,y:54.4,_x_mobile:52.6,_y_mobile:47.7},
+  {embed:'https://menard.pha.jhu.edu/uvmap/',t:'نقشهٔ فرابنفش کیهان (UV Map)',x:50,y:22,_x_mobile:50,_y_mobile:12}
  ]}
 ];
 
@@ -382,6 +481,7 @@ function drawHots(){
     d.addEventListener('touchstart',function(){ tip.textContent=o.t; tip.style.display='block'; tip.style.left=pc[0]+'%'; tip.style.top=pc[1]+'%'; clearTimeout(d._tt); d._tt=setTimeout(function(){tip.style.display='none'},1600); },{passive:true});
     d.onclick=function(e){
       if(editing)return;
+      if(o.embed){openSkyGallery(o.embed,o.t);return}
       if(o.href){location.href=o.href;return}
       if(o.nav){selectRoom(o.nav);return}
       if(o.slug){
@@ -419,6 +519,189 @@ function drawHots(){
   });
 }
 
+// ————— رصدخانه فرابنفش و گالری تصاویر کیهانی آسماننما —————
+var skyGalOpen = false;
+var GAL = {
+  list: [],
+  i: 0,
+  tab: 'gallery',
+  b: 100, c: 100, s: 100, h: 0, g: 0, inv: 0,
+  rot: 0, fx: 1, fy: 1, z: 1,
+  embedUrl: 'https://menard.pha.jhu.edu/uvmap/'
+};
+
+function galFilter(){
+  return 'brightness('+GAL.b+'%) contrast('+GAL.c+'%) saturate('+GAL.s+'%) hue-rotate('+GAL.h+'deg) grayscale('+GAL.g+'%) invert('+GAL.inv+'%)';
+}
+
+function galShow(){
+  var img = document.getElementById('sgImg');
+  var titleEl = document.getElementById('sgImgTitle');
+  var metaEl = document.getElementById('sgImgMeta');
+  var descEl = document.getElementById('sgImgDesc');
+  if(!GAL.list.length){
+    if(titleEl) titleEl.textContent = 'تصویری در رصدخانه بارگذاری نشد.';
+    if(descEl) descEl.textContent = 'لطفاً اطمینان حاصل کنید فایل‌های پوشهٔ tour/sky-gallery/ موجود هستند.';
+    return;
+  }
+  var it = GAL.list[GAL.i];
+  if(img){
+    if(img.getAttribute('src') !== it.src) img.src = it.src;
+    img.style.filter = galFilter();
+    img.style.transform = 'rotate('+GAL.rot+'deg) scale('+(GAL.fx*GAL.z)+','+(GAL.fy*GAL.z)+')';
+  }
+  if(titleEl) titleEl.textContent = it.title || '';
+  if(metaEl) metaEl.textContent = (it.source ? it.source + ' • ' : '') + 'تصویر ' + (GAL.i + 1) + ' از ' + GAL.list.length;
+  if(descEl) descEl.textContent = it.desc || '';
+
+  // به‌روزرسانی مقادیر اسلایدرها
+  var sb = document.getElementById('sgSliderB'); if(sb) sb.value = GAL.b;
+  var sc = document.getElementById('sgSliderC'); if(sc) sc.value = GAL.c;
+  var ss = document.getElementById('sgSliderS'); if(ss) ss.value = GAL.s;
+  var sh = document.getElementById('sgSliderH'); if(sh) sh.value = GAL.h;
+  var sg = document.getElementById('sgSliderG'); if(sg) sg.value = GAL.g;
+}
+
+function galPreset(type){
+  GAL.b = 100; GAL.c = 100; GAL.s = 100; GAL.h = 0; GAL.g = 0; GAL.inv = 0;
+  if(type === 'uv'){ GAL.h = 190; GAL.s = 220; GAL.c = 130; GAL.b = 105; }
+  else if(type === 'gray'){ GAL.g = 100; GAL.c = 115; }
+  else if(type === 'inv'){ GAL.inv = 100; GAL.c = 110; }
+  galShow();
+}
+
+function setSkyGalTab(tab){
+  GAL.tab = tab;
+  var tabGal = document.getElementById('sgTabGallery');
+  var tabOn = document.getElementById('sgTabOnline');
+  var viewGal = document.getElementById('sgViewGallery');
+  var viewOn = document.getElementById('sgViewOnline');
+  var frame = document.getElementById('sgFrame');
+
+  if(tab === 'gallery'){
+    if(tabGal) tabGal.classList.add('active');
+    if(tabOn) tabOn.classList.remove('active');
+    if(viewGal) viewGal.classList.add('active');
+    if(viewOn) viewOn.classList.remove('active');
+  } else {
+    if(tabGal) tabGal.classList.remove('active');
+    if(tabOn) tabOn.classList.add('active');
+    if(viewGal) viewGal.classList.remove('active');
+    if(viewOn) viewOn.classList.add('active');
+    if(frame && (!frame.src || frame.src === 'about:blank' || frame.src === location.href)){
+      frame.src = GAL.embedUrl;
+    }
+  }
+}
+
+function openSkyGallery(url, title){
+  if(url) GAL.embedUrl = url;
+  var galBox = document.getElementById('skyGal');
+  if(!galBox) return;
+  galBox.style.display = 'flex';
+  skyGalOpen = true;
+
+  var extLink = document.getElementById('sgExternalLink');
+  if(extLink) extLink.href = GAL.embedUrl;
+
+  setSkyGalTab('gallery');
+
+  if(!GAL.list.length){
+    fetch('sky-gallery/index.json').then(function(r){ return r.json(); }).then(function(list){
+      GAL.list = Array.isArray(list) ? list : [];
+      GAL.i = 0;
+      galShow();
+    }).catch(function(){
+      GAL.list = [];
+      galShow();
+    });
+  } else {
+    galShow();
+  }
+}
+
+function closeSkyGallery(){
+  var galBox = document.getElementById('skyGal');
+  if(galBox) galBox.style.display = 'none';
+  var frame = document.getElementById('sgFrame');
+  if(frame) frame.src = 'about:blank';
+  skyGalOpen = false;
+}
+
+// اتصال رویدادهای گالری رصدخانه
+(function initSkyGal(){
+  var closeBtn = document.getElementById('sgCloseBtn');
+  if(closeBtn) closeBtn.onclick = closeSkyGallery;
+
+  var tabGal = document.getElementById('sgTabGallery');
+  var tabOn = document.getElementById('sgTabOnline');
+  if(tabGal) tabGal.onclick = function(){ setSkyGalTab('gallery'); };
+  if(tabOn) tabOn.onclick = function(){ setSkyGalTab('online'); };
+
+  function prevImg(){
+    if(GAL.list.length){
+      GAL.i = (GAL.i - 1 + GAL.list.length) % GAL.list.length;
+      galShow();
+    }
+  }
+  function nextImg(){
+    if(GAL.list.length){
+      GAL.i = (GAL.i + 1) % GAL.list.length;
+      galShow();
+    }
+  }
+
+  var btnPrev = document.getElementById('sgBtnPrev');
+  var btnNext = document.getElementById('sgBtnNext');
+  var arrowPrev = document.getElementById('sgArrowPrev');
+  var arrowNext = document.getElementById('sgArrowNext');
+  if(btnPrev) btnPrev.onclick = prevImg;
+  if(btnNext) btnNext.onclick = nextImg;
+  if(arrowPrev) arrowPrev.onclick = prevImg;
+  if(arrowNext) arrowNext.onclick = nextImg;
+
+  var btnRot = document.getElementById('sgBtnRot');
+  if(btnRot) btnRot.onclick = function(){ GAL.rot = (GAL.rot + 90) % 360; galShow(); };
+
+  var btnFlipH = document.getElementById('sgBtnFlipH');
+  if(btnFlipH) btnFlipH.onclick = function(){ GAL.fx = -GAL.fx; galShow(); };
+
+  var btnFlipV = document.getElementById('sgBtnFlipV');
+  if(btnFlipV) btnFlipV.onclick = function(){ GAL.fy = -GAL.fy; galShow(); };
+
+  var btnZin = document.getElementById('sgBtnZin');
+  if(btnZin) btnZin.onclick = function(){ GAL.z = Math.min(4, GAL.z * 1.25); galShow(); };
+
+  var btnZout = document.getElementById('sgBtnZout');
+  if(btnZout) btnZout.onclick = function(){ GAL.z = Math.max(0.5, GAL.z / 1.25); galShow(); };
+
+  var btnReset = document.getElementById('sgBtnReset');
+  if(btnReset) btnReset.onclick = function(){
+    GAL.rot = 0; GAL.fx = 1; GAL.fy = 1; GAL.z = 1;
+    galPreset('none');
+  };
+
+  var preNorm = document.getElementById('sgPreNorm');
+  var preUV = document.getElementById('sgPreUV');
+  var preGray = document.getElementById('sgPreGray');
+  var preInv = document.getElementById('sgPreInv');
+  if(preNorm) preNorm.onclick = function(){ galPreset('none'); };
+  if(preUV) preUV.onclick = function(){ galPreset('uv'); };
+  if(preGray) preGray.onclick = function(){ galPreset('gray'); };
+  if(preInv) preInv.onclick = function(){ galPreset('inv'); };
+
+  var slB = document.getElementById('sgSliderB');
+  var slC = document.getElementById('sgSliderC');
+  var slS = document.getElementById('sgSliderS');
+  var slH = document.getElementById('sgSliderH');
+  var slG = document.getElementById('sgSliderG');
+  if(slB) slB.oninput = function(e){ GAL.b = +e.target.value; galShow(); };
+  if(slC) slC.oninput = function(e){ GAL.c = +e.target.value; galShow(); };
+  if(slS) slS.oninput = function(e){ GAL.s = +e.target.value; galShow(); };
+  if(slH) slH.oninput = function(e){ GAL.h = +e.target.value; galShow(); };
+  if(slG) slG.oninput = function(e){ GAL.g = +e.target.value; galShow(); };
+})();
+
 function selectRoom(id){
   var i=ROOMS.map(function(r){return r.id}).indexOf(id);
   if(i<0)i=0;
@@ -437,6 +720,15 @@ document.getElementById('closeBtn').onclick=goCatalog;
 
 // ————— keyboard —————
 document.addEventListener('keydown',function(e){
+  if(skyGalOpen){
+    if(e.key==='Escape'){closeSkyGallery();return;}
+    if(e.key==='ArrowLeft'){if(GAL.list.length){GAL.i=(GAL.i+1)%GAL.list.length;galShow();}return;}
+    if(e.key==='ArrowRight'){if(GAL.list.length){GAL.i=(GAL.i-1+GAL.list.length)%GAL.list.length;galShow();}return;}
+    if(e.key==='+'||e.key==='='){GAL.z=Math.min(4,GAL.z*1.25);galShow();return;}
+    if(e.key==='-'){GAL.z=Math.max(0.5,GAL.z/1.25);galShow();return;}
+    if(e.key==='0'){GAL.z=1;galShow();return;}
+    return;
+  }
   if(e.key==='ArrowLeft')step(1);           // rtl: left = next
   else if(e.key==='ArrowRight')step(-1);
   else if(e.key==='Escape')goCatalog();

@@ -18,6 +18,19 @@
 (function () {
 'use strict';
 
+// بارگذاری خودکار سامانه قلم نوری و دست‌خط فارسی
+(function loadDigitalPenSuite(){
+  if (window.DigitalPen || document.getElementById('digitalPenScript')) return;
+  var s = document.createElement('script');
+  s.id = 'digitalPenScript';
+  var isSubdir = window.location.pathname.indexOf('/books/') !== -1 || window.location.pathname.indexOf('/reader/') !== -1;
+  s.src = (isSubdir ? '../assets/' : 'assets/') + 'digital-pen.js?v=1';
+  s.onload = function(){
+    if (typeof loadUserEdits === 'function') loadUserEdits();
+  };
+  document.head.appendChild(s);
+})();
+
 var BOOK = null;
 var curPage = 1, annoOn = true;
 
@@ -975,10 +988,45 @@ document.addEventListener('contextmenu', function(e){
   ctxMenu.style.top = Math.min(e.clientY, window.innerHeight - 340) + 'px';
   ctxMenu.setAttribute('data-open', 'true');
 }, true);
+var ctxTouchT = 0;
 document.addEventListener('mousedown', function(e){
   var ctxMenu = document.getElementById('ctxMenu');
+  if (Date.now() - ctxTouchT < 800) return; // mousedown جعلی بعد از لمس طولانی
   if (e.button !== 2 && !ctxMenu.contains(e.target)) ctxMenu.setAttribute('data-open', 'false');
 }, true);
+
+// منوی راست‌کلیک در موبایل: فشار طولانی (حدود نیم‌ثانیه) روی متن
+(function(){
+  var pressT = null, sx = 0, sy = 0, moved = false;
+  function openAt(x, y){
+    var ctxMenu = document.getElementById('ctxMenu');
+    var sel = window.getSelection();
+    if (!sel.toString().trim() && document.caretRangeFromPoint){
+      var r = document.caretRangeFromPoint(x, y);
+      if (r){ sel.removeAllRanges(); var w = r.cloneRange(); sel.addRange(w); }
+    }
+    ctxSel = window.getSelection().toString().trim();
+    ctxRange = window.getSelection().rangeCount > 0 ? window.getSelection().getRangeAt(0) : null;
+    ctxAnnoEl = null;
+    ctxMenu.style.left = Math.max(8, Math.min(x, window.innerWidth - 230)) + 'px';
+    ctxMenu.style.top = Math.max(8, Math.min(y, window.innerHeight - 360)) + 'px';
+    ctxMenu.setAttribute('data-open', 'true');
+    ctxTouchT = Date.now();
+  }
+  document.addEventListener('touchstart', function(e){
+    if (e.touches.length !== 1) { clearTimeout(pressT); return; }
+    if (!(e.target.closest && e.target.closest('.ps-txt,.anno,.ps'))) return;
+    sx = e.touches[0].clientX; sy = e.touches[0].clientY; moved = false;
+    clearTimeout(pressT);
+    pressT = setTimeout(function(){ if (!moved) openAt(sx, sy); }, 500);
+  }, { passive: true });
+  document.addEventListener('touchmove', function(e){
+    var t = e.touches[0];
+    if (t && (Math.abs(t.clientX - sx) > 10 || Math.abs(t.clientY - sy) > 10)) { moved = true; clearTimeout(pressT); }
+  }, { passive: true });
+  document.addEventListener('touchend', function(){ clearTimeout(pressT); }, { passive: true });
+  document.addEventListener('touchcancel', function(){ clearTimeout(pressT); }, { passive: true });
+})();
 
 function ctxAddAnno(){
   document.getElementById('ctxMenu').setAttribute('data-open', 'false');
@@ -1038,6 +1086,10 @@ function ctxEditText(){
     txtEl.contentEditable = 'false';
     txtEl.style.outline = 'none'; txtEl.style.background = 'none';
     toolbar.classList.remove('on');
+    if (window.DigitalPen) {
+      window.DigitalPen.togglePad(false);
+      window.DigitalPen.toggleOnPageInk(false);
+    }
     saveUserEdits();
   } else {
     editingText = true;
@@ -1045,6 +1097,9 @@ function ctxEditText(){
     txtEl.style.outline = '2px dashed var(--accent)'; txtEl.style.background = 'var(--hover)';
     txtEl.focus();
     toolbar.classList.add('on');
+    if (window.DigitalPen) {
+      window.DigitalPen.togglePad(true);
+    }
   }
 }
 function applyEditStyle(cmd, val){
@@ -1078,18 +1133,26 @@ function saveUserEdits(){
       var orig = BOOK.pages.find(function(p){ return p.page === pg; });
       if (orig && txtEl.innerHTML !== orig.html) edits.textEdits[pg] = txtEl.innerHTML;
     });
+    if (window.DigitalPen && typeof window.DigitalPen.exportEdits === 'function') {
+      edits.inkEdits = window.DigitalPen.exportEdits();
+    }
     localStorage.setItem(editsKey(), JSON.stringify(edits));
   } catch (e) {}
 }
 function loadUserEdits(){
   try {
     var edits = JSON.parse(localStorage.getItem(editsKey()));
-    if (!edits || !edits.textEdits) return;
-    Object.keys(edits.textEdits).forEach(function(pg){
-      var pgEl = document.getElementById('pg_' + pg);
-      var txtEl = pgEl && pgEl.querySelector('.ps-txt');
-      if (txtEl) txtEl.innerHTML = edits.textEdits[pg];
-    });
+    if (!edits) return;
+    if (edits.textEdits) {
+      Object.keys(edits.textEdits).forEach(function(pg){
+        var pgEl = document.getElementById('pg_' + pg);
+        var txtEl = pgEl && pgEl.querySelector('.ps-txt');
+        if (txtEl) txtEl.innerHTML = edits.textEdits[pg];
+      });
+    }
+    if (edits.inkEdits && window.DigitalPen && typeof window.DigitalPen.importEdits === 'function') {
+      window.DigitalPen.importEdits(edits.inkEdits);
+    }
   } catch (e) {}
 }
 setInterval(function(){ if (!editingText) saveUserEdits(); }, 30000);

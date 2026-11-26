@@ -1,0 +1,66 @@
+[
+  {
+    "id": "andromeda-uv",
+    "title": "کهکشان آندرومدا (M31) در پرتوهای فرابنفش",
+    "source": "NASA / JPL-Caltech / GALEX",
+    "desc": "حلقه‌های درخشان و بازوهای زایش ستاره‌ای کهکشان آندرومدا در طول موج فرابنفش دور و نزدیک (FUV و NUV). خوشه‌های ستاره‌ای بسیار داغ و غول‌پیکر جوان به رنگ آبی و بنفش متصاعد شده‌اند.",
+    "src": "sky-gallery/andromeda-m31-uv.jpg",
+    "thumb": "sky-gallery/andromeda-m31-uv.jpg"
+  },
+  {
+    "id": "hudf-uv",
+    "title": "میدان فراژرف هابل در طیف فرابنفش (Hubble UVUDF)",
+    "source": "NASA / ESA / STScI",
+    "desc": "عمیق‌ترین تصویر تاریخ بشر از کیهان اولیه با تجمیع داده‌های فرابنفش تلسکوپ فضایی هابل. این داده‌ها نحوه تولد اولین ستاره‌ها در کهکشان‌های نوپای جهان ۵ تا ۱۰ میلیارد سال پیش را آشکار می‌کنند.",
+    "src": "sky-gallery/hubble-uvudf.jpg",
+    "thumb": "sky-gallery/hubble-uvudf.jpg"
+  },
+  {
+    "id": "cygnus-uv",
+    "title": "سحابی پرده و بازمانده ابرنواختر دجاجه (Cygnus Loop)",
+    "source": "NASA / JPL-Caltech / GALEX",
+    "desc": "امواج ضربه‌ای انفجار ابرنواختری که حدود ۲۰,۰۰۰ سال پیش رخ داده است. پرتوهای فرابنفش حاصل از گرمایش شدید گازهای میان‌ستاره‌ای شوک‌دیده، ساختار تارعنکبوتی و ظریف این سحابی را شکل داده‌اند.",
+    "src": "sky-gallery/cygnus-loop-uv.jpg",
+    "thumb": "sky-gallery/cygnus-loop-uv.jpg"
+  },
+  {
+    "id": "ngc247-uv",
+    "title": "کهکشان مارپیچی NGC 247 در تابش فرابنفش",
+    "source": "NASA / JPL-Caltech / GALEX",
+    "desc": "تصویر با کیفیت فرابنفش از کهکشان کوتوله مارپیچی NGC 247 در فاصله ۱۱ میلیون سال نوری در صورت‌فلکی پی‌سنگ (سنگ‌تراش). بازوهای باریک و لکه‌های آبی رنگ حاکی از خوشه‌های ستاره‌زایی پرانرژی هستند.",
+    "src": "sky-gallery/ngc247-spiral-galaxy-uv.jpg",
+    "thumb": "sky-gallery/ngc247-spiral-galaxy-uv.jpg"
+  },
+  {
+    "id": "sun-extreme-uv",
+    "title": "تاج و زبانهٔ آتشین خورشید در فرابنفش شدید (SDO EUV 304Å)",
+    "source": "NASA / SDO AIA",
+    "desc": "تصویر خورشید در طول موج ۳۰۴ آنگستروم (فرابنفش شدید یا EUV) توسط ماهواره رصدخانه دینامیک خورشیدی ناسا (SDO). کمان‌های پلاسمایی مغناطیسی یونیزه با دمای فراتر از ۵۰,۰۰۰ کلوین در لبه‌ها فوران کرده‌اند.",
+    "src": "sky-gallery/sun-sdo-extreme-uv.jpg",
+    "thumb": "sky-gallery/sun-sdo-extreme-uv.jpg"
+  },
+  {
+    "id": "helix-nebula-uv",
+    "title": "سحابی هلیکس (چشم خدا) در طیف فرابنفش",
+    "source": "NASA / JPL-Caltech / GALEX",
+    "desc": "سحابی سیاره‌نمای معروف هلیکس حاصل پایان عمر ستاره‌ای شبیه به خورشید ما. کوتوله سفید در مرکز با تابش پرتوهای پرانرژی فرابنفش، پوسته‌های گازی پرتاب‌شده به فضا را همچون حلقه‌های رنگین روشن کرده است.",
+    "src": "sky-gallery/helix-nebula-uv.png",
+    "thumb": "sky-gallery/helix-nebula-uv.png"
+  },
+  {
+    "id": "jupiter-uv",
+    "title": "سیاره مشتری و شفق‌های قطبی در نور فرابنفش",
+    "source": "NASA / ESA / Hubble Space Telescope",
+    "desc": "تصویر خارق‌العاده فرابنفش از سیاره مشتری ثبت شده توسط دوربین WFC3 تلسکوپ فضایی هابل. توزیع گازها در جو غلیظ سیاره و شفق‌های پرتوفرابنفش در قطبین به خوبی نمایان هستند.",
+    "src": "sky-gallery/jupiter-uv-hubble.jpg",
+    "thumb": "sky-gallery/jupiter-uv-hubble.jpg"
+  },
+  {
+    "id": "m81-m82-uv",
+    "title": "برهم‌کنش کهکشان‌های M81 و M82 در پرتوهای فرابنفش",
+    "source": "NASA / JPL-Caltech / ESA / GALEX",
+    "desc": "تصویر فرابنفش از کهکشان مارپیچی بزرگ بود (M81) و کهکشان سیگار (M82) در فاصله ۱۲ میلیون سال نوری. نیروهای کشندی میان این دو کهکشان، جریان‌های شدید ستاره‌زایی را فعال نگه داشته‌اند.",
+    "src": "sky-gallery/m81-m82-galaxies-uv.jpg",
+    "thumb": "sky-gallery/m81-m82-galaxies-uv.jpg"
+  }
+]
